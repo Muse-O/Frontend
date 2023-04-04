@@ -16,7 +16,6 @@ function RegisterForm() {
     event.preventDefault();
     register(formState);
     setFormState({});
-    // alert(JSON.stringify(formState));
   };
 
   return (
