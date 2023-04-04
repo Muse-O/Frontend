@@ -15,7 +15,8 @@ apis_token.interceptors.request.use(
   // 요청을 보내기 전 수행되는 함수
   function (config) {
     const token = cookies.get("token");
-    config.headers.Authorization = `${token}`; //토큰 오는것 확인하고 수정할것
+    //서버에서 token값만 받기로 함 -> Bearer 추가하여 header에 보낼 것.
+    config.headers.Authorization = `Bearer ${token}`;
     return config;
   },
 

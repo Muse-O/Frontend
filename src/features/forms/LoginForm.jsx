@@ -15,7 +15,6 @@ function LoginForm() {
     event.preventDefault();
     login(formState);
     setFormState({});
-    // alert(JSON.stringify(formState));
   };
 
   return (

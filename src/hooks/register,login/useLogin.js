@@ -8,14 +8,15 @@ function useLogin() {
 
   const { mutate } = useMutation({
     mutationFn: async payload => {
-      //   console.log(payload, "payload"); //확인
       const response = await apis.post("/user/login", payload);
       const token = response.headers.authorization;
-      cookies.set("token", token);
-      //   console.log(token, "token"); //확인
+      //"access_token"이라고 한 이유
+      //-> 나중에 refresh token 구현해야할수도 있어서 구분용으로 지음.
+      cookies.set("access_token", token);
       return response;
     },
     onSuccess: () => {
+      alert("로그인 완료하였습니다!");
       navigate("/");
     },
   });
