@@ -7,11 +7,9 @@ export function useRegister() {
   const { mutate } = useMutation({
     mutationFn: async payload => {
       const { data } = await apis.post("/user/signup", payload);
-      console.log(data.message, "data.message");
       return data;
     },
     onSuccess: () => {
-      //   alert(data.message);
       alert("회원 가입이 완료되었습니다!");
       navigate("/");
     },
