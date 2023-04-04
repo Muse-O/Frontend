@@ -5,9 +5,9 @@ export const logininputList = [
 ];
 
 export const registerInputList = [
-  { label: "email", type: "email", name: "email" },
-  { label: "nickname", type: "text", name: "nickname" },
-  { label: "password", type: "password", name: "password" },
+  { label: "이메일", type: "email", name: "email" },
+  { label: "닉네임", type: "text", name: "nickname" },
+  { label: "비밀번호", type: "password", name: "password" },
   // { label: "passwordConfirm", type: "password", name: "passwordConfirm" },
 ];
 
