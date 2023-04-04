@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { cookies } from '../shared/cookies';
+// import { cookies } from '../shared/cookies';
 
 // 토큰없이 보낼때
 export const apis = axios.create({
