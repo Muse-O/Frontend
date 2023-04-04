@@ -15,6 +15,7 @@ function RegisterForm() {
 
   return (
     <Flex as="form" onSubmit={handleSubmit} fd="column" gap="10">
+      <RegisterBtn>로고 자리(메인으로 돌아감)</RegisterBtn>
       {registerInputList.map((input, index) => (
         <Input
           key={index}
