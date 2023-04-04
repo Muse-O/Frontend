@@ -1,34 +1,41 @@
-import React from 'react'
-import { logininputList } from './inputlist';
-import useFormInput from '../../hooks/useFormInput'
-import { Input } from '../FormSecend/Input';
+import React from "react";
+import { loginInputList } from "./inputlist";
+import { useFormInput } from "../../hooks/useFormInput";
+import { Input } from "../../components/Input";
+import { Flex } from "../../components/Flex";
+import { LoginBtn } from "../../components/Buttons";
+import useLogin from "../../hooks/register,login/useLogin";
+import { Link } from "react-router-dom";
 
-function FormThird1() {
-  const [formState, setFormState,handleInputChange] = useFormInput();
-  const handleSubmit = (event) => {
+function LoginForm() {
+  //react-query
+  const { login } = useLogin();
+
+  const [formState, setFormState, handleInputChange] = useFormInput();
+  const handleSubmit = event => {
     event.preventDefault();
-    setFormState({})
-    alert(JSON.stringify(formState))
-    
-  };  
+    login(formState);
+    setFormState({});
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {logininputList.map((input, index) => (
-          <Input
-            key={index}
-            label={input.label}
-            inputProps={{
-              type: input.type,
-              name: input.name,
-              value: formState[input.name] || '',
-              onChange: handleInputChange,
-            }}
-          />
+    <Flex as="form" onSubmit={handleSubmit} fd="column" gap="10">
+      <Link to="/">로고 자리(메인으로 돌아감)</Link>
+      {loginInputList.map((input, index) => (
+        <Input
+          key={index}
+          label={input.label}
+          inputProps={{
+            type: input.type,
+            name: input.name,
+            value: formState[input.name] || "",
+            onChange: handleInputChange,
+          }}
+        />
       ))}
-      <button type="submit">Submit</button>
-    </form>
+      <LoginBtn type="submit">로그인</LoginBtn>
+    </Flex>
   );
 }
 
-export default FormThird1;
+export default LoginForm;
