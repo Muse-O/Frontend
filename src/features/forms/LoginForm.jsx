@@ -4,11 +4,16 @@ import { useFormInput } from "../../hooks/useFormInput";
 import { Input } from "../../components/Input";
 import { Flex } from "../../components/Flex";
 import { LoginBtn } from "../../components/Buttons";
+import useLogin from "../../hooks/register,login/useLogin";
 
 function LoginForm() {
+  //react-query
+  const { login } = useLogin();
+
   const [formState, setFormState, handleInputChange] = useFormInput();
   const handleSubmit = event => {
     event.preventDefault();
+    login(formState);
     setFormState({});
     // alert(JSON.stringify(formState));
   };

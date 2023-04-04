@@ -14,7 +14,6 @@ function RegisterForm() {
   const [formState, setFormState, handleInputChange] = useFormInput();
   const handleSubmit = event => {
     event.preventDefault();
-    console.log(formState);
     register(formState);
     setFormState({});
     // alert(JSON.stringify(formState));
