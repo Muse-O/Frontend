@@ -14,6 +14,7 @@ export function useRegister() {
       navigate("/");
     },
   });
+  //밖에서 register라는 이름으로 해당 mutate 사용
   return {
     register: mutate,
   };
