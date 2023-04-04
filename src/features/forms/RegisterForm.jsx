@@ -4,14 +4,20 @@ import { useFormInput } from "../../hooks/useFormInput";
 import { Input } from "../../components/Input";
 import { RegisterBtn } from "../../components/Buttons";
 import { Flex } from "../../components/Flex";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useRegister } from "../../hooks/register,login/useRegister";
 
 function RegisterForm() {
+  //react-query
+  const { register } = useRegister();
+
   const [formState, setFormState, handleInputChange] = useFormInput();
   const handleSubmit = event => {
     event.preventDefault();
+    console.log(formState);
+    register(formState);
     setFormState({});
-    alert(JSON.stringify(formState));
+    // alert(JSON.stringify(formState));
   };
 
   return (
