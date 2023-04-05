@@ -2,7 +2,7 @@ import axios from "axios";
 import { cookies } from "../shared/cookies";
 
 // 토큰없이 보낼때
-const apis = axios.create({
+export const apis = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
 });
 
