@@ -9,16 +9,8 @@ import { useRegister } from "../../hooks/register,login/useRegister";
 
 function RegisterForm() {
   //react-query
-  const { register } = useRegister();
-
-  //기존 작업물-------------------------------------------------------------
-  // const [formState, setFormState, handleInputChange] = useFormInput();
-  // const handleSubmit = event => {
-  //   event.preventDefault();
-  //   register(formState);
-  //   setFormState({});
-  // };
-  //기존 작업물-------------------------------------------------------------
+  const { register, registerIsError } = useRegister();
+  console.log(registerIsError);
 
   //회원가입시 register에 보낼 정보
   const [registerInfo, setRegisterInfo] = useState({
@@ -62,6 +54,7 @@ function RegisterForm() {
     if (registerInfo.password === "") {
       return "";
     } else if (!pwRegExp.test(registerInfo.password)) {
+      // alert("비밀번호 형식을 알맞게 맞춰주세요.");
       return "알파벳, 숫자, 특수문자 조합 6~15글자로 입력해주세요.";
     } else {
       return "";
@@ -73,7 +66,7 @@ function RegisterForm() {
     if (registerInfo.nickname === "") {
       return "";
     } else if (registerInfo.nickname.length < 2) {
-      return "2글자 이상 입력해주세요."; //서아님과 협의할것
+      return "2글자 이상 입력해주세요.";
     } else {
       return "";
     }
@@ -88,12 +81,7 @@ function RegisterForm() {
 
       <label>비밀번호</label>
       <input type="password" name="password" onChange={changeInputHandler} />
-      <div>
-        {pwValidation()}
-        {/* {!pwRegExp.test(registerInfo.password)
-          ? "알파벳, 숫자, 특수문자 조합 6~15글자로 입력해주세요."
-          : null} */}
-      </div>
+      <div>{pwValidation()}</div>
 
       <label>닉네임</label>
       <input type="text" name="nickname" onChange={changeInputHandler} />
@@ -102,27 +90,34 @@ function RegisterForm() {
       <button onClick={registerHandler}>회원가입</button>
     </Flex>
   );
-
-  //기존 작업물-------------------------------------------------------------
-  // return (
-  //   <Flex as="form" onSubmit={handleSubmit} fd="column" gap="10">
-  //     <Link to="/">로고 자리(메인으로 돌아감)</Link>
-  //     {registerInputList.map((input, index) => (
-  //       <Input
-  //         key={index}
-  //         label={input.label}
-  //         inputProps={{
-  //           type: input.type,
-  //           name: input.name,
-  //           value: formState[input.name] || "",
-  //           onChange: handleInputChange,
-  //         }}
-  //       />
-  //     ))}
-  //     <RegisterBtn type="submit">회원가입</RegisterBtn>
-  //   </Flex>
-  // );
-  //기존 작업물-------------------------------------------------------------
 }
 
 export default RegisterForm;
+
+//기존 작업물-------------------------------------------------------------
+// const [formState, setFormState, handleInputChange] = useFormInput();
+// const handleSubmit = event => {
+//   event.preventDefault();
+//   register(formState);
+//   setFormState({});
+// };
+
+// return (
+//   <Flex as="form" onSubmit={handleSubmit} fd="column" gap="10">
+//     <Link to="/">로고 자리(메인으로 돌아감)</Link>
+//     {registerInputList.map((input, index) => (
+//       <Input
+//         key={index}
+//         label={input.label}
+//         inputProps={{
+//           type: input.type,
+//           name: input.name,
+//           value: formState[input.name] || "",
+//           onChange: handleInputChange,
+//         }}
+//       />
+//     ))}
+//     <RegisterBtn type="submit">회원가입</RegisterBtn>
+//   </Flex>
+// );
+//기존 작업물-------------------------------------------------------------
