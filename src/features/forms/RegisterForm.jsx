@@ -6,11 +6,12 @@ import { RegisterBtn } from "../../components/Buttons";
 import { Flex } from "../../components/Flex";
 import { Link } from "react-router-dom";
 import { useRegister } from "../../hooks/register,login/useRegister";
+import { useEmailConfirm } from "../../hooks/register,login/useEmailConfirm";
 
 function RegisterForm() {
   //react-query
-  const { register, registerIsError } = useRegister();
-  console.log(registerIsError);
+  const { register } = useRegister();
+  const { emailConfirm, error } = useEmailConfirm();
 
   //회원가입시 register에 보낼 정보
   const [registerInfo, setRegisterInfo] = useState({
@@ -29,8 +30,13 @@ function RegisterForm() {
   //회원가입 버튼 클릭시 useRegister에 payload(registerInfo) 전달
   const registerHandler = e => {
     e.preventDefault();
-    console.log(registerInfo, "info");
     register(registerInfo);
+  };
+
+  //이메일 중복검사
+  const emailConfirmHandler = e => {
+    e.preventDefault();
+    emailConfirm(registerInfo.email);
   };
 
   //이메일, 비밀번호 형식 정규식 -> 확인해볼것
@@ -54,7 +60,6 @@ function RegisterForm() {
     if (registerInfo.password === "") {
       return "";
     } else if (!pwRegExp.test(registerInfo.password)) {
-      // alert("비밀번호 형식을 알맞게 맞춰주세요.");
       return "알파벳, 숫자, 특수문자 조합 6~15글자로 입력해주세요.";
     } else {
       return "";
@@ -77,6 +82,7 @@ function RegisterForm() {
       <Link to="/">로고 자리(메인으로 돌아감)</Link>
       <label>이메일</label>
       <input type="email" name="email" onChange={changeInputHandler} />
+      <button onClick={emailConfirmHandler}>중복확인</button>
       <div>{emailValidation()}</div>
 
       <label>비밀번호</label>
