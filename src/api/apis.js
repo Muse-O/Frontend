@@ -2,7 +2,7 @@ import axios from "axios";
 import { cookies } from "../shared/cookies";
 
 // 토큰없이 보낼때
-export const apis = axios.create({
+const apis = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
 });
 
@@ -28,7 +28,7 @@ apis_token.interceptors.request.use(
   }
 );
 
-apis.interceptors.response.use(
+apis_token.interceptors.response.use(
   // 응답을 내보내기 전 수행되는 함수
   function (response) {
     return response;
