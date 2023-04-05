@@ -87,7 +87,8 @@ const Headerwrap = styled.header`
   bottom: 0;
   width: 245px;
   z-index: 10100;
-  border: 5px solid red;
+  /* border: 5px solid red; */
+  background-color: lightgray;
 `;
 
 const FootingArea = styled.div`

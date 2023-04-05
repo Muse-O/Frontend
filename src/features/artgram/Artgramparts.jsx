@@ -11,7 +11,7 @@ const H1 = styled.h1`
   font-size: ${props=>props.fs};
   text-align: ${props=>props.ta};
   font-weight:900;
-  margin: ${props => props.children === "아트그램" ? "50px 75px 0" : "10px" };
+  margin: ${props => props.type === "아트그램" ? "50px 75px 0" : "10px" };
 `
 
 const MainFlex = styled(Flex)`
@@ -27,6 +27,10 @@ const UserFlex = styled(Flex)`
   max-height:40px;
   position:relative;
 `
+const MainDiv = styled.div`
+  width: auto;
+  margin: 50px 75px 100px;
+`;
 
 const Artgrambox = styled(Flex)`
   width:364px;
@@ -45,7 +49,7 @@ const Img = styled.img`
   border-radius: 8px 8px 0 0;
 `
 
-const posting = styled.div`
+const Posting = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -58,7 +62,7 @@ const posting = styled.div`
   vertical-align: bottom;
 `;
 
-const Desc = styled(posting)`
+const Desc = styled(Posting)`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -115,9 +119,10 @@ export {
   H1,
   MainFlex,
   UserFlex,
+  MainDiv,
   Artgrambox,
   Img,
-  posting,
+  Posting,
   Desc,
   ProflieBox,
   Nickname,
