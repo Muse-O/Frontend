@@ -6,16 +6,18 @@ import apis from "../api/apis";
 
 //TODO 1.초반에 받아오는 값설정 필요. V
 //TODO 2.마지막 Element 안보이게 설정 필요.V
-//TODO 3.리액트 쿼리로 리팩토링 필요.
-//TODO 4.LAZY LOAD리팩토링 필요.
+//TODO 3.파일랜덤값 나오는거 수정 필요 (서버이슈)V
+//TODO 4.리액트 쿼리로 리팩토링 필요.
+//TODO 5.LAZY LOAD리팩토링 필요.
 
 function Exhibition() {
   const [list, setList] = useState([]); //Post List
-  const [page, setPage] = useState(1); //현재 페이지
+  const [page, setPage] = useState(10); //현재 페이지
   const [load, setLoad] = useState(1); //로딩 스피너
   const preventRef = useRef(true); //옵저버 중복 실행 방지
   const obsRef = useRef(null); //observer Element
   const endRef = useRef(true); //모든 글 로드 확인
+  // console.log(list, "list");
 
   //*컴포넌트가 마운트 될 때  옵저버를 생성하고 언마운트될 경우 옵저버를 해제
   useEffect(() => {
@@ -37,6 +39,7 @@ function Exhibition() {
     const target = entries[0];
     if (target.isIntersecting && preventRef.current && endRef.current) {
       //옵저버 중복 실행 방지
+
       preventRef.current = false; //옵저버 중복 실행 방지
       setPage((prev) => prev + 1); //페이지 값 증가
     }
@@ -44,7 +47,7 @@ function Exhibition() {
 
   const getFirstItem = useCallback(async () => {
     const res = await apis.get("/exhibition");
-    console.log("res", res.data.exhibitionList.rows);
+    // console.log("res", res.data.exhibitionList.rows);
     endRef.current = res.data.paginationInfo.hasNextPage;
     if (res.data) {
       setList((prev) => [...prev, ...res.data.exhibitionList.rows]); //리스트 추가
@@ -59,8 +62,8 @@ function Exhibition() {
     setLoad(true); //로딩 시작
     const res = await apis.get(`/exhibition?limit=1&offset=${page}`);
     endRef.current = res.data.paginationInfo.hasNextPage;
-    console.log("건님의 데이터", res.data.paginationInfo.hasNextPage);
-    console.log("들어가는 offset", page);
+    // console.log("건님의 데이터", res.data.exhibitionList);
+    // console.log("들어가는 offset", page);
 
     if (res.data) {
       setList((prev) => [...prev, { ...res.data.exhibitionList.rows[0] }]); //리스트 추가
@@ -81,7 +84,7 @@ function Exhibition() {
               <>
                 {list.map((item) => (
                   //!아이디 나중에 수정해야함
-                  <Div>
+                  <Div key={item.exhibitionId}>
                     제목{item.exhibitionTitle}아이디{item.exhibitionId}
                   </Div>
                 ))}
@@ -101,9 +104,10 @@ function Exhibition() {
 export default Exhibition;
 
 const Div = styled.div`
-  background-color: green;
+  background-color: #a6d6a6;
   margin: 100px;
   font-size: 40px;
+  height: 100px;
 `;
 
 const Nonedisplay = styled.div`
