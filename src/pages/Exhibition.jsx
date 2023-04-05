@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Header from "../components/Header";
 import { Article } from "../shared/GlobalStyled";
 import styled from "styled-components";
-import apis from "../api/apis";
+import { apis } from "../api/apis";
 import { useGetExhibition } from "../hooks/exhibition/useGetExhibition";
 import { useNavigate } from "react-router-dom";
 

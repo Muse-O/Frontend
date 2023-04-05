@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import apis from "../../api/apis";
+import { apis } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
 
 export const useGetExhibition = () => {
