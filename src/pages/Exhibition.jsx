@@ -5,7 +5,7 @@ import styled from "styled-components";
 import apis from "../api/apis";
 
 //TODO 1.초반에 받아오는 값설정 필요. V
-//TODO 2.마지막 Element 안보이게 설정 필요.
+//TODO 2.마지막 Element 안보이게 설정 필요.V
 //TODO 3.리액트 쿼리로 리팩토링 필요.
 //TODO 4.LAZY LOAD리팩토링 필요.
 
@@ -87,9 +87,9 @@ function Exhibition() {
                 ))}
               </>
             )}
-            {load && <div>로딩 중</div>}
+            {/* {load && <div ref={obsRef}>로딩 중</div>} */}
             <Nonedisplay ref={obsRef}>
-              옵저버 Element 마지막 게시물 입니다.
+              로딩중 스피너 넣으면 좋을꺼 같음
             </Nonedisplay>
           </div>
         </div>
