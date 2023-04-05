@@ -2,10 +2,9 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import Header from "../components/Header";
 import { Article } from "../shared/GlobalStyled";
 import styled from "styled-components";
-import axios from "axios";
 import apis from "../api/apis";
 
-//TODO 1.초반에 받아오는 값설정 필요.
+//TODO 1.초반에 받아오는 값설정 필요. V
 //TODO 2.마지막 Element 안보이게 설정 필요.
 //TODO 3.리액트 쿼리로 리팩토링 필요.
 //TODO 4.LAZY LOAD리팩토링 필요.
@@ -20,7 +19,7 @@ function Exhibition() {
 
   //*컴포넌트가 마운트 될 때  옵저버를 생성하고 언마운트될 경우 옵저버를 해제
   useEffect(() => {
-    getItem();
+    getFirstItem();
     const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
     if (obsRef.current) observer.observe(obsRef.current);
     return () => {
@@ -43,6 +42,18 @@ function Exhibition() {
     }
   };
 
+  const getFirstItem = useCallback(async () => {
+    const res = await apis.get("/exhibition");
+    console.log("res", res.data.exhibitionList.rows);
+    endRef.current = res.data.paginationInfo.hasNextPage;
+    if (res.data) {
+      setList((prev) => [...prev, ...res.data.exhibitionList.rows]); //리스트 추가
+      preventRef.current = true;
+    } else {
+      console.log(res); //에러
+    }
+  }, []);
+
   const getItem = useCallback(async () => {
     //글 불러오기
     setLoad(true); //로딩 시작
@@ -50,7 +61,6 @@ function Exhibition() {
     endRef.current = res.data.paginationInfo.hasNextPage;
     console.log("건님의 데이터", res.data.paginationInfo.hasNextPage);
     console.log("들어가는 offset", page);
-    console.log("endRef.current", endRef.current);
 
     if (res.data) {
       setList((prev) => [...prev, { ...res.data.exhibitionList.rows[0] }]); //리스트 추가

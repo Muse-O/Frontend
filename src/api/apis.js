@@ -28,7 +28,7 @@ apis_token.interceptors.request.use(
   }
 );
 
-apis.interceptors.response.use(
+apis_token.interceptors.response.use(
   // 응답을 내보내기 전 수행되는 함수
   function (response) {
     return response;
