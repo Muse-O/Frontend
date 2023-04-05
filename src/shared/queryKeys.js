@@ -1,3 +1,3 @@
 export const keys = {
-  GET_ACTGRAM : ['GET_ACTGRAM']
+  GET_ARTGRAM : ['GET_ARTGRAM']
 }

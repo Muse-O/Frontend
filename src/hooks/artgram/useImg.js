@@ -4,7 +4,7 @@ export const useImg = () => {
   const [uploadimg, setUploadImg] = useState("");
   const selectFile = useRef("");
   const saveImgFile = () => {
-    const files = Array.from(selectFile.current.files);
+    const files = Array.from(selectFile.current.files); 
     const promises = files.map(file => {
       return new Promise(resolve => {
         const reader = new FileReader();

@@ -5,7 +5,7 @@ import reset from "styled-reset";
 export const GlobalStyle = createGlobalStyle`
   ${reset}
   html, body, header, footer, div, span, h1, h2, h3, h4, h5, h6, p, 
-    a, ol, ul, li, form, label,input,button{
+    a, ol, ul, li, form, label,input,button,section{
         margin: 0;
         padding: 0;
         border: 0;
