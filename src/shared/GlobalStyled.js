@@ -34,3 +34,4 @@ export const Article = styled.div`
   min-height: 100vh;
   border: 5px solid blue;
 `;
+
