@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import apis from "../../api/apis";
+import { apis } from "../../api/apis";
 import { cookies } from "../../shared/cookies";
 import { useNavigate } from "react-router-dom";
 

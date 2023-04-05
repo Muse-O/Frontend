@@ -7,7 +7,7 @@ export const apis = axios.create({
 });
 
 // 토큰 넣어서 보낼때
-const apis_token = axios.create({
+export const apis_token = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
 });
 
@@ -39,5 +39,3 @@ apis.interceptors.response.use(
     return Promise.reject(error);
   }
 );
-
-export default apis;
