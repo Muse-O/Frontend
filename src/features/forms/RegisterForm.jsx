@@ -71,7 +71,9 @@ function RegisterForm() {
   //닉네임 빈 값 확인에 따른 검사값 출력
   const nicknameValidation = () => {
     if (registerInfo.nickname === "") {
-      return "닉네임을 입력해주세요.";
+      return "";
+    } else if (registerInfo.nickname.length < 2) {
+      return "2글자 이상 입력해주세요."; //서아님과 협의할것
     } else {
       return "";
     }
