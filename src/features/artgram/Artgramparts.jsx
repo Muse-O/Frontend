@@ -99,7 +99,7 @@ const ProflieBox = styled(Nickname)`
   background-position: center;
   background-size: cover;
 `
-const likes = styled.div`
+const Likes = styled.div`
   position:absolute;
   right:0;
   height:40px;
@@ -126,5 +126,5 @@ export {
   Desc,
   ProflieBox,
   Nickname,
-  likes
+  Likes
 }

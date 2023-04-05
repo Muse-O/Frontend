@@ -7,7 +7,8 @@ import { usePostingtime } from "../hooks/artgram/usePostingtime";
 import {BsHeartFill} from 'react-icons/bs'
 
 function Artgram() {
-  const [isLoading, isError, allArtgram] = useGetartgram()
+  // const [isLoading, isError, allArtgram] = useGetartgram()
+  const [isLoading, isError] = useGetartgram()
   const [postingTime] = usePostingtime(allArtgramList)
 
   if(isLoading || isError) {
@@ -34,7 +35,7 @@ function Artgram() {
                     <Artgramparts.UserFlex>
                       <Artgramparts.ProflieBox url=""/>
                       <Artgramparts.Nickname children={(<><span>by</span> {allArtgramList.profileNickname}</>)}/>
-                      <Artgramparts.likes children={(<><span><BsHeartFill/></span> 265명</>)}/>
+                      <Artgramparts.Likes children={(<><span><BsHeartFill/></span> 265명</>)}/>
                     </Artgramparts.UserFlex>
                   </Artgramparts.Artgrambox>
                 )
@@ -48,6 +49,7 @@ function Artgram() {
 
 export default Artgram;
 
+// 실제에서는 리버스가 필요 
 const allArtgramList = {
 imgUrl: "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1240w,f_auto,q_auto:best/newscms/2019_25/2899136/190617-puppy-dog-eyes-cs-325p.jpg",
 // artgramDesc: "아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ 아울ㅇㄴㅁ ",

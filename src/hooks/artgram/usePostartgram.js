@@ -6,6 +6,9 @@ import { keys } from '../../shared/queryKeys'
 
 const postArtgram = async (formData) => {
   const token = cookies.get('access_token')
+  for (let pair of formData.entries()) {
+    console.log(pair[0]+ ', ' + pair[1]); 
+  }
   const response = await apis.post("/artgram", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
