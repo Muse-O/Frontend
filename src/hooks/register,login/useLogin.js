@@ -19,6 +19,10 @@ function useLogin() {
       alert("로그인 완료하였습니다!");
       navigate("/");
     },
+    //패스워드를 확인해주세요, 존재하지 않는 이메일 주소입니다
+    onError: error => {
+      alert(error.response.data.errorMessage);
+    },
   });
   //밖에서 login이라는 이름으로 해당 mutate 사용
   return {
