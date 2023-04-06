@@ -4,12 +4,11 @@ import { cookies } from '../../shared/cookies'
 import { keys } from '../../shared/queryKeys'
 
 
-const postArtgram = async (formData) => {
+const postArtgram = async (payload) => {
   const token = cookies.get('access_token')
-  for (let pair of formData.entries()) {
-    console.log(pair[0]+ ', ' + pair[1]); 
-  }
-  const response = await apis.post("/artgram", formData, {
+  console.log(payload);
+  
+  const response = await apis.post("/artgram", payload, {
     headers: {
       "Content-Type": "multipart/form-data",
       Authorization : `Bearer ${token}`
@@ -23,7 +22,7 @@ export const usePostartgram = () => {
   const  { mutate : postArtgrams } = useMutation(postArtgram, {
     onSuccess: (response) => {
       console.log(response);
-      qureyClient.invalidateQueries(keys.GET_ACTGRAM);
+      qureyClient.invalidateQueries(keys.GET_ARTGRAM);
     },
     onError: (err) => {
       console.log("글을 저장하지 못했습니다.", err);
