@@ -9,7 +9,6 @@ const postArtgram = async (payload) => {
   console.log(payload);
   const response = await apis.post("/artgram", payload, {
     headers: {
-      "Content-Type": "multipart/form-data",
       Authorization : `Bearer ${token}`
     },
   });
@@ -17,14 +16,14 @@ const postArtgram = async (payload) => {
 };
 
 export const usePostartgram = () => {
-  const qureyClient = useQueryClient();
+  const queryClient = useQueryClient();
   const  { mutate : postArtgrams } = useMutation(postArtgram, {
     onSuccess: (response) => {
-      console.log(response);
-      qureyClient.invalidateQueries(keys.GET_ARTGRAM);
+      alert(response.data.message);
+      queryClient.invalidateQueries(keys.GET_ARTGRAM);
     },
     onError: (err) => {
-      console.log("글을 저장하지 못했습니다.", err);
+      alert("글을 저장하지 못했습니다.", err);
     },
   });
   return [postArtgrams]
