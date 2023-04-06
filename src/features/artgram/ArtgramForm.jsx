@@ -33,11 +33,12 @@ function ArtgramForm() {
     const newImageUrls = s3imgurlhandle()
     postArtgrams({artgramTitle, artgramDesc, imgUrl:newImageUrls});
     setFiles([])
+    setFormState({})
   };
 
   return (
     <>
-      <Flex as="form" onSubmit={(event)=>handleSubmit(event,formState)} fd="column" gap="10">
+      <Flex as="form" onSubmit={handleSubmit} fd="column" gap="10">
         {createArtgramInputList.map((input, index) => (
           <Input
             key={index}
