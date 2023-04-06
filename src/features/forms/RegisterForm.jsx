@@ -1,8 +1,4 @@
 import React, { useState } from "react";
-// import { registerInputList } from "./inputlist";
-// import { useFormInput } from "../../hooks/useFormInput";
-// import { Input } from "../../components/Input";
-// import { RegisterBtn } from "../../components/Buttons";
 import { Flex } from "../../components/Flex";
 import { Link } from "react-router-dom";
 import { useRegister } from "../../hooks/register,login/useRegister";
@@ -12,7 +8,7 @@ function RegisterForm() {
   //react-query
   const { register } = useRegister();
   const { emailConfirm, checkEmailConfirm } = useEmailConfirm();
-  // console.log(checkEmailConfirm, "confirm");
+
   //회원가입시 register에 보낼 정보
   const [registerInfo, setRegisterInfo] = useState({
     email: "",
@@ -42,6 +38,7 @@ function RegisterForm() {
     } else if (registerInfo.nickname.length < 2) {
       e.preventDefault();
       alert("닉네임을 2글자 이상 입력해주세요.");
+      //이메일 중복체크 확인 후 register에 payload 보내기
     } else if (checkEmailConfirm === false) {
       e.preventDefault();
       alert("이메일 중복확인을 진행해주세요.");
@@ -130,31 +127,3 @@ function RegisterForm() {
 }
 
 export default RegisterForm;
-
-//기존 작업물-------------------------------------------------------------
-// const [formState, setFormState, handleInputChange] = useFormInput();
-// const handleSubmit = event => {
-//   event.preventDefault();
-//   register(formState);
-//   setFormState({});
-// };
-
-// return (
-//   <Flex as="form" onSubmit={handleSubmit} fd="column" gap="10">
-//     <Link to="/">로고 자리(메인으로 돌아감)</Link>
-//     {registerInputList.map((input, index) => (
-//       <Input
-//         key={index}
-//         label={input.label}
-//         inputProps={{
-//           type: input.type,
-//           name: input.name,
-//           value: formState[input.name] || "",
-//           onChange: handleInputChange,
-//         }}
-//       />
-//     ))}
-//     <RegisterBtn type="submit">회원가입</RegisterBtn>
-//   </Flex>
-// );
-//기존 작업물-------------------------------------------------------------
