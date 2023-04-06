@@ -17,9 +17,9 @@ export const usePostingtime = (allArtgramList) => {
   let postingTime;
   if (gaphour < 24) {
     postingTime = gaphour + "시간 전";
-  } else if (gaphour <= 24) {
+  } else if (gaphour < 720) {
     postingTime = Math.ceil(gaphour / 24) + "일 전";
-  } else if (gaphour <= 720) {
+  } else if (gaphour < 8736) {
     postingTime = Math.ceil(gaphour / 720) + "개월 전";
   } else if (gaphour <= 8736) {
     postingTime = Math.ceil(gaphour / 8736) + "년 전";
