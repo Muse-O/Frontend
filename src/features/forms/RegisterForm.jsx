@@ -1,16 +1,13 @@
 import React, { useState } from "react";
-import { registerInputList } from "./inputlist";
-import { useFormInput } from "../../hooks/useFormInput";
-import { Input } from "../../components/Input";
-import { RegisterBtn } from "../../components/Buttons";
 import { Flex } from "../../components/Flex";
 import { Link } from "react-router-dom";
 import { useRegister } from "../../hooks/register,login/useRegister";
+import { useEmailConfirm } from "../../hooks/register,login/useEmailConfirm";
 
 function RegisterForm() {
   //react-query
-  const { register, registerIsError } = useRegister();
-  console.log(registerIsError);
+  const { register } = useRegister();
+  const { emailConfirm, checkEmailConfirm } = useEmailConfirm();
 
   //회원가입시 register에 보낼 정보
   const [registerInfo, setRegisterInfo] = useState({
@@ -28,9 +25,46 @@ function RegisterForm() {
 
   //회원가입 버튼 클릭시 useRegister에 payload(registerInfo) 전달
   const registerHandler = e => {
-    e.preventDefault();
-    console.log(registerInfo, "info");
-    register(registerInfo);
+    //빈 값이 아닐때 register에 payload 보내기
+    if (registerInfo.email === "") {
+      alert("이메일을 입력해주세요.");
+      e.preventDefault();
+    } else if (registerInfo.password === "") {
+      alert("비밀번호를 입력해주세요.");
+      e.preventDefault();
+    } else if (registerInfo.nickname === "") {
+      alert("닉네임을 입력해주세요.");
+      e.preventDefault();
+    } else if (registerInfo.nickname.length < 2) {
+      e.preventDefault();
+      alert("닉네임을 2글자 이상 입력해주세요.");
+      //이메일 중복체크 확인 후 register에 payload 보내기
+    } else if (checkEmailConfirm === false) {
+      e.preventDefault();
+      alert("이메일 중복확인을 진행해주세요.");
+    } else if (checkEmailConfirm === true) {
+      e.preventDefault();
+      register(registerInfo);
+    }
+  };
+
+  //이메일 중복검사
+  const checkEmail = {
+    email: registerInfo.email,
+  };
+
+  const emailConfirmHandler = e => {
+    //빈값이 아닐때 보낼 수 있게 하기
+    if (registerInfo.email === "") {
+      alert("이메일을 입력해주세요.");
+      e.preventDefault();
+    } else if (!emailRegExp.test(registerInfo.email)) {
+      e.preventDefault();
+      return <div>이메일 형식이 올바르지 않습니다.</div>;
+    } else {
+      e.preventDefault();
+      emailConfirm(checkEmail);
+    }
   };
 
   //이메일, 비밀번호 형식 정규식 -> 확인해볼것
@@ -54,7 +88,6 @@ function RegisterForm() {
     if (registerInfo.password === "") {
       return "";
     } else if (!pwRegExp.test(registerInfo.password)) {
-      // alert("비밀번호 형식을 알맞게 맞춰주세요.");
       return "알파벳, 숫자, 특수문자 조합 6~15글자로 입력해주세요.";
     } else {
       return "";
@@ -77,6 +110,7 @@ function RegisterForm() {
       <Link to="/">로고 자리(메인으로 돌아감)</Link>
       <label>이메일</label>
       <input type="email" name="email" onChange={changeInputHandler} />
+      <button onClick={emailConfirmHandler}>중복확인</button>
       <div>{emailValidation()}</div>
 
       <label>비밀번호</label>
@@ -93,31 +127,3 @@ function RegisterForm() {
 }
 
 export default RegisterForm;
-
-//기존 작업물-------------------------------------------------------------
-// const [formState, setFormState, handleInputChange] = useFormInput();
-// const handleSubmit = event => {
-//   event.preventDefault();
-//   register(formState);
-//   setFormState({});
-// };
-
-// return (
-//   <Flex as="form" onSubmit={handleSubmit} fd="column" gap="10">
-//     <Link to="/">로고 자리(메인으로 돌아감)</Link>
-//     {registerInputList.map((input, index) => (
-//       <Input
-//         key={index}
-//         label={input.label}
-//         inputProps={{
-//           type: input.type,
-//           name: input.name,
-//           value: formState[input.name] || "",
-//           onChange: handleInputChange,
-//         }}
-//       />
-//     ))}
-//     <RegisterBtn type="submit">회원가입</RegisterBtn>
-//   </Flex>
-// );
-//기존 작업물-------------------------------------------------------------

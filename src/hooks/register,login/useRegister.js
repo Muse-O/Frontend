@@ -13,6 +13,9 @@ export function useRegister() {
       alert("회원 가입이 완료되었습니다!");
       navigate("/");
     },
+    onError: error => {
+      alert(error.response.data.errorMessage);
+    },
   });
   //밖에서 register라는 이름으로 해당 mutate 사용
   return {
