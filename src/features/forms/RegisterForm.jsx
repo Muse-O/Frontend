@@ -12,7 +12,7 @@ function RegisterForm() {
   //react-query
   const { register } = useRegister();
   const { emailConfirm, checkEmailConfirm } = useEmailConfirm();
-  console.log(checkEmailConfirm, "confirm");
+  // console.log(checkEmailConfirm, "confirm");
   //회원가입시 register에 보낼 정보
   const [registerInfo, setRegisterInfo] = useState({
     email: "",
