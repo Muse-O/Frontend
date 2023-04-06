@@ -3,13 +3,13 @@ import { apis } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
 
 export const useDetailGetExibition = (id) => {
-  console.log("쿼리안에서 실행 id", id);
-  const { data, isLoading, isError } = useQuery(keys.GET_EXHIBITION, {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: keys.GET_EXHIBITION,
     queryFn: async () => {
       const res = await apis.get(`/exhibition/${id}`);
-      return res.data.data;
+      return res.data;
     },
-    retry: 2,
+    retry: 1,
     onSuccess: (data) => {
       console.log("요청성공");
     },

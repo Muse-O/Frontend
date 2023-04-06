@@ -21,7 +21,7 @@ function Exhibition() {
   const endRef = useRef(true);
   const [exhibitionData, exhibitionIsLoading] = useGetExhibition();
   const navigator = useNavigate();
-  console.log("exhibitionData", exhibitionData);
+  // console.log("exhibitionData", exhibitionData);
 
   //*컴포넌트가 마운트 될 때  옵저버를 생성하고 언마운트될 경우 옵저버를 해제
   useEffect(() => {
