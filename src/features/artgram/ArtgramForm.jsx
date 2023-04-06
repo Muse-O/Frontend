@@ -13,12 +13,16 @@ import { useGetimgurl } from "../../hooks/artgram/useGetimgurl";
 function ArtgramForm() {
   // 비동기 통신을 위하 커스텀 훅(리액트 쿼리)
   const [postArtgrams] = usePostartgram();
-  
+
   // Form의 input state 관리
   const [formState, setFormState, handleInputChange] = useFormInput();
 
   // Drag&Drop files state 관리 및 화면에 미리보기 제어
   const [files, setFiles, getRootProps, getInputProps] = useDropzoneinput()
+  useEffect(() => {
+    // 마운트 해제시, 데이터 url 취소
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
 
   // Drag&Drop state(files)를 AWS S3에 업로드하여 url 받아내고, newImageUrls state에 입력하기 
   const [s3imgurlhandle] = useGetimgurl(files)
@@ -26,19 +30,14 @@ function ArtgramForm() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const { artgramTitle, artgramDesc } = formState;
-    s3imgurlhandle()
-    // postArtgrams({artgramTitle, artgramDesc, imgUrl:newImageUrls});
+    const newImageUrls = s3imgurlhandle()
+    postArtgrams({artgramTitle, artgramDesc, imgUrl:newImageUrls});
     setFiles([])
   };
 
-  useEffect(() => {
-    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, []);
-
   return (
     <>
-      <Flex as="form" onSubmit={handleSubmit} fd="column" gap="10">
+      <Flex as="form" onSubmit={(event)=>handleSubmit(event,formState)} fd="column" gap="10">
         {createArtgramInputList.map((input, index) => (
           <Input
             key={index}

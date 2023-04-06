@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 
 export const useDropzoneinput = () => {
   const [files, setFiles] = useState([]);
-  const { getRootProps, getInputProps, acceptedFiles } = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [],
     },

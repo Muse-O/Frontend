@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { v4 as uuidv4 } from "uuid"
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
 
-export const useGetimgurl = (files) => {
-  const [newImageUrls, setNewImageUrls] = useState([]);
+export const useGetimgurl =  (files) => {
   const s3imgurlhandle = () => {
     const urls = [];
     files.map((file) => {
@@ -24,18 +22,15 @@ export const useGetimgurl = (files) => {
         ContentType: fileType,
       });
       try {
-        // const response = s3Client.send(putCommand);
+        const response = s3Client.send(putCommand);
         const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-        // console.log(response);
-        console.log(newimageUrl);
+        console.log(response);
         urls.push(newimageUrl);
       } catch (err) {
         console.log(err.message);
       }
     });
-
-
-    setNewImageUrls(urls);
+    return urls
   };
   return [s3imgurlhandle]
 }
