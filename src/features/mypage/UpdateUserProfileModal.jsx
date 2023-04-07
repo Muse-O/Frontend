@@ -1,5 +1,4 @@
 import React from "react";
-import { Flex } from "../../components/Flex";
 import styled from "styled-components";
 
 function UpdateUserProfileModal({ setOpenModal }) {
@@ -9,6 +8,9 @@ function UpdateUserProfileModal({ setOpenModal }) {
 
   return (
     <StUserProfileModal>
+      <div>이미지</div>
+      <div>닉네임</div>
+      <div>한 줄 소개</div>
       <button onClick={updateModalCloseHandler}>닫기</button>
     </StUserProfileModal>
   );
