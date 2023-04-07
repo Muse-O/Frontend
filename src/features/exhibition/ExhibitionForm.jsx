@@ -1,23 +1,26 @@
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import styled from "styled-components";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { usePostExhibition } from "../../hooks/exhibition/usetPostExhibition";
+import { useDropzoneinput } from "../../hooks/artgram/useDropzoneinput";
+import { MdOutlineFileDownload } from "react-icons/md";
+import { useGetimgurl } from "../../hooks/artgram/useGetimgurl";
 
 //Todo넣어야 하는 데이터.
 //* startDate: “2023-04-01”,
 //* endDate: “2023-04-30”,
 //* exhibitionTitle:”제목”,
-//*postImage: 썸네일(포스터)URL
-//*artImage: [ { order: “1”, imgUrl: 이미지URL, imgCaption: 이미지 내용 }, { order: “2”, imgUrl: 이미지URL, imgCaption: 이미지 내용 },]
+//!postImage: 썸네일(포스터)URL
+//!artImage: [ { order: “1”, imgUrl: 이미지URL, imgCaption: 이미지 내용 }, { order: “2”, imgUrl: 이미지URL, imgCaption: 이미지 내용 },]
 //*exhibitionDesc:”상세내용”
-//*exhibitionCode: “ES000001(개인전)”
+//exhibitionCode: “ES000001(개인전)”
 //*entranceFee: “2,000(가격)”
 //*artWorkCnt:”29(작품수)”
 //*agencyAndsponsor:”(스폰서)”
 //*location: “장소”,
-//*contact: “01000000000”
-//*authors: [{ order: “1”, author: “김재란”},{ order: “2”, author: ”백승호”},]
-//*exhibitionCategoty: [“WK0001”, “WK0002”(전시 카테고리 - 애니메이션)]
+//!contact: “01000000000” 전화번호 형식인지 확인.
+//!authors: [{ order: “1”, author: “김재란”},{ order: “2”, author: ”백승호”},]
+//!exhibitionCategoty: [“WK0001”, “WK0002”(전시 카테고리 - 애니메이션)]
 
 function ExhibitionForm() {
   const [exhibition, setExhibition] = useState({
@@ -39,6 +42,8 @@ function ExhibitionForm() {
     authors: [
       { order: "1", author: "김재란" },
       { order: "2", author: "백승호" },
+      { order: "3", author: "백승호" },
+      { order: "4", author: "백승호" },
     ],
     exhibitionCategoty: ["WK0001", "WK0002"],
     detailLocation: {
@@ -57,8 +62,6 @@ function ExhibitionForm() {
       roadnameEnglish: "",
     },
   });
-
-  const open = useDaumPostcodePopup(process.env.REACT_APP_KAKAO_ADDRESS_URL);
 
   const handleComplete = (data) => {
     setExhibition((old) => {
@@ -82,20 +85,66 @@ function ExhibitionForm() {
       };
     });
   };
-
+  const authorid = useRef("1");
+  //리액트 쿼리.
   const [createExhibition] = usePostExhibition();
-
+  //카카오 주소 api
+  const open = useDaumPostcodePopup(process.env.REACT_APP_KAKAO_ADDRESS_URL);
   const handleClick = () => {
     open({ onComplete: handleComplete });
   };
-
+  //제출하기
   const submitHandler = (event) => {
     event.preventDefault();
+    // const newImageUrls = s3imgurlhandle();
     createExhibition(exhibition);
   };
+  //기본값 헨들러
+  const onchangeHandler = (event) => {
+    const { value, name } = event.target;
+    if (name === "author") {
+      setAuthorName(value);
+      setExhibition((old) => {
+        return {
+          ...old,
+          authors: [
+            ...exhibition.authors,
+            { order: authorid.current, [name]: value },
+          ],
+        };
+      });
+    } else {
+      setExhibition((old) => {
+        return { ...old, [name]: value };
+      });
+    }
+  };
+
+  // console.log("exhibition중요", exhibition);
+
+  // Drag&Drop files state 관리 및 화면에 미리보기 제어
+  const [files, setFiles, getRootProps, getInputProps] = useDropzoneinput();
+  useEffect(() => {
+    // 마운트 해제시, 데이터 url 취소
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
+  // Drag&Drop state(files)를 AWS S3에 업로드하여 url 받아내고, newImageUrls state에 입력하기
+  const [s3imgurlhandle] = useGetimgurl(files);
+
+  console.log("작가", exhibition.authors);
+  const [authorName, setAuthorName] = useState("");
 
   return (
     <form onSubmit={submitHandler}>
+      <div>작가</div>
+      <input
+        type="text"
+        placeholder="작가"
+        onChange={onchangeHandler}
+        value={authorName}
+        name="author"
+      />
+      {/* //?done */}
       <Box>
         <h1>작성구역. 카카오 지도 api가지고 오기</h1>
         <button type="button" onClick={handleClick}>
@@ -113,25 +162,63 @@ function ExhibitionForm() {
         />
         <input type="text" placeholder="상세주소" />
       </Box>
-      <div>시작일</div>
-      <input type="date" />
-      <div>종료일</div>
-      <input type="date" />
       <div>제목</div>
-      <input type="text" placeholder="제목" />
-      <div>썸네일이미지</div>
-      <div>상세이미지.여러장</div>
+      <input
+        onChange={onchangeHandler}
+        value={exhibition.exhibitionTitle}
+        name="exhibitionTitle"
+        type="text"
+        placeholder="제목"
+      />
+      <div>시작일</div>
+      <input
+        onChange={onchangeHandler}
+        value={exhibition.startDate}
+        name="startDate"
+        type="date"
+      />
+      <div>종료일</div>
+      <input
+        onChange={onchangeHandler}
+        value={exhibition.endDate}
+        name="endDate"
+        type="date"
+      />
       <div>상세내용</div>
-      <input type="text" placeholder="상세내용" />
+      <input
+        onChange={onchangeHandler}
+        value={exhibition.exhibitionDesc}
+        name="exhibitionDesc"
+        type="text"
+        placeholder="상세내용"
+      />
+      <div>전화번호</div>
+      <input
+        onChange={onchangeHandler}
+        value={exhibition.contact}
+        name="contact"
+        type="number"
+        placeholder="전화번호"
+      />
+      <select name="exhibitionCode" onChange={onchangeHandler}>
+        <option value="ES000001">개인전</option>
+        <option value="ES000002">다인전</option>
+      </select>
+
+      {/* //?done */}
+      {/* //TODO이미지 1장만받기. */}
+      <div>썸네일이미지</div>
+      <Section {...getRootProps({ className: "dropzone" })}>
+        <input {...getInputProps()} />
+        <DragIcon>
+          <MdOutlineFileDownload />
+        </DragIcon>
+      </Section>
+      {/* //TODO이미지 1장만받기. */}
+      <div>상세이미지.여러장</div>
       <div>종류</div>
       <select></select>
-      <div>전화번호</div>
-      <input type="number" placeholder="전화번호" />
-      <div>작가</div>
-      <input type="text" placeholder="작가" />
       <div>전시회 카테고리</div>
-      <select></select>
-
       <button>등록</button>
     </form>
   );
@@ -143,4 +230,19 @@ const Box = styled.div`
   background-color: #b3f1ae;
   margin: 50px;
   padding: 50px;
+`;
+const Section = styled.section`
+  width: 100%;
+  min-height: 110px;
+  border: 2px dotted gray;
+  border-radius: 8px;
+  padding: 18px;
+  text-align: center;
+`;
+
+const DragIcon = styled.div`
+  width: 100px;
+  height: 40px;
+  margin: 0 auto;
+  font-size: 3rem;
 `;
