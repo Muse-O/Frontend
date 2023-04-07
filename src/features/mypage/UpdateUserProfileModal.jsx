@@ -25,7 +25,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
     setEditProfile(pre => ({ ...pre, [name]: value }));
   };
 
-  //update
+  //수정하기 버튼 클릭시 editProfile이 updateUserProfile에 담겨감
   const updateUserProfileHandler = e => {
     e.preventDefault();
     updateUserProfile(editProfile);
@@ -33,6 +33,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
 
   return (
     <StUserProfileModal>
+      <div>수정하기</div>
       <button onClick={updateModalCloseHandler}>닫기</button>
 
       <div>
