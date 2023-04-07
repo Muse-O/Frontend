@@ -8,15 +8,17 @@ export const useUpdateUserProfile = () => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: async payload => {
-      const data = await apis.patch("/mypage", payload, {
+    mutationFn: async ({ editProfile }) => {
+      const data = await apis.patch("/mypage", editProfile, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      return data;
+      return data.data;
     },
-    onSuccess: () => {
+    onSuccess: setOpenModal => {
+      //   setOpenModal(false);
+      alert("수정 완료되었습니다!");
       //성공시 유저프로필 불러오기
       queryClient.invalidateQueries(keys.GET_USERPROFILE);
     },
