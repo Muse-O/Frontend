@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Flex } from "./../../components/Flex";
 import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
 import UpdateUserProfileModal from "./UpdateUserProfileModal";
