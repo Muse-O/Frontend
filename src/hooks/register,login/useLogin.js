@@ -8,7 +8,7 @@ function useLogin() {
 
   const { mutate } = useMutation({
     mutationFn: async payload => {
-      const response = await apis.post("/user/login", payload);
+      const response = await apis.post("/auth/login", payload);
       const token = response.headers.authorization;
       //"access_token"이라고 한 이유
       //-> 나중에 refresh token 구현해야할수도 있어서 구분용으로 지음.
