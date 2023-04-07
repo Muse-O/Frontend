@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Flex } from "./../../components/Flex";
 import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
 import UpdateUserProfileModal from "./UpdateUserProfileModal";
 import UpdateModalBlackBg from "./UpdateModalBlackBg";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 function UserProfile() {
   const { userProfile } = useGetUserProfile();
@@ -17,9 +18,13 @@ function UserProfile() {
   return (
     <>
       <Flex fd="column">
+        <Link to="/">홈으로 돌아가기</Link>
         <div>이미지, 닉네임, 소개 GET</div>
         {/* 닉네임, 한줄소개 response 이름 변경되면 보일것임!! */}
-        <div>프로필이미지: {userProfile?.profileImg}</div>
+        <div>
+          프로필이미지:
+          <img src={userProfile?.profileImg} alt="userProfileImg" />
+        </div>
         <div>닉네임: {userProfile?.nickname}</div>
         <div>한줄 소개: {userProfile?.introduction}</div>
         <UpdateBtn onClick={updateUserProfileModalHandler}>수정하기</UpdateBtn>
