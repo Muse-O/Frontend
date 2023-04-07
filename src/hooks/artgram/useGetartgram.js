@@ -3,8 +3,8 @@ import { apis } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
 
 const getArtgram = async () => {
-  const response = await apis.get("/artgram");
-  return response.data.allArtgram
+  const response = await apis.get("/artgram?limit=10&offset=5");
+  return response.data.artgramList.rows 
 }
 
 export const useGetartgram = () => {
