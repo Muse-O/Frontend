@@ -16,8 +16,7 @@ export const useUpdateUserProfile = () => {
       });
       return data.data;
     },
-    onSuccess: setOpenModal => {
-      //   setOpenModal(false);
+    onSuccess: () => {
       alert("수정 완료되었습니다!");
       //성공시 유저프로필 불러오기
       queryClient.invalidateQueries(keys.GET_USERPROFILE);
