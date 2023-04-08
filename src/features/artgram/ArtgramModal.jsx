@@ -30,6 +30,12 @@ const ModalinnerDiv = styled.div`
   width: ${pos => pos.width};
 `
 
+const ModalinnerImgDiv = styled(ModalinnerDiv)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 const ModdalinnerImg = styled.img`
   display: block;
   width: 100%;
@@ -67,6 +73,7 @@ export {
   ModalBackground,
   ModalWindow,
   ModalinnerDiv,
+  ModalinnerImgDiv,
   ModdalinnerImg,
   ModalUsers,
   ModalCommentsBox,

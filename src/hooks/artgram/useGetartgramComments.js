@@ -2,17 +2,19 @@ import { useQuery } from "@tanstack/react-query";
 import { apis } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
 
-export const useGetartgram = () => {
+export const useGetartgramComments = (artgramId) => {
+    
     const {isLoading, isError, data} = useQuery({
-      queryKey : keys.GET_ARTGRAM,
+      queryKey : keys.GET_ARTGRAMCOMMENTS,
       queryFn : async () => {
-        const response = await apis.get("/artgram?limit=20&offset=0");
-        return response.data.artgramList.rows 
+        console.log(artgramId);
+        const response = await apis.get(`/artgram/${artgramId}/comments`);
+        return response.data.comment
       },
       refetchOnWindowFocus: false, 
       retry: 1,
       onSuccess: data  => {
-            console.log("getArtgram 요청 성공", data)
+            console.log("getartgramComments 요청 성공", data)
           },
           onError: e => {
             console.log(e.message)

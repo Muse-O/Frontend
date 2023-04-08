@@ -11,7 +11,6 @@ import ArtgramDetail from "../features/artgram/ArtgramDetail";
 function Artgram() {
   // 아트그램 GET 관련 --------------------------------------------------------------------------------------------- //
   const [isLoading, isError, allArtgram] = useGetartgram()
-  console.log(allArtgram)
   // GET : allArtgram.Posting 의 시간을 구하는 커스텀 훅
 
   // 아트그램 상세모달페이지 관련 ------------------------------------------------------------------------------------- //
