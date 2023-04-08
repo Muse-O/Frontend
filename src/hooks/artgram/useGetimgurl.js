@@ -5,7 +5,7 @@ export const useGetimgurl =  (files) => {
   const s3imgurlhandle = () => {
     const urls = [];
     files.map((file) => {
-      const fileName = `artgram/${uuidv4()}-${file.name}`;
+      const fileName = `artgram/${uuidv4()}-${file.type.split("/")[1]}`;
       const fileType = file.type;
       const s3Client = new S3Client({
         credentials: {
