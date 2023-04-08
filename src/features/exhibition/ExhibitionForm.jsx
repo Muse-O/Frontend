@@ -23,6 +23,8 @@ import { useGetimgurl } from "../../hooks/artgram/useGetimgurl";
 //!exhibitionCategoty: [“WK0001”, “WK0002”(전시 카테고리 - 애니메이션)]
 
 function ExhibitionForm() {
+  const [authorName, setAuthorName] = useState("");
+  const [inputCount, setInputCount] = useState(1);
   const [exhibition, setExhibition] = useState({
     startDate: "2023-04-07",
     endDate: "2023-04-08",
@@ -39,12 +41,7 @@ function ExhibitionForm() {
     agencyAndsponsor: "",
     location: "상세장소",
     contact: "01000000000",
-    authors: [
-      { order: "1", author: "김재란" },
-      { order: "2", author: "백승호" },
-      { order: "3", author: "백승호" },
-      { order: "4", author: "백승호" },
-    ],
+    authors: [],
     exhibitionCategoty: ["WK0001", "WK0002"],
     detailLocation: {
       zonecode: "",
@@ -85,7 +82,7 @@ function ExhibitionForm() {
       };
     });
   };
-  const authorid = useRef("1");
+  const authorid = useRef(0);
   //리액트 쿼리.
   const [createExhibition] = usePostExhibition();
   //카카오 주소 api
@@ -99,18 +96,20 @@ function ExhibitionForm() {
     // const newImageUrls = s3imgurlhandle();
     createExhibition(exhibition);
   };
-  //기본값 헨들러
+  //헨들러
   const onchangeHandler = (event) => {
     const { value, name } = event.target;
     if (name === "author") {
       setAuthorName(value);
+      const newarr = [...exhibition.authors];
+      newarr.splice(authorid.current, 1, {
+        order: authorid.current + 1,
+        author: value,
+      });
       setExhibition((old) => {
         return {
           ...old,
-          authors: [
-            ...exhibition.authors,
-            { order: authorid.current, [name]: value },
-          ],
+          authors: newarr,
         };
       });
     } else {
@@ -120,7 +119,9 @@ function ExhibitionForm() {
     }
   };
 
-  // console.log("exhibition중요", exhibition);
+  const handleAddInput = () => {
+    setInputCount((prevCount) => prevCount + 1);
+  };
 
   // Drag&Drop files state 관리 및 화면에 미리보기 제어
   const [files, setFiles, getRootProps, getInputProps] = useDropzoneinput();
@@ -130,20 +131,20 @@ function ExhibitionForm() {
   }, []);
   // Drag&Drop state(files)를 AWS S3에 업로드하여 url 받아내고, newImageUrls state에 입력하기
   const [s3imgurlhandle] = useGetimgurl(files);
-
   console.log("작가", exhibition.authors);
-  const [authorName, setAuthorName] = useState("");
 
   return (
     <form onSubmit={submitHandler}>
-      <div>작가</div>
-      <input
-        type="text"
-        placeholder="작가"
-        onChange={onchangeHandler}
-        value={authorName}
-        name="author"
-      />
+      <DIV>
+        <div>작가</div>
+        <input
+          type="text"
+          placeholder="작가"
+          onChange={onchangeHandler}
+          value={authorName}
+          name="author"
+        />
+      </DIV>
       {/* //?done */}
       <Box>
         <h1>작성구역. 카카오 지도 api가지고 오기</h1>
@@ -245,4 +246,10 @@ const DragIcon = styled.div`
   height: 40px;
   margin: 0 auto;
   font-size: 3rem;
+`;
+
+const DIV = styled.div`
+  background-color: #475dc2;
+  height: 50px;
+  text-align: center;
 `;
