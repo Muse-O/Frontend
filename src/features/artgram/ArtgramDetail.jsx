@@ -7,6 +7,7 @@ import { Input } from "../../components/Input";
 import * as Artgramparts from "./Artgramparts";
 // import {BiDotsHorizontalRounded} from 'react-icons/bi'
 import { useGetartgramComments } from "../../hooks/artgram/useGetartgramComments";
+import { decodetoken } from "../../shared/cookies";
 
 function ArtgramDetail(pos) {
   const { allArtgram, modalState, setModalState } = pos.pos;
@@ -16,7 +17,8 @@ function ArtgramDetail(pos) {
   const [isLoading, isError, data] = useGetartgramComments(
     allArtgram.artgramId
   );
-  console.log(data);
+  console.log(decodetoken.email);
+
 
   if (isLoading || isError) {
     return <div>로딩 중....</div>;
@@ -78,7 +80,7 @@ function ArtgramDetail(pos) {
             >
               {/* -------------------------- 댓글 map 관련 부분 */}
               {data && data.map(comment => (
-                <Modal.ModalInner>
+                <Modal.ModalInner >
                 <div>
                   <Artgramparts.ProflieBox url={comment.profileImg} />
                 </div>

@@ -7,15 +7,14 @@ export const useGetartgramComments = (artgramId) => {
     const {isLoading, isError, data} = useQuery({
       queryKey : keys.GET_ARTGRAMCOMMENTS,
       queryFn : async () => {
-        console.log(artgramId);
         const response = await apis.get(`/artgram/${artgramId}/comments`);
         return response.data.comment
       },
       refetchOnWindowFocus: false, 
       retry: 1,
-      onSuccess: ()  => {
-            console.log("getartgramComments 요청 성공")
-          },
+      // onSuccess: ()  => {
+      //       console.log("getartgramComments 요청 성공")
+      //     },
           onError: e => {
             console.log(e.message)
           }

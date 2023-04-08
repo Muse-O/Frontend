@@ -11,10 +11,11 @@ import ArtgramDetail from "../features/artgram/ArtgramDetail";
 function Artgram() {
   // 아트그램 GET 관련 --------------------------------------------------------------------------------------------- //
   const [isLoading, isError, allArtgram] = useGetartgram()
-  // GET : allArtgram.Posting 의 시간을 구하는 커스텀 훅
-
   // 아트그램 상세모달페이지 관련 ------------------------------------------------------------------------------------- //
   const [modalArtgramId, modalState, setModalState, openModalhandle] = useOpenModal()
+
+  // 아트그램 무한스크롤 관련 ---------------------------------------------------------------------------------------- //
+
 
   // 아트그램 GET 관련:에러 핸들링 ----------------------------------------------------------------------------------- //
   if(isLoading || isError) {
@@ -28,7 +29,7 @@ function Artgram() {
         <Wrap>
           <Artgramparts.H1 fs="3rem" type="아트그램" children="아트그램" />
           <Artgramparts.MainFlex ai="center" gap="19" fw="wrap">
-            {/* 상세모달페이지 구역 컴포넌트 -------------------------------------------------------------------------- */} 
+            {/* 상세모달페이지 구역 컴포넌트 -------------------------------------------------------------------------- */}
             {allArtgram.map(
               ({
                 artgramId,
@@ -43,14 +44,14 @@ function Artgram() {
                   <ArgramBox
                     key={artgramId}
                     pos={{
-                      artgramId, 
-                      profileImg, 
+                      artgramId,
+                      profileImg,
                       artgramTitle,
                       artgramDesc,
                       createdAt,
                       profileNickname,
                       ArtgramImgs,
-                      openModalhandle
+                      openModalhandle,
                     }}
                   />
                 );
@@ -58,13 +59,16 @@ function Artgram() {
             )}
           </Artgramparts.MainFlex>
         </Wrap>
-        {/* 상세모달페이지 구역 allArtgram + 댓글구역 -------------------------------------------------------------- */} 
+        {/* 상세모달페이지 구역 allArtgram + 댓글구역 -------------------------------------------------------------- */}
         {modalState && (
           <>
             {allArtgram.map(
               (allArtgram) =>
                 allArtgram.artgramId === modalArtgramId && (
-                  <ArtgramDetail key={allArtgram.artgramId} pos={{allArtgram, modalState, setModalState}}/>
+                  <ArtgramDetail
+                    key={allArtgram.artgramId}
+                    pos={{ allArtgram, modalState, setModalState }}
+                  />
                 )
             )}
           </>
