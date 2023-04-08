@@ -13,13 +13,14 @@ const ModalBackground = styled.div`
 `
 const ModalWindow = styled.div`
   display: ${props => props.state ? "block" : "none"};
-  width: 600px;
-  height: 300px;
+  width: 1400px;
+  height: 900px;
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #FFC04C;
+  overflow: hidden;
+  background-color: #f2f2f2;
   border-radius: 15px;
   z-index: 10200;
 `
