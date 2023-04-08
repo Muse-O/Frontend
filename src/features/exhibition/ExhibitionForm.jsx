@@ -6,9 +6,12 @@ import { useDropzoneinput } from "../../hooks/artgram/useDropzoneinput";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { useGetimgurl } from "../../hooks/artgram/useGetimgurl";
 import { Flex } from "../../components/Flex";
-import { useDropzoneinputEx } from "../../hooks/exhibition/useDropzoneEx";
+import {
+  useDropzoneinputEx,
+  useDropzoneinputPostEx,
+} from "../../hooks/exhibition/useDropzoneEx";
 import { useGetimgurlEx } from "../../hooks/exhibition/useGetimgurlEx";
-import { useMakeUrl } from "../../hooks/exhibition/useMakeUrl";
+import { useMakeUrl, useThumbnailUrl } from "../../hooks/exhibition/useMakeUrl";
 import { v4 as uuidv4 } from "uuid";
 //Todo넣어야 하는 데이터.
 //* startDate: “2023-04-01”,
@@ -98,9 +101,9 @@ function ExhibitionForm() {
     event.preventDefault();
     // const newImageUrls = s3imgurlhandle();
     setExhibition((pre) => {
-      return { ...pre, artImage: imgurls };
+      return { ...pre, artImage: imgurls, postImage: imgurlsPOST };
     });
-    createExhibition(exhibition);
+    // createExhibition(exhibition);
   };
   //헨들러
   const onchangeHandler = (event) => {
@@ -134,6 +137,7 @@ function ExhibitionForm() {
 
   // Drag&Drop files state 관리 및 화면에 미리보기 제어
   const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
+
   useEffect(() => {
     // 마운트 해제시, 데이터 url 취소
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
@@ -143,12 +147,20 @@ function ExhibitionForm() {
   const [urls, setUrls, s3imgurlhandle] = useGetimgurlEx(files);
   const sourceUrl = "exhibition";
   //이미지 따로 받아오기.
-
   const [imgurls, imgurlhandle] = useMakeUrl(files);
   console.log("img배열객체", imgurls);
   useEffect(() => {
     imgurlhandle();
   }, [files]);
+
+  //섬네일용
+  const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
+    useDropzoneinputPostEx();
+  const [imgurlsPOST, imgurlhandlePOST] = useThumbnailUrl(postfiles);
+  console.log("섬네일", imgurlsPOST);
+  useEffect(() => {
+    imgurlhandlePOST();
+  }, [postfiles]);
   console.log("전시회", exhibition);
 
   return (
@@ -179,9 +191,23 @@ function ExhibitionForm() {
           readOnly
           placeholder="우편번호"
         />
-        <input type="text" placeholder="상세주소" />
+        <input
+          type="text"
+          onChange={onchangeHandler}
+          value={exhibition.location}
+          name="location"
+          placeholder="상세주소"
+        />
       </Box>
-
+      <DIV2>
+        <div>섬네일이미지</div>
+        <Section {...getRootPropsPOST({ className: "dropzone" })}>
+          <input {...getInputPropsPOST()} />
+          <DragIcon>
+            <MdOutlineFileDownload />
+          </DragIcon>
+        </Section>
+      </DIV2>
       <div>제목</div>
       <input
         onChange={onchangeHandler}

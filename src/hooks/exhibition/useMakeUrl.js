@@ -23,3 +23,16 @@ export const useMakeUrl = (files) => {
   };
   return [imgurls, imgurlhandle];
 };
+
+export const useThumbnailUrl = (files) => {
+  // console.log("url받아오는곳", files);
+  const [imgurls, setUrls] = useState([]);
+  const imgurlhandle = (sourceUrl) => {
+    files.forEach((file, index) => {
+      const fileName = `${sourceUrl}/${uuidv4()}-${file.name}`;
+      const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
+      setUrls(newimageUrl);
+    });
+  };
+  return [imgurls, imgurlhandle];
+};
