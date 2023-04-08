@@ -8,7 +8,7 @@ export const useUpdateUserProfile = () => {
   const queryClient = useQueryClient();
 
   const { mutate } = useMutation({
-    mutationFn: async ({ editProfile }) => {
+    mutationFn: async editProfile => {
       const data = await apis.patch("/mypage", editProfile, {
         headers: {
           Authorization: `Bearer ${token}`,

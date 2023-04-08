@@ -28,7 +28,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
   //수정하기 버튼 클릭시 editProfile이 updateUserProfile에 담겨감
   const updateUserProfileHandler = e => {
     e.preventDefault();
-    updateUserProfile({ editProfile, setOpenModal });
+    updateUserProfile(editProfile);
     setOpenModal(false); //이게 여기 들어가는게 맞나...
   };
 
