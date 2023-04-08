@@ -5,7 +5,16 @@ import { usePostingtime } from '../../hooks/artgram/usePostingtime'
 
 function ArgramBox(pos) {
   // GET : allArtgram.Posting 의 시간을 구하는 커스텀 훅
-  const {artgramId, profileImg, artgramTitle,artgramDesc,createdAt,profileNickname,ArtgramImgs, openModalhandle} = pos.pos
+  const {
+    artgramId,
+    profileImg,
+    artgramTitle,
+    artgramDesc,
+    createdAt,
+    profileNickname,
+    ArtgramImgs,
+    openModalhandle,
+  } = pos.pos;
   const [timehandle] = usePostingtime()  
   return (
      <Artgramparts.Artgrambox

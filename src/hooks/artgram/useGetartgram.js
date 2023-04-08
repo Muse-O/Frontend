@@ -11,8 +11,8 @@ export const useGetartgram = () => {
       },
       refetchOnWindowFocus: false, 
       retry: 1,
-      onSuccess: data  => {
-            console.log("getArtgram 요청 성공", data)
+      onSuccess: ()  => {
+            console.log("getArtgram 요청 성공")
           },
           onError: e => {
             console.log(e.message)
