@@ -24,7 +24,7 @@ import { useGetimgurl } from "../../hooks/artgram/useGetimgurl";
 
 function ExhibitionForm() {
   const [authorName, setAuthorName] = useState("");
-  const [inputCount, setInputCount] = useState(1);
+
   const [exhibition, setExhibition] = useState({
     startDate: "2023-04-07",
     endDate: "2023-04-08",
@@ -117,10 +117,6 @@ function ExhibitionForm() {
         return { ...old, [name]: value };
       });
     }
-  };
-
-  const handleAddInput = () => {
-    setInputCount((prevCount) => prevCount + 1);
   };
 
   // Drag&Drop files state 관리 및 화면에 미리보기 제어
