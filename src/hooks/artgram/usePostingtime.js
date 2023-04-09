@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 
 export const usePostingtime = (allArtgramList) => {
+  const timehandle = (createdAt) => {
   const dayjsDate = dayjs();
   const currentDate = dayjsDate.format().split("T")[0];
   const currentTime = dayjsDate
@@ -8,8 +9,8 @@ export const usePostingtime = (allArtgramList) => {
     .split("T")[1]
     .split(".")[0]
     .split("+")[0];
-  const createDate = allArtgramList.createdAt.split("T")[0];
-  const createTime = allArtgramList.createdAt.split("T")[1].split(".")[0]; // 2023-04-05
+  const createDate = createdAt.split("T")[0];
+  const createTime = createdAt.split("T")[1].split(".")[0]; // 2023-04-05
   const gaphour = `${dayjs(`${currentDate} ${currentTime}`).diff(
     dayjs(`${createDate} ${createTime}`),
     "hour"
@@ -25,4 +26,6 @@ export const usePostingtime = (allArtgramList) => {
     postingTime = Math.ceil(gaphour / 8736) + "년 전";
   }
   return [postingTime];
+  }
+  return [timehandle]
 };

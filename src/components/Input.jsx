@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const Input = ({ label, inputProps }) => (
   <DivFlex>
-    <Label>{label}</Label>
+    {label && <Label>{label}</Label>}
     <StyledInput {...inputProps} />
   </DivFlex>
 );
