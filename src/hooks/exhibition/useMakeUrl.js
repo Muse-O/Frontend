@@ -10,11 +10,9 @@ export const useMakeUrl = (files) => {
     files.forEach((file, index) => {
       const fileName = `${sourceUrl}/${uuidv4()}-${file.name}`;
       const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-      // console.log("내부URL", urls);
-
       const newObject = {
         order: order.current,
-        imgUrl: file,
+        imgUrl: newimageUrl,
         imgCaption: "이미지 내용",
       };
       setUrls((pre) => [...pre, newObject]);

@@ -133,7 +133,7 @@ function ExhibitionForm() {
     }
   };
 
-  // Drag&Drop files state 관리 및 화면에 미리보기 제어
+  // Drag&Drop files state 관리 및 화면에 미리보기,url생성기 상세이미지용
   const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
   useEffect(() => {
     // 마운트 해제시, 데이터 url 취소
@@ -143,7 +143,6 @@ function ExhibitionForm() {
   // URL받아내기
   const [urls, setUrls, s3imgurlhandle] = useGetimgurlEx(files);
   const sourceUrl = "exhibition";
-  //상세이미지 url 값 생성기 따로 받아오기.
   const [imgurls, imgurlhandle] = useMakeUrl(files);
   useEffect(() => {
     imgurlhandle();
@@ -155,7 +154,8 @@ function ExhibitionForm() {
   useEffect(() => {
     imgurlhandlePOST();
   }, [postfiles]);
-  console.log("전시회form", exhibition);
+  console.log("postfiles섬네일", postfiles);
+  console.log("전시회", exhibition);
   return (
     <Flex as="form" onSubmit={submitHandler} fd="column" gap="10">
       <Box>
@@ -189,6 +189,21 @@ function ExhibitionForm() {
             <MdOutlineFileDownload />
           </DragIcon>
         </Section>
+        <ThumbsContainer>
+          {postfiles &&
+            postfiles.map((file) => (
+              <Thumb key={file.name}>
+                <ThumbInner>
+                  <Thumbimg
+                    src={file.preview}
+                    onLoad={() => {
+                      URL.revokeObjectURL(file.preview);
+                    }}
+                  />
+                </ThumbInner>
+              </Thumb>
+            ))}
+        </ThumbsContainer>
       </DIV2>
       <DIV2>
         <div>상세이미지</div>
@@ -198,6 +213,21 @@ function ExhibitionForm() {
             <MdOutlineFileDownload />
           </DragIcon>
         </Section>
+        <ThumbsContainer>
+          {files &&
+            files.map((file) => (
+              <Thumb key={file.name}>
+                <ThumbInner>
+                  <Thumbimg
+                    src={file.preview}
+                    onLoad={() => {
+                      URL.revokeObjectURL(file.preview);
+                    }}
+                  />
+                </ThumbInner>
+              </Thumb>
+            ))}
+        </ThumbsContainer>
       </DIV2>
       <DIV>
         <div>제목</div>
@@ -335,4 +365,36 @@ const DIV = styled.div`
 const DIV2 = styled.div`
   background-color: #e1e78e;
   text-align: center;
+`;
+
+const Thumb = styled.div`
+  display: inline-flex;
+  border-radius: 2;
+  border: 4px solid #eaeaea;
+  margin-bottom: 8;
+  margin-right: 8;
+  width: 130px;
+  height: 130px;
+  padding: 4;
+  box-sizing: border-box;
+`;
+
+const ThumbInner = styled.div`
+  display: flex;
+  min-width: 0;
+  overflow: hidden;
+`;
+
+const Thumbimg = styled.img`
+  display: block;
+  width: auto;
+  height: 100%;
+`;
+
+const ThumbsContainer = styled.aside`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 16;
+  gap: 13px;
 `;
