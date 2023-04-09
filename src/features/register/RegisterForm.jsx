@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Flex } from "../../components/Flex";
 import { Link } from "react-router-dom";
-import { useRegister } from "../../hooks/register,login/useRegister";
-import { useEmailConfirm } from "../../hooks/register,login/useEmailConfirm";
+import { useRegister } from "../../hooks/register/useRegister";
+import { useEmailConfirm } from "../../hooks/register/useEmailConfirm";
 
 function RegisterForm() {
   //react-query
