@@ -13,24 +13,12 @@ import {
 import { useGetimgurlEx } from "../../hooks/exhibition/useGetimgurlEx";
 import { useMakeUrl, useThumbnailUrl } from "../../hooks/exhibition/useMakeUrl";
 import { v4 as uuidv4 } from "uuid";
-//Todo넣어야 하는 데이터.
-//* startDate: “2023-04-01”,
-//* endDate: “2023-04-30”,
-//* exhibitionTitle:”제목”,
-//!postImage: 썸네일(포스터)URL
-//!artImage: [ { order: “1”, imgUrl: 이미지URL, imgCaption: 이미지 내용 }, { order: “2”, imgUrl: 이미지URL, imgCaption: 이미지 내용 },]
-//*exhibitionDesc:”상세내용”
-//exhibitionCode: “ES000001(개인전)”
-//*entranceFee: “2,000(가격)”
-//*artWorkCnt:”29(작품수)”
-//*agencyAndsponsor:”(스폰서)”
-//*location: “장소”,
-//!contact: “01000000000” 전화번호 형식인지 확인.
-//!authors: [{ order: “1”, author: “김재란”},{ order: “2”, author: ”백승호”},]
-//!exhibitionCategoty: [“WK0001”, “WK0002”(전시 카테고리 - 애니메이션)]
 
 function ExhibitionForm() {
   const [authorName, setAuthorName] = useState("");
+  //유저 순서.
+  const authorid = useRef(0);
+  //보내야 하는값
   const [exhibition, setExhibition] = useState({
     startDate: "",
     endDate: "",
@@ -42,8 +30,8 @@ function ExhibitionForm() {
     entranceFee: 0,
     artWorkCnt: "",
     agencyAndsponsor: "",
-    location: "상세장소",
-    contact: "01000000000",
+    location: "",
+    contact: "",
     authors: [],
     exhibitionCategoty: [],
     detailLocation: {
@@ -62,7 +50,11 @@ function ExhibitionForm() {
       roadnameEnglish: "",
     },
   });
-
+  //카카오 주소 api
+  const open = useDaumPostcodePopup(process.env.REACT_APP_KAKAO_ADDRESS_URL);
+  const handleClick = () => {
+    open({ onComplete: handleComplete });
+  };
   const handleComplete = (data) => {
     setExhibition((old) => {
       return {
@@ -85,14 +77,8 @@ function ExhibitionForm() {
       };
     });
   };
-  const authorid = useRef(0);
   //리액트 쿼리.
   const [createExhibition] = usePostExhibition();
-  //카카오 주소 api
-  const open = useDaumPostcodePopup(process.env.REACT_APP_KAKAO_ADDRESS_URL);
-  const handleClick = () => {
-    open({ onComplete: handleComplete });
-  };
   //제출하기
   const submitHandler = (event) => {
     event.preventDefault();
@@ -105,6 +91,7 @@ function ExhibitionForm() {
   //헨들러
   const onchangeHandler = (event) => {
     const { value, name } = event.target;
+    //작가
     if (name === "author") {
       setAuthorName(value);
       const newarr = [...exhibition.authors];
@@ -118,23 +105,28 @@ function ExhibitionForm() {
           authors: newarr,
         };
       });
-    } else if (name === "exhibitionCategoty") {
+    }
+    //카테고리
+    else if (name === "exhibitionCategoty") {
       setExhibition((old) => {
         return {
           ...old,
           exhibitionCategoty: [...old.exhibitionCategoty, value],
         };
       });
-    } else if (name === "entranceFee") {
+    }
+    //입장료
+    else if (name === "entranceFee") {
       setExhibition((old) => {
-        //가격용
         const removedCommaValue = Number(value.replaceAll(",", ""));
         return {
           ...old,
           entranceFee: removedCommaValue.toLocaleString(),
         };
       });
-    } else {
+    }
+    //기본
+    else {
       setExhibition((old) => {
         return { ...old, [name]: value };
       });
@@ -143,7 +135,6 @@ function ExhibitionForm() {
 
   // Drag&Drop files state 관리 및 화면에 미리보기 제어
   const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
-
   useEffect(() => {
     // 마운트 해제시, 데이터 url 취소
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
@@ -152,38 +143,25 @@ function ExhibitionForm() {
   // URL받아내기
   const [urls, setUrls, s3imgurlhandle] = useGetimgurlEx(files);
   const sourceUrl = "exhibition";
-  //이미지 따로 받아오기.
+  //상세이미지 url 값 생성기 따로 받아오기.
   const [imgurls, imgurlhandle] = useMakeUrl(files);
   useEffect(() => {
     imgurlhandle();
   }, [files]);
-
-  //섬네일용
+  //섬네일용이미지 url 값 생성기.
   const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
     useDropzoneinputPostEx();
   const [imgurlsPOST, imgurlhandlePOST] = useThumbnailUrl(postfiles);
   useEffect(() => {
     imgurlhandlePOST();
   }, [postfiles]);
-  console.log("전시회", exhibition);
-
+  console.log("전시회form", exhibition);
   return (
     <Flex as="form" onSubmit={submitHandler} fd="column" gap="10">
-      <DIV>
-        <div>작가</div>
-        <input
-          type="text"
-          placeholder="작가"
-          onChange={onchangeHandler}
-          value={authorName}
-          name="author"
-        />
-      </DIV>
-      {/* //?done */}
       <Box>
         <h1>작성구역. 카카오 지도 api가지고 오기</h1>
         <button type="button" onClick={handleClick}>
-          지도
+          주소 검색
         </button>
         <input
           value={exhibition.detailLocation.address}
@@ -212,76 +190,7 @@ function ExhibitionForm() {
           </DragIcon>
         </Section>
       </DIV2>
-      <div>제목</div>
-      <input
-        onChange={onchangeHandler}
-        value={exhibition.exhibitionTitle}
-        name="exhibitionTitle"
-        type="text"
-        placeholder="제목"
-      />
-      <div>스폰서</div>
-      <input
-        onChange={onchangeHandler}
-        value={exhibition.agencyAndsponsor}
-        name="agencyAndsponsor"
-        type="text"
-        placeholder="후원"
-      />
-      <div>관람료</div>
-      <input
-        onChange={onchangeHandler}
-        value={exhibition.entranceFee}
-        name="entranceFee"
-        placeholder="관람료"
-        maxLength={7}
-      />
-      <div>작품수</div>
-      <input
-        onChange={onchangeHandler}
-        value={exhibition.artWorkCnt}
-        name="artWorkCnt"
-        type="text"
-        placeholder="작품수"
-      />
-      <div>시작일</div>
-      <input
-        onChange={onchangeHandler}
-        value={exhibition.startDate}
-        name="startDate"
-        type="date"
-      />
-      <div>종료일</div>
-      <input
-        onChange={onchangeHandler}
-        value={exhibition.endDate}
-        name="endDate"
-        type="date"
-      />
-      <div>상세내용</div>
-      <input
-        onChange={onchangeHandler}
-        value={exhibition.exhibitionDesc}
-        name="exhibitionDesc"
-        type="text"
-        placeholder="상세내용"
-      />
-      <div>전화번호</div>
-      <input
-        onChange={onchangeHandler}
-        value={exhibition.contact}
-        name="contact"
-        type="number"
-        placeholder="전화번호"
-      />
-      <select name="exhibitionCode" onChange={onchangeHandler}>
-        <option value="ES0001">개인전</option>
-        <option value="ES0002">다인전</option>
-      </select>
-
-      {/* //?done */}
-      {/* //TODO이미지 1장만받기. */}
-      <DIV>
+      <DIV2>
         <div>상세이미지</div>
         <Section {...getRootProps({ className: "dropzone" })}>
           <input {...getInputProps()} />
@@ -289,15 +198,108 @@ function ExhibitionForm() {
             <MdOutlineFileDownload />
           </DragIcon>
         </Section>
+      </DIV2>
+      <DIV>
+        <div>제목</div>
+        <input
+          onChange={onchangeHandler}
+          value={exhibition.exhibitionTitle}
+          name="exhibitionTitle"
+          type="text"
+          placeholder="제목"
+        />
       </DIV>
-      {/* //TODO이미지 1장만받기. */}
-      <div>상세이미지.여러장</div>
-      <div>종류</div>
-      <select name="exhibitionCategoty" onChange={onchangeHandler}>
-        <option value="WK0001">애니메이션</option>
-        <option value="WK0002">수채화</option>
-      </select>
-      <div>전시회 카테고리</div>
+      <DIV>
+        <div>작가</div>
+        <input
+          type="text"
+          placeholder="작가"
+          onChange={onchangeHandler}
+          value={authorName}
+          name="author"
+        />
+      </DIV>
+      <DIV>
+        <div>스폰서</div>
+        <input
+          onChange={onchangeHandler}
+          value={exhibition.agencyAndsponsor}
+          name="agencyAndsponsor"
+          type="text"
+          placeholder="후원"
+        />
+      </DIV>
+      <DIV>
+        <div>관람료</div>
+        <input
+          onChange={onchangeHandler}
+          value={exhibition.entranceFee}
+          name="entranceFee"
+          placeholder="관람료"
+          maxLength={7}
+        />
+      </DIV>
+      <DIV>
+        <div>작품수</div>
+        <input
+          onChange={onchangeHandler}
+          value={exhibition.artWorkCnt}
+          name="artWorkCnt"
+          type="text"
+          placeholder="작품수"
+        />
+      </DIV>
+      <DIV>
+        <div>시작일</div>
+        <input
+          onChange={onchangeHandler}
+          value={exhibition.startDate}
+          name="startDate"
+          type="date"
+        />
+        <div>종료일</div>
+        <input
+          onChange={onchangeHandler}
+          value={exhibition.endDate}
+          name="endDate"
+          type="date"
+        />
+      </DIV>
+      <DIV>
+        <div>상세내용</div>
+        <input
+          onChange={onchangeHandler}
+          value={exhibition.exhibitionDesc}
+          name="exhibitionDesc"
+          type="text"
+          placeholder="상세내용"
+        />
+      </DIV>
+      <DIV>
+        <div>전화번호</div>
+        <input
+          onChange={onchangeHandler}
+          value={exhibition.contact}
+          name="contact"
+          type="number"
+          placeholder="전화번호"
+        />
+      </DIV>
+      <DIV>
+        <div>전시회 종류</div>
+        <select name="exhibitionCode" onChange={onchangeHandler}>
+          <option value="ES0001">개인전</option>
+          <option value="ES0002">다인전</option>
+        </select>
+      </DIV>
+      <DIV>
+        <div>전시회 테마</div>
+        <select name="exhibitionCategoty" onChange={onchangeHandler}>
+          <option value="WK0001">애니메이션</option>
+          <option value="WK0002">수채화</option>
+        </select>
+        <div>전시회 카테고리</div>
+      </DIV>
       <button>등록</button>
     </Flex>
   );
@@ -326,7 +328,8 @@ const DragIcon = styled.div`
 `;
 
 const DIV = styled.div`
-  background-color: #475dc2;
+  background-color: #7a7777;
+  margin: 10px;
   text-align: center;
 `;
 const DIV2 = styled.div`
