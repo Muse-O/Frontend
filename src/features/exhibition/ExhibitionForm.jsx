@@ -32,18 +32,15 @@ import { v4 as uuidv4 } from "uuid";
 function ExhibitionForm() {
   const [authorName, setAuthorName] = useState("");
   const [exhibition, setExhibition] = useState({
-    startDate: "2023-04-07",
-    endDate: "2023-04-08",
-    exhibitionTitle: "제목",
-    postImage: "URL",
-    artImage: [
-      { order: "1", imgUrl: "이미지URL", imgCaption: "이미지 내용" },
-      { order: "2", imgUrl: "이미지URL", imgCaption: "이미지 내용" },
-    ],
-    exhibitionDesc: "상세내용",
-    exhibitionCode: "ES000001",
-    entranceFee: "2,000",
-    artWorkCnt: "29",
+    startDate: "",
+    endDate: "",
+    exhibitionTitle: "",
+    postImage: "",
+    artImage: [],
+    exhibitionDesc: "",
+    exhibitionCode: "",
+    entranceFee: 0,
+    artWorkCnt: "",
     agencyAndsponsor: "",
     location: "상세장소",
     contact: "01000000000",
@@ -128,6 +125,15 @@ function ExhibitionForm() {
           exhibitionCategoty: [...old.exhibitionCategoty, value],
         };
       });
+    } else if (name === "entranceFee") {
+      setExhibition((old) => {
+        //가격용
+        const removedCommaValue = Number(value.replaceAll(",", ""));
+        return {
+          ...old,
+          entranceFee: removedCommaValue.toLocaleString(),
+        };
+      });
     } else {
       setExhibition((old) => {
         return { ...old, [name]: value };
@@ -148,7 +154,6 @@ function ExhibitionForm() {
   const sourceUrl = "exhibition";
   //이미지 따로 받아오기.
   const [imgurls, imgurlhandle] = useMakeUrl(files);
-  console.log("img배열객체", imgurls);
   useEffect(() => {
     imgurlhandle();
   }, [files]);
@@ -157,7 +162,6 @@ function ExhibitionForm() {
   const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
     useDropzoneinputPostEx();
   const [imgurlsPOST, imgurlhandlePOST] = useThumbnailUrl(postfiles);
-  console.log("섬네일", imgurlsPOST);
   useEffect(() => {
     imgurlhandlePOST();
   }, [postfiles]);
@@ -215,6 +219,30 @@ function ExhibitionForm() {
         name="exhibitionTitle"
         type="text"
         placeholder="제목"
+      />
+      <div>스폰서</div>
+      <input
+        onChange={onchangeHandler}
+        value={exhibition.agencyAndsponsor}
+        name="agencyAndsponsor"
+        type="text"
+        placeholder="후원"
+      />
+      <div>관람료</div>
+      <input
+        onChange={onchangeHandler}
+        value={exhibition.entranceFee}
+        name="entranceFee"
+        placeholder="관람료"
+        maxLength={7}
+      />
+      <div>작품수</div>
+      <input
+        onChange={onchangeHandler}
+        value={exhibition.artWorkCnt}
+        name="artWorkCnt"
+        type="text"
+        placeholder="작품수"
       />
       <div>시작일</div>
       <input
