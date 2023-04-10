@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useRegister } from "../../hooks/register/useRegister";
 import { useEmailConfirm } from "../../hooks/register/useEmailConfirm";
 import {
+  emailConfirmHandler,
   emailRegExp,
   pwRegExp,
   emailValidation,
@@ -55,31 +56,14 @@ function RegisterForm() {
     }
   };
 
-  //이메일 중복검사
-  const checkEmail = {
-    email: registerInfo.email,
-  };
-
-  const emailConfirmHandler = e => {
-    //빈값이 아닐때 보낼 수 있게 하기
-    if (registerInfo.email === "") {
-      alert("이메일을 입력해주세요.");
-      e.preventDefault();
-    } else if (!emailRegExp.test(registerInfo.email)) {
-      e.preventDefault();
-      return <div>이메일 형식이 올바르지 않습니다.</div>;
-    } else {
-      e.preventDefault();
-      emailConfirm(checkEmail);
-    }
-  };
-
   return (
     <Flex as="form" fd="column" gap="10">
       <Link to="/">로고 자리(메인으로 돌아감)</Link>
       <label>이메일</label>
       <input type="email" name="email" onChange={changeInputHandler} />
-      <button onClick={emailConfirmHandler}>중복확인</button>
+      <button onClick={e => emailConfirmHandler(e, registerInfo, emailConfirm)}>
+        중복확인
+      </button>
       <div>{emailValidation(registerInfo.email)}</div>
 
       <label>비밀번호</label>

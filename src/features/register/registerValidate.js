@@ -1,7 +1,23 @@
-export const emailRegExp =
-  /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+//이메일 중복검사
+export const emailConfirmHandler = (e, registerInfo, emailConfirm) => {
+  e.preventDefault();
+  //빈값이 아닐때 보낼 수 있게 하기
+  if (registerInfo.email === "") {
+    alert("이메일을 입력해주세요.");
+  } else if (!emailRegExp.test(registerInfo.email)) {
+    // return <div>이메일 형식이 올바르지 않습니다.</div>; //여기 수정
+    // alert("이메일 형식이 올바르지 않습니다.");
+    return false;
+  } else {
+    emailConfirm({ email: registerInfo.email });
+  }
+};
 
-export const pwRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/;
+export const emailRegExp =
+  /^[a-zA-Z0-9+\-\\_.]+@[a-zA-Z0-9\\-]+\.[a-zA-Z0-9\-.]+$/;
+
+export const pwRegExp =
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,15}$/;
 
 // 이메일 형식 검사
 export const emailValidation = email => {
