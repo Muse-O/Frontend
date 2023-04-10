@@ -2,31 +2,27 @@ import { useDaumPostcodePopup } from "react-daum-postcode";
 import styled from "styled-components";
 import React, { useEffect, useRef, useState } from "react";
 import { usePostExhibition } from "../../hooks/exhibition/usetPostExhibition";
-import { useDropzoneinput } from "../../hooks/artgram/useDropzoneinput";
 import { MdOutlineFileDownload } from "react-icons/md";
-import { useGetimgurl } from "../../hooks/artgram/useGetimgurl";
 import { Flex } from "../../components/Flex";
-import {
-  useDropzoneinputEx,
-  useDropzoneinputPostEx,
-} from "../../hooks/exhibition/useDropzoneEx";
-import { useGetimgurlEx } from "../../hooks/exhibition/useGetimgurlEx";
-import { useMakeUrl, useThumbnailUrl } from "../../hooks/exhibition/useMakeUrl";
 import { v4 as uuidv4 } from "uuid";
 import { useDropzone } from "react-dropzone";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 
 function ExhibitionForm() {
+  //쿼리
+  const [createExhibition] = usePostExhibition();
+  let posturl = "";
+  let urls = [];
   const sourceUrl = "exhibition";
-  const [authorName, setAuthorName] = useState("");
-  //유저 순서.
   const authorid = useRef(0);
-  //보내야 하는값
+  const order = useRef(1);
+  const [authorName, setAuthorName] = useState("");
+  const [files, setFiles] = useState([]);
+  const [postfiles, setPostFiles] = useState([]);
   const [exhibition, setExhibition] = useState({
     startDate: "",
     endDate: "",
     exhibitionTitle: "",
-    postImage: "",
-    artImage: [],
     exhibitionDesc: "",
     exhibitionCode: "",
     entranceFee: "",
@@ -79,8 +75,6 @@ function ExhibitionForm() {
       };
     });
   };
-  //리액트 쿼리.
-  const [createExhibition] = usePostExhibition();
   //헨들러
   const onchangeHandler = (event) => {
     const { value, name } = event.target;
@@ -135,12 +129,11 @@ function ExhibitionForm() {
   };
   useEffect(() => {
     // 마운트 해제시, 데이터 url 취소
-    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+    return () => {
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+      postfiles.forEach((file) => URL.revokeObjectURL(file.preview));
+    };
   }, []);
-
-  // Drag&Drop files state 관리 및 화면에 미리보기,url생성기 상세이미지용
-  const order = useRef(1);
-  const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [],
@@ -156,68 +149,95 @@ function ExhibitionForm() {
           ),
         ];
       });
-      const artImage = acceptedFiles.map((file, index) => {
-        const fileName = `${sourceUrl}/${uuidv4()}-${file.name}`;
-        const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-        const newObject = {
-          order: order.current.toString(),
-          imgUrl: newimageUrl,
-          imgCaption: "이미지 내용",
-        };
-        order.current++;
-        return newObject;
-      });
-      setExhibition((old) => {
-        return {
-          ...old,
-          artImage: artImage,
-        };
-      });
     },
   });
-  // URL받아내기
-  // const [imgurls, imgurlhandle] = useMakeUrl(files);
 
   //섬네일용이미지 url 값 생성기.
-  // const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
-  //   useDropzoneinputPostEx();
-  const [postfiles, setPostFiles] = useState([]);
   const { getRootProps: getRootPropsPOST, getInputProps: getInputPropsPOST } =
     useDropzone({
       accept: {
         "image/*": [],
       },
-      maxFiles: 1,
+      // maxFiles: 1,
       onDrop: (acceptedFiles) => {
-        setPostFiles(
-          acceptedFiles.map((file) =>
-            Object.assign(file, {
-              preview: URL.createObjectURL(file),
-            })
-          )
-        );
-        console.log("acceptedFiles", acceptedFiles);
-        const fileName = `${sourceUrl}/${uuidv4()}-${acceptedFiles[0].name}`;
-        const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-        setExhibition((old) => {
-          return {
-            ...old,
-            postImage: newimageUrl,
-          };
-        });
+        if (acceptedFiles.length > 1) {
+          alert("섬네일은 1개만 가능합니다.");
+          return;
+        } else {
+          setPostFiles(
+            acceptedFiles.map((file) =>
+              Object.assign(file, {
+                preview: URL.createObjectURL(file),
+              })
+            )
+          );
+        }
       },
     });
-
   //s3올리기
-  let allFiles = [...files, ...postfiles];
-  const [s3imgurlhandle] = useGetimgurlEx(allFiles);
+  const s3imgurlhandle = (sourceUrl) => {
+    files.forEach((file) => {
+      const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
+      const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
+      const newObject = {
+        order: order.current.toString(),
+        imgUrl: newimageUrl,
+        imgCaption: "이미지 내용",
+      };
+      order.current++;
+      urls.push(newObject);
+      const fileType = file.type;
+      const s3Client = new S3Client({
+        credentials: {
+          accessKeyId: process.env.REACT_APP_AccessKey,
+          secretAccessKey: process.env.REACT_APP_SecretAccessKey,
+        },
+        region: process.env.REACT_APP_BucketRegion,
+      });
+      const putCommand = new PutObjectCommand({
+        Bucket: process.env.REACT_APP_BucketName,
+        Key: fileName,
+        Body: file,
+        ContentType: fileType,
+      });
+      try {
+        const response = s3Client.send(putCommand);
+      } catch (err) {
+        console.log(err.message);
+      }
+    });
+    postfiles.forEach((file) => {
+      const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
+      const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
+      posturl = newimageUrl;
+      const fileType = file.type;
+      const s3Client = new S3Client({
+        credentials: {
+          accessKeyId: process.env.REACT_APP_AccessKey,
+          secretAccessKey: process.env.REACT_APP_SecretAccessKey,
+        },
+        region: process.env.REACT_APP_BucketRegion,
+      });
+      const putCommand = new PutObjectCommand({
+        Bucket: process.env.REACT_APP_BucketName,
+        Key: fileName,
+        Body: file,
+        ContentType: fileType,
+      });
+      try {
+        const response = s3Client.send(putCommand);
+      } catch (err) {
+        console.log(err.message);
+      }
+    });
+  };
   //제출하기
   const submitHandler = (event) => {
     event.preventDefault();
     s3imgurlhandle(sourceUrl);
-    createExhibition(exhibition);
+    createExhibition({ ...exhibition, postImage: posturl, artImage: urls });
   };
-  console.log("전시회", exhibition);
+
   return (
     <Flex as="form" onSubmit={submitHandler} fd="column" gap="10">
       <Box>
