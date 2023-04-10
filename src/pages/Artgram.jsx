@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef } from "react";
+import React from "react";
 import Header from "../components/Header";
 import { Article, Wrap } from "../shared/GlobalStyled";
 // import { useGetartgram } from "../hooks/artgram/useGetartgram";
@@ -13,6 +13,7 @@ const Artgram = () => {
   // 아트그램 GET 관련 --------------------------------------------------------------------------------------------- //
   // const [isLoading, isError, allArtgram] = useGetartgram()
   const {data,isLoading,isError,fetchNextPage,hasNextPage} = useGetartgraminfinity()
+  console.log(data);
   // useGetartgraminfinity의 결과로 가져온 data.pages를 하나의 배열로 만드는 로직 
   let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
   // useGetartgraminfinity로 받아온 데이터를 화면에 따라서 감지하고 fetchNextPage() 실행하는 로직
@@ -49,22 +50,22 @@ const Artgram = () => {
                 profileNickname,
                 ArtgramImgs,
               }) => {
-                    return (
-                      <ArgramBox
-                        key={artgramId}
-                        pos={{
-                          artgramId,
-                          profileImg,
-                          artgramTitle,
-                          artgramDesc,
-                          createdAt,
-                          profileNickname,
-                          ArtgramImgs,
-                          openModalhandle,
-                        }}
-                      />
-                    );
-                  }
+                return (
+                  <ArgramBox
+                    key={artgramId}
+                    pos={{
+                      artgramId,
+                      profileImg,
+                      artgramTitle,
+                      artgramDesc,
+                      createdAt,
+                      profileNickname,
+                      ArtgramImgs,
+                      openModalhandle,
+                    }}
+                  />
+                );
+               }
             )}
           </Artgramparts.MainFlex>
         </Wrap>

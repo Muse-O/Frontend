@@ -3,7 +3,7 @@ import {BsHeartFill} from 'react-icons/bs'
 import * as Artgramparts from './Artgramparts'
 import { usePostingtime } from '../../hooks/artgram/usePostingtime'
 
-function ArgramBox(pos) {
+function ArgramBox({pos}) {
   // GET : allArtgram.Posting 의 시간을 구하는 커스텀 훅
   const {
     artgramId,
@@ -14,11 +14,10 @@ function ArgramBox(pos) {
     profileNickname,
     ArtgramImgs,
     openModalhandle,
-  } = pos.pos;
+  } = pos;
   const [timehandle] = usePostingtime()  
   return (
      <Artgramparts.Artgrambox
-                    
                     fd="column"
                     gap="15"
                     onClick={() => openModalhandle(artgramId)}

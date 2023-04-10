@@ -2,7 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { apis } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
 
-export const useGetartgraminfinity = (pageSize = 10) => {
+export const useGetartgraminfinity = (pageSize = 4) => {
   // pageSize은 처음에 가져올 데이터를 제한하는 초기값을 선언하는 곳이다. 
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
