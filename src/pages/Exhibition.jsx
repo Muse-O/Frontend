@@ -49,6 +49,7 @@ function Exhibition() {
   //*처음 받아오는값
   const getFirstItem = useCallback(async () => {
     const res = await apis.get("/exhibition");
+    console.log("처음 받아오는값", res);
     endRef.current = res.data.paginationInfo.hasNextPage;
     if (res.data) {
       setList((prev) => [...prev, ...res.data.exhibitionList.rows]);
@@ -61,6 +62,7 @@ function Exhibition() {
   const getItem = useCallback(async () => {
     setLoad(true);
     const res = await apis.get(`/exhibition?limit=1&offset=${page}`);
+    console.log("무한스크롤으로 받아오는 값", res);
     endRef.current = res.data.paginationInfo.hasNextPage;
     if (res.data) {
       setList((prev) => [...prev, { ...res.data.exhibitionList.rows[0] }]);
