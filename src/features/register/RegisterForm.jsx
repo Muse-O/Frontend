@@ -10,6 +10,7 @@ import {
   emailValidation,
   pwValidation,
   nicknameValidation,
+  registerHandler,
 } from "./registerValidate";
 
 function RegisterForm() {
@@ -31,31 +32,6 @@ function RegisterForm() {
     });
   };
 
-  //회원가입 버튼 클릭시 useRegister에 payload(registerInfo) 전달
-  const registerHandler = e => {
-    //빈 값이 아닐때 register에 payload 보내기
-    if (registerInfo.email === "") {
-      alert("이메일을 입력해주세요.");
-      e.preventDefault();
-    } else if (registerInfo.password === "") {
-      alert("비밀번호를 입력해주세요.");
-      e.preventDefault();
-    } else if (registerInfo.nickname === "") {
-      alert("닉네임을 입력해주세요.");
-      e.preventDefault();
-    } else if (registerInfo.nickname.length < 2) {
-      e.preventDefault();
-      alert("닉네임을 2글자 이상 입력해주세요.");
-      //이메일 중복체크 확인 후 register에 payload 보내기
-    } else if (checkEmailConfirm === false) {
-      e.preventDefault();
-      alert("이메일 중복확인을 진행해주세요.");
-    } else if (checkEmailConfirm === true) {
-      e.preventDefault();
-      register(registerInfo);
-    }
-  };
-
   return (
     <Flex as="form" fd="column" gap="10">
       <Link to="/">로고 자리(메인으로 돌아감)</Link>
@@ -74,7 +50,13 @@ function RegisterForm() {
       <input type="text" name="nickname" onChange={changeInputHandler} />
       <div>{nicknameValidation(registerInfo.nickname)}</div>
 
-      <button onClick={registerHandler}>회원가입</button>
+      <button
+        onClick={e =>
+          registerHandler(e, registerInfo, checkEmailConfirm, register)
+        }
+      >
+        회원가입
+      </button>
     </Flex>
   );
 }
