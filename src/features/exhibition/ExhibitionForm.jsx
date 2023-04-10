@@ -13,8 +13,10 @@ import {
 import { useGetimgurlEx } from "../../hooks/exhibition/useGetimgurlEx";
 import { useMakeUrl, useThumbnailUrl } from "../../hooks/exhibition/useMakeUrl";
 import { v4 as uuidv4 } from "uuid";
+import { useDropzone } from "react-dropzone";
 
 function ExhibitionForm() {
+  const sourceUrl = "exhibition";
   const [authorName, setAuthorName] = useState("");
   //유저 순서.
   const authorid = useRef(0);
@@ -29,7 +31,7 @@ function ExhibitionForm() {
     exhibitionCode: "",
     entranceFee: "",
     artWorkCnt: "",
-    agencyAndsponsor: "",
+    agencyAndSponsor: "",
     location: "",
     contact: "",
     authors: [],
@@ -87,7 +89,7 @@ function ExhibitionForm() {
       setAuthorName(value);
       const newarr = [...exhibition.authors];
       newarr.splice(authorid.current, 1, {
-        order: authorid.current + 1,
+        order: (authorid.current + 1).toString(),
         author: value,
       });
       setExhibition((old) => {
@@ -131,37 +133,88 @@ function ExhibitionForm() {
       });
     }
   };
-
-  // Drag&Drop files state 관리 및 화면에 미리보기,url생성기 상세이미지용
-  const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
   useEffect(() => {
     // 마운트 해제시, 데이터 url 취소
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);
-  // Drag&Drop state(files)를 AWS S3에 업로드하여 url 받아내고, newImageUrls state에 입력하기
+
+  // Drag&Drop files state 관리 및 화면에 미리보기,url생성기 상세이미지용
+  const order = useRef(1);
+  const [files, setFiles] = useState([]);
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: {
+      "image/*": [],
+    },
+    onDrop: (acceptedFiles) => {
+      setFiles((old) => {
+        return [
+          ...old,
+          ...acceptedFiles.map((file) =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file),
+            })
+          ),
+        ];
+      });
+      const artImage = acceptedFiles.map((file, index) => {
+        const fileName = `${sourceUrl}/${uuidv4()}-${file.name}`;
+        const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
+        const newObject = {
+          order: order.current.toString(),
+          imgUrl: newimageUrl,
+          imgCaption: "이미지 내용",
+        };
+        order.current++;
+        return newObject;
+      });
+      setExhibition((old) => {
+        return {
+          ...old,
+          artImage: artImage,
+        };
+      });
+    },
+  });
   // URL받아내기
-  const sourceUrl = "exhibition";
-  const [imgurls, imgurlhandle] = useMakeUrl(files);
-  useEffect(() => {
-    imgurlhandle();
-  }, [files]);
+  // const [imgurls, imgurlhandle] = useMakeUrl(files);
+
   //섬네일용이미지 url 값 생성기.
-  const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
-    useDropzoneinputPostEx();
-  const [imgurlsPOST, imgurlhandlePOST] = useThumbnailUrl(postfiles);
-  useEffect(() => {
-    imgurlhandlePOST();
-  }, [postfiles]);
+  // const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
+  //   useDropzoneinputPostEx();
+  const [postfiles, setPostFiles] = useState([]);
+  const { getRootProps: getRootPropsPOST, getInputProps: getInputPropsPOST } =
+    useDropzone({
+      accept: {
+        "image/*": [],
+      },
+      maxFiles: 1,
+      onDrop: (acceptedFiles) => {
+        setPostFiles(
+          acceptedFiles.map((file) =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file),
+            })
+          )
+        );
+        console.log("acceptedFiles", acceptedFiles);
+        const fileName = `${sourceUrl}/${uuidv4()}-${acceptedFiles[0].name}`;
+        const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
+        setExhibition((old) => {
+          return {
+            ...old,
+            postImage: newimageUrl,
+          };
+        });
+      },
+    });
+
   //s3올리기
-  let allFile = [...files, ...postfiles];
-  const [s3imgurlhandle] = useGetimgurlEx(allFile);
+  let allFiles = [...files, ...postfiles];
+  const [s3imgurlhandle] = useGetimgurlEx(allFiles);
   //제출하기
   const submitHandler = (event) => {
     event.preventDefault();
     s3imgurlhandle(sourceUrl);
-    setExhibition((pre) => {
-      return { ...pre, artImage: imgurls, postImage: imgurlsPOST };
-    });
     createExhibition(exhibition);
   };
   console.log("전시회", exhibition);
@@ -262,8 +315,8 @@ function ExhibitionForm() {
         <div>스폰서</div>
         <input
           onChange={onchangeHandler}
-          value={exhibition.agencyAndsponsor}
-          name="agencyAndsponsor"
+          value={exhibition.agencyAndSponsor}
+          name="agencyAndSponsor"
           type="text"
           placeholder="후원"
         />

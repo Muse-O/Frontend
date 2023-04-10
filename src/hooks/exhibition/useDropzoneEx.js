@@ -9,7 +9,6 @@ export const useDropzoneinputEx = () => {
       "image/*": [],
     },
     onDrop: (acceptedFiles) => {
-      // console.log("acceptedFiles상세페이지용", acceptedFiles);
       setFiles((old) => {
         return [
           ...old,
@@ -35,7 +34,6 @@ export const useDropzoneinputPostEx = () => {
     },
     maxFiles: 1,
     onDrop: (acceptedFiles) => {
-      console.log("acceptedFiles썸네일용", acceptedFiles);
       setPostFiles(
         acceptedFiles.map((file) =>
           Object.assign(file, {
@@ -45,6 +43,5 @@ export const useDropzoneinputPostEx = () => {
       );
     },
   });
-  // console.log("내부URL", files);
   return [postfiles, setPostFiles, getRootProps, getInputProps];
 };
