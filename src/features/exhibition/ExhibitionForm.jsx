@@ -27,7 +27,7 @@ function ExhibitionForm() {
     artImage: [],
     exhibitionDesc: "",
     exhibitionCode: "",
-    entranceFee: 0,
+    entranceFee: "",
     artWorkCnt: "",
     agencyAndsponsor: "",
     location: "",
@@ -79,15 +79,6 @@ function ExhibitionForm() {
   };
   //리액트 쿼리.
   const [createExhibition] = usePostExhibition();
-  //제출하기
-  const submitHandler = (event) => {
-    event.preventDefault();
-    // const newImageUrls = s3imgurlhandle();
-    setExhibition((pre) => {
-      return { ...pre, artImage: imgurls, postImage: imgurlsPOST };
-    });
-    // createExhibition(exhibition);
-  };
   //헨들러
   const onchangeHandler = (event) => {
     const { value, name } = event.target;
@@ -118,6 +109,14 @@ function ExhibitionForm() {
     //입장료
     else if (name === "entranceFee") {
       setExhibition((old) => {
+        const regex = /^[0-9,]*$/;
+        if (!regex.test(value)) {
+          const sanitizedValue = value.replace(/[^0-9,]/g, "");
+          return {
+            ...old,
+            entranceFee: sanitizedValue,
+          };
+        }
         const removedCommaValue = Number(value.replaceAll(",", ""));
         return {
           ...old,
@@ -141,7 +140,6 @@ function ExhibitionForm() {
   }, []);
   // Drag&Drop state(files)를 AWS S3에 업로드하여 url 받아내고, newImageUrls state에 입력하기
   // URL받아내기
-  const [urls, setUrls, s3imgurlhandle] = useGetimgurlEx(files);
   const sourceUrl = "exhibition";
   const [imgurls, imgurlhandle] = useMakeUrl(files);
   useEffect(() => {
@@ -154,12 +152,23 @@ function ExhibitionForm() {
   useEffect(() => {
     imgurlhandlePOST();
   }, [postfiles]);
-  console.log("postfiles섬네일", postfiles);
+  //s3올리기
+  let allFile = [...files, ...postfiles];
+  const [s3imgurlhandle] = useGetimgurlEx(allFile);
+  //제출하기
+  const submitHandler = (event) => {
+    event.preventDefault();
+    s3imgurlhandle(sourceUrl);
+    setExhibition((pre) => {
+      return { ...pre, artImage: imgurls, postImage: imgurlsPOST };
+    });
+    createExhibition(exhibition);
+  };
   console.log("전시회", exhibition);
   return (
     <Flex as="form" onSubmit={submitHandler} fd="column" gap="10">
       <Box>
-        <h1>작성구역. 카카오 지도 api가지고 오기</h1>
+        <p style={{ color: "red" }}>작성구역. 카카오 지도 api가지고 오기</p>
         <button type="button" onClick={handleClick}>
           주소 검색
         </button>
@@ -230,7 +239,7 @@ function ExhibitionForm() {
         </ThumbsContainer>
       </DIV2>
       <DIV>
-        <div>제목</div>
+        <div style={{ color: "red" }}>제목</div>
         <input
           onChange={onchangeHandler}
           value={exhibition.exhibitionTitle}
@@ -265,7 +274,6 @@ function ExhibitionForm() {
           onChange={onchangeHandler}
           value={exhibition.entranceFee}
           name="entranceFee"
-          placeholder="관람료"
           maxLength={7}
         />
       </DIV>
@@ -280,14 +288,14 @@ function ExhibitionForm() {
         />
       </DIV>
       <DIV>
-        <div>시작일</div>
+        <div style={{ color: "red" }}>시작일</div>
         <input
           onChange={onchangeHandler}
           value={exhibition.startDate}
           name="startDate"
           type="date"
         />
-        <div>종료일</div>
+        <div style={{ color: "red" }}>종료일</div>
         <input
           onChange={onchangeHandler}
           value={exhibition.endDate}
@@ -296,7 +304,7 @@ function ExhibitionForm() {
         />
       </DIV>
       <DIV>
-        <div>상세내용</div>
+        <div style={{ color: "red" }}>상세내용</div>
         <input
           onChange={onchangeHandler}
           value={exhibition.exhibitionDesc}
@@ -316,8 +324,9 @@ function ExhibitionForm() {
         />
       </DIV>
       <DIV>
-        <div>전시회 종류</div>
+        <div style={{ color: "red" }}>전시회 종류</div>
         <select name="exhibitionCode" onChange={onchangeHandler}>
+          <option>선택해 주세요</option>
           <option value="ES0001">개인전</option>
           <option value="ES0002">다인전</option>
         </select>
