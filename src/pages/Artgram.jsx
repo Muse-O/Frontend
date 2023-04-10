@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Header from "../components/Header";
 import { Article, Wrap } from "../shared/GlobalStyled";
 // import { useGetartgram } from "../hooks/artgram/useGetartgram";
@@ -10,6 +10,7 @@ import { useGetartgraminfinity } from "../hooks/artgram/useGetartgraminfinity";
 
 
 const Artgram = () => {
+  // forwardRef((props, ref)
   // 아트그램 GET 관련 --------------------------------------------------------------------------------------------- //
   // const [isLoading, isError, allArtgram] = useGetartgram()
   const {data,isLoading,isError,fetchNextPage,hasNextPage} = useGetartgraminfinity()
@@ -24,7 +25,28 @@ const Artgram = () => {
   const [modalArtgramId, modalState, setModalState, openModalhandle] = useOpenModal()
 
   // 아트그램 무한스크롤 관련 ---------------------------------------------------------------------------------------- //
+  const lastRef = useRef(null)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          console.log("마지막입니다");
+          // fetchNextPage()
+        }
+      },
+      { threshold: 0.4 }
+    );
 
+    if (lastRef.current) {
+      observer.observe(lastRef.current);
+    }
+
+    return () => {
+      if (lastRef.current) {
+        observer.unobserve(lastRef.current);
+      }
+    };
+  }, []);
 
   // 아트그램 GET 관련:에러 핸들링 ----------------------------------------------------------------------------------- //
   if(isLoading || isError) {
@@ -50,22 +72,22 @@ const Artgram = () => {
                 profileNickname,
                 ArtgramImgs,
               }) => {
-                return (
-                  <ArgramBox
-                    key={artgramId}
-                    pos={{
-                      artgramId,
-                      profileImg,
-                      artgramTitle,
-                      artgramDesc,
-                      createdAt,
-                      profileNickname,
-                      ArtgramImgs,
-                      openModalhandle,
-                    }}
-                  />
-                );
-               }
+                  return (
+                    <ArgramBox
+                      key={artgramId}
+                      pos={{
+                        artgramId,
+                        profileImg,
+                        artgramTitle,
+                        artgramDesc,
+                        createdAt,
+                        profileNickname,
+                        ArtgramImgs,
+                        openModalhandle,
+                      }}
+                    />
+                  );
+              }
             )}
           </Artgramparts.MainFlex>
         </Wrap>
@@ -85,7 +107,7 @@ const Artgram = () => {
           </>
         )}
         {hasNextPage && (
-          <button onClick={() => fetchNextPage()} disabled={isLoading}>
+          <button style={{zIndex:"-1"}} ref={lastRef} onClick={() => fetchNextPage()} disabled={isLoading}>
             {isLoading ? "로딩 중..." : "더 불러오기"}
           </button>
         )}
