@@ -89,10 +89,14 @@ const HashTagText = styled.span`
 `;
 
 const HashTagButton = styled.button`
-  margin-left: 4px;
+  position: relative;
+  margin-left: 8px;
+  bottom: 3px;
   border: none;
-  background-color: transparent;
-  color: #666;
+  background-color:transparent;
+  border-radius: 50px;
+  color: #ff5100;
+  font-weight: 900;
   cursor: pointer;
 
   &:hover {

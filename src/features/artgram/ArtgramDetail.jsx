@@ -8,6 +8,7 @@ import * as Artgramparts from "./Artgramparts";
 // import {BiDotsHorizontalRounded} from 'react-icons/bi'
 import { useGetartgramComments } from "../../hooks/artgram/useGetartgramComments";
 import { decodetoken } from "../../shared/cookies";
+import { usePostingtime } from "../../hooks/artgram/usePostingtime";
 
 function ArtgramDetail(pos) {
   const { allArtgram, modalState, setModalState } = pos.pos;
@@ -17,13 +18,12 @@ function ArtgramDetail(pos) {
   const [isLoading, isError, data] = useGetartgramComments(
     allArtgram.artgramId
   );
-  console.log(decodetoken.email);
-
+  const [timehandle] = usePostingtime()  
 
   if (isLoading || isError) {
     return <div>로딩 중....</div>;
   }
-
+  
   return (
     <>
       {/* 상세모달페이지 바깥배경 ---------------------------------------------------------------------- */}
@@ -90,6 +90,7 @@ function ArtgramDetail(pos) {
                   </Flex>
                   <div>
                     <p>{comment.comment}</p>
+                    <p>{timehandle(comment.createdAt)}</p>
                   </div>
                 </Flex>
               </Modal.ModalInner>
