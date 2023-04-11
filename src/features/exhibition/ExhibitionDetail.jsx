@@ -1,9 +1,10 @@
 import React from "react";
 import { useDetailGetExibition } from "../../hooks/exhibition/useDetailGetExibition";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-function ExhibitionDetail({ id }) {
+function ExhibitionDetail() {
+  const { id } = useParams();
   const navigator = useNavigate();
   const [data, isLoading, isError] = useDetailGetExibition(id);
   const info = data?.exhibitionInfo;
