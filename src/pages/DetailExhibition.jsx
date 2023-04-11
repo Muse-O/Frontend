@@ -6,12 +6,11 @@ import { useDetailGetExibition } from "../hooks/exhibition/useDetailGetExibition
 import ExhibitionDetail from "../features/exhibition/ExhibitionDetail";
 
 function DetailExhibition() {
-  const { id } = useParams();
   return (
     <>
       <Header />
       <Article>
-        <ExhibitionDetail id={id} />
+        <ExhibitionDetail />
       </Article>
     </>
   );

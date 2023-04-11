@@ -1,21 +1,29 @@
 import React from "react";
 import { useDetailGetExibition } from "../../hooks/exhibition/useDetailGetExibition";
 import styled from "styled-components";
+import { useNavigate, useParams } from "react-router-dom";
 
-function ExhibitionDetail({ id }) {
+function ExhibitionDetail() {
+  const { id } = useParams();
+  const navigator = useNavigate();
   const [data, isLoading, isError] = useDetailGetExibition(id);
   const info = data?.exhibitionInfo;
   if (isLoading) {
     return <div>로딩중</div>;
   }
-
+  console.log(info);
   return (
     <>
+      <button
+        onClick={() => navigator(`/exhibition/update/${info.exhibitionId}`)}
+      >
+        수정하기
+      </button>
       {info && (
         <>
           <DIV>
             <P>주소</P>
-            <div>우편번호{info.ExhibitionAddress.zonecode}</div>
+            <div>우편번호{info?.ExhibitionAddress.zonecode}</div>
             <span>
               <P>도로명 주소:</P>
               {info.ExhibitionAddress.address}
