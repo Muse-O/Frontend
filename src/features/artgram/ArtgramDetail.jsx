@@ -10,8 +10,14 @@ import { useGetartgramComments } from "../../hooks/artgram/useGetartgramComments
 import { decodetoken } from "../../shared/cookies";
 import { usePostingtime } from "../../hooks/artgram/usePostingtime";
 
-function ArtgramDetail(pos) {
-  const { allArtgram, modalState, setModalState } = pos.pos;
+// 이미지슬라이더를 위한 
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
+
+function ArtgramDetail({pos}) {
+  const { allArtgram, modalState, setModalState } = pos;
   // 아트그램 상세모달페이지: 댓글 POST 관련 --------------------------------------------------------------------------- //
   const [formState, setFormState, handleInputChange] = useFormInput();
   const [commentHandle] = usePostcomments(setFormState);
@@ -20,9 +26,17 @@ function ArtgramDetail(pos) {
   );
   const [timehandle] = usePostingtime()  
 
+  const settings = {
+    // dots: true,
+    // speed: 500, // 속도조절
+    slidesToShow: 1, // 화면에 보여지는 슬라이더의 수 
+    slidesToScroll: 1, // 한번에 넘길 슬라이더이더의 수 
+  };
+
   if (isLoading || isError) {
     return <div>로딩 중....</div>;
   }
+  console.log(data);
   
   return (
     <>
@@ -80,7 +94,7 @@ function ArtgramDetail(pos) {
             >
               {/* -------------------------- 댓글 map 관련 부분 */}
               {data && data.map(comment => (
-                <Modal.ModalInner >
+                <Modal.ModalInner key={comment.commentId}>
                 <div>
                   <Artgramparts.ProflieBox url={comment.profileImg} />
                 </div>

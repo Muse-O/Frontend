@@ -16,7 +16,7 @@ function ArtgramForm() {
 
   // Form의 input state 관리(제목과 내용, 그리고 해시태그)
   const [formState, setFormState, handleInputChange] = useFormInput();
-  const [hashTag, setHashTag] = useState([]);
+  const [hashtag, setHashTag] = useState([]);
 
   // Drag&Drop files state 관리 및 화면에 미리보기 제어   ----------------------------------------------------- //
   const [files, setFiles, getRootProps, getInputProps] = useDropzoneinput()
@@ -32,7 +32,7 @@ function ArtgramForm() {
     event.preventDefault();
     const { artgramTitle, artgramDesc } = formState;
     const newImageUrls = s3imgurlhandle();
-    postArtgrams({ artgramTitle, artgramDesc, hashTag, imgUrl: newImageUrls });
+    postArtgrams({ artgramTitle, artgramDesc, hashtag, imgUrl: newImageUrls });
     setFiles([]);
     setFormState({});
   };
@@ -55,7 +55,7 @@ function ArtgramForm() {
         ))}
         <HashTagInput
           label="해시태그"
-          hashTag={hashTag}
+          hashTag={hashtag}
           setHashTag={setHashTag}
         />
         {/* dropzone 라이브러리를 활용한 type:file 업로드 -------------------------------------------------- */}

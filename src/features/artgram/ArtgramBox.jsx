@@ -2,6 +2,7 @@ import React from 'react'
 import {BsHeartFill} from 'react-icons/bs' 
 import * as Artgramparts from './Artgramparts'
 import { usePostingtime } from '../../hooks/artgram/usePostingtime'
+import {IoMdImages} from 'react-icons/io'
 
 const ArgramBox = ({pos}) => {
   // GET : allArtgram.Posting 의 시간을 구하는 커스텀 훅
@@ -14,6 +15,7 @@ const ArgramBox = ({pos}) => {
     profileNickname,
     ArtgramImgs,
     openModalhandle,
+    artgramCommentCount
   } = pos;
   const [timehandle] = usePostingtime()  
   return (
@@ -23,13 +25,14 @@ const ArgramBox = ({pos}) => {
       onClick={() => openModalhandle(artgramId)}
     >
       <Artgramparts.Img
-        src={ArtgramImgs && ArtgramImgs[0].imgUrl}
+        src={ArtgramImgs && ArtgramImgs[0]?.imgUrl}
       />
       <Artgramparts.H1 fs="2rem" children={artgramTitle} />
       <Artgramparts.Desc children={artgramDesc} />
-      <Artgramparts.Posting
-        children={`${timehandle(createdAt)} ･ 22개의 댓글`}
-      />
+      {artgramCommentCount ? (<Artgramparts.Posting
+        children={`${timehandle(createdAt)}  ･ 댓글 ${artgramCommentCount}개`}/>) :
+      (<Artgramparts.Posting
+        children={`${timehandle(createdAt)}` }/>)}
       <Artgramparts.UserFlex>
         <Artgramparts.ProflieBox url={profileImg} />
         <Artgramparts.Nickname
@@ -50,6 +53,7 @@ const ArgramBox = ({pos}) => {
           }
         />
       </Artgramparts.UserFlex>
+    {ArtgramImgs.length > 1 && (<Artgramparts.PluralImgs children={<p><IoMdImages/></p>}/>)}
     </Artgramparts.Artgrambox>
   )
 }
