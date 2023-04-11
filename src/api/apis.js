@@ -14,7 +14,8 @@ export const apis_token = axios.create({
 apis_token.interceptors.request.use(
   // 요청을 보내기 전 수행되는 함수
   function (config) {
-    const token = cookies.get("token");
+    //TODOaccess_token이라고 사용. 나중에 수정 해야함
+    const token = cookies.get("access_token");
     //서버에서 token값만 받기로 함 -> Bearer 추가하여 header에 보낼 것.
     config.headers.Authorization = `Bearer ${token}`;
     return config;

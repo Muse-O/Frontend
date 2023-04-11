@@ -6,13 +6,11 @@ export const useDetailGetExibition = (id) => {
   const { data, isLoading, isError } = useQuery({
     queryKey: keys.GET_EXHIBITION,
     queryFn: async () => {
-      const res = await apis.get(`/exhibition/${id}`);
+      const res = await apis.get(`/exhibition/view/${id}`);
       return res.data;
     },
     retry: 1,
-    onSuccess: (data) => {
-      console.log("요청성공");
-    },
+    onSuccess: (data) => {},
     onError: (e) => {
       console.log("에러", e.message);
     },
