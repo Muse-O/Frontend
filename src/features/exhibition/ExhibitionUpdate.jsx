@@ -10,6 +10,7 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
 import styled from "styled-components";
 import { usePatchExhibition } from "../../hooks/exhibition/usePatchExhibition";
+import { useDeleteExhibition } from "../../hooks/exhibition/useDeleteExhbition";
 function ExhibitionUpdate() {
   const navigator = useNavigate();
   const { id } = useParams();
@@ -237,7 +238,7 @@ function ExhibitionUpdate() {
     });
   //s3올리기
   const s3imgurlhandle = (sourceUrl) => {
-    files.forEach((file) => {
+    files?.forEach((file) => {
       const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
       const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
       const newObject = {
@@ -298,12 +299,22 @@ function ExhibitionUpdate() {
     s3imgurlhandle(sourceUrl);
     updateExhibition({ ...exhibition, postImage: posturl, artImage: urls });
   };
-  console.log("카탈로그", exhibition.exhibitionCategoty);
+  //삭제 버튼
+  const [deleteExhibition] = useDeleteExhibition();
+  const deleteHandler = () => {
+    if (window.confirm("정말 이 게시글을 삭제합니까?")) {
+      deleteExhibition(id);
+      navigator("/exhibition");
+    } else {
+      alert("취소합니다.");
+    }
+  };
   return (
     <>
       {data && (
         <>
           <Flex as="form" onSubmit={submitHandler} fd="column" gap="10">
+            <button onClick={deleteHandler}>삭제</button>
             <Box>
               <p style={{ color: "red" }}>
                 작성구역. 카카오 지도 api가지고 오기
@@ -478,7 +489,7 @@ function ExhibitionUpdate() {
               </select>
               <div>전시회 카테고리</div>
             </DIV>
-            <button>수정완료</button>
+            <button type="submit">수정완료</button>
           </Flex>
         </>
       )}
