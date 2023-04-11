@@ -9,8 +9,8 @@ export const usePostingtime = (allArtgramList) => {
     .split("T")[1]
     .split(".")[0]
     .split("+")[0];
-  const createDate = createdAt.split("T")[0];
-  const createTime = createdAt.split("T")[1].split(".")[0]; // 2023-04-05
+  const createDate = createdAt?.split("T")[0];
+  const createTime = createdAt?.split("T")[1].split(".")[0]; // 2023-04-05
   const gaphour = `${dayjs(`${currentDate} ${currentTime}`).diff(
     dayjs(`${createDate} ${createTime}`),
     "hour"

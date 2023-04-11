@@ -39,6 +39,7 @@ const Artgrambox = styled(Flex)`
   max-height:436px;
   background-color:rgb(240, 240, 240);
   border-radius: 8px;
+  position: relative;
 `
 
 const Img = styled.img`
@@ -114,6 +115,27 @@ const Likes = styled.div`
   }
 `
 
+const PluralImgs = styled.div`
+  position: absolute;
+  top:8px;
+  right: 8px;
+  min-width: 50px;
+  max-width: 50px;
+  min-height: 50px;
+  max-height: 50px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: yellow;
+  
+  p{
+    position: relative;
+    top: 2px;
+    font-size: 3.5rem;
+  }
+`
+
 export {
   ArtgramWrap,
   H1,
@@ -126,5 +148,6 @@ export {
   Desc,
   ProflieBox,
   Nickname,
-  Likes
+  Likes,
+  PluralImgs
 }
