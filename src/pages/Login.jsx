@@ -1,18 +1,7 @@
 import React from "react";
-import LoginForm from "../features/login/LoginForm";
 
 function Login() {
-  return (
-    <div
-      style={{
-        width: "300px",
-        margin: "0 auto",
-        marginTop: "150px",
-      }}
-    >
-      <LoginForm />
-    </div>
-  );
+  return <div>Login</div>;
 }
 
 export default Login;

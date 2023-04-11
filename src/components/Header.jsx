@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Flex } from "./Flex";
 import { useNavigate } from "react-router-dom";
-import Logout from "../features/login/Logout";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); //로그인/로그아웃 상태관리
   const navigate = useNavigate();
 
   return (
@@ -75,10 +73,6 @@ function Header() {
           회원가입 페이지
         </button>
 
-        <div>
-          {isLoggedIn ? <Logout setIsLoggedIn={setIsLoggedIn} /> : null}
-        </div>
-
         <FootingArea>푸터 컨탠츠</FootingArea>
       </Flex>
     </Headerwrap>
@@ -93,8 +87,7 @@ const Headerwrap = styled.header`
   bottom: 0;
   width: 245px;
   z-index: 10100;
-  /* border: 5px solid red; */
-  background-color: lightgray;
+  border: 5px solid red;
 `;
 
 const FootingArea = styled.div`
