@@ -6,7 +6,9 @@ import { AiOutlineCamera } from "react-icons/ai";
 import { useGetimgurl } from "../../hooks/mypage/useGetImgUrl";
 
 function UpdateUserProfileModal({ setOpenModal }) {
-  //모달 open 관리
+  /**
+   * 모달 open 관리
+   */
   const updateModalCloseHandler = () => {
     setOpenModal(false);
   };
@@ -17,7 +19,9 @@ function UpdateUserProfileModal({ setOpenModal }) {
 
   //이미지 파일을 가져오기 위한 useRef
   const fileRef = useRef(null);
-  // console.log(fileRef.current.files[0]); //파일 찍히는지 확인
+
+  //이미지 미리보기를 위한 state
+  const [image, setImage] = useState("");
 
   //기존에 저장돼있던 input값 보여주기
   const [editProfile, setEditProfile] = useState({
@@ -26,7 +30,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
     introduction: userProfile?.introduction,
   });
 
-  //setEditProfile에 name: value 형식으로 input값 넣기
+  //setEditProfile에 name: value 형식으로 input값 넣기(nickname, introduction)
   const changeInputHandler = event => {
     const { value, name } = event.target;
     setEditProfile(pre => ({ ...pre, [name]: value }));
@@ -38,7 +42,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
     e.preventDefault();
     //update query에 payload로 넣어줄 fileImg = useRef 사용해서 받아둔 파일
     const fileImg = s3imgurlhandle(fileRef.current.files[0]);
-    console.log(fileImg, "img");
+    // console.log(fileImg, "img"); //파일 확인
     updateUserProfile({ ...editProfile, profileImg: fileImg });
     setOpenModal(false);
   };
@@ -47,6 +51,18 @@ function UpdateUserProfileModal({ setOpenModal }) {
     fileRef.current.click();
   };
 
+  /**
+   * 이미지를 선택하고 선택한 이미지를 미리보여주는 로직
+   */
+  const changeImageHandler = () => {
+    let fileReader = new FileReader();
+    let previewImg = fileRef.current.files[0];
+    setImage(previewImg);
+    fileReader.readAsDataURL(previewImg);
+    fileReader.onloadend = () => {
+      setImage(fileReader.result);
+    };
+  };
   return (
     <StUserProfileModal>
       <button onClick={updateModalCloseHandler}>닫기</button>
@@ -54,12 +70,17 @@ function UpdateUserProfileModal({ setOpenModal }) {
       <StImgBox>
         <ProfileImg
           name="profileImg"
-          src={editProfile.profileImg}
+          src={image === "" ? editProfile.profileImg : image}
           alt="userProfileImg"
-          onChange={changeInputHandler}
         />
+
         {/* input 숨기기 */}
-        <Stinput type="file" ref={fileRef} accept="image/*" />
+        <Stinput
+          type="file"
+          ref={fileRef}
+          accept="image/*"
+          onChange={changeImageHandler}
+        />
         <UpdateIcon onClick={imgUpdateHandler}>
           <AiOutlineCamera size="30" color="gray" />
         </UpdateIcon>
@@ -122,6 +143,12 @@ const ProfileImg = styled.img`
   border-radius: 50%;
 `;
 
+const PreviewImg = styled.img`
+  background-color: #2e2ede;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+`;
 const UpdateIcon = styled.button`
   background-color: white;
   border: 2px solid gray;
