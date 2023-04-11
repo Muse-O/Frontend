@@ -5,38 +5,30 @@ import * as Modal from "./ArtgramModal";
 import { Flex } from "../../components/Flex";
 import { Input } from "../../components/Input";
 import * as Artgramparts from "./Artgramparts";
-// import {BiDotsHorizontalRounded} from 'react-icons/bi'
 import { useGetartgramComments } from "../../hooks/artgram/useGetartgramComments";
-import { decodetoken } from "../../shared/cookies";
 import { usePostingtime } from "../../hooks/artgram/usePostingtime";
-
-// 이미지슬라이더를 위한 
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css"; 
-import "slick-carousel/slick/slick-theme.css";
-
+import ArtgramSlider from "./ArtgramSlider";
 
 function ArtgramDetail({pos}) {
   const { allArtgram, modalState, setModalState } = pos;
+    // 아트그램 상세모달페이지: 댓글 GET 관련 --------------------------------------------------------------------------- //
+    const [isLoading, isError, data] = useGetartgramComments(
+      allArtgram.artgramId
+    );
+    const [timehandle] = usePostingtime()  
+
   // 아트그램 상세모달페이지: 댓글 POST 관련 --------------------------------------------------------------------------- //
   const [formState, setFormState, handleInputChange] = useFormInput();
   const [commentHandle] = usePostcomments(setFormState);
-  const [isLoading, isError, data] = useGetartgramComments(
-    allArtgram.artgramId
-  );
-  const [timehandle] = usePostingtime()  
+  const onSubmitcomment = (e) => {
+      e.preventDefault()
+      commentHandle(e, allArtgram.artgramId, formState.comment)
+  }
 
-  const settings = {
-    // dots: true,
-    // speed: 500, // 속도조절
-    slidesToShow: 1, // 화면에 보여지는 슬라이더의 수 
-    slidesToScroll: 1, // 한번에 넘길 슬라이더이더의 수 
-  };
 
   if (isLoading || isError) {
     return <div>로딩 중....</div>;
   }
-  console.log(data);
   
   return (
     <>
@@ -47,7 +39,8 @@ function ArtgramDetail({pos}) {
         <Flex>
           {/* 상세모달페이지 (1) 이미지 삽입공간 --------------------------------------------------------- */}
           <Modal.ModalinnerImgDiv width="70%">
-            <Modal.ModdalinnerImg src={allArtgram.ArtgramImgs[0].imgUrl} />
+            <ArtgramSlider map={allArtgram.ArtgramImgs}/>
+
           </Modal.ModalinnerImgDiv>
           {/* 상세모달페이지 (2) 텍스트 공간 ------------------------------------------------------------ */}
           <Modal.ModalinnerDiv width="30%">
@@ -113,11 +106,7 @@ function ArtgramDetail({pos}) {
             </div>
             {/* 상세모달페이지 (2-4) artgram 댓글입력공간 ------------------------- */}
             <Modal.ModalCommentsBox>
-              <form
-                onSubmit={(e) =>
-                  commentHandle(e, allArtgram.artgramId, formState.comment)
-                }
-              >
+              <form onSubmit={onSubmitcomment}>
                 <Input
                   inputProps={{
                     type: "text",
@@ -138,3 +127,4 @@ function ArtgramDetail({pos}) {
 }
 
 export default ArtgramDetail;
+

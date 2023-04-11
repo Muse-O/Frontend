@@ -14,9 +14,9 @@ const Artgram = () => {
   const {data,isLoading,isError,fetchNextPage,hasNextPage} = useGetartgraminfinity()
   // useGetartgraminfinity의 결과로 가져온 data.pages를 하나의 배열로 만드는 로직 
   let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
-  // useGetartgraminfinity로 받아온 데이터를 화면에 따라서 감지하고 fetchNextPage() 실행하는 로직
-  console.log(merged)
-  // 04 intersection Observer API 설정하기 
+  
+
+  // intersection Observe --------------------------------------------------------------------------------------- //
   const lastRef = useRef(null)
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -43,12 +43,11 @@ const Artgram = () => {
   // 아트그램 상세모달페이지 관련 ------------------------------------------------------------------------------------- //
   const [modalArtgramId, modalState, setModalState, openModalhandle] = useOpenModal()
 
-
   // 아트그램 GET 관련:에러 핸들링 ----------------------------------------------------------------------------------- //
   if(isLoading || isError) {
     return <div>로딩 중....</div>
   }
-  // ----------------------------------------------------------------------------------------------------------- //
+  // Argram의 뷰 파트 --------------------------------------------------------------------------------------------- //
   return (
     <>
       <Header />

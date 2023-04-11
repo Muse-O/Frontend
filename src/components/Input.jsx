@@ -6,7 +6,7 @@ import { useHashTagInput } from "../hooks/artgram/useHashTagInput";
 export const Input = ({ label, inputProps }) => (
   <DivFlex>
     {label && <Label>{label}</Label>}
-    <StyledInput {...inputProps} onKeyPress={(e) => { if (e.key === 'Enter') e.preventDefault(); }}/>
+    <StyledInput {...inputProps}/>
   </DivFlex>
 );
 

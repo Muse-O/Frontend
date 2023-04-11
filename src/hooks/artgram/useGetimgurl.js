@@ -24,7 +24,6 @@ export const useGetimgurl =  (files) => {
       try {
         const response = s3Client.send(putCommand);
         const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-        console.log(response);
         urls.push(newimageUrl);
       } catch (err) {
         console.log(err.message);
