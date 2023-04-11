@@ -68,6 +68,9 @@ function ExhibitionUpdate() {
         order: (authorid.current + 1).toString(),
         author: info.ExhibitionAuthors[authorid.current].author_name,
       });
+      const newExCodeArr = info.ExhibitionCategories.map(
+        (item) => item.exhibition_code
+      );
       //TODO 디테일한 유효성 검사 필요
       setExhibition((prevExhibition) => ({
         ...prevExhibition,
@@ -83,7 +86,7 @@ function ExhibitionUpdate() {
         location: info.location,
         contact: info.contact,
         authors: newarr,
-        exhibitionCategoty: [info.ExhibitionCategories[0].exhibition_code],
+        exhibitionCategoty: newExCodeArr,
         detailLocation: {
           zonecode: ExAddress.zonecode,
           address: ExAddress.address,
@@ -293,7 +296,7 @@ function ExhibitionUpdate() {
       }
     });
   };
-  //제출하기
+  //수정하기
   const submitHandler = (event) => {
     event.preventDefault();
     s3imgurlhandle(sourceUrl);
@@ -309,6 +312,8 @@ function ExhibitionUpdate() {
       alert("취소합니다.");
     }
   };
+  console.log("받아온값", info);
+  console.log("exhibition", exhibition);
   return (
     <>
       {data && (

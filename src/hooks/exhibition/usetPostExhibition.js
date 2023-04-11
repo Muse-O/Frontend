@@ -11,6 +11,7 @@ export const usePostExhibition = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: keys.GET_EXHIBITION });
+      alert("생성완료");
     },
   });
 

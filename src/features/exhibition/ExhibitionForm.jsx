@@ -7,9 +7,11 @@ import { Flex } from "../../components/Flex";
 import { v4 as uuidv4 } from "uuid";
 import { useDropzone } from "react-dropzone";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { useNavigate } from "react-router-dom";
 
 function ExhibitionForm() {
   //쿼리
+  const navigator = useNavigate();
   const [createExhibition] = usePostExhibition();
   let posturl = "";
   let urls = [];
@@ -236,6 +238,7 @@ function ExhibitionForm() {
     event.preventDefault();
     s3imgurlhandle(sourceUrl);
     createExhibition({ ...exhibition, postImage: posturl, artImage: urls });
+    navigator("/exhibition");
   };
 
   return (
