@@ -9,6 +9,7 @@ export const useUpdateUserProfile = () => {
 
   const { mutate } = useMutation({
     mutationFn: async editProfile => {
+      // console.log(editProfile, "editProfile");
       const data = await apis.patch("/mypage", editProfile, {
         headers: {
           Authorization: `Bearer ${token}`,
