@@ -21,8 +21,7 @@ export const useDropzoneinputEx = () => {
       });
     },
   });
-  // console.log("내부URL", files);
-  return [files, setFiles, getRootProps, getInputProps];
+  return [files, getRootProps, getInputProps];
 };
 
 //섬네일용
@@ -32,16 +31,20 @@ export const useDropzoneinputPostEx = () => {
     accept: {
       "image/*": [],
     },
-    maxFiles: 1,
     onDrop: (acceptedFiles) => {
-      setPostFiles(
-        acceptedFiles.map((file) =>
-          Object.assign(file, {
-            preview: URL.createObjectURL(file),
-          })
-        )
-      );
+      if (acceptedFiles.length > 1) {
+        alert("섬네일은 1개만 가능합니다.");
+        return;
+      } else {
+        setPostFiles(
+          acceptedFiles.map((file) =>
+            Object.assign(file, {
+              preview: URL.createObjectURL(file),
+            })
+          )
+        );
+      }
     },
   });
-  return [postfiles, setPostFiles, getRootProps, getInputProps];
+  return [postfiles, getRootProps, getInputProps];
 };

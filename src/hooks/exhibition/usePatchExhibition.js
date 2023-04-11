@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { keys } from "../../shared/queryKeys";
 import { apis_token } from "../../api/apis";
-import { useNavigate } from "react-router-dom";
 
 export const usePatchExhibition = (id) => {
   const queryClient = useQueryClient();

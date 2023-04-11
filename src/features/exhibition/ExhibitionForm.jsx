@@ -4,23 +4,22 @@ import React, { useEffect, useRef, useState } from "react";
 import { usePostExhibition } from "../../hooks/exhibition/usetPostExhibition";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
-import { v4 as uuidv4 } from "uuid";
-import { useDropzone } from "react-dropzone";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { useNavigate } from "react-router-dom";
+import {
+  useGetPostimgurlEx,
+  useGetimgurlEx,
+} from "../../hooks/exhibition/useGetimgurlEx";
+import {
+  useDropzoneinputEx,
+  useDropzoneinputPostEx,
+} from "../../hooks/exhibition/useDropzoneEx";
 
 function ExhibitionForm() {
-  //쿼리
   const navigator = useNavigate();
   const [createExhibition] = usePostExhibition();
-  let posturl = "";
-  let urls = [];
   const sourceUrl = "exhibition";
   const authorid = useRef(0);
-  const order = useRef(1);
   const [authorName, setAuthorName] = useState("");
-  const [files, setFiles] = useState([]);
-  const [postfiles, setPostFiles] = useState([]);
   const [exhibition, setExhibition] = useState({
     startDate: "",
     endDate: "",
@@ -50,6 +49,13 @@ function ExhibitionForm() {
       roadnameEnglish: "",
     },
   });
+  //dropzoneinput의 file 관리
+  const [files, getRootProps, getInputProps] = useDropzoneinputEx();
+  const [postfiles, getRootPropsPOST, getInputPropsPOST] =
+    useDropzoneinputPostEx();
+  //s3이미지 제출,url얻어오기
+  const [urls, s3imgurlhandle] = useGetimgurlEx(files);
+  const [posturl, s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);
   //카카오 주소 api
   const open = useDaumPostcodePopup(process.env.REACT_APP_KAKAO_ADDRESS_URL);
   const handleClick = () => {
@@ -129,114 +135,19 @@ function ExhibitionForm() {
       });
     }
   };
+  // 마운트 해제시, 데이터 url 취소
   useEffect(() => {
-    // 마운트 해제시, 데이터 url 취소
     return () => {
       files.forEach((file) => URL.revokeObjectURL(file.preview));
       postfiles.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   }, []);
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: {
-      "image/*": [],
-    },
-    onDrop: (acceptedFiles) => {
-      setFiles((old) => {
-        return [
-          ...old,
-          ...acceptedFiles.map((file) =>
-            Object.assign(file, {
-              preview: URL.createObjectURL(file),
-            })
-          ),
-        ];
-      });
-    },
-  });
 
-  //섬네일용이미지 url 값 생성기.
-  const { getRootProps: getRootPropsPOST, getInputProps: getInputPropsPOST } =
-    useDropzone({
-      accept: {
-        "image/*": [],
-      },
-      // maxFiles: 1,
-      onDrop: (acceptedFiles) => {
-        if (acceptedFiles.length > 1) {
-          alert("섬네일은 1개만 가능합니다.");
-          return;
-        } else {
-          setPostFiles(
-            acceptedFiles.map((file) =>
-              Object.assign(file, {
-                preview: URL.createObjectURL(file),
-              })
-            )
-          );
-        }
-      },
-    });
-  //s3올리기
-  const s3imgurlhandle = (sourceUrl) => {
-    files.forEach((file) => {
-      const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
-      const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-      const newObject = {
-        order: order.current.toString(),
-        imgUrl: newimageUrl,
-        imgCaption: "이미지 내용",
-      };
-      order.current++;
-      urls.push(newObject);
-      const fileType = file.type;
-      const s3Client = new S3Client({
-        credentials: {
-          accessKeyId: process.env.REACT_APP_AccessKey,
-          secretAccessKey: process.env.REACT_APP_SecretAccessKey,
-        },
-        region: process.env.REACT_APP_BucketRegion,
-      });
-      const putCommand = new PutObjectCommand({
-        Bucket: process.env.REACT_APP_BucketName,
-        Key: fileName,
-        Body: file,
-        ContentType: fileType,
-      });
-      try {
-        const response = s3Client.send(putCommand);
-      } catch (err) {
-        console.log(err.message);
-      }
-    });
-    postfiles.forEach((file) => {
-      const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
-      const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-      posturl = newimageUrl;
-      const fileType = file.type;
-      const s3Client = new S3Client({
-        credentials: {
-          accessKeyId: process.env.REACT_APP_AccessKey,
-          secretAccessKey: process.env.REACT_APP_SecretAccessKey,
-        },
-        region: process.env.REACT_APP_BucketRegion,
-      });
-      const putCommand = new PutObjectCommand({
-        Bucket: process.env.REACT_APP_BucketName,
-        Key: fileName,
-        Body: file,
-        ContentType: fileType,
-      });
-      try {
-        const response = s3Client.send(putCommand);
-      } catch (err) {
-        console.log(err.message);
-      }
-    });
-  };
   //제출하기
   const submitHandler = (event) => {
     event.preventDefault();
     s3imgurlhandle(sourceUrl);
+    s3Postimgurlhandle(sourceUrl);
     createExhibition({ ...exhibition, postImage: posturl, artImage: urls });
     navigator("/exhibition");
   };
@@ -299,19 +210,18 @@ function ExhibitionForm() {
           </DragIcon>
         </Section>
         <ThumbsContainer>
-          {files &&
-            files.map((file) => (
-              <Thumb key={file.name}>
-                <ThumbInner>
-                  <Thumbimg
-                    src={file.preview}
-                    onLoad={() => {
-                      URL.revokeObjectURL(file.preview);
-                    }}
-                  />
-                </ThumbInner>
-              </Thumb>
-            ))}
+          {files?.map((file) => (
+            <Thumb key={file.name}>
+              <ThumbInner>
+                <Thumbimg
+                  src={file.preview}
+                  onLoad={() => {
+                    URL.revokeObjectURL(file.preview);
+                  }}
+                />
+              </ThumbInner>
+            </Thumb>
+          ))}
         </ThumbsContainer>
       </DIV2>
       <DIV>
