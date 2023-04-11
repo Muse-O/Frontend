@@ -10,9 +10,7 @@ export const useDetailGetExibition = (id) => {
       return res.data;
     },
     retry: 1,
-    onSuccess: (data) => {
-      console.log("요청성공");
-    },
+    onSuccess: (data) => {},
     onError: (e) => {
       console.log("에러", e.message);
     },

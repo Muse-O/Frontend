@@ -5,32 +5,44 @@ import styled from "styled-components";
 function ExhibitionDetail({ id }) {
   const [data, isLoading, isError] = useDetailGetExibition(id);
   const info = data?.exhibitionInfo;
-
   if (isLoading) {
     return <div>로딩중</div>;
   }
+
   return (
     <>
       {info && (
         <>
+          <DIV>
+            <P>주소</P>
+            <div>우편번호{info.ExhibitionAddress.zonecode}</div>
+            <span>
+              <P>도로명 주소:</P>
+              {info.ExhibitionAddress.address}
+            </span>
+            <span>
+              <P>상세 주소:</P>
+              {info.location}
+            </span>
+          </DIV>
+          <DIV>
+            <P>제목</P>
+            {info.exhibitionTitle}
+          </DIV>
           <DIV>
             <P>섬네일</P>
             <IMG src={info.postImage} />
           </DIV>
           <DIV>
             <P>상세내용</P>
-            {info.ExhibitionImgs?.map((item, index) => {
+            {info.ExhibitionImgs?.map((img, index) => {
               return (
                 <span key={index}>
-                  <IMG src={item.img_url} />
-                  <p>{item.img_caption}</p>
+                  <IMG src={img.img_url} />
+                  <p>{img.img_caption}</p>
                 </span>
               );
             })}
-          </DIV>
-          <DIV>
-            <P>제목</P>
-            {info.exhibitionTitle}
           </DIV>
           <DIV>
             <P>작성자 email</P>
@@ -39,6 +51,18 @@ function ExhibitionDetail({ id }) {
           <DIV>
             <P>내용</P>
             {info.exhibitionDesc}
+          </DIV>
+          <DIV>
+            <P>작가</P>
+            {info.ExhibitionAuthors?.map((author, index) => {
+              return <span key={index}>{author.author_name}</span>;
+            })}
+          </DIV>
+          <DIV>
+            <P>전시회 카테고리</P>
+            {info.ExhibitionCategories?.map((theme, index) => {
+              return <span key={index}>{theme.exhibition_code}</span>;
+            })}
           </DIV>
           <DIV>
             <P>시작</P>
