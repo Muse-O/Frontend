@@ -5,7 +5,7 @@ export const useGetimgurl =  (files) => {
   const s3imgurlhandle = () => {
     const urls = [];
     files.map((file) => {
-      const fileName = `artgram/${uuidv4()}-${file.type.split("/")[1]}`;
+      const fileName = `artgram/${uuidv4()}.${file.type.split("/")[1]}`;
       const fileType = file.type;
       const s3Client = new S3Client({
         credentials: {
@@ -24,7 +24,6 @@ export const useGetimgurl =  (files) => {
       try {
         const response = s3Client.send(putCommand);
         const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-        console.log(response);
         urls.push(newimageUrl);
       } catch (err) {
         console.log(err.message);
