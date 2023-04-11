@@ -56,6 +56,14 @@ function ExhibitionUpdate() {
     //!나중에 필수값 유효성검사 필요!
     //!작가,이미지 order없이 받는데 어떻게 해야 하는가?
     if (!isLoading && !isError && info) {
+      //!value값 따로??
+      setAuthorName(info.ExhibitionAuthors[authorid.current].author_name);
+      const newarr = [...exhibition.authors];
+      newarr.splice(authorid.current, 1, {
+        order: (authorid.current + 1).toString(),
+        author: info.ExhibitionAuthors[authorid.current].author_name,
+      });
+      //TODO 디테일한 유효성 검사 필요
       setExhibition((prevExhibition) => ({
         ...prevExhibition,
         startDate: info.startDate.slice(0, 10),
@@ -69,7 +77,7 @@ function ExhibitionUpdate() {
         agencyAndSponsor: info.agencyAndSponsor || "",
         location: info.location,
         contact: info.contact,
-        authors: info.ExhibitionAuthors,
+        authors: newarr,
         exhibitionCategoty: info.ExhibitionCategories,
         detailLocation: {
           zonecode: ExAddress.zonecode,
@@ -121,7 +129,9 @@ function ExhibitionUpdate() {
     const { value, name } = event.target;
     //작가
     if (name === "author") {
+      //!이거 선언해줄 필요 없는거 같은데?
       setAuthorName(value);
+      //! state관리 안해도 될듯한데?
       const newarr = [...exhibition.authors];
       newarr.splice(authorid.current, 1, {
         order: (authorid.current + 1).toString(),
