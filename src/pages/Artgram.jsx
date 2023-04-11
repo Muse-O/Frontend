@@ -1,59 +1,62 @@
 import React, { useState } from "react";
-import {BsHeartFill} from 'react-icons/bs' 
-import {BiDotsHorizontalRounded} from 'react-icons/bi' 
+import { BsHeartFill } from "react-icons/bs";
+import { BiDotsHorizontalRounded } from "react-icons/bi";
 import Header from "../components/Header";
 import { Article, Wrap } from "../shared/GlobalStyled";
 import { useGetartgram } from "../hooks/artgram/useGetartgram";
-import * as Artgramparts from '../features/artgram/Artgramparts'
+import * as Artgramparts from "../features/artgram/Artgramparts";
 import { usePostingtime } from "../hooks/artgram/usePostingtime";
-import * as Modal from './ArtgramModal' 
+import * as Modal from "./ArtgramModal";
 import { Flex } from "../components/Flex";
-import styled from 'styled-components'
+import styled from "styled-components";
 import { useFormInput } from "../hooks/useFormInput";
 import { Input } from "../components/Input";
 import { useMutation } from "@tanstack/react-query";
 import { apis } from "../api/apis";
 import { cookies } from "../shared/cookies";
 
-
 function Artgram() {
-  const [isLoading, isError, allArtgram] = useGetartgram()
-  const [timehandle] = usePostingtime()
+  const [isLoading, isError, allArtgram] = useGetartgram();
+  const [timehandle] = usePostingtime();
 
-  console.log(allArtgram)
+  console.log(allArtgram);
 
   const [modalArtgramId, setModalArtgramId] = useState(null);
-  const [modalState, setModalState] = useState(false)
+  const [modalState, setModalState] = useState(false);
   const openModalhandle = (artgramId) => {
-    setModalArtgramId(artgramId)
-    setModalState(pre => !pre)
-  }
+    setModalArtgramId(artgramId);
+    setModalState((pre) => !pre);
+  };
 
   const [formState, setFormState, handleInputChange] = useFormInput();
 
-  const {mutate:postCommet} = useMutation({
-    mutationFn : async ({artgramId, formState}) => {
+  const { mutate: postCommet } = useMutation({
+    mutationFn: async ({ artgramId, formState }) => {
       const token = cookies.get("access_token");
       console.log(token);
       console.log(`${artgramId}, ${formState}`);
-      const response = await apis.post(`/artgram/${artgramId}/comments`, {comment:formState}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await apis.post(
+        `/artgram/${artgramId}/comments`,
+        { comment: formState },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(response);
       return response;
-    }
-  })
+    },
+  });
 
   const commentHandle = (e, artgramId, formState) => {
-    e.preventDefault()
-    postCommet({artgramId, formState})
-    setFormState({})
-  }
+    e.preventDefault();
+    postCommet({ artgramId, formState });
+    setFormState({});
+  };
 
-  if(isLoading || isError) {
-    return <div>로딩 중....</div>
+  if (isLoading || isError) {
+    return <div>로딩 중....</div>;
   }
 
   return (
@@ -81,7 +84,7 @@ function Artgram() {
                     onClick={() => openModalhandle(artgramId)}
                   >
                     <Artgramparts.Img
-                      src={ArtgramImgs && ArtgramImgs[0].imgUrl}
+                      src={ArtgramImgs && ArtgramImgs[0]?.imgUrl}
                     />
                     <Artgramparts.H1 fs="2rem" children={artgramTitle} />
                     <Artgramparts.Desc children={artgramDesc} />
@@ -192,13 +195,21 @@ function Artgram() {
                               minHeight: "100px",
                             }}
                           >
-                            <form onSubmit={(e) =>commentHandle(e, allArtgram.artgramId, formState.comment)}>
+                            <form
+                              onSubmit={(e) =>
+                                commentHandle(
+                                  e,
+                                  allArtgram.artgramId,
+                                  formState.comment
+                                )
+                              }
+                            >
                               <Input
                                 inputProps={{
                                   type: "text",
                                   name: "comment",
                                   value: formState["comment"] || "",
-                                  placeholder:"댓글 달기...",
+                                  placeholder: "댓글 달기...",
                                   onChange: handleInputChange,
                                 }}
                               />
@@ -219,14 +230,12 @@ function Artgram() {
 
 export default Artgram;
 
-
 const ModalinnerDiv = styled.div`
   position: relative;
-  width: ${pos => pos.width};
-`
+  width: ${(pos) => pos.width};
+`;
 
 const ModdalinnerImg = styled.img`
   display: block;
   width: 100%;
-  
-`
+`;

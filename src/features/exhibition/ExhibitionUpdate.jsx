@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDetailGetExibition } from "../../hooks/exhibition/useDetailGetExibition";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
@@ -9,8 +9,12 @@ import { useDropzone } from "react-dropzone";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
 import styled from "styled-components";
+import { usePatchExhibition } from "../../hooks/exhibition/usePatchExhibition";
 function ExhibitionUpdate() {
+  const navigator = useNavigate();
   const { id } = useParams();
+  //쿼리
+  const [updateExhibition] = usePatchExhibition(id);
   let posturl = "";
   let urls = [];
   const sourceUrl = "exhibition";
@@ -74,11 +78,11 @@ function ExhibitionUpdate() {
         exhibitionCode: info.exhibitionStatus,
         entranceFee: info.entranceFee,
         artWorkCnt: info.artWorkCnt,
-        agencyAndSponsor: info.agencyAndSponsor || "",
+        agencyAndSponsor: info.agencyAndSponsor || "임시값",
         location: info.location,
         contact: info.contact,
         authors: newarr,
-        exhibitionCategoty: info.ExhibitionCategories,
+        exhibitionCategoty: [info.ExhibitionCategories[0].exhibition_code],
         detailLocation: {
           zonecode: ExAddress.zonecode,
           address: ExAddress.address,
@@ -95,6 +99,13 @@ function ExhibitionUpdate() {
           roadnameEnglish: ExAddress.roadnameEnglish,
         },
       }));
+      //*썸네일 미리보기 가지고 와보기
+      setPostFiles([{ preview: info?.postImage }]);
+      //*일반 파일 미리보기 가지고 와보기
+      const previewFileArr = info?.ExhibitionImgs.map((file) => {
+        return { preview: file.img_url };
+      });
+      setFiles(previewFileArr);
     }
   }, [isLoading, isError, data]);
   //카카오 주소 api
@@ -192,7 +203,6 @@ function ExhibitionUpdate() {
     onDrop: (acceptedFiles) => {
       setFiles((old) => {
         return [
-          ...old,
           ...acceptedFiles.map((file) =>
             Object.assign(file, {
               preview: URL.createObjectURL(file),
@@ -286,17 +296,13 @@ function ExhibitionUpdate() {
   const submitHandler = (event) => {
     event.preventDefault();
     s3imgurlhandle(sourceUrl);
+    updateExhibition({ ...exhibition, postImage: posturl, artImage: urls });
   };
-  posturl = info?.postImage;
-  urls = info?.ExhibitionImgs;
-  console.log("가지고온 데이터", data);
-  console.log("변화된 전시회 페이지", exhibition);
+  console.log("카탈로그", exhibition.exhibitionCategoty);
   return (
     <>
       {data && (
         <>
-          <img src={posturl} />
-          <div>네</div>
           <Flex as="form" onSubmit={submitHandler} fd="column" gap="10">
             <Box>
               <p style={{ color: "red" }}>
@@ -472,7 +478,7 @@ function ExhibitionUpdate() {
               </select>
               <div>전시회 카테고리</div>
             </DIV>
-            <button>등록</button>
+            <button>수정완료</button>
           </Flex>
         </>
       )}
