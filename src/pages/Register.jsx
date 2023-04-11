@@ -1,7 +1,18 @@
 import React from "react";
+import RegisterForm from "./../features/register/RegisterForm";
 
 function Register() {
-  return <div>Register</div>;
+  return (
+    <div
+      style={{
+        width: "300px",
+        margin: "0 auto",
+        marginTop: "150px",
+      }}
+    >
+      <RegisterForm />
+    </div>
+  );
 }
 
 export default Register;
