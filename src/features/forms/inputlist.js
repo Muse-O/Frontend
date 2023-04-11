@@ -24,7 +24,3 @@ export const createArtgramInputList = [
   { label: "아트그램 제목", type: "text", name: "artgramTitle"},
   { label: "아트그램 내용", type: "text", name: "artgramDesc"},
 ];
-
-// “imgUrl”:[url], 
-// “artgramTitle”:string,
-// ”artgramDesc”:stirng,

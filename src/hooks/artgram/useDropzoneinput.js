@@ -7,6 +7,9 @@ export const useDropzoneinput = () => {
     accept: {
       "image/*": [],
     },
+    maxFiles: 5,
+    // maxSize: 1048576, // 1MB 개별파일의 크기 제한
+    // maxTotalSize: 10485760, // 10MB 전체파일의 크기 제한
     onDrop: (acceptedFiles) => {
       setFiles(
         acceptedFiles.map((file) =>
