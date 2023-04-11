@@ -19,23 +19,6 @@ export const useHashTagInput = (hashTag, setHashTag) => {
       } 
     }
   };
-  // const handleInputKeyDown = (event) => {
-  //   if (event.key === "Enter") {
-  //     event.preventDefault();
-  //     const newHashTag = inputValue.trim().normalize("NFC");
-  //     const isDuplicate = hashTag.some(tag => tag === newHashTag);
-  //     if (newHashTag && !isDuplicate) {
-  //       const newTags = [...hashTag, newHashTag];
-  //       setHashTag(newTags);
-  //       setInputValue("");
-  //     } 
-  //   }
-  // };
-
-
-  useEffect(()=>{
-    console.log(hashTag);
-  },[hashTag])
 
   const handleRemoveHashTag = (hashTagOne) => {
     setHashTag(hashTag.filter((tag) => tag !== hashTagOne));

@@ -6,19 +6,25 @@ import { Flex } from "../../components/Flex";
 import { Input } from "../../components/Input";
 import * as Artgramparts from "./Artgramparts";
 import { useGetartgramComments } from "../../hooks/artgram/useGetartgramComments";
-import { decodetoken } from "../../shared/cookies";
 import { usePostingtime } from "../../hooks/artgram/usePostingtime";
 import ArtgramSlider from "./ArtgramSlider";
 
 function ArtgramDetail({pos}) {
   const { allArtgram, modalState, setModalState } = pos;
+    // 아트그램 상세모달페이지: 댓글 GET 관련 --------------------------------------------------------------------------- //
+    const [isLoading, isError, data] = useGetartgramComments(
+      allArtgram.artgramId
+    );
+    const [timehandle] = usePostingtime()  
+
   // 아트그램 상세모달페이지: 댓글 POST 관련 --------------------------------------------------------------------------- //
   const [formState, setFormState, handleInputChange] = useFormInput();
   const [commentHandle] = usePostcomments(setFormState);
-  const [isLoading, isError, data] = useGetartgramComments(
-    allArtgram.artgramId
-  );
-  const [timehandle] = usePostingtime()  
+  const onSubmitcomment = (e) => {
+      e.preventDefault()
+      commentHandle(e, allArtgram.artgramId, formState.comment)
+  }
+
 
   if (isLoading || isError) {
     return <div>로딩 중....</div>;
@@ -100,11 +106,7 @@ function ArtgramDetail({pos}) {
             </div>
             {/* 상세모달페이지 (2-4) artgram 댓글입력공간 ------------------------- */}
             <Modal.ModalCommentsBox>
-              <form
-                onSubmit={(e) =>
-                  commentHandle(e, allArtgram.artgramId, formState.comment)
-                }
-              >
+              <form onSubmit={onSubmitcomment}>
                 <Input
                   inputProps={{
                     type: "text",

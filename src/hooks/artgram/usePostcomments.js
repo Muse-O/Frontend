@@ -8,18 +8,16 @@ export const usePostcomments = (setFormState) => {
   const {mutate:postCommet} = useMutation({
     mutationFn : async ({artgramId, formState}) => {
       const token = cookies.get("access_token");
-      console.log(token);
-      console.log(`${artgramId}, ${formState}`);
       const response = await apis.post(`/artgram/${artgramId}/comments`, {comment:formState}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response);
       return response;
     },
     onSuccess: () => {
       queryClient.invalidateQueries(keys.GET_ARTGRAMCOMMENTS);
+      queryClient.invalidateQueries(keys.GET_ARTGRAM);
       console.log("댓글이 등록되었습니다.");
     },
     onError: e => {
