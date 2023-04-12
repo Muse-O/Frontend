@@ -15,18 +15,17 @@ import {
 import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
 
 function ExhibitionForm() {
-  const navigator = useNavigate();
-  const [createExhibition, isSuccess] = usePostExhibition();
+  const [createExhibition] = usePostExhibition();
   const sourceUrl = "exhibition";
   const [exhibition, authorName, handleClick, onchangeHandler] =
     useSetExhibition();
   //dropzoneinput의 file 관리
-  const [files, getRootProps, getInputProps] = useDropzoneinputEx();
   const [postfiles, getRootPropsPOST, getInputPropsPOST] =
     useDropzoneinputPostEx();
+  const [files, getRootProps, getInputProps] = useDropzoneinputEx();
   //s3이미지 제출,url얻어오기
-  const [urls, s3imgurlhandle] = useGetimgurlEx(files);
-  const [posturl, s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);
+  const [s3imgurlhandle] = useGetimgurlEx(files);
+  const [s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);
   // 마운트 해제시, 데이터 url 취소
   useEffect(() => {
     return () => {
@@ -37,16 +36,10 @@ function ExhibitionForm() {
   //제출하기
   const submitHandler = (event) => {
     event.preventDefault();
-    s3imgurlhandle(sourceUrl);
-    s3Postimgurlhandle(sourceUrl);
+    const urls = s3imgurlhandle(sourceUrl);
+    const posturl = s3Postimgurlhandle(sourceUrl);
     createExhibition({ ...exhibition, postImage: posturl, artImage: urls });
-    if (isSuccess) {
-      navigator("/exhibition");
-    } else {
-      alert("작성실패");
-    }
   };
-
   return (
     <Flex as="form" onSubmit={submitHandler} fd="column" gap="10">
       <Box>

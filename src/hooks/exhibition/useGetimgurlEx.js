@@ -4,8 +4,8 @@ import { useRef } from "react";
 
 export const useGetimgurlEx = (files) => {
   const order = useRef(1);
-  let urls = [];
   const s3imgurlhandle = (sourceUrl) => {
+    let urls = [];
     files.forEach((file) => {
       const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
       const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
@@ -36,13 +36,14 @@ export const useGetimgurlEx = (files) => {
         console.log(err.message);
       }
     });
+    return urls;
   };
-  return [urls, s3imgurlhandle];
+  return [s3imgurlhandle];
 };
 
 export const useGetPostimgurlEx = (postfiles) => {
-  let posturl = "";
   const s3Postimgurlhandle = (sourceUrl) => {
+    let posturl = "";
     postfiles.forEach((file) => {
       const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
       const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
@@ -67,6 +68,7 @@ export const useGetPostimgurlEx = (postfiles) => {
         console.log(err.message);
       }
     });
+    return posturl;
   };
-  return [posturl, s3Postimgurlhandle];
+  return [s3Postimgurlhandle];
 };
