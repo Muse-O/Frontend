@@ -16,7 +16,7 @@ import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
 
 function ExhibitionForm() {
   const navigator = useNavigate();
-  const [createExhibition] = usePostExhibition();
+  const [createExhibition, isSuccess] = usePostExhibition();
   const sourceUrl = "exhibition";
   const [exhibition, authorName, handleClick, onchangeHandler] =
     useSetExhibition();
@@ -40,7 +40,11 @@ function ExhibitionForm() {
     s3imgurlhandle(sourceUrl);
     s3Postimgurlhandle(sourceUrl);
     createExhibition({ ...exhibition, postImage: posturl, artImage: urls });
-    navigator("/exhibition");
+    if (isSuccess) {
+      navigator("/exhibition");
+    } else {
+      alert("작성실패");
+    }
   };
 
   return (
