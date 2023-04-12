@@ -1,75 +1,64 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useDetailGetExibition } from "../../hooks/exhibition/useDetailGetExibition";
-import { useDaumPostcodePopup } from "react-daum-postcode";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { v4 as uuidv4 } from "uuid";
-import { useDropzone } from "react-dropzone";
-
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
 import styled from "styled-components";
 import { usePatchExhibition } from "../../hooks/exhibition/usePatchExhibition";
 import { useDeleteExhibition } from "../../hooks/exhibition/useDeleteExhbition";
+import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
+import {
+  useDropzoneinputEx,
+  useDropzoneinputPostEx,
+} from "../../hooks/exhibition/useDropzoneEx";
+import {
+  useGetPostimgurlEx,
+  useGetimgurlEx,
+} from "../../hooks/exhibition/useGetimgurlEx";
 function ExhibitionUpdate() {
-  const navigator = useNavigate();
   const { id } = useParams();
-  //쿼리
-  const [updateExhibition] = usePatchExhibition(id);
-  let posturl = "";
-  let urls = [];
-  const sourceUrl = "exhibition";
-  const authorid = useRef(0);
-  const order = useRef(1);
   const [data, isLoading, isError] = useDetailGetExibition(id);
   const info = data?.exhibitionInfo;
   const ExAddress = data?.exhibitionInfo.ExhibitionAddress;
-  const [authorName, setAuthorName] = useState("");
-  const [files, setFiles] = useState([]);
-  const [postfiles, setPostFiles] = useState([]);
-  const [exhibition, setExhibition] = useState({
-    startDate: "",
-    endDate: "",
-    exhibitionTitle: "",
-    exhibitionDesc: "",
-    exhibitionCode: "",
-    entranceFee: "",
-    artWorkCnt: "",
-    agencyAndSponsor: "",
-    location: "",
-    contact: "",
-    authors: [],
-    exhibitionCategoty: [],
-    detailLocation: {
-      zonecode: "",
-      address: "",
-      addressEnglish: "",
-      addressType: "",
-      buildingName: "",
-      buildingCode: "",
-      roadAddress: "",
-      roadAddressEnglish: "",
-      autoJibunAddress: "",
-      autoJibunAddressEnglish: "",
-      roadname: "",
-      roadnameCode: "",
-      roadnameEnglish: "",
-    },
-  });
+  const [updateExhibition] = usePatchExhibition(id);
+  const sourceUrl = "exhibition";
+  const [
+    exhibition,
+    setExhibition,
+    authorid,
+    authorName,
+    setAuthorName,
+    handleClick,
+    onchangeHandler,
+  ] = useSetExhibition();
+  //dropzoneinput의 file 관리
+  const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
+    useDropzoneinputPostEx();
+  const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
+  //s3이미지 제출,url얻어오기
+  const [s3imgurlhandle] = useGetimgurlEx(files);
+  const [s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);
+  // 마운트 해제시, 데이터 url 취소
+  useEffect(() => {
+    return () => {
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+      postfiles.forEach((file) => URL.revokeObjectURL(file.preview));
+    };
+  }, []);
   useEffect(() => {
     // 서버에서 받아온 데이터가 로딩되면 exhibition state를 업데이트
     //!나중에 필수값 유효성검사 필요!
     //!작가,이미지 order없이 받는데 어떻게 해야 하는가?
     if (!isLoading && !isError && info) {
       //!value값 따로??
-      setAuthorName(info.ExhibitionAuthors[authorid.current].author_name);
+      setAuthorName(info.ExhibitionAuthors[authorid].author);
       const newarr = [...exhibition.authors];
-      newarr.splice(authorid.current, 1, {
-        order: (authorid.current + 1).toString(),
-        author: info.ExhibitionAuthors[authorid.current].author_name,
+      newarr.splice(authorid, 1, {
+        order: authorid + 1,
+        author: info.ExhibitionAuthors[authorid].author,
       });
       const newExCodeArr = info.ExhibitionCategories.map(
-        (item) => item.exhibition_code
+        (item) => item.categoryCode
       );
       //TODO 디테일한 유효성 검사 필요
       setExhibition((prevExhibition) => ({
@@ -82,7 +71,7 @@ function ExhibitionUpdate() {
         exhibitionCode: info.exhibitionStatus,
         entranceFee: info.entranceFee,
         artWorkCnt: info.artWorkCnt,
-        agencyAndSponsor: info.agencyAndSponsor || "임시값",
+        agencyAndSponsor: info.agencyAndSponsor,
         location: info.location,
         contact: info.contact,
         authors: newarr,
@@ -107,199 +96,28 @@ function ExhibitionUpdate() {
       setPostFiles([{ preview: info?.postImage }]);
       //*일반 파일 미리보기 가지고 와보기
       const previewFileArr = info?.ExhibitionImgs.map((file) => {
-        return { preview: file.img_url };
+        return { preview: file.imgUrl };
       });
       setFiles(previewFileArr);
     }
   }, [isLoading, isError, data]);
-  //카카오 주소 api
-  const open = useDaumPostcodePopup(process.env.REACT_APP_KAKAO_ADDRESS_URL);
-  const handleClick = () => {
-    open({ onComplete: handleComplete });
-  };
-  const handleComplete = (data) => {
-    setExhibition((old) => {
-      return {
-        ...old,
-        detailLocation: {
-          zonecode: data.zonecode,
-          address: data.address,
-          addressEnglish: data.addressEnglish,
-          addressType: data.addressType,
-          buildingName: data.buildingName,
-          buildingCode: data.buildingCode,
-          roadAddress: data.roadAddress,
-          roadAddressEnglish: data.roadAddressEnglish,
-          autoJibunAddress: data.autoJibunAddress,
-          autoJibunAddressEnglish: data.autoJibunAddressEnglish,
-          roadname: data.roadname,
-          roadnameCode: data.roadnameCode,
-          roadnameEnglish: data.roadnameEnglish,
-        },
-      };
-    });
-  };
-  //헨들러
-  const onchangeHandler = (event) => {
-    const { value, name } = event.target;
-    //작가
-    if (name === "author") {
-      //!이거 선언해줄 필요 없는거 같은데?
-      setAuthorName(value);
-      //! state관리 안해도 될듯한데?
-      const newarr = [...exhibition.authors];
-      newarr.splice(authorid.current, 1, {
-        order: (authorid.current + 1).toString(),
-        author: value,
-      });
-      setExhibition((old) => {
-        return {
-          ...old,
-          authors: newarr,
-        };
-      });
-    }
-    //카테고리
-    else if (name === "exhibitionCategoty") {
-      setExhibition((old) => {
-        return {
-          ...old,
-          exhibitionCategoty: [...old.exhibitionCategoty, value],
-        };
-      });
-    }
-    //입장료
-    else if (name === "entranceFee") {
-      setExhibition((old) => {
-        const regex = /^[0-9,]*$/;
-        if (!regex.test(value)) {
-          const sanitizedValue = value.replace(/[^0-9,]/g, "");
-          return {
-            ...old,
-            entranceFee: sanitizedValue,
-          };
-        }
-        const removedCommaValue = Number(value.replaceAll(",", ""));
-        return {
-          ...old,
-          entranceFee: removedCommaValue.toLocaleString(),
-        };
-      });
-    }
-    //기본
-    else {
-      setExhibition((old) => {
-        return { ...old, [name]: value };
-      });
-    }
-  };
-  useEffect(() => {
-    // 마운트 해제시, 데이터 url 취소
-    return () => {
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
-      postfiles.forEach((file) => URL.revokeObjectURL(file.preview));
-    };
-  }, []);
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: {
-      "image/*": [],
-    },
-    onDrop: (acceptedFiles) => {
-      setFiles((old) => {
-        return [
-          ...acceptedFiles.map((file) =>
-            Object.assign(file, {
-              preview: URL.createObjectURL(file),
-            })
-          ),
-        ];
-      });
-    },
-  });
-
-  //섬네일용이미지 url 값 생성기.
-  const { getRootProps: getRootPropsPOST, getInputProps: getInputPropsPOST } =
-    useDropzone({
-      accept: {
-        "image/*": [],
-      },
-      // maxFiles: 1,
-      onDrop: (acceptedFiles) => {
-        if (acceptedFiles.length > 1) {
-          alert("섬네일은 1개만 가능합니다.");
-          return;
-        } else {
-          setPostFiles(
-            acceptedFiles.map((file) =>
-              Object.assign(file, {
-                preview: URL.createObjectURL(file),
-              })
-            )
-          );
-        }
-      },
-    });
-  //s3올리기
-  const s3imgurlhandle = (sourceUrl) => {
-    files?.forEach((file) => {
-      const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
-      const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-      const newObject = {
-        order: order.current.toString(),
-        imgUrl: newimageUrl,
-        imgCaption: "이미지 내용",
-      };
-      order.current++;
-      urls.push(newObject);
-      const fileType = file.type;
-      const s3Client = new S3Client({
-        credentials: {
-          accessKeyId: process.env.REACT_APP_AccessKey,
-          secretAccessKey: process.env.REACT_APP_SecretAccessKey,
-        },
-        region: process.env.REACT_APP_BucketRegion,
-      });
-      const putCommand = new PutObjectCommand({
-        Bucket: process.env.REACT_APP_BucketName,
-        Key: fileName,
-        Body: file,
-        ContentType: fileType,
-      });
-      try {
-        const response = s3Client.send(putCommand);
-      } catch (err) {
-        console.log(err.message);
-      }
-    });
-    postfiles.forEach((file) => {
-      const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
-      const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-      posturl = newimageUrl;
-      const fileType = file.type;
-      const s3Client = new S3Client({
-        credentials: {
-          accessKeyId: process.env.REACT_APP_AccessKey,
-          secretAccessKey: process.env.REACT_APP_SecretAccessKey,
-        },
-        region: process.env.REACT_APP_BucketRegion,
-      });
-      const putCommand = new PutObjectCommand({
-        Bucket: process.env.REACT_APP_BucketName,
-        Key: fileName,
-        Body: file,
-        ContentType: fileType,
-      });
-      try {
-        const response = s3Client.send(putCommand);
-      } catch (err) {
-        console.log(err.message);
-      }
-    });
-  };
+  console.log("가지고오는값", info);
+  console.log("파일", files);
   //수정하기
   const submitHandler = (event) => {
     event.preventDefault();
-    s3imgurlhandle(sourceUrl);
+    let urls = null;
+    let posturl = null;
+    if (!postfiles[0].type) {
+      posturl = info.postImage;
+    } else {
+      posturl = s3Postimgurlhandle(sourceUrl);
+    }
+    if (!files[0].type) {
+      urls = info.ExhibitionImgs;
+    } else {
+      urls = s3imgurlhandle(sourceUrl);
+    }
     updateExhibition({ ...exhibition, postImage: posturl, artImage: urls });
   };
   //삭제 버튼
@@ -307,19 +125,38 @@ function ExhibitionUpdate() {
   const deleteHandler = () => {
     if (window.confirm("정말 이 게시글을 삭제합니까?")) {
       deleteExhibition(id);
-      navigator("/exhibition");
     } else {
       alert("취소합니다.");
     }
   };
-  console.log("받아온값", info);
-  console.log("exhibition", exhibition);
+  // console.log("상세이미지", files[0].type);
+  console.log("포스트", postfiles);
   return (
     <>
       {data && (
         <>
           <Flex as="form" onSubmit={submitHandler} fd="column" gap="10">
             <button onClick={deleteHandler}>삭제</button>
+            <DIV>
+              <div style={{ color: "red" }}>온라인 오프라인?</div>
+              <select name="exhibitionKind" onChange={onchangeHandler}>
+                <option>선택해 주세요</option>
+                <option value="EK0001 ">오프라인</option>
+                <option value="EK0002 ">온라인</option>
+              </select>
+            </DIV>
+            {exhibition.exhibitionKind === "EK0002 " && (
+              <DIV>
+                <div style={{ color: "red" }}>링크</div>
+                <input
+                  onChange={onchangeHandler}
+                  value={exhibition.exhibitionOnlineLink}
+                  name="exhibitionOnlineLink"
+                  type="text"
+                  placeholder="링크"
+                />
+              </DIV>
+            )}
             <Box>
               <p style={{ color: "red" }}>
                 작성구역. 카카오 지도 api가지고 오기

@@ -4,6 +4,7 @@ import { apis_token } from "../../api/apis";
 import { useNavigate } from "react-router-dom";
 
 export const usePatchExhibition = (id) => {
+  const navigator = useNavigate();
   const queryClient = useQueryClient();
   const { mutate: updateExhibition } = useMutation({
     mutationFn: async (payload) => {
@@ -12,6 +13,8 @@ export const usePatchExhibition = (id) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: keys.GET_EXHIBITION });
+      alert("수정완료");
+      navigator("/exhibition");
     },
     onError: (e) => {
       console.log("에러", e);

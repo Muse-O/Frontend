@@ -1,248 +1,74 @@
-import { useDaumPostcodePopup } from "react-daum-postcode";
 import styled from "styled-components";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { usePostExhibition } from "../../hooks/exhibition/usetPostExhibition";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
-import { v4 as uuidv4 } from "uuid";
-import { useDropzone } from "react-dropzone";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { useNavigate } from "react-router-dom";
+import {
+  useGetPostimgurlEx,
+  useGetimgurlEx,
+} from "../../hooks/exhibition/useGetimgurlEx";
+import {
+  useDropzoneinputEx,
+  useDropzoneinputPostEx,
+} from "../../hooks/exhibition/useDropzoneEx";
+import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
 
 function ExhibitionForm() {
-  //쿼리
-  const navigator = useNavigate();
   const [createExhibition] = usePostExhibition();
-  let posturl = "";
-  let urls = [];
   const sourceUrl = "exhibition";
-  const authorid = useRef(0);
-  const order = useRef(1);
-  const [authorName, setAuthorName] = useState("");
-  const [files, setFiles] = useState([]);
-  const [postfiles, setPostFiles] = useState([]);
-  const [exhibition, setExhibition] = useState({
-    startDate: "",
-    endDate: "",
-    exhibitionTitle: "",
-    exhibitionDesc: "",
-    exhibitionCode: "",
-    entranceFee: "",
-    artWorkCnt: "",
-    agencyAndSponsor: "",
-    location: "",
-    contact: "",
-    authors: [],
-    exhibitionCategoty: [],
-    detailLocation: {
-      zonecode: "",
-      address: "",
-      addressEnglish: "",
-      addressType: "",
-      buildingName: "",
-      buildingCode: "",
-      roadAddress: "",
-      roadAddressEnglish: "",
-      autoJibunAddress: "",
-      autoJibunAddressEnglish: "",
-      roadname: "",
-      roadnameCode: "",
-      roadnameEnglish: "",
-    },
-  });
-  //카카오 주소 api
-  const open = useDaumPostcodePopup(process.env.REACT_APP_KAKAO_ADDRESS_URL);
-  const handleClick = () => {
-    open({ onComplete: handleComplete });
-  };
-  const handleComplete = (data) => {
-    setExhibition((old) => {
-      return {
-        ...old,
-        detailLocation: {
-          zonecode: data.zonecode,
-          address: data.address,
-          addressEnglish: data.addressEnglish,
-          addressType: data.addressType,
-          buildingName: data.buildingName,
-          buildingCode: data.buildingCode,
-          roadAddress: data.roadAddress,
-          roadAddressEnglish: data.roadAddressEnglish,
-          autoJibunAddress: data.autoJibunAddress,
-          autoJibunAddressEnglish: data.autoJibunAddressEnglish,
-          roadname: data.roadname,
-          roadnameCode: data.roadnameCode,
-          roadnameEnglish: data.roadnameEnglish,
-        },
-      };
-    });
-  };
-  //헨들러
-  const onchangeHandler = (event) => {
-    const { value, name } = event.target;
-    //작가
-    if (name === "author") {
-      setAuthorName(value);
-      const newarr = [...exhibition.authors];
-      newarr.splice(authorid.current, 1, {
-        order: (authorid.current + 1).toString(),
-        author: value,
-      });
-      setExhibition((old) => {
-        return {
-          ...old,
-          authors: newarr,
-        };
-      });
-    }
-    //카테고리
-    else if (name === "exhibitionCategoty") {
-      setExhibition((old) => {
-        return {
-          ...old,
-          exhibitionCategoty: [...old.exhibitionCategoty, value],
-        };
-      });
-    }
-    //입장료
-    else if (name === "entranceFee") {
-      setExhibition((old) => {
-        const regex = /^[0-9,]*$/;
-        if (!regex.test(value)) {
-          const sanitizedValue = value.replace(/[^0-9,]/g, "");
-          return {
-            ...old,
-            entranceFee: sanitizedValue,
-          };
-        }
-        const removedCommaValue = Number(value.replaceAll(",", ""));
-        return {
-          ...old,
-          entranceFee: removedCommaValue.toLocaleString(),
-        };
-      });
-    }
-    //기본
-    else {
-      setExhibition((old) => {
-        return { ...old, [name]: value };
-      });
-    }
-  };
+  const [
+    exhibition,
+    setExhibition,
+    authorid,
+    authorName,
+    setAuthorName,
+    handleClick,
+    onchangeHandler,
+  ] = useSetExhibition();
+  //dropzoneinput의 file 관리
+  const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
+    useDropzoneinputPostEx();
+  const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
+  //s3이미지 제출,url얻어오기
+  const [s3imgurlhandle] = useGetimgurlEx(files);
+  const [s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);
+  // 마운트 해제시, 데이터 url 취소
   useEffect(() => {
-    // 마운트 해제시, 데이터 url 취소
     return () => {
       files.forEach((file) => URL.revokeObjectURL(file.preview));
       postfiles.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   }, []);
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: {
-      "image/*": [],
-    },
-    onDrop: (acceptedFiles) => {
-      setFiles((old) => {
-        return [
-          ...old,
-          ...acceptedFiles.map((file) =>
-            Object.assign(file, {
-              preview: URL.createObjectURL(file),
-            })
-          ),
-        ];
-      });
-    },
-  });
-
-  //섬네일용이미지 url 값 생성기.
-  const { getRootProps: getRootPropsPOST, getInputProps: getInputPropsPOST } =
-    useDropzone({
-      accept: {
-        "image/*": [],
-      },
-      // maxFiles: 1,
-      onDrop: (acceptedFiles) => {
-        if (acceptedFiles.length > 1) {
-          alert("섬네일은 1개만 가능합니다.");
-          return;
-        } else {
-          setPostFiles(
-            acceptedFiles.map((file) =>
-              Object.assign(file, {
-                preview: URL.createObjectURL(file),
-              })
-            )
-          );
-        }
-      },
-    });
-  //s3올리기
-  const s3imgurlhandle = (sourceUrl) => {
-    files.forEach((file) => {
-      const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
-      const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-      const newObject = {
-        order: order.current.toString(),
-        imgUrl: newimageUrl,
-        imgCaption: "이미지 내용",
-      };
-      order.current++;
-      urls.push(newObject);
-      const fileType = file.type;
-      const s3Client = new S3Client({
-        credentials: {
-          accessKeyId: process.env.REACT_APP_AccessKey,
-          secretAccessKey: process.env.REACT_APP_SecretAccessKey,
-        },
-        region: process.env.REACT_APP_BucketRegion,
-      });
-      const putCommand = new PutObjectCommand({
-        Bucket: process.env.REACT_APP_BucketName,
-        Key: fileName,
-        Body: file,
-        ContentType: fileType,
-      });
-      try {
-        const response = s3Client.send(putCommand);
-      } catch (err) {
-        console.log(err.message);
-      }
-    });
-    postfiles.forEach((file) => {
-      const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
-      const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-      posturl = newimageUrl;
-      const fileType = file.type;
-      const s3Client = new S3Client({
-        credentials: {
-          accessKeyId: process.env.REACT_APP_AccessKey,
-          secretAccessKey: process.env.REACT_APP_SecretAccessKey,
-        },
-        region: process.env.REACT_APP_BucketRegion,
-      });
-      const putCommand = new PutObjectCommand({
-        Bucket: process.env.REACT_APP_BucketName,
-        Key: fileName,
-        Body: file,
-        ContentType: fileType,
-      });
-      try {
-        const response = s3Client.send(putCommand);
-      } catch (err) {
-        console.log(err.message);
-      }
-    });
-  };
   //제출하기
   const submitHandler = (event) => {
     event.preventDefault();
-    s3imgurlhandle(sourceUrl);
+    const urls = s3imgurlhandle(sourceUrl);
+    const posturl = s3Postimgurlhandle(sourceUrl);
     createExhibition({ ...exhibition, postImage: posturl, artImage: urls });
-    navigator("/exhibition");
   };
-
+  console.log("exhibition", exhibition);
   return (
     <Flex as="form" onSubmit={submitHandler} fd="column" gap="10">
+      <DIV>
+        <div style={{ color: "red" }}>온라인 오프라인?</div>
+        <select name="exhibitionKind" onChange={onchangeHandler}>
+          <option>선택해 주세요</option>
+          <option value="EK0001 ">오프라인</option>
+          <option value="EK0002 ">온라인</option>
+        </select>
+      </DIV>
+      {exhibition.exhibitionKind === "EK0002 " && (
+        <DIV>
+          <div style={{ color: "red" }}>링크</div>
+          <input
+            onChange={onchangeHandler}
+            value={exhibition.exhibitionOnlineLink}
+            name="exhibitionOnlineLink"
+            type="text"
+            placeholder="링크"
+          />
+        </DIV>
+      )}
       <Box>
         <p style={{ color: "red" }}>작성구역. 카카오 지도 api가지고 오기</p>
         <button type="button" onClick={handleClick}>
@@ -299,19 +125,18 @@ function ExhibitionForm() {
           </DragIcon>
         </Section>
         <ThumbsContainer>
-          {files &&
-            files.map((file) => (
-              <Thumb key={file.name}>
-                <ThumbInner>
-                  <Thumbimg
-                    src={file.preview}
-                    onLoad={() => {
-                      URL.revokeObjectURL(file.preview);
-                    }}
-                  />
-                </ThumbInner>
-              </Thumb>
-            ))}
+          {files?.map((file) => (
+            <Thumb key={file.name}>
+              <ThumbInner>
+                <Thumbimg
+                  src={file.preview}
+                  onLoad={() => {
+                    URL.revokeObjectURL(file.preview);
+                  }}
+                />
+              </ThumbInner>
+            </Thumb>
+          ))}
         </ThumbsContainer>
       </DIV2>
       <DIV>
@@ -324,6 +149,7 @@ function ExhibitionForm() {
           placeholder="제목"
         />
       </DIV>
+
       <DIV>
         <div>작가</div>
         <input
