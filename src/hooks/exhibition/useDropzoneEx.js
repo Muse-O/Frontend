@@ -34,16 +34,13 @@ export const useDropzoneinputEx = () => {
       "image/*": [],
     },
     onDrop: (acceptedFiles) => {
-      setFiles((old) => {
-        return [
-          ...old,
-          ...acceptedFiles.map((file) =>
-            Object.assign(file, {
-              preview: URL.createObjectURL(file),
-            })
-          ),
-        ];
-      });
+      setFiles([
+        ...acceptedFiles.map((file) =>
+          Object.assign(file, {
+            preview: URL.createObjectURL(file),
+          })
+        ),
+      ]);
     },
   });
   return [files, setFiles, getRootProps, getInputProps];

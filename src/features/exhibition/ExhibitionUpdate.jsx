@@ -1,10 +1,6 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useDetailGetExibition } from "../../hooks/exhibition/useDetailGetExibition";
-import { useDaumPostcodePopup } from "react-daum-postcode";
-import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { v4 as uuidv4 } from "uuid";
-import { useDropzone } from "react-dropzone";
 
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
@@ -107,12 +103,22 @@ function ExhibitionUpdate() {
     }
   }, [isLoading, isError, data]);
   console.log("가지고오는값", info);
-  console.log("exhibition", exhibition);
+  console.log("파일", files);
   //수정하기
   const submitHandler = (event) => {
     event.preventDefault();
-    const urls = s3imgurlhandle(sourceUrl);
-    const posturl = s3Postimgurlhandle(sourceUrl);
+    let urls = null;
+    let posturl = null;
+    if (!postfiles[0].type) {
+      posturl = info.postImage;
+    } else {
+      posturl = s3Postimgurlhandle(sourceUrl);
+    }
+    if (!files[0].type) {
+      urls = info.ExhibitionImgs;
+    } else {
+      urls = s3imgurlhandle(sourceUrl);
+    }
     updateExhibition({ ...exhibition, postImage: posturl, artImage: urls });
   };
   //삭제 버튼
@@ -124,6 +130,8 @@ function ExhibitionUpdate() {
       alert("취소합니다.");
     }
   };
+  // console.log("상세이미지", files[0].type);
+  console.log("포스트", postfiles);
   return (
     <>
       {data && (
