@@ -14,8 +14,7 @@ const Artgram = () => {
   const {data,isLoading,isError,fetchNextPage,hasNextPage} = useGetartgraminfinity()
   // useGetartgraminfinity의 결과로 가져온 data.pages를 하나의 배열로 만드는 로직 
   let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
-  
-
+  console.log(merged)
   // intersection Observe --------------------------------------------------------------------------------------- //
   const lastRef = useRef(null)
   useEffect(() => {
@@ -53,33 +52,38 @@ const Artgram = () => {
       <Header />
       <Article>
         <Wrap>
-          <Artgramparts.H1 fs="3rem" type="아트그램" children="아트그램" />
+          <Artgramparts.H1 fs="3rem" type="아트그램" children="아트그램 익명" />
           <Artgramparts.MainFlex ai="center" gap="19" fw="wrap">
-            {/* 상세모달페이지 구역 컴포넌트 -------------------------------------------------------------------------- */}
+            {/* 아트그램 개별구역 컴포넌트 -------------------------------------------------------------------------- */}
+            {/* artgramId, artgramTitle, imgUrl, imgcount, nickname, profileimg, liked(default : false), likecount */}
+            {/* 여기서 사용할 정보는 다음과 같다. 최소한의 정보만을 요청하고, 화면에 뿌려줄 예정이다. */}
+            {/* 딥한 정보는 상세모달페이지에서 전달해주려고 한다. */}
             {merged.map( 
               ({
                 artgramId,
-                profileImg,
                 artgramTitle,
-                artgramDesc,
-                createdAt,
-                profileNickname,
-                ArtgramImgs,
-                artgramCommentCount
+                imgCount,
+                imgUrl,
+                likeCount,
+                liked,
+                profileImg,
+                nickname,
+                userEmail,
               }) => {
                   return (
                     <ArgramBox
                       key={artgramId}
                       pos={{
                         artgramId,
-                        profileImg,
                         artgramTitle,
-                        artgramDesc,
-                        createdAt,
-                        profileNickname,
-                        ArtgramImgs,
-                        openModalhandle,
-                        artgramCommentCount
+                        imgCount,
+                        imgUrl,
+                        likeCount,
+                        liked,
+                        profileImg,
+                        nickname,
+                        userEmail,
+                        openModalhandle
                       }}
                     />
                   );
@@ -88,14 +92,16 @@ const Artgram = () => {
           </Artgramparts.MainFlex>
         </Wrap>
         {/* 상세모달페이지 구역 allArtgram + 댓글구역 -------------------------------------------------------------- */}
+        {/* 딥한 정보는 상세모달페이지에서 구현하게 되는데, 여기서 가져갈 값은 artgramId 밖에 없다. */}
+        {/* 상세모달페이지에서 댓글에 대한 GET 요청을 하듯이, artgramId를 통해서 상세한 요청을 진행하려 한다. */}
         {modalState && (
           <>
             {merged.map(   
-              (allArtgram) =>
-                allArtgram.artgramId === modalArtgramId && (
+              ({artgramId}) =>
+                artgramId === modalArtgramId && (
                   <ArtgramDetail
-                    key={allArtgram.artgramId}
-                    pos={{ allArtgram, modalState, setModalState }}
+                    key={artgramId}
+                    pos={{artgramId, modalState, setModalState }}
                   />
                 )
             )}

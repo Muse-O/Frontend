@@ -1,18 +1,24 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { apis } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
+import { cookies } from "../../shared/cookies";
+
 
 export const useGetartgraminfinity = (pageSize = 12) => {
   // pageSize은 처음에 가져올 데이터를 제한하는 초기값을 선언하는 곳이다. 
+  const token = cookies.get("access_token")
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
       queryKey: keys.GET_ARTGRAM,
       queryFn: async ({ pageParam = 0 }) => {
         const response = await apis.get(
-          `/artgram?limit=${pageSize}&offset=${pageParam}`
-        );
-        console.log("토큰없는 GET");
-        return response.data.artgramList.rows;
+          `/artgram?limit=${pageSize}&offset=${pageParam}`, {
+            headers : {
+              Authorization : `Bearer ${token}`
+            }
+          }
+        )
+        return response.data.artgramList.artgramList.findArtgrmas;
       },
       getNextPageParam: (lastPage, allPages) => {
         if (lastPage.length < pageSize) {
