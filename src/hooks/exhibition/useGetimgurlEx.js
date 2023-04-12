@@ -3,18 +3,18 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { useRef } from "react";
 
 export const useGetimgurlEx = (files) => {
-  const order = useRef(1);
+  let order = 1;
   const s3imgurlhandle = (sourceUrl) => {
     let urls = [];
     files?.forEach((file) => {
       const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
       const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
       const newObject = {
-        order: order.current.toString(),
+        order: order,
         imgUrl: newimageUrl,
         imgCaption: "이미지 내용",
       };
-      order.current++;
+      order++;
       urls.push(newObject);
       const fileType = file.type;
       const s3Client = new S3Client({

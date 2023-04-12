@@ -46,7 +46,7 @@ function ExhibitionDetail() {
             {info.ExhibitionImgs?.map((img, index) => {
               return (
                 <span key={index}>
-                  <IMG src={img.img_url} />
+                  <IMG src={img.imgUrl} />
                   <p>{img.img_caption}</p>
                 </span>
               );

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDetailGetExibition } from "../../hooks/exhibition/useDetailGetExibition";
-
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
 import styled from "styled-components";
@@ -52,11 +51,11 @@ function ExhibitionUpdate() {
     //!작가,이미지 order없이 받는데 어떻게 해야 하는가?
     if (!isLoading && !isError && info) {
       //!value값 따로??
-      setAuthorName(info.ExhibitionAuthors[authorid.current].author_name);
+      setAuthorName(info.ExhibitionAuthors[authorid].author);
       const newarr = [...exhibition.authors];
-      newarr.splice(authorid.current, 1, {
-        order: (authorid.current + 1).toString(),
-        author: info.ExhibitionAuthors[authorid.current].author_name,
+      newarr.splice(authorid, 1, {
+        order: authorid + 1,
+        author: info.ExhibitionAuthors[authorid].author,
       });
       const newExCodeArr = info.ExhibitionCategories.map(
         (item) => item.categoryCode
@@ -72,7 +71,7 @@ function ExhibitionUpdate() {
         exhibitionCode: info.exhibitionStatus,
         entranceFee: info.entranceFee,
         artWorkCnt: info.artWorkCnt,
-        agencyAndSponsor: info.agencyAndSponsor || "임시값",
+        agencyAndSponsor: info.agencyAndSponsor,
         location: info.location,
         contact: info.contact,
         authors: newarr,
@@ -97,7 +96,7 @@ function ExhibitionUpdate() {
       setPostFiles([{ preview: info?.postImage }]);
       //*일반 파일 미리보기 가지고 와보기
       const previewFileArr = info?.ExhibitionImgs.map((file) => {
-        return { preview: file.img_url };
+        return { preview: file.imgUrl };
       });
       setFiles(previewFileArr);
     }
@@ -138,6 +137,26 @@ function ExhibitionUpdate() {
         <>
           <Flex as="form" onSubmit={submitHandler} fd="column" gap="10">
             <button onClick={deleteHandler}>삭제</button>
+            <DIV>
+              <div style={{ color: "red" }}>온라인 오프라인?</div>
+              <select name="exhibitionKind" onChange={onchangeHandler}>
+                <option>선택해 주세요</option>
+                <option value="EK0001 ">오프라인</option>
+                <option value="EK0002 ">온라인</option>
+              </select>
+            </DIV>
+            {exhibition.exhibitionKind === "EK0002 " && (
+              <DIV>
+                <div style={{ color: "red" }}>링크</div>
+                <input
+                  onChange={onchangeHandler}
+                  value={exhibition.exhibitionOnlineLink}
+                  name="exhibitionOnlineLink"
+                  type="text"
+                  placeholder="링크"
+                />
+              </DIV>
+            )}
             <Box>
               <p style={{ color: "red" }}>
                 작성구역. 카카오 지도 api가지고 오기

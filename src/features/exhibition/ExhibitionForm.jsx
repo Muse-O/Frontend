@@ -46,8 +46,29 @@ function ExhibitionForm() {
     const posturl = s3Postimgurlhandle(sourceUrl);
     createExhibition({ ...exhibition, postImage: posturl, artImage: urls });
   };
+  console.log("exhibition", exhibition);
   return (
     <Flex as="form" onSubmit={submitHandler} fd="column" gap="10">
+      <DIV>
+        <div style={{ color: "red" }}>온라인 오프라인?</div>
+        <select name="exhibitionKind" onChange={onchangeHandler}>
+          <option>선택해 주세요</option>
+          <option value="EK0001 ">오프라인</option>
+          <option value="EK0002 ">온라인</option>
+        </select>
+      </DIV>
+      {exhibition.exhibitionKind === "EK0002 " && (
+        <DIV>
+          <div style={{ color: "red" }}>링크</div>
+          <input
+            onChange={onchangeHandler}
+            value={exhibition.exhibitionOnlineLink}
+            name="exhibitionOnlineLink"
+            type="text"
+            placeholder="링크"
+          />
+        </DIV>
+      )}
       <Box>
         <p style={{ color: "red" }}>작성구역. 카카오 지도 api가지고 오기</p>
         <button type="button" onClick={handleClick}>
@@ -128,6 +149,7 @@ function ExhibitionForm() {
           placeholder="제목"
         />
       </DIV>
+
       <DIV>
         <div>작가</div>
         <input

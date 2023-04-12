@@ -2,10 +2,12 @@ import { useRef, useState } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 
 export const useSetExhibition = () => {
-  const authorid = useRef(0);
+  let authorid = 0;
   const [authorName, setAuthorName] = useState("");
   const [exhibition, setExhibition] = useState({
     startDate: "",
+    exhibitionKind: "",
+    exhibitionOnlineLink: "",
     endDate: "",
     exhibitionTitle: "",
     exhibitionDesc: "",
@@ -68,8 +70,8 @@ export const useSetExhibition = () => {
     if (name === "author") {
       setAuthorName(value);
       const newarr = [...exhibition.authors];
-      newarr.splice(authorid.current, 1, {
-        order: (authorid.current + 1).toString(),
+      newarr.splice(authorid, 1, {
+        order: authorid + 1,
         author: value,
       });
       setExhibition((old) => {
