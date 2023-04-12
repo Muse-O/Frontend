@@ -6,7 +6,7 @@ export const useGetimgurlEx = (files) => {
   const order = useRef(1);
   const s3imgurlhandle = (sourceUrl) => {
     let urls = [];
-    files.forEach((file) => {
+    files?.forEach((file) => {
       const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
       const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
       const newObject = {
@@ -44,7 +44,7 @@ export const useGetimgurlEx = (files) => {
 export const useGetPostimgurlEx = (postfiles) => {
   const s3Postimgurlhandle = (sourceUrl) => {
     let posturl = "";
-    postfiles.forEach((file) => {
+    postfiles?.forEach((file) => {
       const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
       const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
       posturl = newimageUrl;

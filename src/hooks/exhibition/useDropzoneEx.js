@@ -24,7 +24,7 @@ export const useDropzoneinputPostEx = () => {
     },
   });
 
-  return [postfiles, getRootProps, getInputProps];
+  return [postfiles, setPostFiles, getRootProps, getInputProps];
 };
 //상세이미지용
 export const useDropzoneinputEx = () => {
@@ -46,5 +46,5 @@ export const useDropzoneinputEx = () => {
       });
     },
   });
-  return [files, getRootProps, getInputProps];
+  return [files, setFiles, getRootProps, getInputProps];
 };

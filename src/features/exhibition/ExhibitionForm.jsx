@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { usePostExhibition } from "../../hooks/exhibition/usetPostExhibition";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
-import { useNavigate } from "react-router-dom";
 import {
   useGetPostimgurlEx,
   useGetimgurlEx,
@@ -17,12 +16,19 @@ import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
 function ExhibitionForm() {
   const [createExhibition] = usePostExhibition();
   const sourceUrl = "exhibition";
-  const [exhibition, authorName, handleClick, onchangeHandler] =
-    useSetExhibition();
+  const [
+    exhibition,
+    setExhibition,
+    authorid,
+    authorName,
+    setAuthorName,
+    handleClick,
+    onchangeHandler,
+  ] = useSetExhibition();
   //dropzoneinput의 file 관리
-  const [postfiles, getRootPropsPOST, getInputPropsPOST] =
+  const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
     useDropzoneinputPostEx();
-  const [files, getRootProps, getInputProps] = useDropzoneinputEx();
+  const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
   //s3이미지 제출,url얻어오기
   const [s3imgurlhandle] = useGetimgurlEx(files);
   const [s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);

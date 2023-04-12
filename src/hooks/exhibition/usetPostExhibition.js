@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apis, apis_token } from "../../api/apis";
+import { apis_token } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
 import { useNavigate } from "react-router-dom";
 

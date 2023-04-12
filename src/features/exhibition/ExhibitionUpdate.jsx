@@ -11,51 +11,45 @@ import { Flex } from "../../components/Flex";
 import styled from "styled-components";
 import { usePatchExhibition } from "../../hooks/exhibition/usePatchExhibition";
 import { useDeleteExhibition } from "../../hooks/exhibition/useDeleteExhbition";
+import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
+import {
+  useDropzoneinputEx,
+  useDropzoneinputPostEx,
+} from "../../hooks/exhibition/useDropzoneEx";
+import {
+  useGetPostimgurlEx,
+  useGetimgurlEx,
+} from "../../hooks/exhibition/useGetimgurlEx";
 function ExhibitionUpdate() {
-  const navigator = useNavigate();
   const { id } = useParams();
-  //쿼리
-  const [updateExhibition] = usePatchExhibition(id);
-  let posturl = "";
-  let urls = [];
-  const sourceUrl = "exhibition";
-  const authorid = useRef(0);
-  const order = useRef(1);
   const [data, isLoading, isError] = useDetailGetExibition(id);
   const info = data?.exhibitionInfo;
   const ExAddress = data?.exhibitionInfo.ExhibitionAddress;
-  const [authorName, setAuthorName] = useState("");
-  const [files, setFiles] = useState([]);
-  const [postfiles, setPostFiles] = useState([]);
-  const [exhibition, setExhibition] = useState({
-    startDate: "",
-    endDate: "",
-    exhibitionTitle: "",
-    exhibitionDesc: "",
-    exhibitionCode: "",
-    entranceFee: "",
-    artWorkCnt: "",
-    agencyAndSponsor: "",
-    location: "",
-    contact: "",
-    authors: [],
-    exhibitionCategoty: [],
-    detailLocation: {
-      zonecode: "",
-      address: "",
-      addressEnglish: "",
-      addressType: "",
-      buildingName: "",
-      buildingCode: "",
-      roadAddress: "",
-      roadAddressEnglish: "",
-      autoJibunAddress: "",
-      autoJibunAddressEnglish: "",
-      roadname: "",
-      roadnameCode: "",
-      roadnameEnglish: "",
-    },
-  });
+  const [updateExhibition] = usePatchExhibition(id);
+  const sourceUrl = "exhibition";
+  const [
+    exhibition,
+    setExhibition,
+    authorid,
+    authorName,
+    setAuthorName,
+    handleClick,
+    onchangeHandler,
+  ] = useSetExhibition();
+  //dropzoneinput의 file 관리
+  const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
+    useDropzoneinputPostEx();
+  const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
+  //s3이미지 제출,url얻어오기
+  const [s3imgurlhandle] = useGetimgurlEx(files);
+  const [s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);
+  // 마운트 해제시, 데이터 url 취소
+  useEffect(() => {
+    return () => {
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+      postfiles.forEach((file) => URL.revokeObjectURL(file.preview));
+    };
+  }, []);
   useEffect(() => {
     // 서버에서 받아온 데이터가 로딩되면 exhibition state를 업데이트
     //!나중에 필수값 유효성검사 필요!
@@ -69,7 +63,7 @@ function ExhibitionUpdate() {
         author: info.ExhibitionAuthors[authorid.current].author_name,
       });
       const newExCodeArr = info.ExhibitionCategories.map(
-        (item) => item.exhibition_code
+        (item) => item.categoryCode
       );
       //TODO 디테일한 유효성 검사 필요
       setExhibition((prevExhibition) => ({
@@ -112,194 +106,13 @@ function ExhibitionUpdate() {
       setFiles(previewFileArr);
     }
   }, [isLoading, isError, data]);
-  //카카오 주소 api
-  const open = useDaumPostcodePopup(process.env.REACT_APP_KAKAO_ADDRESS_URL);
-  const handleClick = () => {
-    open({ onComplete: handleComplete });
-  };
-  const handleComplete = (data) => {
-    setExhibition((old) => {
-      return {
-        ...old,
-        detailLocation: {
-          zonecode: data.zonecode,
-          address: data.address,
-          addressEnglish: data.addressEnglish,
-          addressType: data.addressType,
-          buildingName: data.buildingName,
-          buildingCode: data.buildingCode,
-          roadAddress: data.roadAddress,
-          roadAddressEnglish: data.roadAddressEnglish,
-          autoJibunAddress: data.autoJibunAddress,
-          autoJibunAddressEnglish: data.autoJibunAddressEnglish,
-          roadname: data.roadname,
-          roadnameCode: data.roadnameCode,
-          roadnameEnglish: data.roadnameEnglish,
-        },
-      };
-    });
-  };
-  //헨들러
-  const onchangeHandler = (event) => {
-    const { value, name } = event.target;
-    //작가
-    if (name === "author") {
-      //!이거 선언해줄 필요 없는거 같은데?
-      setAuthorName(value);
-      //! state관리 안해도 될듯한데?
-      const newarr = [...exhibition.authors];
-      newarr.splice(authorid.current, 1, {
-        order: (authorid.current + 1).toString(),
-        author: value,
-      });
-      setExhibition((old) => {
-        return {
-          ...old,
-          authors: newarr,
-        };
-      });
-    }
-    //카테고리
-    else if (name === "exhibitionCategoty") {
-      setExhibition((old) => {
-        return {
-          ...old,
-          exhibitionCategoty: [...old.exhibitionCategoty, value],
-        };
-      });
-    }
-    //입장료
-    else if (name === "entranceFee") {
-      setExhibition((old) => {
-        const regex = /^[0-9,]*$/;
-        if (!regex.test(value)) {
-          const sanitizedValue = value.replace(/[^0-9,]/g, "");
-          return {
-            ...old,
-            entranceFee: sanitizedValue,
-          };
-        }
-        const removedCommaValue = Number(value.replaceAll(",", ""));
-        return {
-          ...old,
-          entranceFee: removedCommaValue.toLocaleString(),
-        };
-      });
-    }
-    //기본
-    else {
-      setExhibition((old) => {
-        return { ...old, [name]: value };
-      });
-    }
-  };
-  useEffect(() => {
-    // 마운트 해제시, 데이터 url 취소
-    return () => {
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
-      postfiles.forEach((file) => URL.revokeObjectURL(file.preview));
-    };
-  }, []);
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: {
-      "image/*": [],
-    },
-    onDrop: (acceptedFiles) => {
-      setFiles((old) => {
-        return [
-          ...acceptedFiles.map((file) =>
-            Object.assign(file, {
-              preview: URL.createObjectURL(file),
-            })
-          ),
-        ];
-      });
-    },
-  });
-
-  //섬네일용이미지 url 값 생성기.
-  const { getRootProps: getRootPropsPOST, getInputProps: getInputPropsPOST } =
-    useDropzone({
-      accept: {
-        "image/*": [],
-      },
-      // maxFiles: 1,
-      onDrop: (acceptedFiles) => {
-        if (acceptedFiles.length > 1) {
-          alert("섬네일은 1개만 가능합니다.");
-          return;
-        } else {
-          setPostFiles(
-            acceptedFiles.map((file) =>
-              Object.assign(file, {
-                preview: URL.createObjectURL(file),
-              })
-            )
-          );
-        }
-      },
-    });
-  //s3올리기
-  const s3imgurlhandle = (sourceUrl) => {
-    files?.forEach((file) => {
-      const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
-      const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-      const newObject = {
-        order: order.current.toString(),
-        imgUrl: newimageUrl,
-        imgCaption: "이미지 내용",
-      };
-      order.current++;
-      urls.push(newObject);
-      const fileType = file.type;
-      const s3Client = new S3Client({
-        credentials: {
-          accessKeyId: process.env.REACT_APP_AccessKey,
-          secretAccessKey: process.env.REACT_APP_SecretAccessKey,
-        },
-        region: process.env.REACT_APP_BucketRegion,
-      });
-      const putCommand = new PutObjectCommand({
-        Bucket: process.env.REACT_APP_BucketName,
-        Key: fileName,
-        Body: file,
-        ContentType: fileType,
-      });
-      try {
-        const response = s3Client.send(putCommand);
-      } catch (err) {
-        console.log(err.message);
-      }
-    });
-    postfiles.forEach((file) => {
-      const fileName = `${sourceUrl}/${uuidv4()}.${file.type.split("/")[1]}`;
-      const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
-      posturl = newimageUrl;
-      const fileType = file.type;
-      const s3Client = new S3Client({
-        credentials: {
-          accessKeyId: process.env.REACT_APP_AccessKey,
-          secretAccessKey: process.env.REACT_APP_SecretAccessKey,
-        },
-        region: process.env.REACT_APP_BucketRegion,
-      });
-      const putCommand = new PutObjectCommand({
-        Bucket: process.env.REACT_APP_BucketName,
-        Key: fileName,
-        Body: file,
-        ContentType: fileType,
-      });
-      try {
-        const response = s3Client.send(putCommand);
-      } catch (err) {
-        console.log(err.message);
-      }
-    });
-  };
+  console.log("가지고오는값", info);
+  console.log("exhibition", exhibition);
   //수정하기
   const submitHandler = (event) => {
     event.preventDefault();
-    s3imgurlhandle(sourceUrl);
+    const urls = s3imgurlhandle(sourceUrl);
+    const posturl = s3Postimgurlhandle(sourceUrl);
     updateExhibition({ ...exhibition, postImage: posturl, artImage: urls });
   };
   //삭제 버튼
@@ -307,13 +120,10 @@ function ExhibitionUpdate() {
   const deleteHandler = () => {
     if (window.confirm("정말 이 게시글을 삭제합니까?")) {
       deleteExhibition(id);
-      navigator("/exhibition");
     } else {
       alert("취소합니다.");
     }
   };
-  console.log("받아온값", info);
-  console.log("exhibition", exhibition);
   return (
     <>
       {data && (

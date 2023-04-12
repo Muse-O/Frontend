@@ -113,5 +113,13 @@ export const useSetExhibition = () => {
       });
     }
   };
-  return [exhibition, authorName, handleClick, onchangeHandler];
+  return [
+    exhibition,
+    setExhibition,
+    authorid,
+    authorName,
+    setAuthorName,
+    handleClick,
+    onchangeHandler,
+  ];
 };
