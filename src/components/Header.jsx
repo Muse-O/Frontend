@@ -3,9 +3,11 @@ import styled from "styled-components";
 import { Flex } from "./Flex";
 import { useNavigate } from "react-router-dom";
 import Logout from "../features/login/Logout";
+import { cookies } from "../shared/cookies";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); //로그인/로그아웃 상태관리
+  const accessToken = cookies.get("access_token");
+  const [isLoggedIn, setIsLoggedIn] = useState(accessToken); //로그인/로그아웃 상태관리
   const navigate = useNavigate();
 
   return (
@@ -60,13 +62,20 @@ function Header() {
         >
           전시회 페이지
         </button>
+
+        {/* 로그인 상태: 마이페이지 접근 가능 / 비로그인 상태: 로그인 페이지로 이동 */}
         <button
           onClick={() => {
-            navigate("/mypage");
+            if (isLoggedIn) {
+              navigate("/mypage");
+            } else if (!isLoggedIn) {
+              navigate("/login");
+            }
           }}
         >
           마이 페이지
         </button>
+
         <button
           onClick={() => {
             navigate("/register");
@@ -75,8 +84,11 @@ function Header() {
           회원가입 페이지
         </button>
 
+        {/* 로그아웃 버튼 */}
         <div>
-          {isLoggedIn ? <Logout setIsLoggedIn={setIsLoggedIn} /> : null}
+          {isLoggedIn ? (
+            <Logout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+          ) : null}
         </div>
 
         <FootingArea>푸터 컨탠츠</FootingArea>
