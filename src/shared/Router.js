@@ -15,7 +15,7 @@ import Register from "../pages/Register";
 import UpdateExhibition from "../pages/UpdateExhibition";
 
 function Router() {
-  const token = cookies.get("token");
+  const token = cookies.get("access_token");
   const pages = [
     { pathname: "/", element: <Main />, isPublic: true, isLogin: false },
     { pathname: "/login", element: <Login />, isPublic: true, isLogin: false },
@@ -34,7 +34,7 @@ function Router() {
     {
       pathname: "/exhibition/create",
       element: <CreateExhibition />,
-      isPublic: true,
+      isPublic: false,
       isLogin: false,
     },
     {
