@@ -84,7 +84,9 @@ function Exhibition() {
                 {list.map((item) => (
                   <Div key={item.exhibitionId}>
                     <div>
-                      제목{item.exhibitionTitle}아이디{item.exhibitionId}
+                      <div>제목{item.exhibitionTitle}</div>
+                      <div>작성자email{item.authorNickName}</div>
+
                       <button
                         onClick={() => {
                           navigator(`/exhibition/detail/${item.exhibitionId}`);

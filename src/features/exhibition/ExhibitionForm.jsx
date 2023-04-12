@@ -1,6 +1,5 @@
-import { useDaumPostcodePopup } from "react-daum-postcode";
 import styled from "styled-components";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect } from "react";
 import { usePostExhibition } from "../../hooks/exhibition/usetPostExhibition";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
@@ -13,42 +12,14 @@ import {
   useDropzoneinputEx,
   useDropzoneinputPostEx,
 } from "../../hooks/exhibition/useDropzoneEx";
+import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
 
 function ExhibitionForm() {
   const navigator = useNavigate();
   const [createExhibition] = usePostExhibition();
   const sourceUrl = "exhibition";
-  const authorid = useRef(0);
-  const [authorName, setAuthorName] = useState("");
-  const [exhibition, setExhibition] = useState({
-    startDate: "",
-    endDate: "",
-    exhibitionTitle: "",
-    exhibitionDesc: "",
-    exhibitionCode: "",
-    entranceFee: "",
-    artWorkCnt: "",
-    agencyAndSponsor: "",
-    location: "",
-    contact: "",
-    authors: [],
-    exhibitionCategoty: [],
-    detailLocation: {
-      zonecode: "",
-      address: "",
-      addressEnglish: "",
-      addressType: "",
-      buildingName: "",
-      buildingCode: "",
-      roadAddress: "",
-      roadAddressEnglish: "",
-      autoJibunAddress: "",
-      autoJibunAddressEnglish: "",
-      roadname: "",
-      roadnameCode: "",
-      roadnameEnglish: "",
-    },
-  });
+  const [exhibition, authorName, handleClick, onchangeHandler] =
+    useSetExhibition();
   //dropzoneinput의 file 관리
   const [files, getRootProps, getInputProps] = useDropzoneinputEx();
   const [postfiles, getRootPropsPOST, getInputPropsPOST] =
@@ -56,85 +27,6 @@ function ExhibitionForm() {
   //s3이미지 제출,url얻어오기
   const [urls, s3imgurlhandle] = useGetimgurlEx(files);
   const [posturl, s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);
-  //카카오 주소 api
-  const open = useDaumPostcodePopup(process.env.REACT_APP_KAKAO_ADDRESS_URL);
-  const handleClick = () => {
-    open({ onComplete: handleComplete });
-  };
-  const handleComplete = (data) => {
-    setExhibition((old) => {
-      return {
-        ...old,
-        detailLocation: {
-          zonecode: data.zonecode,
-          address: data.address,
-          addressEnglish: data.addressEnglish,
-          addressType: data.addressType,
-          buildingName: data.buildingName,
-          buildingCode: data.buildingCode,
-          roadAddress: data.roadAddress,
-          roadAddressEnglish: data.roadAddressEnglish,
-          autoJibunAddress: data.autoJibunAddress,
-          autoJibunAddressEnglish: data.autoJibunAddressEnglish,
-          roadname: data.roadname,
-          roadnameCode: data.roadnameCode,
-          roadnameEnglish: data.roadnameEnglish,
-        },
-      };
-    });
-  };
-  //헨들러
-  const onchangeHandler = (event) => {
-    const { value, name } = event.target;
-    //작가
-    if (name === "author") {
-      setAuthorName(value);
-      const newarr = [...exhibition.authors];
-      newarr.splice(authorid.current, 1, {
-        order: (authorid.current + 1).toString(),
-        author: value,
-      });
-      setExhibition((old) => {
-        return {
-          ...old,
-          authors: newarr,
-        };
-      });
-    }
-    //카테고리
-    else if (name === "exhibitionCategoty") {
-      setExhibition((old) => {
-        return {
-          ...old,
-          exhibitionCategoty: [...old.exhibitionCategoty, value],
-        };
-      });
-    }
-    //입장료
-    else if (name === "entranceFee") {
-      setExhibition((old) => {
-        const regex = /^[0-9,]*$/;
-        if (!regex.test(value)) {
-          const sanitizedValue = value.replace(/[^0-9,]/g, "");
-          return {
-            ...old,
-            entranceFee: sanitizedValue,
-          };
-        }
-        const removedCommaValue = Number(value.replaceAll(",", ""));
-        return {
-          ...old,
-          entranceFee: removedCommaValue.toLocaleString(),
-        };
-      });
-    }
-    //기본
-    else {
-      setExhibition((old) => {
-        return { ...old, [name]: value };
-      });
-    }
-  };
   // 마운트 해제시, 데이터 url 취소
   useEffect(() => {
     return () => {
@@ -142,7 +34,6 @@ function ExhibitionForm() {
       postfiles.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   }, []);
-
   //제출하기
   const submitHandler = (event) => {
     event.preventDefault();
