@@ -15,7 +15,7 @@ const H1 = styled.h1`
 `
 
 const MainFlex = styled(Flex)`
-  width:auto;
+  width:1525px;
   min-height:400px;
   margin: 50px 75px 100px;
   /* background-color:yellow; */
