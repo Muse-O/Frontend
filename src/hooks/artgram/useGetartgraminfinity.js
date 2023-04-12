@@ -11,6 +11,7 @@ export const useGetartgraminfinity = (pageSize = 12) => {
         const response = await apis.get(
           `/artgram?limit=${pageSize}&offset=${pageParam}`
         );
+        console.log("토큰없는 GET");
         return response.data.artgramList.rows;
       },
       getNextPageParam: (lastPage, allPages) => {
