@@ -40,11 +40,19 @@ function UpdateUserProfileModal({ setOpenModal }) {
   const [s3imgurlhandle] = useGetimgurl();
   const updateUserProfileHandler = e => {
     e.preventDefault();
-    //update query에 payload로 넣어줄 fileImg = useRef 사용해서 받아둔 파일
-    const fileImg = s3imgurlhandle(fileRef.current.files[0]);
-    // console.log(fileImg, "img"); //파일 확인
-    updateUserProfile({ ...editProfile, profileImg: fileImg });
-    setOpenModal(false);
+
+    if (image === "") {
+      //바꾸려는 이미지가 없을 시, s3imgurlhandle에 이미지 안 보내야함.
+      //-> 이미지 제외하고 텍스트만 보냄.
+      updateUserProfile({ ...editProfile });
+      setOpenModal(false);
+    } else if (fileRef) {
+      //update query에 payload로 넣어줄 fileImg = useRef 사용해서 받아둔 파일
+      const fileImg = s3imgurlhandle(fileRef.current.files[0]);
+      console.log(fileImg, "fileImg"); //파일 확인
+      updateUserProfile({ ...editProfile, profileImg: fileImg });
+      setOpenModal(false);
+    }
   };
 
   const imgUpdateHandler = () => {
