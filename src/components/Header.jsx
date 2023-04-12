@@ -62,13 +62,20 @@ function Header() {
         >
           전시회 페이지
         </button>
+
+        {/* 로그인 상태: 마이페이지 접근 가능 / 비로그인 상태: 로그인 페이지로 이동 */}
         <button
           onClick={() => {
-            navigate("/mypage");
+            if (isLoggedIn) {
+              navigate("/mypage");
+            } else if (!isLoggedIn) {
+              navigate("/login");
+            }
           }}
         >
           마이 페이지
         </button>
+
         <button
           onClick={() => {
             navigate("/register");
@@ -77,6 +84,7 @@ function Header() {
           회원가입 페이지
         </button>
 
+        {/* 로그아웃 버튼 */}
         <div>
           {isLoggedIn ? (
             <Logout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
