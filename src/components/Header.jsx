@@ -3,9 +3,11 @@ import styled from "styled-components";
 import { Flex } from "./Flex";
 import { useNavigate } from "react-router-dom";
 import Logout from "../features/login/Logout";
+import { cookies } from "../shared/cookies";
 
 function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(true); //로그인/로그아웃 상태관리
+  const accessToken = cookies.get("access_token");
+  const [isLoggedIn, setIsLoggedIn] = useState(accessToken); //로그인/로그아웃 상태관리
   const navigate = useNavigate();
 
   return (
@@ -76,7 +78,9 @@ function Header() {
         </button>
 
         <div>
-          {isLoggedIn ? <Logout setIsLoggedIn={setIsLoggedIn} /> : null}
+          {isLoggedIn ? (
+            <Logout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+          ) : null}
         </div>
 
         <FootingArea>푸터 컨탠츠</FootingArea>
