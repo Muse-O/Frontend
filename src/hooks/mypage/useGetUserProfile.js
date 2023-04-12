@@ -14,9 +14,6 @@ export const useGetUserProfile = () => {
       const data = await apis_token.get("/mypage");
       return data.data;
     },
-    onSuccess: () => {
-      console.log("ok");
-    },
   });
 
   return {
