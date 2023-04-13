@@ -25,7 +25,7 @@ const Artgram = () => {
           fetchNextPage()
         }
       },
-      { threshold: 0.4 }
+      { threshold: 0.5 }
     );
 
     if (lastRef.current) {

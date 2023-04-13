@@ -9,6 +9,8 @@ import { useGetartgramComments } from "../../hooks/artgram/useGetartgramComments
 import { usePostingtime } from "../../hooks/artgram/usePostingtime";
 import ArtgramSlider from "./ArtgramSlider";
 import { useGetartgramDetail } from "../../hooks/artgram/useGetartgramDetail";
+import {BsHeartFill} from 'react-icons/bs' 
+import { useLikes } from "../../hooks/artgram/useLikes";
 
 function ArtgramDetail({pos}) {
   const { artgramId, modalState, setModalState } = pos;
@@ -24,7 +26,7 @@ function ArtgramDetail({pos}) {
       e.preventDefault()
       commentHandle(e, artgramId, formState.comment)
   }
-
+  const {patchLikes} = useLikes()
 
   if (detailIsLoading || detailIsError || commentsIsLoading || commentsIsError) {
     return <div>로딩 중....</div>;
@@ -89,6 +91,20 @@ function ArtgramDetail({pos}) {
                 <div>
                   <p>{detailData.artgramDesc}</p>
                   <p>{detailData.hashtag.map((hashtag) => `#${hashtag}`)}</p>
+                  <p>
+                    <Artgramparts.Likes
+                      children={
+                        <div onClick={(event)=> {
+                          event.stopPropagation()
+                          patchLikes(artgramId)
+                          }} style={{display:"inline", zIndex:"10"}}>
+                        <span>
+                          <BsHeartFill color={detailData.liked && "#FB6E52" || "lightgray"}/>
+                        </span>{" "}
+                        </div>
+                      }
+                    />
+                  </p>
                 </div>
               </Flex>
             </Modal.ModalInner>

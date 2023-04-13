@@ -3,6 +3,7 @@ import {BsHeartFill} from 'react-icons/bs'
 import * as Artgramparts from './Artgramparts'
 import { usePostingtime } from '../../hooks/artgram/usePostingtime'
 import {IoMdImages} from 'react-icons/io'
+import { useLikes } from '../../hooks/artgram/useLikes'
 
 const ArgramBox = ({pos}) => {
   // pos으로 전달받은 내용 구조분해 할당 ------------------------------------------------------------------------------- //
@@ -18,7 +19,7 @@ const ArgramBox = ({pos}) => {
     userEmail,
     openModalhandle
   } = pos;
-
+  const {patchLikes} = useLikes()
   // GET : allArtgram.Posting 의 시간을 구하는 커스텀 훅 -------------------------------------------------------------- //
   const [timehandle] = usePostingtime()  
   // ArgramBox의 뷰 파트 ------------------------------------------------------------------------------------------ //
@@ -43,9 +44,14 @@ const ArgramBox = ({pos}) => {
         <Artgramparts.Likes
           children={
             <>
+              <div onClick={(event)=> {
+                event.stopPropagation()
+                patchLikes(artgramId)
+                }} style={{display:"inline", zIndex:"10"}}>
               <span>
                 <BsHeartFill color={liked && "#FB6E52" || "lightgray"}/>
               </span>{" "}
+              </div>
               {likeCount}
             </>
           }
