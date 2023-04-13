@@ -6,33 +6,37 @@ import { useOpenModal } from "../hooks/artgram/useOpenModal";
 import ArgramBox from "../features/artgram/ArtgramBox";
 import ArtgramDetail from "../features/artgram/ArtgramDetail";
 import { useGetartgraminfinity } from "../hooks/artgram/useGetartgraminfinity";
+import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 
 
 const Artgram = () => {
+  const navigate = useNavigate()
   // 아트그램 GET 관련 --------------------------------------------------------------------------------------------- //
   const {data,isLoading,isError,fetchNextPage,hasNextPage} = useGetartgraminfinity()
   // useGetartgraminfinity의 결과로 가져온 data.pages를 하나의 배열로 만드는 로직 
   let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
-  console.log(merged)
+  // console.log(merged)
   // intersection Observe --------------------------------------------------------------------------------------- //
   const lastRef = useRef(null)
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          console.log("마지막입니다");
+        if (entry.isIntersecting) { // entry.isIntersecting 는 Boolean 데이터로 전달받는데, 참조가 되면 true 를 반환한다. 
           fetchNextPage()
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.4 }
     );
-
+    // 
     if (lastRef.current) {
+      console.log("사이드 이팩트 실행");
       observer.observe(lastRef.current);
     }
 
     return () => {
+      console.log("사이드 이팩트 해제");
       if (lastRef.current) {
         observer.unobserve(lastRef.current);
       }
@@ -66,6 +70,7 @@ const Artgram = () => {
                 imgUrl,
                 likeCount,
                 liked,
+                scrap,
                 profileImg,
                 nickname,
                 userEmail,
@@ -80,6 +85,7 @@ const Artgram = () => {
                         imgUrl,
                         likeCount,
                         liked,
+                        scrap,
                         profileImg,
                         nickname,
                         userEmail,
@@ -112,9 +118,22 @@ const Artgram = () => {
             {isLoading ? "로딩 중..." : "더 불러오기"}
           </button>
         )}
+        <ArtgramWrite onClick={()=> navigate('/artgram/create')}>아트그램 쓰기</ArtgramWrite>
       </Article>
     </>
   );
 }
 
 export default Artgram;
+
+const ArtgramWrite = styled.div`
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: fit-content;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 900;
+  background-color: blue;
+`

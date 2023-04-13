@@ -19,7 +19,7 @@ function ArtgramDetail({pos}) {
     const [detailIsLoading, detailIsError,detailData] = useGetartgramDetail(artgramId)
     const [commentsIsLoading, commentsIsError,commentsData] = useGetartgramComments(artgramId);
     const [timehandle] = usePostingtime()  
-    // console.log(detailData)
+    console.log(detailData)
   // 아트그램 상세모달페이지: 댓글 POST 관련 --------------------------------------------------------------------------- //
   const [formState, setFormState, handleInputChange] = useFormInput();
   const [commentHandle] = usePostcomments(setFormState);
@@ -121,7 +121,7 @@ function ArtgramDetail({pos}) {
                       style={{ display: "inline", zIndex: "10" }}
                     >
                       <span>
-                        <BsFilePlusFill color={"lightgray"} />
+                        <BsFilePlusFill color={detailData.scrap && "#4FC0E8" || "lightgray"} />
                       </span>
                     </div>
                   </div>
