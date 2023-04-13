@@ -13,11 +13,16 @@ import {
   registerHandler,
 } from "./registerValidate";
 import styled from "styled-components";
+import { useEmailAuthSend } from "../../hooks/register/useEmailAuthSend";
+import { useEmailAuthConfirm } from "../../hooks/register/useEmailAuthComfirm";
 
 function RegisterForm() {
+  const [code, setCode] = useState("");
   //react-query
   const { register } = useRegister();
   const { emailConfirm, checkEmailConfirm } = useEmailConfirm();
+  const { emailAuthSend } = useEmailAuthSend();
+  const { emailAuthConfirm } = useEmailAuthConfirm();
 
   //회원가입시 register에 보낼 정보
   const [registerInfo, setRegisterInfo] = useState({
@@ -31,6 +36,21 @@ function RegisterForm() {
     setRegisterInfo(pre => {
       return { ...pre, [name]: value };
     });
+  };
+
+  //이메일 인증메일 발송
+  const emailAuthSendHandler = () => {
+    emailAuthSend({ email: registerInfo.email });
+  };
+
+  //이메일 인증번호 onChange
+  const changeEmailAuthConfirmHandler = e => {
+    setCode(e.target.value);
+  };
+
+  //이메일 인증번호 확인
+  const emailAuthConfirmHandler = () => {
+    emailAuthConfirm({ email: registerInfo.email, code: Number(code) });
   };
 
   return (
@@ -50,10 +70,19 @@ function RegisterForm() {
         <div>{emailValidation(registerInfo.email)}</div>
 
         <div>
-          <button>메일인증</button>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button onClick={emailAuthSendHandler}>메일인증</button>
+            {/* 추후 남은시간 보여줄 것 */}
+            <div>인증코드 유효시간은 3분입니다.</div>
+          </div>
+
           <div>
-            <input type="text" />
-            <button>인증확인</button>
+            <input
+              type="text"
+              value={code}
+              onChange={changeEmailAuthConfirmHandler}
+            />
+            <button onClick={emailAuthConfirmHandler}>인증확인</button>
           </div>
         </div>
       </StEmailWrap>

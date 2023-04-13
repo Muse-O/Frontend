@@ -4,6 +4,7 @@ import { apis } from "../../api/apis";
 export function useEmailAuthConfirm() {
   const { mutate } = useMutation({
     mutationFn: async payload => {
+      console.log(payload, "payload");
       const data = await apis.post("/auth/emailcodecheck", payload);
       return data;
     },
