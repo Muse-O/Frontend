@@ -17,7 +17,6 @@ function ArtgramForm() {
   // Form의 input state 관리(제목과 내용, 그리고 해시태그)
   const [formState, setFormState, handleInputChange] = useFormInput();
   const [hashtag, setHashTag] = useState([]);
-
   // Drag&Drop files state 관리 및 화면에 미리보기 제어   ----------------------------------------------------- //
   const [files, setFiles, getRootProps, getInputProps] = useDropzoneinput()
   useEffect(() => {
@@ -36,6 +35,9 @@ function ArtgramForm() {
     setFiles([]);
     setFormState({});
   };
+  // -------------------------------------------------------------------------------------------------- //
+
+
   // -------------------------------------------------------------------------------------------------- //
   return (
     <>

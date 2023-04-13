@@ -1,27 +1,29 @@
 import { useEffect, useState } from "react";
 
-export const useHashTagInput = (hashTag, setHashTag) => {
-  const [inputValue, setInputValue] = useState("");
+export const useHashTagInput = (inputValue,setInputValue,hashTag, setHashTag) => {
+  // console.log("useHashTagInput", inputValue);
+  // const [inputValue, setInputValue] = useState("");
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
-  };
-
+  // const handleInputChange = (event) => {
+  //   setInputValue(event.target.value);
+  // };
   const handleInputKeyDown = (event) => {
     if (event.key === "Enter") {
-    // if (event.key === "Enter" || event.keyCode === 13) {
       event.preventDefault();
       const newHashTag = inputValue.trim();
-      //  const newHashTag = inputValue.trim().normalize("NFC");
-      if (newHashTag && !hashTag.includes(newHashTag)) {
+      console.log("newHashTag 중복확인 검사이전", newHashTag);
+      if(newHashTag && !hashTag.includes(newHashTag)) {
+        console.log("newHashTag 중복확인 검사이후", newHashTag);
         setHashTag([...hashTag, newHashTag]);
-        setInputValue("");
-      } 
+      } else {
+        setInputValue('')
+      }
+
     }
   };
 
   const handleRemoveHashTag = (hashTagOne) => {
     setHashTag(hashTag.filter((tag) => tag !== hashTagOne));
   };
-  return {inputValue, handleInputChange, handleInputKeyDown, handleRemoveHashTag}
+  return {handleInputKeyDown, handleRemoveHashTag}
 }
