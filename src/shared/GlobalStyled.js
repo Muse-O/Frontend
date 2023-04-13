@@ -1,7 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
-
 export const GlobalStyle = createGlobalStyle`
   ${reset}
   html, body, header, footer, div, span, h1, h2, h3, h4, h5, h6, p, 
@@ -36,4 +35,3 @@ export const Article = styled.div`
   /* border: 5px solid blue; */
   background-color: lightyellow;
 `;
-
