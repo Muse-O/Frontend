@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Flex } from "./Flex";
 import { useHashTagInput } from "../hooks/artgram/useHashTagInput";
@@ -11,7 +11,12 @@ export const Input = ({ label, inputProps }) => (
 );
 
 export const HashTagInput = ({ label, hashTag, setHashTag }) => {
-  const {inputValue, handleInputChange, handleInputKeyDown, handleRemoveHashTag} = useHashTagInput(hashTag, setHashTag)
+  const [inputValue, setInputValue] = useState("");
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  };
+  // console.log(inputValue);
+  const {handleInputKeyDown, handleRemoveHashTag} = useHashTagInput(inputValue, setInputValue, hashTag, setHashTag)
   return (
     <Flex fd="column" gap="10">
       <DivFlex>

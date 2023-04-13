@@ -35,8 +35,8 @@ const MainDiv = styled.div`
 const Artgrambox = styled(Flex)`
   width:364px;
   min-width:364px;
-  min-height:436px;
-  max-height:436px;
+  min-height:306px;
+  max-height:306px;
   background-color:rgb(240, 240, 240);
   border-radius: 8px;
   position: relative;
@@ -87,7 +87,18 @@ const Nickname = styled.div`
 
   span {
     font-size: 1.8rem;
-    color: gray;
+    color: ${pos => pos.color};
+  }
+`
+const ModalNickname = styled.div`
+  min-height:40px; 
+  line-height: 40px;
+  font-size: 1.8rem;
+  margin-left:10px;
+
+  span {
+    font-size: 1.8rem;
+    color: ${pos => pos.color};
   }
 `
 
@@ -148,6 +159,7 @@ export {
   Desc,
   ProflieBox,
   Nickname,
+  ModalNickname,
   Likes,
   PluralImgs
 }
