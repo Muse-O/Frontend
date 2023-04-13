@@ -1,7 +1,6 @@
 import styled, { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
-
 export const GlobalStyle = createGlobalStyle`
   ${reset}
   html, body, header, footer, div, span, h1, h2, h3, h4, h5, h6, p, 
@@ -33,7 +32,7 @@ export const ContainerWrap = styled.div`
 export const Article = styled.div`
   margin-left: 245px;
   min-height: 100vh;
-  /* border: 5px solid blue; */
   background-color: lightyellow;
+  display: flex;
+  position: relative;
 `;
-
