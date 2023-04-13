@@ -9,8 +9,9 @@ import { useGetartgramComments } from "../../hooks/artgram/useGetartgramComments
 import { usePostingtime } from "../../hooks/artgram/usePostingtime";
 import ArtgramSlider from "./ArtgramSlider";
 import { useGetartgramDetail } from "../../hooks/artgram/useGetartgramDetail";
-import {BsHeartFill} from 'react-icons/bs' 
+import {BsHeartFill, BsFilePlusFill} from 'react-icons/bs' 
 import { useLikes } from "../../hooks/artgram/useLikes";
+import { useScrap } from "../../hooks/artgram/useScrap";
 
 function ArtgramDetail({pos}) {
   const { artgramId, modalState, setModalState } = pos;
@@ -18,7 +19,7 @@ function ArtgramDetail({pos}) {
     const [detailIsLoading, detailIsError,detailData] = useGetartgramDetail(artgramId)
     const [commentsIsLoading, commentsIsError,commentsData] = useGetartgramComments(artgramId);
     const [timehandle] = usePostingtime()  
-    console.log(detailData)
+    // console.log(detailData)
   // 아트그램 상세모달페이지: 댓글 POST 관련 --------------------------------------------------------------------------- //
   const [formState, setFormState, handleInputChange] = useFormInput();
   const [commentHandle] = usePostcomments(setFormState);
@@ -27,6 +28,7 @@ function ArtgramDetail({pos}) {
       commentHandle(e, artgramId, formState.comment)
   }
   const {patchLikes} = useLikes()
+  const {patchScrap} = useScrap()
 
   if (detailIsLoading || detailIsError || commentsIsLoading || commentsIsError) {
     return <div>로딩 중....</div>;
@@ -47,8 +49,8 @@ function ArtgramDetail({pos}) {
             {detailData.ArtgramImgs.length > 1 ? (
               <ArtgramSlider map={detailData.ArtgramImgs} />
             ) : (
-              <img src={detailData.ArtgramImgs[0].imgUrl} width="100%"/>
-              
+              <img src={detailData.ArtgramImgs[0].imgUrl} width="100%" />
+
               // <Modal.ModdalinnerImg
               //   src={detailData.ArtgramImgs.imgUrl}
               //   width="100"
@@ -91,20 +93,38 @@ function ArtgramDetail({pos}) {
                 <div>
                   <p>{detailData.artgramDesc}</p>
                   <p>{detailData.hashtag.map((hashtag) => `#${hashtag}`)}</p>
-                  <p>
+                  <div>
                     <Artgramparts.Likes
                       children={
-                        <div onClick={(event)=> {
-                          event.stopPropagation()
-                          patchLikes(artgramId)
-                          }} style={{display:"inline", zIndex:"10"}}>
-                        <span>
-                          <BsHeartFill color={detailData.liked && "#FB6E52" || "lightgray"}/>
-                        </span>{" "}
+                        <div
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            patchLikes(artgramId);
+                          }}
+                          style={{ display: "inline", zIndex: "10" }}
+                        >
+                          <span>
+                            <BsHeartFill
+                              color={
+                                (detailData.liked && "#FB6E52") || "lightgray"
+                              }
+                            />
+                          </span>{" "}
                         </div>
                       }
                     />
-                  </p>
+                    <div
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        patchScrap(artgramId)
+                      }}
+                      style={{ display: "inline", zIndex: "10" }}
+                    >
+                      <span>
+                        <BsFilePlusFill color={"lightgray"} />
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </Flex>
             </Modal.ModalInner>
