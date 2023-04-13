@@ -12,6 +12,22 @@ export const GlobalStyle = createGlobalStyle`
         vertical-align: baseline;
         box-sizing:border-box;
     }
+
+  * {
+    @font-face {
+      font-family: 'S-CoreDream-3Light';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+     }
+
+    @font-face {
+      font-family: 'SpoqaHanSansNeo-Regular';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SpoqaHanSansNeo-Regular.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+  }
 `;
 
 export const Wrap = styled.div`
