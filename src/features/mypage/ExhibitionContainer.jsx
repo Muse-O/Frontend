@@ -3,14 +3,60 @@ import styled from "styled-components";
 
 function ExhibitionContainer() {
   const [currentTab, clickTab] = useState(0);
+  // console.log(currentTab, "ct"); //index
 
   const menuArr = [
-    { name: "좋아요", content: "좋아요 누른 전시 게시물 이미지" },
-    { name: "스크랩", content: "스크랩한 전시 게시물 이미지" },
-    { name: "내가 여는 전시", content: "내가 여는 전시 게시물 이미지" },
+    {
+      id: 0,
+      name: "좋아요",
+      content: [
+        {
+          id: 0,
+          src: "abc",
+          alt: "",
+        },
+        {
+          id: 1,
+          src: "def",
+          alt: "",
+        },
+        {
+          id: 2,
+          src: "fdg",
+          alt: "",
+        },
+      ],
+    },
+    {
+      id: 1,
+      name: "스크랩",
+      content: [
+        {
+          id: 0,
+          src: "abc",
+          alt: "",
+        },
+      ],
+    },
+    {
+      id: 2,
+      name: "내가 여는 전시",
+      content: [
+        {
+          id: 0,
+          src: "abc",
+          alt: "",
+        },
+        {
+          id: 1,
+          src: "def",
+          alt: "",
+        },
+      ],
+    },
   ];
-  const selectMenuHandler = index => {
-    clickTab(index);
+  const selectMenuHandler = id => {
+    clickTab(id);
   };
 
   return (
@@ -20,23 +66,24 @@ function ExhibitionContainer() {
       </div>
       <StExhibitionBox>
         <StTabWrap>
-          {menuArr.map((el, index) => (
-            <StTab
-              key={index}
-              className={index === currentTab ? "submenu focused" : "submenu"}
-              onClick={() => selectMenuHandler(index)}
-            >
+          {menuArr.map(el => (
+            <StTab key={el.id} onClick={() => selectMenuHandler(el.id)}>
               {el.name}
             </StTab>
           ))}
         </StTabWrap>
-        <div>{menuArr[currentTab].content}</div>
-        {/* <StTagBox>
-          <div>좋아요</div>
-          <div>스크랩</div>
-          <div>내가 여는 전시</div>
-        </StTagBox>
-        <StImgBox>
+        {menuArr[currentTab].content.map(list => {
+          return (
+            <img
+              style={{ width: "30px", height: "30px", background: "blue" }}
+              key={list.id}
+              src={list.src}
+              alt={list.alt}
+            />
+          );
+        })}
+        {/* <div></div> */}
+        {/* <StImgBox>
           <StImg>이미지</StImg>
           <StImg>이미지</StImg>
           <StImg>이미지</StImg>
@@ -72,21 +119,6 @@ const StTab = styled.div`
 `;
 
 //------------------------------
-const StTagBox = styled.div`
-  margin-top: 20px;
-  margin-left: 40px;
-
-  width: 100%;
-  height: 30px;
-  display: flex;
-  gap: 10px;
-
-  div {
-    height: 20px;
-    border: 1px solid black;
-  }
-`;
-
 const StImgBox = styled.div`
   display: flex;
   justify-content: space-evenly;
