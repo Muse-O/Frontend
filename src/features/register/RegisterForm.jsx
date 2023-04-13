@@ -12,6 +12,7 @@ import {
   nicknameValidation,
   registerHandler,
 } from "./registerValidate";
+import styled from "styled-components";
 
 function RegisterForm() {
   //react-query
@@ -33,22 +34,41 @@ function RegisterForm() {
   };
 
   return (
-    <Flex as="form" fd="column" gap="10">
+    <StFlex fd="column" gap="20">
       <Link to="/">로고 자리(메인으로 돌아감)</Link>
-      <label>이메일</label>
-      <input type="email" name="email" onChange={changeInputHandler} />
-      <button onClick={e => emailConfirmHandler(e, registerInfo, emailConfirm)}>
-        중복확인
-      </button>
-      <div>{emailValidation(registerInfo.email)}</div>
+      <StEmailWrap>
+        <div>
+          <label>이메일</label>
+          <input type="email" name="email" onChange={changeInputHandler} />
+          <button
+            onClick={e => emailConfirmHandler(e, registerInfo, emailConfirm)}
+          >
+            중복확인
+          </button>
+        </div>
 
-      <label>비밀번호</label>
-      <input type="password" name="password" onChange={changeInputHandler} />
-      <div>{pwValidation(registerInfo.password)}</div>
+        <div>{emailValidation(registerInfo.email)}</div>
 
-      <label>닉네임</label>
-      <input type="text" name="nickname" onChange={changeInputHandler} />
-      <div>{nicknameValidation(registerInfo.nickname)}</div>
+        <div>
+          <button>메일인증</button>
+          <div>
+            <input type="text" />
+            <button>인증확인</button>
+          </div>
+        </div>
+      </StEmailWrap>
+
+      <div>
+        <label>비밀번호</label>
+        <input type="password" name="password" onChange={changeInputHandler} />
+        <div>{pwValidation(registerInfo.password)}</div>
+      </div>
+
+      <div>
+        <label>닉네임</label>
+        <input type="text" name="nickname" onChange={changeInputHandler} />
+        <div>{nicknameValidation(registerInfo.nickname)}</div>
+      </div>
 
       <button
         onClick={e =>
@@ -57,11 +77,23 @@ function RegisterForm() {
       >
         회원가입
       </button>
-    </Flex>
+    </StFlex>
   );
 }
 
 export default RegisterForm;
+
+const StFlex = styled(Flex)`
+  input {
+    border: 1px solid gray;
+  }
+`;
+
+const StEmailWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
 
 //기존 코드------------------------------------------------------------------
 // import React, { useState } from "react";

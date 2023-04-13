@@ -5,7 +5,7 @@ function Register() {
   return (
     <div
       style={{
-        width: "300px",
+        width: "400px",
         margin: "0 auto",
         marginTop: "150px",
       }}
