@@ -14,7 +14,7 @@ function ExhibitionDetail() {
   }
   console.log(info);
   return (
-    <>
+    <Flex>
       {info && (
         <>
           <BlackBg>
@@ -32,7 +32,14 @@ function ExhibitionDetail() {
             </SecondTitle>
           </BlackBg>
           <PostWrap>
-            <PostImg src={info.postImage} />
+            <Posts>
+              <PostImg src={info.postImage} />
+              <EXButtons>
+                <button>좋아요</button>
+                <button>스크렙</button>
+                <button>후기_아트그램 링크</button>
+              </EXButtons>
+            </Posts>
           </PostWrap>
           <ContentWrap>
             <Contents>
@@ -110,11 +117,27 @@ function ExhibitionDetail() {
           </ContentWrap>
         </>
       )}
-    </>
+    </Flex>
   );
 }
 
 export default ExhibitionDetail;
+
+const Posts = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  z-index: 10;
+  align-items: center;
+`;
+const EXButtons = styled.div`
+  width: 493px;
+  height: 75px;
+  display: flex;
+  background-color: #24e796;
+  justify-content: space-around;
+  margin-top: 15px;
+`;
 
 const DIV = styled.div`
   background-color: aqua;
@@ -145,13 +168,9 @@ const PostWrap = styled.div`
   width: 648px;
 `;
 const PostImg = styled.img`
-  display: block;
-  position: fixed;
-  background-color: black;
   max-height: 704px;
   max-width: 525px;
   margin-top: 58px;
-  z-index: 10;
 `;
 const ContentWrap = styled.div`
   overflow: hidden;
