@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { usePostExhibition } from "../../hooks/exhibition/usetPostExhibition";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
@@ -19,6 +19,8 @@ function ExhibitionForm() {
   const [
     exhibition,
     setExhibition,
+    exhibitionKind,
+    changeOnOff,
     authorid,
     authorName,
     setAuthorName,
@@ -44,20 +46,24 @@ function ExhibitionForm() {
     event.preventDefault();
     const urls = s3imgurlhandle(sourceUrl);
     const posturl = s3Postimgurlhandle(sourceUrl);
-    createExhibition({ ...exhibition, postImage: posturl, artImage: urls });
+    createExhibition({
+      ...exhibition,
+      postImage: posturl,
+      artImage: urls,
+      exhibitionKind,
+    });
   };
-  console.log("exhibition", exhibition);
-  console.log("post", postfiles.length);
+
   return (
     <Flex as="form" onSubmit={submitHandler} fd="row" gap="150">
       <PostWrap>
         <Post>
           <PageTitle>전시 등록</PageTitle>
           <SelectOnOff>
-            <Offline type="button" name="EK0001" onClick={onchangeHandler}>
+            <Offline type="button" name="EK0001" onClick={changeOnOff}>
               오프라인
             </Offline>
-            <OnLine type="button" name="EK0002" onClick={onchangeHandler}>
+            <OnLine type="button" name="EK0002" onClick={changeOnOff}>
               온라인
             </OnLine>
           </SelectOnOff>
@@ -70,13 +76,15 @@ function ExhibitionForm() {
             </PostImgArea>
           ) : (
             postfiles.map((file) => (
-              <Postimg
-                key={file.name}
-                src={file.preview}
-                onLoad={() => {
-                  URL.revokeObjectURL(file.preview);
-                }}
-              />
+              <>
+                <Postimg
+                  key={file.name}
+                  src={file.preview}
+                  onLoad={() => {
+                    URL.revokeObjectURL(file.preview);
+                  }}
+                />
+              </>
             ))
           )}
           <SubmitButton>전시등록하기</SubmitButton>
@@ -117,7 +125,7 @@ function ExhibitionForm() {
             />
           </ExDesc>
         </Box>
-        {exhibition.exhibitionKind === "EK0002" && (
+        {exhibitionKind === "EK0002" && (
           <Box>
             <Explanation>전시 링크</Explanation>
 
@@ -272,6 +280,7 @@ function ExhibitionForm() {
 }
 
 export default ExhibitionForm;
+
 const ComentBox = styled.div`
   display: flex;
 `;

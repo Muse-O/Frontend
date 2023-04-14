@@ -3,10 +3,10 @@ import { useDaumPostcodePopup } from "react-daum-postcode";
 
 export const useSetExhibition = () => {
   let authorid = 0;
+  const [exhibitionKind, setExhibitionKind] = useState("EK0001");
   const [authorName, setAuthorName] = useState("");
-  const [exhibition, setExhibition] = useState({
+  const templete = {
     startDate: "",
-    exhibitionKind: "",
     exhibitionOnlineLink: "",
     endDate: "",
     exhibitionTitle: "",
@@ -34,7 +34,8 @@ export const useSetExhibition = () => {
       roadnameCode: "",
       roadnameEnglish: "",
     },
-  });
+  };
+  const [exhibition, setExhibition] = useState(templete);
   //카카오 주소
   const open = useDaumPostcodePopup(process.env.REACT_APP_KAKAO_ADDRESS_URL);
   const handleClick = () => {
@@ -66,8 +67,6 @@ export const useSetExhibition = () => {
   //헨들러
   const onchangeHandler = (event) => {
     const { value, name } = event.target;
-    console.log(value, "value");
-    console.log(name, "name");
     //작가
     if (name === "author") {
       setAuthorName(value);
@@ -89,15 +88,6 @@ export const useSetExhibition = () => {
         return {
           ...old,
           exhibitionCategoty: [...old.exhibitionCategoty, value],
-        };
-      });
-    }
-    //on off 버튼
-    else if (name === "EK0001 " || "EK0002 ") {
-      setExhibition((old) => {
-        return {
-          ...old,
-          exhibitionKind: name,
         };
       });
     }
@@ -126,9 +116,25 @@ export const useSetExhibition = () => {
       });
     }
   };
+  const changeOnOff = (event) => {
+    const { name } = event.target;
+    if (
+      exhibitionKind !== name &&
+      JSON.stringify(templete) !== JSON.stringify(exhibition)
+    ) {
+      if (window.confirm("기존데이터가 삭제 됩니다.정말로 진행하시겠습니까?")) {
+        setExhibitionKind(name);
+        setExhibition(templete);
+      }
+    } else {
+      setExhibitionKind(name);
+    }
+  };
   return [
     exhibition,
     setExhibition,
+    exhibitionKind,
+    changeOnOff,
     authorid,
     authorName,
     setAuthorName,

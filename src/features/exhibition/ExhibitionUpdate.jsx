@@ -25,6 +25,8 @@ function ExhibitionUpdate() {
   const [
     exhibition,
     setExhibition,
+    exhibitionKind,
+    changeOnOff,
     authorid,
     authorName,
     setAuthorName,
@@ -118,7 +120,12 @@ function ExhibitionUpdate() {
     } else {
       urls = s3imgurlhandle(sourceUrl);
     }
-    updateExhibition({ ...exhibition, postImage: posturl, artImage: urls });
+    updateExhibition({
+      ...exhibition,
+      postImage: posturl,
+      artImage: urls,
+      exhibitionKind,
+    });
   };
   //삭제 버튼
   const [deleteExhibition] = useDeleteExhibition();
