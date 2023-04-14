@@ -8,6 +8,44 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
+function SecondPrevArrow(props) {
+  const { onClick } = props;
+  return (
+    <div
+      style={{
+        minWidth: "40px",
+        minHeight: "40px",
+        backgroundColor: "lightgray",
+        borderRadius: "50px",
+        position: "absolute",
+        top: "10px",
+        right: "64px",
+      }}
+      onClick={onClick}>
+      <Icons transform="58" children={<FaChevronLeft/>}/>
+    </div>
+  );
+}
+
+function SecondNextArrow(props) {
+  const { onClick } = props;
+  return (
+    <div
+    style={{
+      minWidth: "40px",
+      minHeight: "40px",
+      backgroundColor: "lightgray",
+      borderRadius: "50px",
+      position: "absolute",
+      top: "10px",
+      right: "0",
+    }}
+    onClick={onClick}>
+    <Icons transform="43" children={<FaChevronRight/>}/>
+  </div>
+  );
+}
+
 function SamplePrevArrow(props) {
   const { onClick } = props;
   return (
@@ -17,7 +55,6 @@ function SamplePrevArrow(props) {
     </CustomPrevButton>
   );
 }
-
 
 function SampleNextArrow(props) {
   const { onClick } = props;
@@ -30,7 +67,25 @@ function SampleNextArrow(props) {
 }
 
 function Main() {
-  // Slider
+  /// 최신전시 Slider
+  const newestSlidersettings = {
+    className:"slider2",
+    slidesToShow: 6, 
+    swipeToSlide: true,
+    focusOnSelect: true,
+    autoplay: true, 
+    autoplaySpeed: 2000,
+    infinite: true,
+    dots: false,
+    arrows: true,
+    prevArrow: <SecondPrevArrow/>,
+    nextArrow: <SecondNextArrow/>,
+    style:{marginTop:"36px", position:"static"}, 
+  };
+
+
+  
+  // 아트그램 Slider
   const [mainSlider, setMainSlider] = useState(null);
   const [subSlider, setSudSilder] = useState(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -70,62 +125,39 @@ function Main() {
   };
 
   const arr = [
-    {id:1, title:"첫째"},
-    {id:2, title:"둘째"},
-    {id:3, title:"셋째"},
-    {id:4, title:"넷째"},
-    {id:5, title:"다섯째"},
-    {id:6, title:"여섯째"}]
+    {id:1, title:"첫째", img: "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png"},
+    {id:2, title:"둘째", img: "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200"},
+    {id:3, title:"셋째", img: "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png"},
+    {id:4, title:"넷째", img: "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200"},
+    {id:5, title:"다섯째", img: "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png"},
+    {id:6, title:"여섯째", img: "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200"}]
   const secondarr = [...arr]
   const secondarrEdit = secondarr.shift()
   secondarr.push(secondarrEdit)
-  // console.log(arr, secondarr);
 
   const [exhibitionImg, setExhibitionImg] = useState("https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png")
+
+
   return (
     <>
       <Header />
       <Article>
         <MainWrap>
-          <FirstDiv height="890">
+          <FirstDiv height="800">
             <MainH4 children="전시 종류" />
           </FirstDiv>
           <SecondDiv height="570">
-            <MainH1 children="최신 전시 - 슬라이더 필요" />
-            <SecondWrap ai="center" gap="23">
-              {Array(6)
-                .fill(null)
-                .map((el,index) => (
-                  <SecondInner key={index}>
-                    <SecondImg />
-                    <p className="firstP">제목</p>
-                    <p className="secondP">2023.04.14-2023.04.20</p>
-                    <p className="thirdP">위치</p>
-                  </SecondInner>
-                ))}
-            </SecondWrap>
-            <div
-              style={{
-                minWidth: "40px",
-                minHeight: "40px",
-                backgroundColor: "lightgray",
-                borderRadius: "50px",
-                position: "absolute",
-                top: "10px",
-                right: "0",
-              }}
-            ></div>
-            <div
-              style={{
-                minWidth: "40px",
-                minHeight: "40px",
-                backgroundColor: "lightgray",
-                borderRadius: "50px",
-                position: "absolute",
-                top: "10px",
-                right: "64px",
-              }}
-            ></div>
+            <MainH1 children="최신 전시" />
+              <Slider {...newestSlidersettings}>
+                {최신전시.map((el,index) => (
+                      <SecondInner key={index}>
+                        <SecondImg src={el.img}/>
+                        <p className="firstP">{el.title}</p>
+                        <p className="secondP">{el.date}</p>
+                        <p className="thirdP">{el.location}</p>
+                      </SecondInner>
+                    ))}
+              </Slider>
           </SecondDiv>
           <ThirdDiv height="790">
             <MainH1 children="TOP 10" />
@@ -186,7 +218,7 @@ function Main() {
                  {arr.map((el) =>(
                    <MainSliderWrap key={el.id}>
                    <div className="mainsliderimg">
-                    <img alt={`${el.title} - ${el.id}`} width="100"/>
+                    <img src={el.img} alt={`${el.title} - ${el.id}`} width="100%"/>
                    </div>
                    <div className="profile">
                     <div className="profileimg"></div>
@@ -201,7 +233,7 @@ function Main() {
                     <SubSliderWrap key={el.id}>
                       <div className="subsliderInner">
                         <div className="subsliderimg">
-                          <img alt={`${el.title} - ${el.id}`} width="100"/>
+                          <img src={el.img} alt={`${el.title} - ${el.id}`} width="100%"/>
                         </div>
                         <div className="profile">
                           <div className="profileimg"></div>
@@ -210,7 +242,6 @@ function Main() {
                       </div>
                     </SubSliderWrap>
                   ))}
-
                 </Slider>
                 </SubSliderLayout>
                 <CustomIndex>
@@ -465,6 +496,7 @@ const MainSliderWrap = styled.div`
     background-color: skyblue;
     min-height: 374px;
     max-height: 374px;
+    overflow: hidden;
   }
 
   .profile {
@@ -516,6 +548,7 @@ const SubSliderWrap = styled.div`
   .subsliderimg {
     background-color: lightgreen;
     height: 242px;
+    overflow: hidden;
   }
 
   .profile {
@@ -606,3 +639,22 @@ const Icons = styled.div`
   color: red;
   text-align: center;
 `;
+
+const 최신전시 = [
+  {img : "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png", title:"제목1", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200", title:"제목2", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://culture.seoul.go.kr/cmmn/file/imageSrc.do?fileStreCours=35367259ca6485b8ea26e64a6b235a5388f602a39e9ec217640b29507de1c5f7&streFileNm=a75f86a05a9f5928192d72c7494fb1dfb18a99d5557d38731a0fdd08d3cbb619", title:"제목", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://magazine.brique.co/wp-content/uploads/2022/05/전시포스터.jpg", title:"제목3", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png", title:"제목4", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200", title:"제목5", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://culture.seoul.go.kr/cmmn/file/imageSrc.do?fileStreCours=35367259ca6485b8ea26e64a6b235a5388f602a39e9ec217640b29507de1c5f7&streFileNm=a75f86a05a9f5928192d72c7494fb1dfb18a99d5557d38731a0fdd08d3cbb619", title:"제목6", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://magazine.brique.co/wp-content/uploads/2022/05/전시포스터.jpg", title:"제목7", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png", title:"제목8", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200", title:"제목9", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://culture.seoul.go.kr/cmmn/file/imageSrc.do?fileStreCours=35367259ca6485b8ea26e64a6b235a5388f602a39e9ec217640b29507de1c5f7&streFileNm=a75f86a05a9f5928192d72c7494fb1dfb18a99d5557d38731a0fdd08d3cbb619", title:"제목10", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://magazine.brique.co/wp-content/uploads/2022/05/전시포스터.jpg", title:"제목11", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png", title:"제목12", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200", title:"제목13", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://culture.seoul.go.kr/cmmn/file/imageSrc.do?fileStreCours=35367259ca6485b8ea26e64a6b235a5388f602a39e9ec217640b29507de1c5f7&streFileNm=a75f86a05a9f5928192d72c7494fb1dfb18a99d5557d38731a0fdd08d3cbb619", title:"제목14", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
+  {img : "https://magazine.brique.co/wp-content/uploads/2022/05/전시포스터.jpg", title:"제목15", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"}
+]
