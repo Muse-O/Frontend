@@ -19,6 +19,8 @@ function ExhibitionForm() {
   const [
     exhibition,
     setExhibition,
+    exhibitionKind,
+    changeOnOff,
     authorid,
     authorName,
     setAuthorName,
@@ -44,18 +46,38 @@ function ExhibitionForm() {
     event.preventDefault();
     const urls = s3imgurlhandle(sourceUrl);
     const posturl = s3Postimgurlhandle(sourceUrl);
-    createExhibition({ ...exhibition, postImage: posturl, artImage: urls });
+    createExhibition({
+      ...exhibition,
+      postImage: posturl,
+      artImage: urls,
+      exhibitionKind,
+    });
   };
-  console.log("exhibition", exhibition);
-  console.log("post", postfiles.length);
+  //삭제 버튼
+  const deletePostImg = (name, index) => {
+    if (name === "postFile") {
+      const currentFiles = [...postfiles];
+      currentFiles.splice(index, 1);
+      setPostFiles(currentFiles);
+    }
+    if (name === "files") {
+      const currentFiles = [...files];
+      currentFiles.splice(index, 1);
+      setFiles(currentFiles);
+    }
+  };
   return (
     <Flex as="form" onSubmit={submitHandler} fd="row" gap="150">
       <PostWrap>
         <Post>
           <PageTitle>전시 등록</PageTitle>
           <SelectOnOff>
-            <Offline type="button">오프라인</Offline>
-            <OnLine type="button">온라인</OnLine>
+            <Offline type="button" name="EK0001" onClick={changeOnOff}>
+              오프라인
+            </Offline>
+            <OnLine type="button" name="EK0002" onClick={changeOnOff}>
+              온라인
+            </OnLine>
           </SelectOnOff>
           {postfiles.length === 0 ? (
             <PostImgArea {...getRootPropsPOST({ className: "dropzone" })}>
@@ -65,14 +87,22 @@ function ExhibitionForm() {
               <input {...getInputPropsPOST()} />
             </PostImgArea>
           ) : (
-            postfiles.map((file) => (
-              <Postimg
-                key={file.name}
-                src={file.preview}
-                onLoad={() => {
-                  URL.revokeObjectURL(file.preview);
-                }}
-              />
+            postfiles.map((file, index) => (
+              <div>
+                <Postimg
+                  key={file.name}
+                  src={URL.createObjectURL(file)}
+                  onLoad={() => {
+                    URL.revokeObjectURL(file.preview);
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => deletePostImg("postFile", index)}
+                >
+                  삭제
+                </button>
+              </div>
             ))
           )}
           <SubmitButton>전시등록하기</SubmitButton>
@@ -113,6 +143,18 @@ function ExhibitionForm() {
             />
           </ExDesc>
         </Box>
+        {exhibitionKind === "EK0002" && (
+          <Box>
+            <Explanation>전시 링크</Explanation>
+            <input
+              onChange={onchangeHandler}
+              value={exhibition.exhibitionOnlineLink}
+              name="exhibitionOnlineLink"
+              type="text"
+              placeholder="링크"
+            />
+          </Box>
+        )}
         <Box>
           <Explanation>전시 기간</Explanation>
           <Flex fd="colum">
@@ -210,7 +252,6 @@ function ExhibitionForm() {
             onChange={onchangeHandler}
             value={exhibition.contact}
             name="contact"
-            type="number"
             placeholder="전화번호"
           />
         </Box>
@@ -234,17 +275,25 @@ function ExhibitionForm() {
               </DragIcon>
             </Section>
             <ThumbsContainer>
-              {files?.map((file) => (
-                <Thumb key={file.name}>
-                  <ThumbInner>
-                    <Thumbimg
-                      src={file.preview}
-                      onLoad={() => {
-                        URL.revokeObjectURL(file.preview);
-                      }}
-                    />
-                  </ThumbInner>
-                </Thumb>
+              {files?.map((file, index) => (
+                <div>
+                  <Thumb key={file.name}>
+                    <ThumbInner>
+                      <Thumbimg
+                        src={URL.createObjectURL(file)}
+                        onLoad={() => {
+                          URL.revokeObjectURL(file.preview);
+                        }}
+                      />
+                    </ThumbInner>
+                  </Thumb>
+                  <button
+                    type="button"
+                    onClick={() => deletePostImg("files", index)}
+                  >
+                    삭제
+                  </button>
+                </div>
               ))}
             </ThumbsContainer>
           </EXColum>
@@ -255,6 +304,7 @@ function ExhibitionForm() {
 }
 
 export default ExhibitionForm;
+
 const ComentBox = styled.div`
   display: flex;
 `;
@@ -331,6 +381,9 @@ const OnLine = styled.button`
   font-weight: 500;
   font-size: 32px;
   line-height: 38px;
+  :hover {
+    background-color: #fff0f0;
+  }
 `;
 const Offline = styled.button`
   font-family: "S-Core Dream";
@@ -339,6 +392,9 @@ const Offline = styled.button`
   font-size: 32px;
   line-height: 38px;
   margin-right: 60px;
+  :hover {
+    background-color: #fff0f0;
+  }
 `;
 const PageTitle = styled.h1`
   margin-top: 40px;
@@ -351,7 +407,7 @@ const PageTitle = styled.h1`
 
 const PostWrap = styled.div`
   position: relative;
-  background-color: #b9f7b9;
+  /* background-color: #b9f7b9; */
   flex-direction: column;
   display: flex;
   flex: 1;
@@ -361,7 +417,6 @@ const PostWrap = styled.div`
 `;
 
 const SelectOnOff = styled.div`
-  background-color: aqua;
   margin-top: 30px;
 `;
 
@@ -420,10 +475,11 @@ const Thumbimg = styled.img`
   height: 100%;
 `;
 const Postimg = styled.img`
-  /* display: block; */
-  border-radius: 5px;
+  display: block;
+  border-radius: 8px;
   width: 365px;
-  height: 495px;
+  max-height: 520px;
+  margin-top: 40px;
 `;
 
 const ThumbsContainer = styled.aside`
