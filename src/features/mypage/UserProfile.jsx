@@ -18,14 +18,16 @@ function UserProfile() {
     <>
       <StUserProfileBox fd="column">
         <ProfileImg src={userProfile?.profileImg} alt="userProfileImg" />
+        <StEditBtnWrap>
+          <UpdateBtn onClick={updateUserProfileModalHandler}>수정</UpdateBtn>
+        </StEditBtnWrap>
 
         <StInfoWrap>
-          <div>{userProfile?.nickname}</div>
-          <div>{userProfile?.introduction}</div>
-          <UpdateBtn onClick={updateUserProfileModalHandler}>
-            수정하기
-          </UpdateBtn>
+          <InfoUserName>{userProfile?.nickname}</InfoUserName>
+          <InfoIntro>{userProfile?.introduction}</InfoIntro>
         </StInfoWrap>
+
+        <Line></Line>
 
         <AlarmContainer />
       </StUserProfileBox>
@@ -41,8 +43,8 @@ function UserProfile() {
 export default UserProfile;
 
 const StUserProfileBox = styled.div`
-  background-color: pink;
-  width: 450px;
+  background-color: #ffc0cb56;
+  width: 440px;
   height: 800px;
   display: flex;
   flex-direction: column;
@@ -50,18 +52,49 @@ const StUserProfileBox = styled.div`
   margin-top: 70px;
 `;
 
+const StEditBtnWrap = styled.div`
+  width: 450px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 30px 15px;
+`;
+
 const UpdateBtn = styled.button`
-  width: 100px;
+  background-color: #80808058;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
 `;
 
 const StInfoWrap = styled.div`
-  width: 200px;
-  height: 100px;
-  background-color: #ffff0030;
+  width: 300px;
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffff0024;
 `;
+
+const InfoUserName = styled.div`
+  font-size: 30px;
+  margin-bottom: 20px;
+`;
+
+const InfoIntro = styled.div`
+  font-size: 15px;
+`;
+
 const ProfileImg = styled.img`
   width: 150px;
   height: 150px;
   border-radius: 50%;
   transform: translate(0%, -50%);
+  position: absolute;
+`;
+
+const Line = styled.div`
+  border-top: 1px solid white;
+  width: 400px;
+  height: 20px;
 `;

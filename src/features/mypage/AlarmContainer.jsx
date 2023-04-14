@@ -2,7 +2,21 @@ import React from "react";
 import styled from "styled-components";
 
 function AlarmContainer() {
-  return <div>알림기능?</div>;
+  return (
+    <StAlramContainer>
+      <AlramTitle>알림</AlramTitle>
+    </StAlramContainer>
+  );
 }
 
 export default AlarmContainer;
+
+const StAlramContainer = styled.div`
+  background-color: #ffff001d;
+  width: 400px;
+  height: 550px;
+`;
+
+const AlramTitle = styled.div`
+  font-size: 20px;
+`;

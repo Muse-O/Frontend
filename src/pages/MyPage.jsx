@@ -12,14 +12,14 @@ function MyPage() {
       <Header />
       <Article>
         <StContainer>
-          <TopContainer>
+          <LeftContainer>
             <UserProfile />
-          </TopContainer>
+          </LeftContainer>
 
-          <BottomContainer>
+          <RightContainer>
             <ExhibitionContainer />
             <ArtgramContainer />
-          </BottomContainer>
+          </RightContainer>
         </StContainer>
       </Article>
     </>
@@ -32,22 +32,21 @@ const StContainer = styled.div`
   gap: 10px;
 `;
 
-const TopContainer = styled.div`
+const LeftContainer = styled.div`
   width: 550px;
   height: 930px;
-  background-color: #0077ff36;
+  background-color: #0077ff10;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 100px;
 `;
-const BottomContainer = styled.div`
-  background-color: #0077ff36;
+const RightContainer = styled.div`
+  background-color: #0077ff21;
   width: 1100px;
   height: 930px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 50px;
+  gap: 10px;
 `;
