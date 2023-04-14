@@ -13,7 +13,7 @@ function SamplePrevArrow(props) {
   return (
     <CustomPrevButton
       onClick={onClick}>
-      <Icons children={<FaChevronLeft/>}/>
+      <Icons transform="58" children={<FaChevronLeft/>}/>
     </CustomPrevButton>
   );
 }
@@ -24,7 +24,7 @@ function SampleNextArrow(props) {
   return (
     <CustomNextButton
       onClick={onClick}>
-      <Icons children={<FaChevronRight/>}/>
+      <Icons transform="43" children={<FaChevronRight/>}/>
     </CustomNextButton>
   );
 }
@@ -44,6 +44,8 @@ function Main() {
 
   const mainSlidersettings = {
     asNavFor: subSlider,
+    dots: false,
+    arrows: false,
     ref: slider => (mainSliderRef.current = slider),
     style:{position:"relative"}
   };
@@ -63,10 +65,23 @@ function Main() {
     autoplaySpeed: 2000,
     prevArrow: <SamplePrevArrow />,
     nextArrow: <SampleNextArrow />,
-    style:{position:"static", backgroundColor:"lightyellow"},
+    style:{position:"static", height:"344px", disploy:"flex", flexGrow:"1"},
     beforeChange: Indexhandler
   };
 
+  const arr = [
+    {id:1, title:"첫째"},
+    {id:2, title:"둘째"},
+    {id:3, title:"셋째"},
+    {id:4, title:"넷째"},
+    {id:5, title:"다섯째"},
+    {id:6, title:"여섯째"}]
+  const secondarr = [...arr]
+  const secondarrEdit = secondarr.shift()
+  secondarr.push(secondarrEdit)
+  // console.log(arr, secondarr);
+
+  const [exhibitionImg, setExhibitionImg] = useState("https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png")
   return (
     <>
       <Header />
@@ -132,12 +147,21 @@ function Main() {
           <FourthDiv height="655">
             <MainH1 children="예정 전시" />
             <FourthWrap>
-              <div className="exhibitionimg"></div>
+              <div className="exhibitionimg" style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+                <img src={exhibitionImg} style={{display:"block", height:"100%"}}/>
+              </div>
               <div className="exhibitioninfo">
                 {Array(4)
                   .fill(null)
-                  .map((el,index) => (
-                    <Exhibitioninfo key={index}>
+                  .map((el,index) => {
+                    const imgList = [
+                      "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png",
+                      "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200",
+                      "https://culture.seoul.go.kr/cmmn/file/imageSrc.do?fileStreCours=35367259ca6485b8ea26e64a6b235a5388f602a39e9ec217640b29507de1c5f7&streFileNm=a75f86a05a9f5928192d72c7494fb1dfb18a99d5557d38731a0fdd08d3cbb619",
+                      "https://magazine.brique.co/wp-content/uploads/2022/05/전시포스터.jpg"
+                    ]
+                  return (
+                    <Exhibitioninfo key={index} onMouseOver={()=>setExhibitionImg(imgList[index])}>
                       <div className="date">
                         <p>30</p>
                         <p>Aug</p>
@@ -150,7 +174,7 @@ function Main() {
                         <p>서울 : 마이아트뮤지엄</p>
                       </div>
                     </Exhibitioninfo>
-                  ))}
+                  )})}
               </div>
             </FourthWrap>
           </FourthDiv>
@@ -159,55 +183,39 @@ function Main() {
             <FifitInner>
               <SliderDiv>
                 <Slider {...mainSlidersettings}>
-                 {Array(6).fill(null).map((el,index) => (
-                   <MainSliderWrap key={index}>
+                 {arr.map((el) =>(
+                   <MainSliderWrap key={el.id}>
                    <div className="mainsliderimg">
-                    <img alt={`이미지${index+1}`} width="100"/>
+                    <img alt={`${el.title} - ${el.id}`} width="100"/>
                    </div>
                    <div className="profile">
                     <div className="profileimg"></div>
-                    <div className="profileNickname"><p><span>by</span> userNickname {index+1}</p></div>
+                    <div className="profileNickname"><p><span>by</span> userNickname {el.id}</p></div>
                    </div>
                  </MainSliderWrap>
                  ))}
                 </Slider>
-                <div style={{backgroundColor:"lightcyan", padding:"50px"}}>
+                <SubSliderLayout>
                 <Slider {...subSlidersettings}>
-                  <SubSliderWrap>
-                    <h3>2</h3>
-                  </SubSliderWrap>
-                  <SubSliderWrap>
-                    <h3>3</h3>
-                  </SubSliderWrap>
-                  <SubSliderWrap>
-                    <h3>4</h3>
-                  </SubSliderWrap>
-                  <SubSliderWrap>
-                    <h3>5</h3>
-                  </SubSliderWrap>
-                  <SubSliderWrap>
-                    <h3>6</h3>
-                  </SubSliderWrap>
-                  <SubSliderWrap>
-                    <h3>1</h3>
-                  </SubSliderWrap>
+                  {secondarr.map((el) => (
+                    <SubSliderWrap key={el.id}>
+                      <div className="subsliderInner">
+                        <div className="subsliderimg">
+                          <img alt={`${el.title} - ${el.id}`} width="100"/>
+                        </div>
+                        <div className="profile">
+                          <div className="profileimg"></div>
+                          <div className="profileNickname"><p><span>by</span> userNickname {el.id}</p></div>
+                        </div>
+                      </div>
+                    </SubSliderWrap>
+                  ))}
+
                 </Slider>
-                </div>
-                
-                {/* <div
-                  style={{
-                    position: "absolute",
-                    backgroundColor: "lightgray",
-                    borderRadius: "20px",
-                    width: "50px",
-                    height: "20px",
-                    textAlign: "center",
-                    top: "60px",
-                    right: "15px",
-                  }}
-                >
-                  {currentSlideIndex}/6
-                </div> */}
+                </SubSliderLayout>
+                <CustomIndex>
+                  <p>{currentSlideIndex} <span>/ 6</span></p>
+                </CustomIndex>
               </SliderDiv>
             </FifitInner>
           </FifithDiv>
@@ -347,15 +355,15 @@ const FourthWrap = styled.div`
   margin-top:36px;
   /* background-color: #f5f5f59a; */
   display: grid;
-  grid-template-columns: 387px 1fr;
+  grid-template-columns: 340px 1fr;
   gap: 80px;
 
   .exhibitionimg {
-    min-width: 387px;
-    max-width: 387px;
+    min-width: 340px;
+    max-width: 340px;
     min-height: 480px;
     max-height: 480px;
-    background-color: #292929;
+    /* background-color: #292929; */
   }
   .exhibitioninfo{
     width: 100%;
@@ -406,12 +414,12 @@ const Exhibitioninfo = styled.div`
 
 const FifithDiv = styled.div`
   width: 100%;
-  background-color: #ff007795;;
+  /* background-color: #ff007795;; */
   max-height: ${pos=>pos.height}px;
   min-height: ${pos=>pos.height}px;
 `
 const FifitInner = styled.div`
-  background-color: #E6E6E6;
+  /* background-color: #E6E6E6; */
   margin-top: 36px;
   min-height: 533px;
   max-height: 533px;
@@ -446,20 +454,22 @@ const SliderDiv = styled.div`
 
 const MainSliderWrap = styled.div`
   box-sizing:border-box;
+  position: relative;
   min-height:500px;
   max-width: 364px;
   padding: 16px;
   padding-bottom: 0;
-  background-color: white;
+  background-color: #E6E6E6;
 
   .mainsliderimg {
     background-color: skyblue;
     min-height: 374px;
     max-height: 374px;
-    margin-bottom: 73px;
   }
 
   .profile {
+    position: absolute;
+    bottom: 10px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -487,22 +497,62 @@ const MainSliderWrap = styled.div`
 `
 const SubSliderWrap = styled.div`
   box-sizing:border-box;
-  height:150px;
   display: flex;
   align-items: center;
   justify-content: center;
+  /* background-color: lightcoral; */
+  margin-left: 42px;
 
-  h3 {
-    display:block;
-    width:80px;
-    height:100px;
-    line-height:100px;
-    margin:0 auto;
-    background-color:lightgreen;
-    text-align:center;
-    color:white;
+  .subsliderInner {
+    background-color: #E6E6E6;
+    position: relative;
+    width: 235px;
+    min-height: 344px;
+    max-height: 344px;
+    margin-bottom: 73px;
+    padding: 11px;
   }
+
+  .subsliderimg {
+    background-color: lightgreen;
+    height: 242px;
+  }
+
+  .profile {
+    position: absolute;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .profileimg {
+    display: inline-block;
+    width: 29px;
+    height: 29px;
+    background-color:lightgray;
+    border-radius: 50px;
+  }
+
+  .profileNickname {
+    display: inline-block;
+    height: 29px;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+
+    span {
+      color:#8C8C8C;
+    }
+  }  
 `
+
+const SubSliderLayout = styled.div`
+  display: flex;
+  /* background-color: lightcyan; */
+  padding-left:50px;
+`
+
 
 const CustomPrevButton = styled.div`
     display: flex;
@@ -510,7 +560,7 @@ const CustomPrevButton = styled.div`
     align-items: center;
     position: absolute;
     left: 464px;
-    bottom: 10px;
+    bottom: 0;
     width: 50px;
     height: 50px;
     transform: rotateY(-50%);
@@ -521,14 +571,37 @@ const CustomPrevButton = styled.div`
 `;
 
 const CustomNextButton = styled(CustomPrevButton)`
-      left: 564px;
+      left: 654px;
+`
+
+const CustomIndex = styled.div`
+  position: absolute;
+  /* background-color: lightgray; */
+  border-radius: 20px;
+  width: 100px;
+  height: 50px;
+  bottom: 0;
+  left:534px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  p {
+    font-size: 25px;
+    font-weight: 700;
+  }
+  span {
+    font-size: 20px;
+    font-weight: 400;
+  }
 `
 
 const Icons = styled.div`
   position: absolute;
   top: 53%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-${pos => pos.transform}%, -50%);
   font-size: 2.8rem;
   color: red;
   text-align: center;

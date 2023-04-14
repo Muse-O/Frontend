@@ -49,5 +49,5 @@ export const Article = styled.div`
   margin-left: 245px;
   min-height: 100vh;
   /* border: 5px solid blue; */
-  background-color: lightyellow;
+  /* background-color: lightyellow; */
 `;
