@@ -54,8 +54,12 @@ function ExhibitionForm() {
         <Post>
           <PageTitle>전시 등록</PageTitle>
           <SelectOnOff>
-            <Offline type="button">오프라인</Offline>
-            <OnLine type="button">온라인</OnLine>
+            <Offline type="button" name="EK0001" onClick={onchangeHandler}>
+              오프라인
+            </Offline>
+            <OnLine type="button" name="EK0002" onClick={onchangeHandler}>
+              온라인
+            </OnLine>
           </SelectOnOff>
           {postfiles.length === 0 ? (
             <PostImgArea {...getRootPropsPOST({ className: "dropzone" })}>
@@ -113,6 +117,19 @@ function ExhibitionForm() {
             />
           </ExDesc>
         </Box>
+        {exhibition.exhibitionKind === "EK0002" && (
+          <Box>
+            <Explanation>전시 링크</Explanation>
+
+            <input
+              onChange={onchangeHandler}
+              value={exhibition.exhibitionOnlineLink}
+              name="exhibitionOnlineLink"
+              type="text"
+              placeholder="링크"
+            />
+          </Box>
+        )}
         <Box>
           <Explanation>전시 기간</Explanation>
           <Flex fd="colum">
@@ -331,6 +348,9 @@ const OnLine = styled.button`
   font-weight: 500;
   font-size: 32px;
   line-height: 38px;
+  :hover {
+    background-color: #fff0f0;
+  }
 `;
 const Offline = styled.button`
   font-family: "S-Core Dream";
@@ -339,6 +359,9 @@ const Offline = styled.button`
   font-size: 32px;
   line-height: 38px;
   margin-right: 60px;
+  :hover {
+    background-color: #fff0f0;
+  }
 `;
 const PageTitle = styled.h1`
   margin-top: 40px;
@@ -351,7 +374,7 @@ const PageTitle = styled.h1`
 
 const PostWrap = styled.div`
   position: relative;
-  background-color: #b9f7b9;
+  /* background-color: #b9f7b9; */
   flex-direction: column;
   display: flex;
   flex: 1;
@@ -361,7 +384,6 @@ const PostWrap = styled.div`
 `;
 
 const SelectOnOff = styled.div`
-  background-color: aqua;
   margin-top: 30px;
 `;
 
@@ -420,10 +442,11 @@ const Thumbimg = styled.img`
   height: 100%;
 `;
 const Postimg = styled.img`
-  /* display: block; */
-  border-radius: 5px;
+  display: block;
+  border-radius: 8px;
   width: 365px;
-  height: 495px;
+  max-height: 520px;
+  margin-top: 40px;
 `;
 
 const ThumbsContainer = styled.aside`

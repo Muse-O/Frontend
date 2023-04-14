@@ -66,6 +66,8 @@ export const useSetExhibition = () => {
   //헨들러
   const onchangeHandler = (event) => {
     const { value, name } = event.target;
+    console.log(value, "value");
+    console.log(name, "name");
     //작가
     if (name === "author") {
       setAuthorName(value);
@@ -87,6 +89,15 @@ export const useSetExhibition = () => {
         return {
           ...old,
           exhibitionCategoty: [...old.exhibitionCategoty, value],
+        };
+      });
+    }
+    //on off 버튼
+    else if (name === "EK0001 " || "EK0002 ") {
+      setExhibition((old) => {
+        return {
+          ...old,
+          exhibitionKind: name,
         };
       });
     }
