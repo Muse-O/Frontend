@@ -28,13 +28,13 @@ function Router() {
     {
       pathname: "/artgram/create",
       element: <CreateArtgram />,
-      isPublic: true,
+      isPublic: false,
       isLogin: false,
     },
     {
       pathname: "/exhibition/create",
       element: <CreateExhibition />,
-      isPublic: false,
+      isPublic: true,
       isLogin: false,
     },
     {

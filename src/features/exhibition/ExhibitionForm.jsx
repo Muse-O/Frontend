@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { usePostExhibition } from "../../hooks/exhibition/usetPostExhibition";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
