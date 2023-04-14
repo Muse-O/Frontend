@@ -33,7 +33,7 @@ const StContainer = styled.div`
 `;
 
 const TopContainer = styled.div`
-  width: 500px;
+  width: 550px;
   height: 930px;
   background-color: #0077ff36;
   display: flex;
@@ -43,7 +43,7 @@ const TopContainer = styled.div`
 `;
 const BottomContainer = styled.div`
   background-color: #0077ff36;
-  width: 1200px;
+  width: 1100px;
   height: 930px;
   display: flex;
   flex-direction: column;

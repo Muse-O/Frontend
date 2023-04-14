@@ -19,13 +19,13 @@ function UserProfile() {
       <StUserProfileBox fd="column">
         <ProfileImg src={userProfile?.profileImg} alt="userProfileImg" />
 
-        <div>
-          <div>닉네임: {userProfile?.nickname}</div>
-          <div>한줄 소개: {userProfile?.introduction}</div>
+        <StInfoWrap>
+          <div>{userProfile?.nickname}</div>
+          <div>{userProfile?.introduction}</div>
           <UpdateBtn onClick={updateUserProfileModalHandler}>
             수정하기
           </UpdateBtn>
-        </div>
+        </StInfoWrap>
 
         <AlarmContainer />
       </StUserProfileBox>
@@ -42,7 +42,7 @@ export default UserProfile;
 
 const StUserProfileBox = styled.div`
   background-color: pink;
-  width: 400px;
+  width: 450px;
   height: 800px;
   display: flex;
   flex-direction: column;
@@ -54,6 +54,11 @@ const UpdateBtn = styled.button`
   width: 100px;
 `;
 
+const StInfoWrap = styled.div`
+  width: 200px;
+  height: 100px;
+  background-color: #ffff0030;
+`;
 const ProfileImg = styled.img`
   width: 150px;
   height: 150px;

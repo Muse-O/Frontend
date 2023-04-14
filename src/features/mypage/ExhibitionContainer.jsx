@@ -25,6 +25,16 @@ function ExhibitionContainer() {
           src: "fdg",
           alt: "",
         },
+        {
+          id: 3,
+          src: "fdg",
+          alt: "",
+        },
+        {
+          id: 4,
+          src: "fdg",
+          alt: "",
+        },
       ],
     },
     {
@@ -65,31 +75,20 @@ function ExhibitionContainer() {
         전시 Exhibition
       </div>
       <StExhibitionBox>
-        <StTabWrap>
-          {menuArr.map(el => (
-            <StTab key={el.id} onClick={() => selectMenuHandler(el.id)}>
-              {el.name}
-            </StTab>
-          ))}
-        </StTabWrap>
-        {menuArr[currentTab].content.map(list => {
-          return (
-            <img
-              style={{ width: "30px", height: "30px", background: "blue" }}
-              key={list.id}
-              src={list.src}
-              alt={list.alt}
-            />
-          );
-        })}
-        {/* <div></div> */}
-        {/* <StImgBox>
-          <StImg>이미지</StImg>
-          <StImg>이미지</StImg>
-          <StImg>이미지</StImg>
-          <StImg>이미지</StImg>
-          <StImg>이미지</StImg>
-        </StImgBox> */}
+        <StWrap>
+          <StTabWrap>
+            {menuArr.map(el => (
+              <StTab key={el.id} onClick={() => selectMenuHandler(el.id)}>
+                {el.name}
+              </StTab>
+            ))}
+          </StTabWrap>
+          <StImgWrap>
+            {menuArr[currentTab].content.map(list => {
+              return <StImg key={list.id} src={list.src} alt={list.alt} />;
+            })}
+          </StImgWrap>
+        </StWrap>
       </StExhibitionBox>
     </StContainer>
   );
@@ -99,11 +98,19 @@ export default ExhibitionContainer;
 
 const StContainer = styled.div`
   margin-top: 50px;
+  display: flex;
+  flex-direction: column;
 `;
 const StExhibitionBox = styled.div`
   background-color: pink;
   width: 1050px;
   height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StWrap = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -113,20 +120,21 @@ const StTabWrap = styled.div`
   gap: 30px;
 `;
 const StTab = styled.div`
-  padding: 10px;
+  padding: 18px 0px;
   cursor: pointer;
   font-size: 15px;
 `;
 
-//------------------------------
-const StImgBox = styled.div`
+const StImgWrap = styled.div`
+  width: 950px;
+  height: 230px;
+  background-color: gray;
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  /* justify-content: space-between; */
+  gap: 25px;
 `;
-
-const StImg = styled.div`
-  width: 160px;
-  height: 220px;
-  background-color: #0000007b;
+const StImg = styled.img`
+  width: 170px;
+  height: 230px;
+  background: #0000007d;
 `;
