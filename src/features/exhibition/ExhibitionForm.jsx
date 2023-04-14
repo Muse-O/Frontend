@@ -53,7 +53,19 @@ function ExhibitionForm() {
       exhibitionKind,
     });
   };
-
+  console.log("이미지", files);
+  const deletePostImg = (name, index) => {
+    if (name === "postFile") {
+      const currentFiles = [...postfiles];
+      currentFiles.splice(index, 1);
+      setPostFiles(currentFiles);
+    }
+    if (name === "files") {
+      const currentFiles = [...files];
+      currentFiles.splice(index, 1);
+      setFiles(currentFiles);
+    }
+  };
   return (
     <Flex as="form" onSubmit={submitHandler} fd="row" gap="150">
       <PostWrap>
@@ -75,16 +87,22 @@ function ExhibitionForm() {
               <input {...getInputPropsPOST()} />
             </PostImgArea>
           ) : (
-            postfiles.map((file) => (
-              <>
+            postfiles.map((file, index) => (
+              <div>
                 <Postimg
                   key={file.name}
-                  src={file.preview}
+                  src={URL.createObjectURL(file)}
                   onLoad={() => {
                     URL.revokeObjectURL(file.preview);
                   }}
                 />
-              </>
+                <button
+                  type="button"
+                  onClick={() => deletePostImg("postFile", index)}
+                >
+                  삭제
+                </button>
+              </div>
             ))
           )}
           <SubmitButton>전시등록하기</SubmitButton>
@@ -128,7 +146,6 @@ function ExhibitionForm() {
         {exhibitionKind === "EK0002" && (
           <Box>
             <Explanation>전시 링크</Explanation>
-
             <input
               onChange={onchangeHandler}
               value={exhibition.exhibitionOnlineLink}
@@ -259,17 +276,25 @@ function ExhibitionForm() {
               </DragIcon>
             </Section>
             <ThumbsContainer>
-              {files?.map((file) => (
-                <Thumb key={file.name}>
-                  <ThumbInner>
-                    <Thumbimg
-                      src={file.preview}
-                      onLoad={() => {
-                        URL.revokeObjectURL(file.preview);
-                      }}
-                    />
-                  </ThumbInner>
-                </Thumb>
+              {files?.map((file, index) => (
+                <div>
+                  <Thumb key={file.name}>
+                    <ThumbInner>
+                      <Thumbimg
+                        src={URL.createObjectURL(file)}
+                        onLoad={() => {
+                          URL.revokeObjectURL(file.preview);
+                        }}
+                      />
+                    </ThumbInner>
+                  </Thumb>
+                  <button
+                    type="button"
+                    onClick={() => deletePostImg("files", index)}
+                  >
+                    삭제
+                  </button>
+                </div>
               ))}
             </ThumbsContainer>
           </EXColum>
