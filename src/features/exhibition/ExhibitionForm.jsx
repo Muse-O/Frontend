@@ -53,7 +53,7 @@ function ExhibitionForm() {
       exhibitionKind,
     });
   };
-  console.log("이미지", files);
+  //삭제 버튼
   const deletePostImg = (name, index) => {
     if (name === "postFile") {
       const currentFiles = [...postfiles];
@@ -252,7 +252,6 @@ function ExhibitionForm() {
             onChange={onchangeHandler}
             value={exhibition.contact}
             name="contact"
-            type="number"
             placeholder="전화번호"
           />
         </Box>

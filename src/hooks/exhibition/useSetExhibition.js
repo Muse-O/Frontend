@@ -109,6 +109,41 @@ export const useSetExhibition = () => {
         };
       });
     }
+    //연락처
+    else if (name === "contact") {
+      const number = value.replace(/[^0-9]/g, "");
+      let result = [];
+      let restNumber = "";
+      if (number.startsWith("02")) {
+        // 서울 02 지역번호
+        result.push(number.substr(0, 2));
+        restNumber = number.substring(2);
+      } else if (number.startsWith("1")) {
+        // 지역 번호가 없는 경우
+        // 1xxx-yyyy
+        restNumber = number;
+      } else {
+        // 나머지 3자리 지역번호
+        // 0xx-yyyy-zzzz
+        result.push(number.substr(0, 3));
+        restNumber = number.substring(3);
+      }
+
+      if (restNumber.length === 7) {
+        // 7자리만 남았을 때는 xxx-yyyy
+        result.push(restNumber.substring(0, 3));
+        result.push(restNumber.substring(3));
+      } else {
+        result.push(restNumber.substring(0, 4));
+        result.push(restNumber.substring(4));
+      }
+      setExhibition((old) => {
+        return {
+          ...old,
+          [name]: result.filter((val) => val).join("-"),
+        };
+      });
+    }
     //기본
     else {
       setExhibition((old) => {
