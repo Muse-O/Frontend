@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useGetLikedExhibitionInfo } from "../../hooks/mypage/useGetLikedExhibitionInfo";
 
 function ExhibitionContainer() {
+  const { LikedExhibitionInfo } = useGetLikedExhibitionInfo();
+
   const [currentTab, clickTab] = useState(0);
   // console.log(currentTab, "ct"); //index
 
@@ -9,33 +12,7 @@ function ExhibitionContainer() {
     {
       id: 0,
       name: "좋아요",
-      content: [
-        {
-          id: 0,
-          src: "abc",
-          alt: "",
-        },
-        {
-          id: 1,
-          src: "def",
-          alt: "",
-        },
-        {
-          id: 2,
-          src: "fdg",
-          alt: "",
-        },
-        {
-          id: 3,
-          src: "fdg",
-          alt: "",
-        },
-        {
-          id: 4,
-          src: "fdg",
-          alt: "",
-        },
-      ],
+      content: [],
     },
     {
       id: 1,
@@ -67,6 +44,9 @@ function ExhibitionContainer() {
   ];
   const selectMenuHandler = id => {
     clickTab(id);
+    if (id === 0) {
+      // console.log(LikedExhibitionInfo, "info");
+    }
   };
 
   return (
