@@ -1,10 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { usePostReview } from "../../hooks/exhibition/usePostReview";
 import { useParams } from "react-router-dom";
 import { useGetReview } from "../../hooks/exhibition/useGetReview";
+import { apis } from "../../api/apis";
+import jwtDecode from "jwt-decode";
+import { cookies } from "../../shared/cookies";
 
 function ExhibitionReview() {
+  const access_token = cookies.get("access_token");
+  const { email } = jwtDecode(access_token);
+  console.log("test@test.com", email);
+
   //TODO 리뷰 조회
   //TODO 리뷰 작성
   //TODO 리뷰 삭제
@@ -15,20 +22,20 @@ function ExhibitionReview() {
     reviewComment: "",
     reviewRating: 0,
   };
-  const [review, setReviews] = useState(template);
+  const [postReview, setPostReviews] = useState(template);
   const [hashTag, setHashTags] = useState([]);
   const [inputHashTag, setInputHashTag] = useState("");
   const reviewHandler = (event) => {
     const { value, name } = event.target;
     if (name === "reviewRating") {
-      setReviews((pre) => {
+      setPostReviews((pre) => {
         return {
           ...pre,
           [name]: Number(value),
         };
       });
     } else {
-      setReviews((pre) => {
+      setPostReviews((pre) => {
         return {
           ...pre,
           [name]: value,
@@ -52,33 +59,45 @@ function ExhibitionReview() {
   //제출하기
   const onSubmitReview = (e) => {
     e.preventDefault();
-    createExhibition({ hashTag, ...review });
+    createExhibition({ hashTag, ...postReview });
+    console.log("탬플릿", template);
+    setPostReviews(template);
+    setInputHashTag("");
+    setHashTags([]);
   };
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!리뷰들
+  const [getReviews, setGetReviews] = useState([]);
   const [page, setPage] = useState(10);
   const [limit, setLimit] = useState(10);
-  const [data, isLoading, isError, fetchNextPage, hasNextPage] = useGetReview(
-    id,
-    limit
-  );
-
-  console.log("data", data?.pages[0].exhibitionReviewList);
   const [pageNumbers, setPageNumbers] = useState(0);
+  const readReviews = useCallback(
+    async (id, limit, page) => {
+      const res = await apis.get(
+        `/exhibition/${id}/reviews?limit=${limit}&offset=${page}`
+      );
+      if (res.data) {
+        setGetReviews([
+          ...res.data.exhibitionReviewList.searchExhibitionReviews,
+        ]);
+      } else {
+        console.log(res);
+      }
+    },
+    [id, limit, page]
+  );
   useEffect(() => {
-    const exhibitionReviewCnt =
-      data?.pages[0].exhibitionReviewList.paginationInfo.exhibitionReviewCnt;
-    const PageNation = Math.ceil(exhibitionReviewCnt / limit);
-    setPageNumbers(PageNation);
-  }, [data]);
-
-  console.log("pageNumbers", pageNumbers);
+    readReviews(id, limit, page);
+  }, []);
+  console.log("받아온getRevies", getReviews);
+  console.log("postReview", postReview);
   return (
     <ReviewWrap>
       <ReviewForm>
         <InputsReview>
           <input
-            placeholder="댓글 입력"
+            placeholder="리뷰 입력"
             onChange={reviewHandler}
+            value={postReview.reviewComment}
             name="reviewComment"
           />
           <input
@@ -95,7 +114,11 @@ function ExhibitionReview() {
               })}
           </div>
         </InputsReview>
-        <select onChange={reviewHandler} name="reviewRating">
+        <select
+          onChange={reviewHandler}
+          name="reviewRating"
+          value={postReview.reviewRating}
+        >
           <option>평점입력</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -106,6 +129,29 @@ function ExhibitionReview() {
         <button onClick={onSubmitReview}>리뷰 추가</button>
       </ReviewForm>
       <ShowReview>
+        {getReviews?.map((review) => {
+          return (
+            <>
+              <ReviewBox>
+                <div>작성일:{review.createdAt}</div>
+                <div>후기:{review.reviewComment}</div>
+                <div>평점:{review.reviewRating}</div>
+                <div>
+                  헤시테그:
+                  {review.ExhibitionHashtags.map((hashtag) => {
+                    return (
+                      <>
+                        <span>{hashtag.tagName}</span>
+                      </>
+                    );
+                  })}
+                </div>
+                {review.userEmail === email ? <button>수정하기</button> : null}
+              </ReviewBox>
+            </>
+          );
+        })}
+
         {/* {pages?.map((page) => {
           return (
             <Coments>
@@ -131,6 +177,13 @@ function ExhibitionReview() {
 }
 
 export default ExhibitionReview;
+
+const ReviewBox = styled.div`
+  margin: 10px 0px;
+  background-color: #849ff7;
+  height: 100px;
+  font-size: 30px;
+`;
 const Buttons = styled.span`
   margin: 10px 10px;
   background-color: #f3c385;
@@ -140,9 +193,7 @@ const Coments = styled.div`
   background-color: antiquewhite;
 `;
 const ShowReview = styled.div`
-  height: 500px;
   background-color: #525050;
-  overflow: auto;
 `;
 
 const InputsReview = styled.div`
