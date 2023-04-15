@@ -15,10 +15,8 @@ export const useHashTagInput = (inputValue,setInputValue,hashTag, setHashTag) =>
       if(newHashTag && !hashTag.includes(newHashTag)) {
         console.log("newHashTag 중복확인 검사이후", newHashTag);
         setHashTag([...hashTag, newHashTag]);
-      } else {
         setInputValue('')
-      }
-
+      } 
     }
   };
 

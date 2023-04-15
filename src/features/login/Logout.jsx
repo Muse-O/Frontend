@@ -15,7 +15,16 @@ function Logout({ setIsLoggedIn, isLoggedIn }) {
     }
   };
 
-  return <>{isLoggedIn && <button onClick={logoutHandler}>로그아웃</button>}</>;
+  return <>{isLoggedIn && <div
+    style={{
+      width:"200px",
+      height: "40px",
+      backgroundColor: "#D9D9D9",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+    onClick={logoutHandler}>로그아웃</div>}</>;
 }
 
 export default Logout;
