@@ -13,8 +13,7 @@ export const usePostReview = (id) => {
       return res.data;
     },
     onSuccess: () => {
-      alert("리뷰 작성완료");
-      queryClient.invalidateQueries({ queryKey: keys.GET_REVIEWS });
+      queryClient.invalidateQueries({ queryKey: [keys.GET_REVIEWS] });
     },
   });
   return [createExhibition];

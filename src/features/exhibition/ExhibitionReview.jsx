@@ -65,42 +65,24 @@ function ExhibitionReview() {
   };
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!리뷰들
 
-  const [getReviews, setGetReviews] = useState([]); //?리뷰들
-  const [page, setPage] = useState(0); //?받아와야하는 페이지
-  const [limit, setLimit] = useState(10); //?몇개 받아올껀지
-  const [pageNumbers, setPageNumbers] = useState(0); // ?페이지 네이션 갯수
+  // const [getReviews, setGetReviews] = useState([]); //?리뷰들
+  const [posts, setPosts] = useState([]);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+  const offset = (page - 1) * limit;
+  const [reviewData, isLoading] = useGetReview(id, limit, offset);
 
-  const readReviews = useCallback(
-    async (id, limit, page) => {
-      const res = await apis.get(
-        `/exhibition/${id}/reviews?limit=${limit}&offset=${page}`
-      );
-      console.log(
-        res.data.exhibitionReviewList.paginationInfo.exhibitionReviewCnt
-      );
-      if (res.data) {
-        const allReviewCnt =
-          res.data.exhibitionReviewList.paginationInfo.exhibitionReviewCnt /
-          limit;
-        let newPage = Math.ceil(allReviewCnt);
-        setPageNumbers(newPage);
-        setGetReviews([
-          ...res.data.exhibitionReviewList.searchExhibitionReviews,
-        ]);
-      } else {
-        console.log(res);
-      }
-    },
-    [limit, page]
+  // console.log("받아온데이터", reviewData);
+  const pageNum = Math.ceil(
+    reviewData?.paginationInfo.exhibitionReviewCnt / limit
   );
-  useEffect(() => {
-    readReviews(id, limit, page);
-  }, [page]);
-
-  const changePage = (pagenum, limit) => {
-    setPage((pagenum - 1) * limit);
+  const changePage = (pagenum) => {
+    setPage(pagenum);
   };
-  console.log("page", page);
+  const changeLimit = (e) => {
+    setLimit(e.target.value);
+  };
+
   return (
     <ReviewWrap>
       <ReviewForm>
@@ -140,24 +122,29 @@ function ExhibitionReview() {
         <button onClick={onSubmitReview}>리뷰 추가</button>
       </ReviewForm>
       <ShowReview>
-        {getReviews?.map((review) => {
+        <select onChange={changeLimit} name="reviewRating" value={limit}>
+          <option value="10">10</option>
+          <option value="20">20</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+        {reviewData?.searchExhibitionReviews.map((review, index) => {
           return (
             <>
-              <ReviewBox>
+              <ReviewBox key={index}>
                 <div>작성일:{review.createdAt}</div>
                 <div>후기:{review.reviewComment}</div>
                 <div>평점:{review.reviewRating}</div>
                 <div>
                   헤시테그:
-                  {review.ExhibitionHashtags.map((hashtag) => {
+                  {review.ExhibitionHashtags.map((hashtag, index) => {
                     return (
-                      <>
+                      <div key={index}>
                         <span>{hashtag.tagName}</span>
-                      </>
+                      </div>
                     );
                   })}
                 </div>
-
                 {review.userEmail === email ? (
                   <>
                     <button>수정하기</button>
@@ -169,15 +156,30 @@ function ExhibitionReview() {
           );
         })}
         <Buttons>
-          <button>이전</button>
-          {Array(pageNumbers)
-            .fill()
-            .map((_, i) => (
-              <button key={i + 1} onClick={() => changePage(i + 1, limit)}>
-                {i + 1}
-              </button>
-            ))}
-          <button>다음</button>
+          <PageButton
+            onClick={() => changePage(page - 1)}
+            disabled={page === 1}
+          >
+            이전
+          </PageButton>
+          {pageNum &&
+            Array(pageNum)
+              .fill()
+              .map((_, i) => (
+                <PageButton
+                  key={i + 1}
+                  onClick={() => changePage(i + 1)}
+                  aria-current={page === i + 1 ? "page" : null}
+                >
+                  {i + 1}
+                </PageButton>
+              ))}
+          <PageButton
+            onClick={() => changePage(page + 1)}
+            disabled={page === pageNum}
+          >
+            다음
+          </PageButton>
         </Buttons>
       </ShowReview>
     </ReviewWrap>
@@ -185,6 +187,32 @@ function ExhibitionReview() {
 }
 
 export default ExhibitionReview;
+
+const PageButton = styled.button`
+  border: none;
+  border-radius: 8px;
+  padding: 8px;
+  margin: 0;
+  background: black;
+  color: white;
+  font-size: 1rem;
+  &:hover {
+    background: tomato;
+    cursor: pointer;
+    transform: translateY(-2px);
+  }
+  &[disabled] {
+    background: grey;
+    cursor: revert;
+    transform: revert;
+  }
+  &[aria-current] {
+    background: deeppink;
+    font-weight: bold;
+    cursor: revert;
+    transform: revert;
+  }
+`;
 
 const ReviewBox = styled.div`
   margin: 10px 0px;
