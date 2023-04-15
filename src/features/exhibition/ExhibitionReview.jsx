@@ -10,7 +10,6 @@ import { cookies } from "../../shared/cookies";
 function ExhibitionReview() {
   const access_token = cookies.get("access_token");
   const { email } = jwtDecode(access_token);
-  console.log("test@test.com", email);
 
   //TODO 리뷰 조회
   //TODO 리뷰 작성
@@ -67,7 +66,7 @@ function ExhibitionReview() {
   };
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!리뷰들
   const [getReviews, setGetReviews] = useState([]);
-  const [page, setPage] = useState(10);
+  const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [pageNumbers, setPageNumbers] = useState(0);
   const readReviews = useCallback(
@@ -75,7 +74,15 @@ function ExhibitionReview() {
       const res = await apis.get(
         `/exhibition/${id}/reviews?limit=${limit}&offset=${page}`
       );
+      console.log(
+        res.data.exhibitionReviewList.paginationInfo.exhibitionReviewCnt
+      );
       if (res.data) {
+        const allReviewCnt =
+          res.data.exhibitionReviewList.paginationInfo.exhibitionReviewCnt /
+          limit;
+        let newPage = Math.ceil(allReviewCnt);
+        setPageNumbers(newPage);
         setGetReviews([
           ...res.data.exhibitionReviewList.searchExhibitionReviews,
         ]);
@@ -87,9 +94,11 @@ function ExhibitionReview() {
   );
   useEffect(() => {
     readReviews(id, limit, page);
-  }, []);
-  console.log("받아온getRevies", getReviews);
-  console.log("postReview", postReview);
+  }, [page]);
+  const changePage = (pagenum, limit) => {
+    setPage((pagenum - 1) * limit);
+  };
+  console.log("page", page);
   return (
     <ReviewWrap>
       <ReviewForm>
@@ -146,30 +155,27 @@ function ExhibitionReview() {
                     );
                   })}
                 </div>
-                {review.userEmail === email ? <button>수정하기</button> : null}
+
+                {review.userEmail === email ? (
+                  <>
+                    <button>수정하기</button>
+                    <button>삭제하기</button>
+                  </>
+                ) : null}
               </ReviewBox>
             </>
           );
         })}
-
-        {/* {pages?.map((page) => {
-          return (
-            <Coments>
-              <div>
-                <span>후기:</span> {page.reviewComment}
-              </div>
-              <div>
-                <span>평점:</span> {page.reviewRating}
-              </div>
-            </Coments>
-          );
-        })} */}
         <Buttons>
+          <button>이전</button>
           {Array(pageNumbers)
             .fill()
             .map((_, i) => (
-              <button key={i + 1}>{i + 1}</button>
+              <button key={i + 1} onClick={() => changePage(i + 1, limit)}>
+                {i + 1}
+              </button>
             ))}
+          <button>다음</button>
         </Buttons>
       </ShowReview>
     </ReviewWrap>
@@ -208,6 +214,5 @@ const ReviewForm = styled.div`
 `;
 const ReviewWrap = styled.div`
   background-color: #a8a5a5;
-  height: 600px;
   margin-bottom: 100px;
 `;
