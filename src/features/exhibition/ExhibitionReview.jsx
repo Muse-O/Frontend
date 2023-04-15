@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { usePostReview } from "../../hooks/exhibition/usePostReview";
+import { useParams } from "react-router-dom";
 
 function ExhibitionReview() {
   //TODO 리뷰 조회
@@ -10,13 +12,14 @@ function ExhibitionReview() {
   //  ! hashTag: ["#애니메이션", “소년”],
   // !reviewComment: "살짝 아쉬웠어요",
   // !reviewRating: 2
-
+  const { id } = useParams();
+  const [createExhibition, isSuccess, isError] = usePostReview(id);
   const template = {
     reviewComment: "",
     reviewRating: 0,
   };
   const [review, setReviews] = useState(template);
-  const [hashTags, setHashTags] = useState([]);
+  const [hashTag, setHashTags] = useState([]);
   const [inputHashTag, setInputHashTag] = useState("");
   const reviewHandler = (event) => {
     const { value, name } = event.target;
@@ -42,24 +45,20 @@ function ExhibitionReview() {
   };
 
   const upKeyPress = (e) => {
-    console.log("엔터?", e.key);
     if (e.target.value.length !== 0 && e.key === "Enter") {
-      let updatedHash = [...hashTags];
+      let updatedHash = [...hashTag];
       updatedHash.push(`#${inputHashTag}`);
       setHashTags(updatedHash);
       setInputHashTag("");
     }
   };
-
-  // const keyDownHandler = (e) => {};
-  console.log("hashTags", hashTags);
-
   //제출하기
   const onSubmitReview = (e) => {
     e.preventDefault();
+    createExhibition({ hashTag, ...review });
   };
   return (
-    <ReviewWrap onSubmit={onSubmitReview}>
+    <ReviewWrap>
       <ReviewForm>
         <InputsReview>
           <input
@@ -75,8 +74,8 @@ function ExhibitionReview() {
             name="hashTag"
           />
           <div>
-            {hashTags &&
-              hashTags.map((hashTag, index) => {
+            {hashTag &&
+              hashTag.map((hashTag, index) => {
                 return <span key={index}>{hashTag}</span>;
               })}
           </div>
@@ -89,7 +88,7 @@ function ExhibitionReview() {
           <option value="4">4</option>
           <option value="5">5</option>
         </select>
-        <button type="submit">리뷰 추가</button>
+        <button onClick={onSubmitReview}>리뷰 추가</button>
       </ReviewForm>
     </ReviewWrap>
   );
@@ -101,7 +100,7 @@ const InputsReview = styled.div`
   height: 115px;
 `;
 
-const ReviewForm = styled.form`
+const ReviewForm = styled.div`
   background-color: #ebbaba;
   display: flex;
   height: 120px;
