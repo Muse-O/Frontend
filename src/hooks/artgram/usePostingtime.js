@@ -1,18 +1,20 @@
 import dayjs from "dayjs";
 
-export const usePostingtime = (allArtgramList) => {
+export const usePostingtime = () => {
   const timehandle = (createdAt) => {
-  const dayjsDate = dayjs();
-  const currentDate = dayjsDate.format().split("T")[0];
-  const currentTime = dayjsDate
+    const dayjsDate = dayjs();
+    const currentDate = dayjsDate.format().split("T")[0];
+    const currentTime = dayjsDate
     .format()
     .split("T")[1]
     .split(".")[0]
     .split("+")[0];
-  const createDate = createdAt?.split("T")[0];
-  const createTime = createdAt?.split("T")[1].split(".")[0]; // 2023-04-05
+      // 서버에서 주는 시간 변경에 따른, 데이터 전처리 번경  
+      // const createDate = createdAt?.split("T")[0];
+      // const createTime = createdAt?.split("T")[1].split(".")[0]; // 2023-04-05
+      // const gaphour = `${dayjs(`${currentDate} ${currentTime}`).diff(
   const gaphour = `${dayjs(`${currentDate} ${currentTime}`).diff(
-    dayjs(`${createDate} ${createTime}`),
+    dayjs(createdAt),
     "hour"
   )}`;
   let postingTime;
