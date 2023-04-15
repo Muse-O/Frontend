@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useGetLikedArtgramInfo } from "../../hooks/mypage/useGetLikedArtgramInfo";
+import { useGetMyArtgramInfo } from "../../hooks/mypage/useGetMyArtgramInfo";
 
 function ArtgramContainer() {
   const { LikedArtgramInfo } = useGetLikedArtgramInfo();
-  // console.log(LikedArtgramInfo, "info");
+  const { MyArtgramInfo } = useGetMyArtgramInfo();
+  // console.log(MyArtgramInfo, "info");
 
   const [currentTab, clickTab] = useState(0);
   // console.log(currentTab, "ct"); //index
@@ -13,7 +15,7 @@ function ArtgramContainer() {
     {
       id: 0,
       name: "나의 아트그램",
-      content: [LikedArtgramInfo?.artgramList.result || []],
+      content: [MyArtgramInfo?.myArtgramList.result || []],
     },
     {
       id: 1,
@@ -23,7 +25,7 @@ function ArtgramContainer() {
     {
       id: 2,
       name: "스크랩",
-      content: [LikedArtgramInfo?.artgramList.result || []],
+      content: [],
     },
   ];
   const selectMenuHandler = id => {
