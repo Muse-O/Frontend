@@ -1,52 +1,36 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useGetLikedExhibitionInfo } from "../../hooks/mypage/useGetLikedExhibitionInfo";
+import { useGetMyExhibitionInfo } from "../../hooks/mypage/useGetMyExhibitionInfo";
+import { useGetScrapExhibitionInfo } from "../../hooks/mypage/useGetScrapExhibitionInfo";
 
 function ExhibitionContainer() {
   const { LikedExhibitionInfo } = useGetLikedExhibitionInfo();
+  const { MyExhibitionInfo } = useGetMyExhibitionInfo();
+  const { ScrapExhibitionInfo } = useGetScrapExhibitionInfo();
+  // console.log(ScrapExhibitionInfo);
 
   const [currentTab, clickTab] = useState(0);
-  // console.log(currentTab, "ct"); //index
 
   const menuArr = [
     {
       id: 0,
       name: "좋아요",
-      content: [],
+      content: [LikedExhibitionInfo?.exhibitionList?.result || []],
     },
     {
       id: 1,
       name: "스크랩",
-      content: [
-        {
-          id: 0,
-          src: "abc",
-          alt: "",
-        },
-      ],
+      content: [ScrapExhibitionInfo?.exhibitionList?.result || []],
     },
     {
       id: 2,
       name: "내가 여는 전시",
-      content: [
-        {
-          id: 0,
-          src: "abc",
-          alt: "",
-        },
-        {
-          id: 1,
-          src: "def",
-          alt: "",
-        },
-      ],
+      content: [MyExhibitionInfo?.myExhibitionList?.result || []],
     },
   ];
   const selectMenuHandler = id => {
     clickTab(id);
-    if (id === 0) {
-      // console.log(LikedExhibitionInfo, "info");
-    }
   };
 
   return (
@@ -61,9 +45,18 @@ function ExhibitionContainer() {
               </StTab>
             ))}
           </StTabWrap>
+
           <StImgWrap>
             {menuArr[currentTab].content.map(list => {
-              return <StImg key={list.id} src={list.src} alt={list.alt} />;
+              return list.map(info => {
+                return (
+                  <StImg
+                    key={info.exhibition_id}
+                    src={info.post_image}
+                    alt={info.exhibition_title}
+                  />
+                );
+              });
             })}
           </StImgWrap>
         </StWrap>

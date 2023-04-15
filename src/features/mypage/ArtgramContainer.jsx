@@ -2,46 +2,36 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useGetLikedArtgramInfo } from "../../hooks/mypage/useGetLikedArtgramInfo";
 import { useGetMyArtgramInfo } from "../../hooks/mypage/useGetMyArtgramInfo";
+import { useGetScrapArtgramInfo } from "../../hooks/mypage/useGetScrapArtgramInfo";
 
 function ArtgramContainer() {
   const { LikedArtgramInfo } = useGetLikedArtgramInfo();
   const { MyArtgramInfo } = useGetMyArtgramInfo();
-  // console.log(MyArtgramInfo, "info");
+  const { ScrapArtgramInfo } = useGetScrapArtgramInfo();
+  // console.log(ScrapArtgramInfo, "info");
 
   const [currentTab, clickTab] = useState(0);
-  // console.log(currentTab, "ct"); //index
 
   const menuArr = [
     {
       id: 0,
       name: "나의 아트그램",
-      content: [MyArtgramInfo?.myArtgramList.result || []],
+      content: [MyArtgramInfo?.myArtgramList?.result || []],
     },
     {
       id: 1,
       name: "좋아요",
-      content: [LikedArtgramInfo?.artgramList.result || []],
+      content: [LikedArtgramInfo?.artgramList?.result || []],
     },
     {
       id: 2,
       name: "스크랩",
-      content: [],
+      content: [ScrapArtgramInfo?.artgramList?.result || []],
     },
   ];
   const selectMenuHandler = id => {
     clickTab(id);
-    // console.log(menuArr[[1]].content, "currentTab");
-    if (id === 1) {
-      // console.log(LikedArtgramInfo?.artgramList.result, "info");
-      // return LikedArtgramInfo?.artgramList.result;'
-      // console.log(LikedArtgramInfo);
-      return LikedArtgramInfo;
-    } else if (id === 0) {
-    }
   };
-
-  // console.log(menuArr[1].content[0], "1");
-  // console.log(menuArr[currentTab].content, "11");
 
   return (
     <StContainer>
