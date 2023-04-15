@@ -1,13 +1,10 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apis_token } from "../../api/apis";
+import { keys } from "../../shared/queryKeys";
 
 export const usePostReview = (id) => {
   const queryClient = useQueryClient();
-  const {
-    mutate: createExhibition,
-    isSuccess,
-    isError,
-  } = useMutation({
+  const { mutate: createExhibition } = useMutation({
     mutationFn: async (payload) => {
       const res = await apis_token.post(
         `/exhibition/reviews/write/${id}`,
@@ -16,8 +13,8 @@ export const usePostReview = (id) => {
       return res.data;
     },
     onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: keys. });
+      queryClient.invalidateQueries({ queryKey: keys.GET_REVIEWS });
     },
   });
-  return [createExhibition, isSuccess, isError];
+  return [createExhibition];
 };

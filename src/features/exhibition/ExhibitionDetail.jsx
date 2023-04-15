@@ -63,7 +63,6 @@ function ExhibitionDetail() {
                   {info.location}
                 </span>
               </DIV>
-              <ExhibitionReview />
               <DIV>
                 <P>제목</P>
                 {info.exhibitionTitle}
@@ -115,6 +114,7 @@ function ExhibitionDetail() {
                 {info.createdAt}
                 {info.updatedAt}
               </DIV>
+              <ExhibitionReview />
             </Contents>
           </ContentWrap>
         </>
