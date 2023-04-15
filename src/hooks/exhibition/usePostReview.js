@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apis_token } from "../../api/apis";
+import { apis, apis_token } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
 
 export const usePostReview = (id) => {
@@ -13,6 +13,7 @@ export const usePostReview = (id) => {
       return res.data;
     },
     onSuccess: () => {
+      alert("리뷰 작성완료");
       queryClient.invalidateQueries({ queryKey: keys.GET_REVIEWS });
     },
   });

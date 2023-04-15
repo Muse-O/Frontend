@@ -59,16 +59,17 @@ function ExhibitionReview() {
   const onSubmitReview = (e) => {
     e.preventDefault();
     createExhibition({ hashTag, ...postReview });
-    console.log("탬플릿", template);
     setPostReviews(template);
     setInputHashTag("");
     setHashTags([]);
   };
   //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!리뷰들
-  const [getReviews, setGetReviews] = useState([]);
-  const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(10);
-  const [pageNumbers, setPageNumbers] = useState(0);
+
+  const [getReviews, setGetReviews] = useState([]); //?리뷰들
+  const [page, setPage] = useState(0); //?받아와야하는 페이지
+  const [limit, setLimit] = useState(10); //?몇개 받아올껀지
+  const [pageNumbers, setPageNumbers] = useState(0); // ?페이지 네이션 갯수
+
   const readReviews = useCallback(
     async (id, limit, page) => {
       const res = await apis.get(
@@ -90,11 +91,12 @@ function ExhibitionReview() {
         console.log(res);
       }
     },
-    [id, limit, page]
+    [limit, page]
   );
   useEffect(() => {
     readReviews(id, limit, page);
   }, [page]);
+
   const changePage = (pagenum, limit) => {
     setPage((pagenum - 1) * limit);
   };
