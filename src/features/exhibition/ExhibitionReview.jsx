@@ -6,6 +6,7 @@ import { useGetReview } from "../../hooks/exhibition/useGetReview";
 import { apis } from "../../api/apis";
 import jwtDecode from "jwt-decode";
 import { cookies } from "../../shared/cookies";
+import { useDeleteReview } from "../../hooks/exhibition/useDeleteReview";
 
 function ExhibitionReview() {
   const access_token = cookies.get("access_token");
@@ -72,7 +73,6 @@ function ExhibitionReview() {
   const offset = (page - 1) * limit;
   const [reviewData, isLoading] = useGetReview(id, limit, offset);
 
-  // console.log("받아온데이터", reviewData);
   const pageNum = Math.ceil(
     reviewData?.paginationInfo.exhibitionReviewCnt / limit
   );
@@ -83,6 +83,9 @@ function ExhibitionReview() {
     setLimit(e.target.value);
   };
 
+  //!!!!!!!!!!!!!!삭제 버튼
+  const [deleteReview] = useDeleteReview();
+  console.log("ㅇ", reviewData?.searchExhibitionReviews);
   return (
     <ReviewWrap>
       <ReviewForm>
@@ -148,7 +151,11 @@ function ExhibitionReview() {
                 {review.userEmail === email ? (
                   <>
                     <button>수정하기</button>
-                    <button>삭제하기</button>
+                    <button
+                      onClick={() => deleteReview(review.exhibitionReviewId)}
+                    >
+                      삭제하기
+                    </button>
                   </>
                 ) : null}
               </ReviewBox>
