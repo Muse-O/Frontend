@@ -4,6 +4,7 @@ import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
 import { useUpdateUserProfile } from "../../hooks/mypage/useUpdateUserProfile";
 import { AiOutlineCamera } from "react-icons/ai";
 import { useGetimgurl } from "../../hooks/mypage/useGetImgUrl";
+import { GrFormClose } from "react-icons/gr";
 
 function UpdateUserProfileModal({ setOpenModal }) {
   /**
@@ -71,50 +72,64 @@ function UpdateUserProfileModal({ setOpenModal }) {
       setImage(fileReader.result);
     };
   };
+
   return (
     <StUserProfileModal>
-      <button onClick={updateModalCloseHandler}>닫기</button>
+      <StCloseBtn>
+        <GrFormClose size="28" onClick={updateModalCloseHandler} />
+      </StCloseBtn>
 
       <StImgBox>
-        <ProfileImg
-          name="profileImg"
-          src={image === "" ? editProfile.profileImg : image}
-          alt="userProfileImg"
-        />
+        <div>
+          <ProfileImg
+            name="profileImg"
+            src={image === "" ? editProfile.profileImg : image}
+            alt="userProfileImg"
+          />
+        </div>
 
-        {/* input 숨기기 */}
-        <Stinput
-          type="file"
-          ref={fileRef}
-          accept="image/*"
-          onChange={changeImageHandler}
-        />
-        <UpdateIcon onClick={imgUpdateHandler}>
-          <AiOutlineCamera size="30" color="gray" />
-        </UpdateIcon>
+        <StImgEditWrap>
+          {/* input 숨기기 */}
+          <Stinput
+            type="file"
+            ref={fileRef}
+            accept="image/*"
+            onChange={changeImageHandler}
+          />
+          <UpdateIcon onClick={imgUpdateHandler}>
+            <AiOutlineCamera size="20" color="gray" />
+            프로필 사진 변경
+          </UpdateIcon>
+          <div>10mb 이내의 이미지 파일을 업로드해주세요</div>
+        </StImgEditWrap>
       </StImgBox>
 
       <StTextBox>
-        <div>
-          <label>닉네임 </label>
-          <input
+        <StEditInputNameWrap>
+          <div>닉네임 </div>
+          <div>소개 </div>
+        </StEditInputNameWrap>
+
+        <StEditInputWrap>
+          <NameInput
+            label="닉네임"
             name="nickname"
             value={editProfile.nickname}
             onChange={changeInputHandler}
           />
-        </div>
 
-        <div>
-          <label>한 줄 소개 </label>
-          <input
+          <div>닉네임은 2글자 이상 입력해주세요</div>
+
+          <IntroInput
+            label="소개"
             name="introduction"
             value={editProfile.introduction}
             onChange={changeInputHandler}
           />
-        </div>
+        </StEditInputWrap>
       </StTextBox>
 
-      <button onClick={updateUserProfileHandler}>수정하기</button>
+      <StUpdateBtn onClick={updateUserProfileHandler}>수정하기</StUpdateBtn>
     </StUserProfileModal>
   );
 }
@@ -125,65 +140,126 @@ const StUserProfileModal = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 800px;
+  width: 720px;
   height: 600px;
   background-color: white;
+  border-radius: 20px;
   position: fixed;
   z-index: 10201;
   top: 15%;
   left: 30%;
+  /* transform: translate(75%); */
   gap: 10px;
 `;
 
+const StCloseBtn = styled.div`
+  display: flex;
+  width: 700px;
+  margin-top: 10px;
+  justify-content: end;
+  cursor: pointer;
+`;
+
 const StImgBox = styled.div`
-  background-color: #ebb55f92;
-  width: 350px;
-  height: 350px;
+  /* background-color: #81f0f42a; */
+  width: 550px;
+  height: 180px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-`;
-
-const ProfileImg = styled.img`
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-`;
-
-const PreviewImg = styled.img`
-  background-color: #2e2ede;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-`;
-const UpdateIcon = styled.button`
-  background-color: white;
-  border: 2px solid gray;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transform: translate(200%, -100%);
-`;
-
-const StTextBox = styled.div`
-  background-color: #ffc0cb62;
-  width: 500px;
-  height: 150px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-
-  input {
-    border: 1px solid black;
-  }
+  gap: 30px;
 `;
 
 const Stinput = styled.input`
   display: none;
+`;
+
+const ProfileImg = styled.img`
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+`;
+
+const StImgEditWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const UpdateIcon = styled.button`
+  background-color: white;
+  border: 1px solid gray;
+  width: 130px;
+  height: 40px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: bold;
+`;
+
+const StTextBox = styled.div`
+  /* background-color: #ffc0cb62; */
+  width: 550px;
+  height: 250px;
+  display: flex;
+  gap: 10px;
+  padding-top: 15px;
+`;
+
+const StEditInputNameWrap = styled.div`
+  width: 160px;
+  height: 100px;
+  padding: 13px 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+  div {
+    width: 70px;
+    font-size: 17px;
+    font-weight: bold;
+  }
+`;
+
+const StEditInputWrap = styled.div`
+  /* background-color: #5fa75f44; */
+  width: 380px;
+  height: 230px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+
+const NameInput = styled.input`
+  background-color: #80808034;
+  height: 40px;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 15px;
+  outline: none;
+`;
+
+const IntroInput = styled.input`
+  background-color: #80808034;
+  height: 120px;
+  border-radius: 5px;
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 15px;
+  white-space: pre-line;
+  outline: none;
+`;
+
+const StUpdateBtn = styled.div`
+  border: 1px solid gray;
+  border-radius: 20px;
+  width: 65px;
+  height: 30px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
 `;
