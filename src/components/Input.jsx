@@ -26,7 +26,7 @@ export const HashTagInput = ({ label, hashTag, setHashTag }) => {
           value={inputValue}
           placeholder="Add a hashtag"
           onChange={handleInputChange}
-          onKeyDown={handleInputKeyDown}
+          onKeyPress={handleInputKeyDown}
         />
       </DivFlex>
       <HashTagList>
