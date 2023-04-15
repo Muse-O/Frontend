@@ -1,63 +1,32 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useGetLikedArtgramInfo } from "../../hooks/mypage/useGetLikedArtgramInfo";
+import { useGetMyArtgramInfo } from "../../hooks/mypage/useGetMyArtgramInfo";
+import { useGetScrapArtgramInfo } from "../../hooks/mypage/useGetScrapArtgramInfo";
 
 function ArtgramContainer() {
+  const { LikedArtgramInfo } = useGetLikedArtgramInfo();
+  const { MyArtgramInfo } = useGetMyArtgramInfo();
+  const { ScrapArtgramInfo } = useGetScrapArtgramInfo();
+  // console.log(ScrapArtgramInfo, "info");
+
   const [currentTab, clickTab] = useState(0);
-  // console.log(currentTab, "ct"); //index
 
   const menuArr = [
     {
       id: 0,
       name: "나의 아트그램",
-      content: [
-        {
-          id: 0,
-          src: "abc",
-          alt: "",
-        },
-        {
-          id: 1,
-          src: "def",
-          alt: "",
-        },
-        {
-          id: 2,
-          src: "fdg",
-          alt: "",
-        },
-        // {
-        //   id: 3,
-        //   src: "fdg",
-        //   alt: "",
-        // },
-      ],
+      content: [MyArtgramInfo?.myArtgramList?.result || []],
     },
     {
       id: 1,
       name: "좋아요",
-      content: [
-        {
-          id: 0,
-          src: "abc",
-          alt: "",
-        },
-      ],
+      content: [LikedArtgramInfo?.artgramList?.result || []],
     },
     {
       id: 2,
       name: "스크랩",
-      content: [
-        {
-          id: 0,
-          src: "abc",
-          alt: "",
-        },
-        {
-          id: 1,
-          src: "def",
-          alt: "",
-        },
-      ],
+      content: [ScrapArtgramInfo?.artgramList?.result || []],
     },
   ];
   const selectMenuHandler = id => {
@@ -76,9 +45,18 @@ function ArtgramContainer() {
               </StTab>
             ))}
           </StTabWrap>
+
           <StImgWrap>
             {menuArr[currentTab].content.map(list => {
-              return <StImg key={list.id} src={list.src} alt={list.alt} />;
+              return list.map(info => {
+                return (
+                  <StImg
+                    key={info.artgram_id}
+                    src={info.imgUrl}
+                    alt={info.artgram_title}
+                  />
+                );
+              });
             })}
           </StImgWrap>
         </StWrap>
