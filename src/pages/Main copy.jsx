@@ -7,7 +7,52 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
-import MainFirst from "../features/main/MainFirst";
+
+function FirstPrevArrow(props) {
+  const { onClick } = props;
+  return (
+    <div
+      style={{
+        width: "63px",
+        height: "63px",
+        backgroundColor: "lightgray",
+        borderRadius: "50px",
+        display:"flex",
+        justifyContent:"center",
+        alignItems:"center",
+        position:"absolute",
+        right:"220px",  
+        bottom:"-368.5px"
+
+      }}
+      onClick={onClick}>
+      <Icons transform="58" children={<FaChevronLeft/>}/>
+    </div>
+  );
+}
+
+function FirstNextArrow(props) {
+  const { onClick } = props;
+  return (
+    <div
+    style={{
+      width: "63px",
+      height: "63px",
+      backgroundColor: "lightgray",
+      borderRadius: "50px",
+      display:"flex",
+      justifyContent:"center",
+      alignItems:"center",
+      position:"absolute",
+      right:"75px",
+      bottom:"-368.5px"
+    }}
+    onClick={onClick}>
+    <Icons transform="43" children={<FaChevronRight/>}/>
+  </div>
+  );
+}
+
 
 function SecondPrevArrow(props) {
   const { onClick } = props;
@@ -68,6 +113,47 @@ function SampleNextArrow(props) {
 }
 
 function Main() {
+  /// 전시 종류 Slider 
+  const [firstmainSlider, setFirstMainSlider] = useState(null);
+  const [firstsubSlider, setFirstSudSilder] = useState(null);
+  const [firstcurrentSlideIndex, setFirstCurrentSlideIndex] = useState(1);
+  const firstmainSliderRef = useRef(null);
+  const firstsubSliderRef = useRef(null);
+
+  const firstMainSlidersettings = {
+    asNavFor: firstsubSlider,
+    dots: false,
+    arrows: false,
+    ref: slider => (firstmainSliderRef.current = slider),
+    style:{position:"relative"}
+  }
+
+  const FirstIndexhandler = (oldIndex, newIndex) => {
+    setFirstCurrentSlideIndex(newIndex+1)
+  }
+
+  const firstSubSlidersetting = {
+      asNavFor: firstmainSlider,
+      ref: slider => (firstsubSliderRef.current = slider),
+      slidesToShow: 1, 
+      swipeToSlide: true,
+      focusOnSelect: true,
+      autoplay: true, 
+      autoplaySpeed: 4000,
+      arrows:true,
+      prevArrow: <FirstPrevArrow/>,
+      nextArrow: <FirstNextArrow/>,
+      beforeChange: FirstIndexhandler,
+      style:{width:"344px", height:"304px", backgroundColor:"lightyellow", position:"absolute", top:"0", right:"-75px"},
+    }; 
+
+
+
+  useEffect(() => {
+    setFirstMainSlider(firstmainSliderRef.current);
+    setFirstSudSilder(firstsubSliderRef.current);
+  }, []);
+
   /// 최신전시 Slider
   const newestSlidersettings = {
     slidesToShow: 6, 
@@ -82,6 +168,8 @@ function Main() {
     nextArrow: <SecondNextArrow/>,
     style:{marginTop:"36px", position:"static"}, 
   };
+
+
   
   // 아트그램 Slider
   const [mainSlider, setMainSlider] = useState(null);
@@ -140,14 +228,64 @@ function Main() {
       <Header />
       <Article>
         <MainLayout>
-          {/* 첫번재 전시 종류 분리 시도 */}
-          <MainFirst/>
+          <FirstDiv height="825">
+            <div className="firstdivtitle" style={{position:"absolute", top:"0", left:"0", zIndex:"10"}}>
+              <MainH4 children="전시 종류"/>
+            </div>
+            <FirstSliderWrap>
+              <Slider {...firstMainSlidersettings}>
+                  {Array(5).fill(null).map((el, index) => (
+                    <div key={index} >
+                      {/* 이미지 */}
+                      <div style={{width:"492px", height:"702px", backgroundColor:"lightcyan", margin:"0 auto"}}>
+                       <img width="100%" src="https://culture.seoul.go.kr/cmmn/file/imageSrc.do?fileStreCours=35367259ca6485b8ea26e64a6b235a5388f602a39e9ec217640b29507de1c5f7&streFileNm=a75f86a05a9f5928192d72c7494fb1dfb18a99d5557d38731a0fdd08d3cbb619"/>
+                      </div>  
+                      {/* Num & Title */}
+                      <div style={{width:"fit-content", height:"96px", position:"absolute", top:"134px", display:"grid", gridTemplateColumns:"56px 1fr", alignItems:"center"}}>
+                        <div style={{fontSize: "24px"}}>{index < 9 ? `0${index+1}` : `${index+1}`}.</div>
+                        <div style={{fontSize: "80px"}}>대지의 시간</div>
+                      </div>
+                      {/* Desc */}
+                      <div style={{width:"339px", height:"96px", position:"absolute", top:"344px", wordBreak:"break-all", textAlign:"justify", lineHeight: "25px"}}>
+                        ⟪대지의 시간⟫은 기후변화와 펜데믹 등 전 지구적 위기 시대를 맞이하여 새로운 시대정신으로 떠오르고 있는 '생태학적 세계관'을 탐색하는 장으로서, '공생', '연결', '균형의 회복'을 지향하는 국내외 작가 16명의 작품과 아카이브를 선보인다.
+                      </div>
+                      {/* 전시 상세페이지이동 */}
+                      <div style={{minWidth:"314px", height:"70px", position:"absolute", top:"632px", backgroundColor:"#D9D9D9", borderRadius:"50px", display:"flex", justifyContent:"center", alignItems:"center"}}>
+                        <p>자세히 보러가기</p>
+                      </div>
+                      <div style={{position:"absolute", top:"344px", transform:"translateX(-300px)"}}>
+                        <p>기간</p>
+                        <p>2023.04.12-2023.04.12</p>
+                        <p>위치</p>
+                        <p>과천 현대미술관</p>
+                        <p>작가</p>
+                        <p>홍길동 외 5인</p>
+                      </div>
+                    </div>
+                  ))}
+                </Slider>
+            </FirstSliderWrap>
+            <div>
+            <Slider {...firstSubSlidersetting}>
+                <div>1sub</div>
+                <div>2sub</div>
+                <div>3sub</div>
+                <div>4sub</div>
+                <div>5sub</div>
+              </Slider>
+            </div>
+            <FirstCustomIndex>
+                  <p>{firstcurrentSlideIndex} <span>/ 6</span></p>
+            </FirstCustomIndex>
+          </FirstDiv>
+
+
           <SecondDiv height="570">
             <MainH1 children="최신 전시" />
               <Slider {...newestSlidersettings}>
                 {최신전시.map((el,index) => (
                       <SecondSlider key={index}>
-                        <img className="sliderImg" src={el.img} alt="01"/>
+                        <img className="sliderImg" src={el.img}/>
                         <p className="sliderTitle">{el.title}</p>
                         <p className="sliderdate">{el.date}</p>
                         <p className="sliderLocation">{el.location}</p>
@@ -176,7 +314,7 @@ function Main() {
             <MainH1 children="예정 전시" />
             <FourthWrap>
               <div className="exhibitionimg" style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                <img src={exhibitionImg} style={{display:"block", height:"100%"}} alt="01"/>
+                <img src={exhibitionImg} style={{display:"block", height:"100%"}}/>
               </div>
               <div className="exhibitioninfo">
                 {Array(4)
@@ -263,6 +401,16 @@ const MainLayout = styled.div`
   color: #242424;
   font-family: 'SpoqaHanSansNeo-Regular';
 `;
+
+const FirstDiv = styled.div`
+  position: relative;
+  /* display: flex; */
+  /* align-items: center;  */
+  width: 100%;
+  /* background-color: #ff950098;; */
+  max-height: ${pos=>pos.height}px;
+  min-height: ${pos=>pos.height}px;
+`
 
 const SecondDiv = styled.div`
   width: 100%;
@@ -456,6 +604,11 @@ const MainH1 = styled.h4`
   font-size: 32px;
 `
 
+const MainH4 = styled.h4`
+  font-family: 'S-CoreDream-3Light';
+  font-size: 24px;
+`
+
 const FifitMainSlider = styled.div`
   position: relative;
   min-height:533px;
@@ -611,6 +764,29 @@ const FifitCustomIndex = styled.div`
   }
 `
 
+const FirstCustomIndex = styled.div`
+  position: absolute;
+  border-radius: 20px;
+  width: 100px;
+  height: 50px;
+  bottom: 160px;
+  left:1371.25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  p {
+    font-size: 25px;
+    font-weight: 700;
+  }
+  span {
+    font-size: 20px;
+    font-weight: 400;
+  }
+  bottom: 160px;
+`
+
 const Icons = styled.div`
   position: absolute;
   top: 53%;
@@ -621,6 +797,12 @@ const Icons = styled.div`
   text-align: center;
 `;
 
+const FirstSliderWrap = styled.div`
+  max-width: 1256px;
+  width: 1256px;
+  height: 825px;
+  /* background-color: lightcoral; */
+`
 
 const 최신전시 = [
   {img : "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png", title:"제목1", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
