@@ -4,7 +4,7 @@ import * as Main from "./css/mainparts";
 function MainThird() {
   return (
     <Main.ThirdLayout
-      height="790"
+      height="950"
       style={{ backgroundColor: "lightgoldenrodyellow" }}>
       <Main.ArticleTitle>
         <Main.MainH1 children="TOP 10" />

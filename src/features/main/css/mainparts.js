@@ -24,12 +24,6 @@ const CommenLayout = styled.div`
 const ThirdLayout = styled(CommenLayout)`
   max-height: fit-content;
 `
-
-// Main 페이지 네번째(4) 예정전시
-const FourthLayout = styled(CommenLayout)`
-  margin-top: 100px;
-`
-
 // Main 페이지 - 소제목 absolute 좌상단 고정
 const ArticleTitle = styled.div`
   position:absolute;
@@ -167,9 +161,10 @@ const FourthWrap = styled.div`
   gap: 80px;
   min-height: 480px;
   max-height: 480px;
-  margin-top:36px;
+  margin-top:75px;
   
   .exhibitionimg {
+    display: block;
     min-width: 340px;
     max-width: 340px;
     min-height: 480px;
@@ -179,8 +174,9 @@ const FourthWrap = styled.div`
   .exhibitioninfo{
     display: flex;
     flex-direction: column;
-    gap:24px;
+    justify-content: space-between;
     width: 100%;
+    height: 480px;
   }
  `
 
@@ -366,7 +362,6 @@ export {
   MainLayout,
   CommenLayout,
   ThirdLayout,
-  FourthLayout,
   ArticleTitle,
   MainH1,
   MainH4,

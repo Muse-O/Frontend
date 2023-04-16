@@ -13,6 +13,8 @@ import MainSecond from "../features/main/MainSecond";
 import MainThird from "../features/main/MainThird";
 
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
+import MainFourth from "../features/main/MainFourth";
+import MainFifith from "../features/main/MainFifith";
 
 
 
@@ -87,7 +89,6 @@ function Main() {
   const secondarrEdit = secondarr.shift()
   secondarr.push(secondarrEdit)
 
-  const [exhibitionImg, setExhibitionImg] = useState("https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png")
 
 
   return (
@@ -98,42 +99,9 @@ function Main() {
           <MainFirst />
           <MainSecond />
           <MainThird />
+          <MainFourth />
+          <MainFifith />
 
-        
-          <FourthDiv height="655">
-            <MainH1 children="예정 전시" />
-            <FourthWrap>
-              <div className="exhibitionimg" style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-                <img src={exhibitionImg} style={{display:"block", height:"100%"}} alt="01"/>
-              </div>
-              <div className="exhibitioninfo">
-                {Array(4)
-                  .fill(null)
-                  .map((el,index) => {
-                    const imgList = [
-                      "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png",
-                      "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200",
-                      "https://culture.seoul.go.kr/cmmn/file/imageSrc.do?fileStreCours=35367259ca6485b8ea26e64a6b235a5388f602a39e9ec217640b29507de1c5f7&streFileNm=a75f86a05a9f5928192d72c7494fb1dfb18a99d5557d38731a0fdd08d3cbb619",
-                      "https://magazine.brique.co/wp-content/uploads/2022/05/전시포스터.jpg"
-                    ]
-                  return (
-                    <FourthExhibitioninfo key={index} onMouseOver={()=>setExhibitionImg(imgList[index])}>
-                      <div className="date">
-                        <p>30</p>
-                        <p>Aug</p>
-                      </div>
-                      <div className="exhibitininfo">
-                        <p>대지의 시간</p>
-                        <p>The Time of Earth</p>
-                      </div>
-                      <div className="exhibitionlocation">
-                        <p>서울 : 마이아트뮤지엄</p>
-                      </div>
-                    </FourthExhibitioninfo>
-                  )})}
-              </div>
-            </FourthWrap>
-          </FourthDiv>
           <FifithDiv height="800">
             <MainH1 children="아트그램" />
             <FifitWrap>
@@ -181,80 +149,6 @@ function Main() {
 }
 
 export default Main;
-
-
-const FourthDiv = styled.div`
-  position: relative;
-  width: 100%;
-  margin-top: 100px;
-  /* background-color: #8c00ff95;; */
-  max-height: ${pos=>pos.height}px;
-  min-height: ${pos=>pos.height}px;
-`
-
-const FourthWrap = styled.div`
-  position: relative;
-  min-height: 480px;
-  max-height: 480px;
-  margin-top:36px;
-  /* background-color: #f5f5f59a; */
-  display: grid;
-  grid-template-columns: 340px 1fr;
-  gap: 80px;
-
-  .exhibitionimg {
-    min-width: 340px;
-    max-width: 340px;
-    min-height: 480px;
-    max-height: 480px;
-    /* background-color: #292929; */
-  }
-  .exhibitioninfo{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap:24px;
-  }
-  `
-
-const FourthExhibitioninfo = styled.div`
-  height: 102px;
-  display: grid;
-  grid-template-columns: 82px minmax(200px, 1fr) 250px;
-  gap: 112px;
-  border: 1px solid black;
-  border-radius:8px;
-  padding: 25px;
-  &:hover {
-    background-color: #232323;
-    color: #E6E6E6;
-  }
-  .date {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-  }
-
-  .exhibitininfo {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    font-size: 16px;
-    p:first-child {
-      font-size: 20px;
-    }
-  }
-
-  .exhibitionlocation {
-    text-align: end;
-    padding-right: 57px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-`
 
 const FifithDiv = styled.div`
   width: 100%;
