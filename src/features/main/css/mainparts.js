@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Flex } from "../../components/Flex";
+import { Flex } from "../../../components/Flex";
 
 // Main 페이지 전체 레이아웃 및 개별 태그들에 대한 위치설정 ////////////////////////////////////////////////////
 // Main 페이지 - 전체를 감싸는 태그 
@@ -18,8 +18,8 @@ const CommenLayout = styled.div`
   width: 100%;
   max-height: ${pos=>pos.height}px;
   min-height: ${pos=>pos.height}px;
+  overflow: hidden;
 `
-
 // Main 페이지 세번째(3) TOP 10 (화면의 너미가 줄어들었을 때를 가정)
 const ThirdLayout = styled(CommenLayout)`
   max-height: fit-content;
@@ -29,6 +29,15 @@ const ThirdLayout = styled(CommenLayout)`
 const FourthLayout = styled(CommenLayout)`
   margin-top: 100px;
 `
+
+// Main 페이지 - 소제목 absolute 좌상단 고정
+const ArticleTitle = styled.div`
+  position:absolute;
+  top:5px;
+  left:0;
+  z-index:1;
+`
+
 //  Main 페이지 - 소제목(2,3,4,5 번째)
 const MainH1 = styled.h4`
   font-family: 'S-CoreDream-3Light';
@@ -43,7 +52,6 @@ const MainH4 = styled.h4`
 
 // Main 개별 태그들에 대한 상세설정 //////////////////////////////////////////////////////////////////////
 // ---------------------------------------------------------------------------------- //
-
 // Main 페이지 첫번째(1) 슬라이더 레이아웃
 const FirstMainSliderWrap = styled.div`
   position: relative;
@@ -52,12 +60,6 @@ const FirstMainSliderWrap = styled.div`
   height: 825px;
 `
 // Main 페이지 첫번째(1) 슬라이더 스타일설정
-const FirstTitle = styled.div`
-  position:absolute;
-  top:0;
-  left:0;
-  z-index:1;
-`
 const FirstSubSliderWrap = styled.div`
   position: relative;
   max-width: 269px;
@@ -65,9 +67,18 @@ const FirstSubSliderWrap = styled.div`
   height: 825px;
 `
 
-
 // ---------------------------------------------------------------------------------- //
 // Main 페이지 두번째(2) 슬라이더 스타일설정
+const SecondSliderWrap = styled(FirstMainSliderWrap)`
+  position: static;
+  margin-top: 75px;
+  max-width: 1545px;
+  width: 1545px;
+  height: 390px;
+  background-color: lightgoldenrodyellow;
+`
+
+
 const SecondSlider = styled.div`
   min-width: 235px;
   max-width: 235px;
@@ -103,7 +114,7 @@ const SecondSlider = styled.div`
 // ---------------------------------------------------------------------------------- //
 // Main 페이지 세번째(3) TOP10 상세 레이아웃
 const ThirdWrap = styled(Flex)`
-  margin-top: 36px;
+  margin-top: 75px;
   max-width: 1525px;
   padding-bottom: 24px;
 `
@@ -340,86 +351,6 @@ const FifithSubSliderWrap = styled.div`
   }  
   `
 
-
-const FifitCustomPrevButton = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    left: 464px;
-    bottom: 5px;
-    width: 50px;
-    height: 50px;
-    transform: rotateY(-50%);
-    background-color:rgba(80, 80, 80, 0.2);
-    border-radius: 50px;
-    color: black;
-    z-index: 10;
-`;
-
-const FifitCustomNextButton = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  left: 654px;
-  bottom: 5px;
-  width: 50px;
-  height: 50px;
-  transform: rotateY(-50%);
-  background-color:rgba(80, 80, 80, 0.2);
-  border-radius: 50px;
-  color: black;
-  z-index: 10;
-    
-`
-
-const FifitCustomIndex = styled.div`
-  position: absolute;
-  /* background-color: lightgray; */
-  border-radius: 20px;
-  width: 100px;
-  height: 50px;
-  bottom: 5px;
-  left:534px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  p {
-    font-size: 25px;
-    font-weight: 700;
-  }
-  span {
-    font-size: 20px;
-    font-weight: 400;
-  }
-`
-
-const FirstCustomIndex = styled.div`
-  position: absolute;
-  border-radius: 20px;
-  width: 100px;
-  height: 50px;
-  bottom: 160px;
-  left:1371.25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  p {
-    font-size: 25px;
-    font-weight: 700;
-  }
-  span {
-    font-size: 20px;
-    font-weight: 400;
-  }
-  bottom: 160px;
-`
-
 const Icons = styled.div`
   position: absolute;
   top: 53%;
@@ -430,28 +361,33 @@ const Icons = styled.div`
   text-align: center;
 `;
 
-
 export {
   // Main 페이지 레이아웃
   MainLayout,
   CommenLayout,
   ThirdLayout,
   FourthLayout,
+  ArticleTitle,
   MainH1,
   MainH4,
   // Main 페이지(1) 상세관련
-  FirstTitle,
   FirstMainSliderWrap,
   FirstSubSliderWrap,
   // Main 페이지(2) 상세관련
+  SecondSliderWrap,
   SecondSlider,
   // Main 페이지(3) 상세관련
   ThirdWrap,
   ThirdInner,
   // Main 페이지(4) 상세관련
+  FourthWrap,
   FourthExhibitioninfo,
   // Main 페이지(5) 상세관련
+  FifitWrap,
   FifithMainSlider,
   FifithSubSliderLayout,
-  FifithSubSliderWrap
+  FifithSubSliderWrap,
+
+  // Main Slider buttom
+  Icons
 };

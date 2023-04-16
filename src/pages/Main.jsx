@@ -1,51 +1,20 @@
 import React, { useState, useEffect, useRef }  from "react";
-import Header from "../components/Header";
-import { Article } from "../shared/GlobalStyled";
 import styled from "styled-components";
-import { Flex } from "../components/Flex";
+
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
+
+import Header from "../components/Header";
+import { Article } from "../shared/GlobalStyled";
+import { MainLayout } from "../features/main/css/mainparts";
 import MainFirst from "../features/main/MainFirst";
+import MainSecond from "../features/main/MainSecond";
+import MainThird from "../features/main/MainThird";
 
-function SecondPrevArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-      style={{
-        minWidth: "40px",
-        minHeight: "40px",
-        backgroundColor: "lightgray",
-        borderRadius: "50px",
-        position: "absolute",
-        top: "10px",
-        right: "64px",
-      }}
-      onClick={onClick}>
-      <Icons transform="58" children={<FaChevronLeft/>}/>
-    </div>
-  );
-}
+import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
-function SecondNextArrow(props) {
-  const { onClick } = props;
-  return (
-    <div
-    style={{
-      minWidth: "40px",
-      minHeight: "40px",
-      backgroundColor: "lightgray",
-      borderRadius: "50px",
-      position: "absolute",
-      top: "10px",
-      right: "0",
-    }}
-    onClick={onClick}>
-    <Icons transform="43" children={<FaChevronRight/>}/>
-  </div>
-  );
-}
+
 
 function SamplePrevArrow(props) {
   const { onClick } = props;
@@ -68,20 +37,6 @@ function SampleNextArrow(props) {
 }
 
 function Main() {
-  /// 최신전시 Slider
-  const newestSlidersettings = {
-    slidesToShow: 6, 
-    swipeToSlide: true,
-    focusOnSelect: true,
-    autoplay: true, 
-    autoplaySpeed: 2000,
-    infinite: true,
-    dots: false,
-    arrows: true,
-    prevArrow: <SecondPrevArrow/>,
-    nextArrow: <SecondNextArrow/>,
-    style:{marginTop:"36px", position:"static"}, 
-  };
   
   // 아트그램 Slider
   const [mainSlider, setMainSlider] = useState(null);
@@ -140,38 +95,11 @@ function Main() {
       <Header />
       <Article>
         <MainLayout>
-          {/* 첫번재 전시 종류 분리 시도 */}
-          <MainFirst/>
-          <SecondDiv height="570">
-            <MainH1 children="최신 전시" />
-              <Slider {...newestSlidersettings}>
-                {최신전시.map((el,index) => (
-                      <SecondSlider key={index}>
-                        <img className="sliderImg" src={el.img} alt="01"/>
-                        <p className="sliderTitle">{el.title}</p>
-                        <p className="sliderdate">{el.date}</p>
-                        <p className="sliderLocation">{el.location}</p>
-                      </SecondSlider>
-                    ))}
-              </Slider>
-          </SecondDiv>
-          <ThirdDiv height="790">
-            <MainH1 children="TOP 10" />
-            <ThirdWrap gap="23" fw="wrap">
-              {Array(10)
-                .fill(null)
-                .map((el, index) => (
-                  <ThirdInner key={index}>
-                    <div className="number">{index + 1}</div>
-                    <div className="exhibitionimg"></div>
-                    <div className="innerText">
-                      <p className="firstP">대지의 시간 The Time of Earth</p>
-                      <p className="secondP">2023.04.14-2023.04.20</p>
-                    </div>
-                  </ThirdInner>
-                ))}
-            </ThirdWrap>
-          </ThirdDiv>
+          <MainFirst />
+          <MainSecond />
+          <MainThird />
+
+        
           <FourthDiv height="655">
             <MainH1 children="예정 전시" />
             <FourthWrap>
@@ -254,103 +182,6 @@ function Main() {
 
 export default Main;
 
-const MainLayout = styled.div`
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  /* background-color: yellow; */
-  margin: 65px 75px;
-  color: #242424;
-  font-family: 'SpoqaHanSansNeo-Regular';
-`;
-
-const SecondDiv = styled.div`
-  width: 100%;
-  position: relative;
-  /* background-color: #a6ff0097;; */
-  max-height: ${pos=>pos.height}px;
-  min-height: ${pos=>pos.height}px;
-`
-
-    const SecondSlider = styled.div`
-      min-width: 235px;
-      max-width: 235px;
-      min-height: 390px;
-      max-height: 390px;
-      background-color: lightgray;
-
-      .sliderImg {
-          display: block;
-          min-width: 235px;
-          max-width: 235px;
-          min-height: 290px;
-          max-height: 290px;
-          background-color: #f2f2f2;
-        }
-
-      .sliderTitle {
-        margin-top: 24px;
-        font-size: 20px;
-      }
-      .sliderdate{
-        margin-top: 4px;
-        font-size: 16px;
-        color: #5A5A5A;
-      }
-      .sliderLocation{
-        margin-top: 4px;
-      }
-    `
-
-const ThirdDiv = styled.div`
-  width: 100%;
-  /* background-color: #00eaff96;; */
-  max-height: fit-content;
-  min-height: ${pos=>pos.height}px;
-`
-    const ThirdWrap = styled(Flex)`
-    margin-top: 36px;
-    max-width: 1525px;
-    padding-bottom: 24px;
-    `
-
-const ThirdInner = styled.div`
-  min-width: 751px;
-  max-width: 751px;
-  min-height: 148px;
-  max-height: 148px;
-  margin-bottom: -23px;
-  padding: 12px 0;
-  border-bottom: 1px solid #D9D9D9;
-  background-color: #f5f5f59a;
-  display: grid;
-  grid-template-columns: 100px 88px 1fr;
-
-  .number{
-    font-size: 20px;
-  }
-  .exhibitionimg {
-    min-width: 87px;
-    max-width: 87px;
-    min-height: 124px;
-    max-height: 124px;
-    background-color: lightgray;
-  }
-
-  .innerText {
-    margin-left: 152px;
-    padding: 47px 0;;
-
-      .firstP {
-        font-size: 20px;
-        margin-bottom: 4px;
-      }
-      .secondP{
-        color: #5A5A5A;
-        font-size: 12px;
-      }
-  }
-`
 
 const FourthDiv = styled.div`
   position: relative;
@@ -620,23 +451,3 @@ const Icons = styled.div`
   color: red;
   text-align: center;
 `;
-
-
-const 최신전시 = [
-  {img : "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png", title:"제목1", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200", title:"제목2", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://culture.seoul.go.kr/cmmn/file/imageSrc.do?fileStreCours=35367259ca6485b8ea26e64a6b235a5388f602a39e9ec217640b29507de1c5f7&streFileNm=a75f86a05a9f5928192d72c7494fb1dfb18a99d5557d38731a0fdd08d3cbb619", title:"제목", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://magazine.brique.co/wp-content/uploads/2022/05/전시포스터.jpg", title:"제목3", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png", title:"제목4", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200", title:"제목5", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://culture.seoul.go.kr/cmmn/file/imageSrc.do?fileStreCours=35367259ca6485b8ea26e64a6b235a5388f602a39e9ec217640b29507de1c5f7&streFileNm=a75f86a05a9f5928192d72c7494fb1dfb18a99d5557d38731a0fdd08d3cbb619", title:"제목6", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://magazine.brique.co/wp-content/uploads/2022/05/전시포스터.jpg", title:"제목7", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png", title:"제목8", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200", title:"제목9", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://culture.seoul.go.kr/cmmn/file/imageSrc.do?fileStreCours=35367259ca6485b8ea26e64a6b235a5388f602a39e9ec217640b29507de1c5f7&streFileNm=a75f86a05a9f5928192d72c7494fb1dfb18a99d5557d38731a0fdd08d3cbb619", title:"제목10", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://magazine.brique.co/wp-content/uploads/2022/05/전시포스터.jpg", title:"제목11", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png", title:"제목12", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://lh3.googleusercontent.com/ci/AEwo86c9tUNWeu-V0oOSi2GEYXzm4sXCmTWVEiTAUzN3NzQVP4oGWi5BJBEIMKgWNLJ1fclBOUqdpm-X=s1200", title:"제목13", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://culture.seoul.go.kr/cmmn/file/imageSrc.do?fileStreCours=35367259ca6485b8ea26e64a6b235a5388f602a39e9ec217640b29507de1c5f7&streFileNm=a75f86a05a9f5928192d72c7494fb1dfb18a99d5557d38731a0fdd08d3cbb619", title:"제목14", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"},
-  {img : "https://magazine.brique.co/wp-content/uploads/2022/05/전시포스터.jpg", title:"제목15", date:"2023.03-14-2023.04.20", location:"서울 : 마이아트뮤지엄"}
-]
