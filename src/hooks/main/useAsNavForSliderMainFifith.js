@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Icons } from "../../features/main/css/mainparts";
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
-export const useAsNavForSlider = () => {
+export const useAsNavForSliderMainFifith = () => {
   const [mainSlider, setMainSlider] = useState(null);
   const [subSlider, setSudSilder] = useState(null);
   const mainSliderRef = useRef(null);
@@ -27,11 +27,12 @@ export const useAsNavForSlider = () => {
     infinite: true,
     dots: false,
     arrows: false,
+    style:{maxWidth: "387px"}
   };
   const secondSliderSettings = {
     asNavFor: mainSlider,
     ref: slider => (subSliderRef.current = slider),
-    slidesToShow: 1,
+    slidesToShow: 4,
     swipeToSlide: true,
     focusOnSelect: true,
     autoplay: true,
@@ -41,6 +42,7 @@ export const useAsNavForSlider = () => {
     arrows: true,
     prevArrow: <PrevArrow/>,
     nextArrow: <NextArrow/>,
+    style:{position:"static",maxWidth:"1097px", minWidth: "1097px"},
     beforeChange:Indexhandler
   };
   return {firstSliderSettings, secondSliderSettings, currentSlideIndex}
@@ -51,7 +53,7 @@ function PrevArrow(props) {
   return (
     <div
       style={{
-        position:"absolute",
+         position:"absolute",
         bottom:"0",
         display:"flex",
         justifyContent:"center",
@@ -61,7 +63,6 @@ function PrevArrow(props) {
         backgroundColor: "lightgray",
         borderRadius: "50px",
         zIndex:"1",
-
       }}
       onClick={onClick}>
       <Icons transform="58" children={<FaChevronLeft/>}/>
@@ -76,7 +77,7 @@ function NextArrow(props) {
     style={{
       position:"absolute",
       bottom:"0",
-      right:"0",
+      left:"232px",
       display:"flex",
       justifyContent:"center",
       alignItems:"center",

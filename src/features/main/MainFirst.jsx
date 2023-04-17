@@ -7,14 +7,14 @@ import "slick-carousel/slick/slick-theme.css";
 import { Flex } from "../../components/Flex";
 import { firstSliderList } from "./mainpageexample/firstSliderList";
 import { useEditLists } from "../../hooks/main/useEditLists";
-import { useAsNavForSlider } from "../../hooks/main/useAsNavForSlider";
+import { useAsNavForSliderMainFirst } from "../../hooks/main/useAsNavForSliderMainFirst";
 import { useEditTime } from "../../hooks/main/useEditTime";
 
 
 
 function MainFirst() {
   // Slider(AsNavFor)를 위한 커스텀 훅(커스텀 버튼 포함)
-  const {firstSliderSettings, secondSliderSettings, currentSlideIndex} = useAsNavForSlider()
+  const {firstSliderSettings, secondSliderSettings, currentSlideIndex} = useAsNavForSliderMainFirst()
   // 서버에서 제공받은 시간을 가공하기 위해 만든 커스컴 훅
   const {editTimehandle} = useEditTime()
   // 서버로 부터 받아 온 배열을 슬라이더의 목적에 따라 가공하는 커스텀 훅

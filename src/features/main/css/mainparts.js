@@ -328,13 +328,6 @@ const FifithSubSliderLayout = styled.div`
   max-height:571px;
   display: flex;
   /* background-color:lightgreen; */
-
-    // 선언될 SubSlider의 스타일을 설정
-  .fifitSubSlider {
-    position:static;  
-    max-width: 1097px;
-    min-width: 1097px;
-  }
 `
 
 const FifithSubSliderWrap = styled.div`
@@ -399,6 +392,29 @@ const Icons = styled.div`
   text-align: center;
 `;
 
+const FifthCurrentSliderIndex = styled.div`
+  position: absolute;
+  left: 102px;
+  bottom:0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 63px;
+  font-family: 'Montserrat', sans-serif;
+
+  p {
+    font-size: 25px;
+    font-weight: 700;
+  }
+  
+  span {
+    font-size: 20px;
+    font-weight: 400;
+  }
+`
+
+
 export {
   // Main 페이지 레이아웃
   MainLayout,
@@ -424,6 +440,7 @@ export {
   FifithMainSlider,
   FifithSubSliderLayout,
   FifithSubSliderWrap,
+  FifthCurrentSliderIndex,
 
   // Main Slider buttom
   Icons
