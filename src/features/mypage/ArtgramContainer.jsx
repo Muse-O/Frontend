@@ -15,18 +15,18 @@ function ArtgramContainer() {
   const menuArr = [
     {
       id: 0,
-      name: "나의 아트그램",
-      content: [MyArtgramInfo?.myArtgramList?.result || []],
-    },
-    {
-      id: 1,
       name: "좋아요",
       content: [LikedArtgramInfo?.artgramList?.result || []],
     },
     {
-      id: 2,
+      id: 1,
       name: "스크랩",
       content: [ScrapArtgramInfo?.artgramList?.result || []],
+    },
+    {
+      id: 2,
+      name: "나의 아트그램",
+      content: [MyArtgramInfo?.myArtgramList?.result || []],
     },
   ];
   const selectMenuHandler = id => {
@@ -102,10 +102,10 @@ const StImgWrap = styled.div`
   height: 340px;
   background-color: #80808058;
   display: flex;
-  gap: 30px;
+  gap: 10px;
 `;
 const StImg = styled.img`
-  width: 300px;
-  height: 340px;
+  width: 324px;
+  height: 325px;
   background: #0000007d;
 `;
