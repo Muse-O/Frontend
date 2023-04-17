@@ -7,7 +7,7 @@ import { apis } from "../../api/apis";
 import jwtDecode from "jwt-decode";
 import { cookies } from "../../shared/cookies";
 import { useDeleteReview } from "../../hooks/exhibition/useDeleteReview";
-
+import { AiOutlineDelete } from "react-icons/ai";
 function ExhibitionReview({ exhibitionID }) {
   const access_token = cookies.get("access_token");
   const { email } = jwtDecode(access_token);
@@ -24,45 +24,49 @@ function ExhibitionReview({ exhibitionID }) {
   const changeLimit = (e) => {
     setLimit(e.target.value);
   };
-
+  console.log("리뷰데이터", reviewData);
   const [deleteReview] = useDeleteReview();
   return (
     <ReviewWrap>
       {reviewData ? (
         <ShowReview>
-          <select onChange={changeLimit} name="reviewRating" value={limit}>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
+          <div>
+            <select onChange={changeLimit} name="reviewRating" value={limit}>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            <button>최신순</button>
+            <button>평점순</button>
+          </div>
+
           {reviewData?.searchExhibitionReviews.map((review, index) => {
             return (
               <>
                 <ReviewBox key={index}>
-                  <div>작성일:{review.createdAt}</div>
-                  <div>후기:{review.reviewComment}</div>
-                  <div>평점:{review.reviewRating}</div>
-                  <div>
-                    헤시테그:
+                  <ReviewHeader>
+                    <div>평점:{review.reviewRating}</div>
+                    <Center>{review.userEmail}</Center>
+                    <div>{review.createdAt.slice(0, 10)}</div>
+                    {review.userEmail === email ? (
+                      <DeleteIcon>
+                        <AiOutlineDelete
+                          onClick={() =>
+                            deleteReview(review.exhibitionReviewId)
+                          }
+                        />
+                      </DeleteIcon>
+                    ) : null}
+                  </ReviewHeader>
+                  <ReviewComment>
+                    <span>{review.reviewComment}</span>
+                  </ReviewComment>
+                  <ReviewHashTag>
                     {review.ExhibitionHashtags.map((hashtag, index) => {
-                      return (
-                        <div key={index}>
-                          <span>{hashtag.tagName}</span>
-                        </div>
-                      );
+                      return <span key={index}>{hashtag.tagName}</span>;
                     })}
-                  </div>
-                  {review.userEmail === email ? (
-                    <>
-                      <button>수정하기</button>
-                      <button
-                        onClick={() => deleteReview(review.exhibitionReviewId)}
-                      >
-                        삭제하기
-                      </button>
-                    </>
-                  ) : null}
+                  </ReviewHashTag>
                 </ReviewBox>
               </>
             );
@@ -102,6 +106,34 @@ function ExhibitionReview({ exhibitionID }) {
 }
 
 export default ExhibitionReview;
+const DeleteIcon = styled.div`
+  font-size: 15px;
+`;
+const ReviewHashTag = styled.div`
+  margin-top: 18px;
+  span {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+  }
+`;
+const ReviewComment = styled.div`
+  margin-top: 18px;
+  span {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+  }
+`;
+const Center = styled.div`
+  padding: 0px 5px;
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+`;
+const ReviewHeader = styled.div`
+  gap: 10px;
+  display: flex;
+`;
 
 const PageButton = styled.button`
   border: none;
@@ -111,8 +143,10 @@ const PageButton = styled.button`
   background: black;
   color: white;
   font-size: 1rem;
+  transition: background-color 0.3s ease;
+
   &:hover {
-    background: tomato;
+    background: #555555;
     cursor: pointer;
     transform: translateY(-2px);
   }
@@ -122,28 +156,25 @@ const PageButton = styled.button`
     transform: revert;
   }
   &[aria-current] {
-    background: deeppink;
+    background: #8f00ff;
     font-weight: bold;
     cursor: revert;
     transform: revert;
   }
 `;
-
 const ReviewBox = styled.div`
-  margin: 10px 0px;
-  background-color: #849ff7;
-  height: 100px;
-  font-size: 30px;
+  border-top: 1px solid #000000;
+  min-height: 120px;
+  padding: 5px;
 `;
-const Buttons = styled.span`
-  margin: 10px 10px;
-  background-color: #f3c385;
+
+const Buttons = styled.div`
+  display: flex;
+  justify-content: center;
 `;
-const ShowReview = styled.div`
-  background-color: #525050;
-`;
+const ShowReview = styled.div``;
 
 const ReviewWrap = styled.div`
-  background-color: #a8a5a5;
   margin-bottom: 100px;
+  width: 826px;
 `;
