@@ -159,7 +159,7 @@ function ExhibitionDetail() {
                   </div>
                 ))}
               </ThumbsContainer>
-              <ExhibitioninfoP>후기 23여기 개수</ExhibitioninfoP>
+              <ExhibitioninfoP>후기작성</ExhibitioninfoP>
               <ExhibitionReviewForm exhibitionID={id} />
               <ExhibitionReview exhibitionID={id} />
             </Contents>

@@ -30,6 +30,9 @@ function ExhibitionReview({ exhibitionID }) {
     <ReviewWrap>
       {reviewData ? (
         <ShowReview>
+          <ExhibitioninfoP>
+            후기{reviewData.paginationInfo.exhibitionReviewCnt}
+          </ExhibitioninfoP>
           <div>
             <select onChange={changeLimit} name="reviewRating" value={limit}>
               <option value="10">10</option>
@@ -44,6 +47,10 @@ function ExhibitionReview({ exhibitionID }) {
           {reviewData?.searchExhibitionReviews.map((review, index) => {
             return (
               <>
+                <ExhibitioninfoP>
+                  <p>후기</p>
+                  <p></p>
+                </ExhibitioninfoP>
                 <ReviewBox key={index}>
                   <ReviewHeader>
                     <div>평점:{review.reviewRating}</div>
@@ -106,6 +113,14 @@ function ExhibitionReview({ exhibitionID }) {
 }
 
 export default ExhibitionReview;
+const ExhibitioninfoP = styled.p`
+  font-family: "S-Core Dream";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 25px;
+  margin-top: 80px;
+`;
 const DeleteIcon = styled.div`
   font-size: 15px;
 `;
