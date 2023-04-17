@@ -162,6 +162,7 @@ const StImgBox = styled.div`
   height: 261px;
   /* background-color: #80808089; */
   display: flex;
+  justify-content: center;
   gap: 12px;
 `;
 
@@ -176,5 +177,5 @@ const StImgWrap = styled.div`
 const StImg = styled.img`
   max-width: 313px;
   max-height: 315px;
-  background: #0000007d;
+  background: #2c2c2c;
 `;
