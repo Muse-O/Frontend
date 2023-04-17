@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apis_token } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
-
-export const useLikeExhibition = () => {
+import { apis_token } from "../../api/apis";
+//!이것도 좋아요랑 버튼이 비슷한 로직인데 다른점은 scrap api뿐이다 나중에 리팩토링 하자.
+export const useScrapExhibition = () => {
   const queryClient = useQueryClient();
-  const { mutate: likeExhibition } = useMutation({
+  const { mutate: scrapExhibition } = useMutation({
     mutationFn: async (exhibitionId) => {
-      const res = await apis_token.patch(`/exhibition/like/${exhibitionId}`);
+      const res = await apis_token.patch(`/exhibition/scrap/${exhibitionId}`);
       return res.data;
     },
     onSuccess: () => {
@@ -16,5 +16,5 @@ export const useLikeExhibition = () => {
       console.log("에러", e);
     },
   });
-  return [likeExhibition];
+  return [scrapExhibition];
 };

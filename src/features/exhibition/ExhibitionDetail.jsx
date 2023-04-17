@@ -6,6 +6,7 @@ import { Flex } from "../../components/Flex";
 import ExhibitionReview from "./ExhibitionReview";
 import ExhibitionReviewForm from "./ExhibitionReviewForm";
 import ExhibitionLiked from "./ExhibitionLiked";
+import ExhibitionScrap from "./ExhibitionScrap";
 
 function ExhibitionDetail() {
   const { id } = useParams();
@@ -39,7 +40,7 @@ function ExhibitionDetail() {
               <PostImg src={info.postImage} />
               <EXButtons>
                 <ExhibitionLiked exhibitionId={id}>좋아요</ExhibitionLiked>
-                <button>스크렙</button>
+                <ExhibitionScrap exhibitionId={id}>스크랩</ExhibitionScrap>
                 <button>후기_아트그램 링크</button>
               </EXButtons>
             </Posts>
