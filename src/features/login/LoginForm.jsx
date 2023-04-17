@@ -74,6 +74,7 @@ function LoginForm() {
 export default LoginForm;
 
 const StLogin = styled.form`
+  font-family: "SpoqaHanSansNeo-Regular";
   background-color: #80808029;
   width: 616px;
   height: 750px;
@@ -105,6 +106,7 @@ const StEmailInputBox = styled.div`
   }
 
   input {
+    font-family: "SpoqaHanSansNeo-Regular";
     height: 42px;
     padding: 10px;
     border: 1px solid gray;
@@ -134,6 +136,7 @@ const StPwInputBox = styled.div`
 `;
 
 const StLoginBtn = styled.button`
+  font-family: "SpoqaHanSansNeo-Regular";
   background-color: gray;
   width: 416px;
   height: 65px;
@@ -141,6 +144,7 @@ const StLoginBtn = styled.button`
   font-size: 15px;
   font-weight: bold;
   margin: 32px 0px 75px;
+  cursor: pointer;
 `;
 
 const StSnsBox = styled.div`
@@ -165,6 +169,7 @@ const StSnsBtnWrap = styled.div`
     width: 48px;
     height: 48px;
     border-radius: 50%;
+    cursor: pointer;
   }
 `;
 
