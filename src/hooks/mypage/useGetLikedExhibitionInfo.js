@@ -7,7 +7,7 @@ export const useGetLikedExhibitionInfo = () => {
     queryKey: keys.GET_LIKEDEXHIBITIONINFO,
     queryFn: async () => {
       const data = await apis_token.get(
-        "/mypage/exhibition/likes?limit=4&offset=0"
+        "/mypage/exhibition/likes?limit=5&offset=0"
       );
       //   console.log(data.data, "data");
       return data.data;

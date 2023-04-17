@@ -7,7 +7,7 @@ export const useGetLikedArtgramInfo = () => {
     queryKey: keys.GET_LIKEDARTGRAMINFO,
     queryFn: async () => {
       const data = await apis_token.get(
-        "/mypage/artgram/likes?limit=4&offset=0"
+        "/mypage/artgram/likes?limit=3&offset=0"
       );
       //   console.log(data.data, "data");
       return data.data;
