@@ -11,6 +11,7 @@ import { useAsNavForSlider } from "../../hooks/main/useAsNavForSlider";
 import { useEditTime } from "../../hooks/main/useEditTime";
 
 
+
 function MainFirst() {
   // Slider(AsNavFor)를 위한 커스텀 훅(커스텀 버튼 포함)
   const {firstSliderSettings, secondSliderSettings, currentSlideIndex} = useAsNavForSlider()
@@ -28,7 +29,7 @@ function MainFirst() {
       {/* MainFirst-Slider 부분 */}
       <Flex>
         {/* FirstMainSliderWrap ------------------------------------------------- */}
-        <Main.FirstMainSliderWrap style={{ backgroundColor: "#eef08082" }}>
+        <Main.FirstMainSliderWrap>
           {/* <Main.FirstMainSliderWrap> */}
           <Slider {...firstSliderSettings}>
             {firstSliderList.map((exhibitionList, index) => (
@@ -88,7 +89,7 @@ function MainFirst() {
         </Main.FirstMainSliderWrap>
 
         {/* FirstSubSliderWrap -------------------------------------------------- */}
-        <Main.FirstSubSliderWrap style={{ backgroundColor: "#80f09e82" }}>
+        <Main.FirstSubSliderWrap>
           <Slider {...secondSliderSettings}>
             {EditList.map((exhibitionList, index) => (
               <StSlider.SubSliderOutline key={index}>

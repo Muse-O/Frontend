@@ -4,10 +4,9 @@ import * as Main from "./css/mainparts";
 function MainThird() {
   return (
     <Main.ThirdLayout
-      height="782"
-      style={{ backgroundColor: "lightgoldenrodyellow" }}>
+      height="782">
       <Main.ArticleTitle>
-        <Main.MainH1 children="TOP 10" style={{fontFamily:"'Montserrat', sans-serif"}}/>
+        <Main.MainH1 children="TOP 10"/>
       </Main.ArticleTitle>
       <Main.ThirdWrap gap="23" fw="wrap">
         {Array(10)

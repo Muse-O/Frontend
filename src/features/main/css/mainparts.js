@@ -7,7 +7,7 @@ const MainLayout = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  margin: 65px 75px;
+  margin: 70px 75px;
   color: #242424;
   font-family: 'SpoqaHanSansNeo-Regular';
 `;
@@ -19,7 +19,7 @@ const CommenLayout = styled.div`
   max-height: ${pos=>pos.height}px;
   min-height: ${pos=>pos.height}px;
   /* overflow: hidden; */
-  margin-bottom: 160px;
+  margin-bottom: 80px;
 `
 // Main 페이지 세번째(3) TOP 10 (화면의 너미가 줄어들었을 때를 가정)
 const ThirdLayout = styled(CommenLayout)`
@@ -71,7 +71,7 @@ const SecondSliderWrap = styled(FirstMainSliderWrap)`
   max-width: 1545px;
   width: 1545px;
   height: 393px;
-  background-color: lightgoldenrodyellow;
+  /* background-color: lightgoldenrodyellow; */
 `
 
 
@@ -96,7 +96,12 @@ const SecondSlider = styled.div`
   .sliderTitle {
     margin-top: 24px;
     font-size: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
   }
+
   .sliderdate{
     margin-top: 4px;
     font-size: 16px;
@@ -112,7 +117,9 @@ const SecondSlider = styled.div`
 const ThirdWrap = styled(Flex)`
   margin-top: 66px;
   max-width: 1525px;
+  min-width: 1525px;
   padding-bottom: 24px;
+  
 `
 
 // Main 페이지 세번째(3) TOP10 개별 영역설정
@@ -175,26 +182,32 @@ const ThirdInner = styled.div`
 const FourthWrap = styled.div`
   position: relative;
   display: grid;
-  grid-template-columns: 340px 1fr;
+  grid-template-columns: 390px 1fr;
   gap: 80px;
-  min-height: 480px;
-  max-height: 480px;
+  min-height: 558px;
+  max-height: 558px;
   margin-top:66px;
+  padding-right: 12px;
+  overflow: scroll;
   
   .exhibitionimg {
+    position: sticky;
+    top: 0;
     display: block;
-    min-width: 340px;
-    max-width: 340px;
-    min-height: 480px;
-    max-height: 480px;
+    min-width: 390px;
+    max-width: 390px;
+    min-height: 558px;
+    max-height: 558px;
   }
 
   .exhibitioninfo{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    gap:12px;
     width: 100%;
-    height: 480px;
+    min-height: 480px;
+    
   }
  `
 
@@ -203,7 +216,8 @@ const FourthExhibitioninfo = styled.div`
   display: grid;
   grid-template-columns: 82px minmax(200px, 1fr) 250px;
   gap: 112px;
-  height: 102px;
+  min-height: 102px;
+  max-height: 102px;
   border: 1px solid black;
   border-radius:8px;
   padding: 25px;
@@ -213,18 +227,26 @@ const FourthExhibitioninfo = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-size: 20px;
+    p {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+    }
   }
   
   .exhibitininfo {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 10px;
-    font-size: 16px;
+    
 
     // 전시회 title 
     p:first-child {
       font-size: 20px;
+    }
+    p:last-child {
+      font-size: 16px;
+      font-family: 'Montserrat', sans-serif;
     }
   }
   
@@ -244,30 +266,21 @@ const FourthExhibitioninfo = styled.div`
 
 // ---------------------------------------------------------------------------------- //  
 // Main 페이지 다섯번째(5) 아트그램 상세 레이아웃
-const FifitWrap = styled.div`
+const FifithWrap = styled.div`
   margin-top: 66px;
-  min-height: 538px;
-  max-height: 538px;
+  min-height: 571px;
+  max-height: 571px;
   position: relative;
-  display: grid;
-  grid-template-columns: 364px 1fr;
-  height:auto;
-
-  // 선언될 SubSlider의 스타일을 설정
-  .fifitSubSlider {
-  position:static;  
   display: flex;
-  flex-grow:1;
-  width: 0;
-  padding-left:50px;
-  }
+  gap: 80px;
+  overflow: hidden;
 `
 
 // Main 페이지 다섯번째(5) MainSlider 상세설정
 const FifithMainSlider = styled.div`
   position: relative;
-  min-height:500px;
-  max-width: 364px;
+  min-height:571px;
+  max-width: 390px;
   padding: 16px;
   padding-bottom: 0;
   //추후 변경 예정
@@ -275,8 +288,8 @@ const FifithMainSlider = styled.div`
   
   .artgramimg {
     background-color: skyblue;
-    min-height: 374px;
-    max-height: 374px;
+    min-height: 404px;
+    max-height: 404px;
     overflow: hidden;
   }
   
@@ -285,7 +298,7 @@ const FifithMainSlider = styled.div`
     align-items: center;
     gap: 10px;
     position: absolute;
-    bottom: 10px;
+    bottom: 16px;
   }
   
   .profileimg {
@@ -310,7 +323,18 @@ const FifithMainSlider = styled.div`
 
 // Main 페이지 다섯번째(5) SubSlider 상세설정
 const FifithSubSliderLayout = styled.div`
+  position: relative;
+  width: 100%;
+  max-height:571px;
   display: flex;
+  /* background-color:lightgreen; */
+
+    // 선언될 SubSlider의 스타일을 설정
+  .fifitSubSlider {
+    position:static;  
+    max-width: 1097px;
+    min-width: 1097px;
+  }
 `
 
 const FifithSubSliderWrap = styled.div`
@@ -318,7 +342,7 @@ const FifithSubSliderWrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 42px;
+  
   
   .subsliderInner {
     background-color: #E6E6E6;
@@ -332,7 +356,7 @@ const FifithSubSliderWrap = styled.div`
   
   .subsliderimg {
     background-color: lightgreen;
-    height: 242px;
+    height: 239px;
     overflow: hidden;
   }
   
@@ -396,7 +420,7 @@ export {
   FourthWrap,
   FourthExhibitioninfo,
   // Main 페이지(5) 상세관련
-  FifitWrap,
+  FifithWrap,
   FifithMainSlider,
   FifithSubSliderLayout,
   FifithSubSliderWrap,

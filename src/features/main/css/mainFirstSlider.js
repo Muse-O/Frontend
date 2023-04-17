@@ -5,7 +5,7 @@ const MainSliderOutline = styled.div`
   max-width: 1256px;
   width: 1256px;
   height: 704px;
-  background-color: skyblue;
+  /* background-color: skyblue; */
 `
 
 const MainSliderImg = styled.img`
@@ -13,7 +13,7 @@ const MainSliderImg = styled.img`
   width: 492px;
   height: 704px;
   margin-left: 390px;
-  background-color: lightcyan;
+  /* background-color: lightcyan; */
 `
 const FirstMainSliderTitleDesc = styled.div`
   /* background-color:lightpink; */
@@ -73,7 +73,7 @@ const MainSliderLink = styled.div`
 
 const MainSliderinfo = styled.div`
   position: absolute;
-  background-color: #D9D9D9;
+  /* background-color: #D9D9D9; */
   top: 317px;
   transform: translateX(932px);
 
@@ -92,7 +92,7 @@ const SubSliderOutline = styled.div`
   max-width: 269px;
   width: 269px;
   height: 704px;
-  background-color: lightcoral;
+  /* background-color: lightcoral; */
 `
 
 const SubSliderImg = styled.img`
@@ -106,7 +106,7 @@ const CurrentSliderIndex = styled.div`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  bottom: 120px;
+  bottom:0;
   display: flex;
   justify-content: center;
   align-items: center;

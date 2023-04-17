@@ -8,7 +8,7 @@ function MainFourth() {
   const {getday, getMonth} = useGetDate()
 
   return (
-    <Main.CommenLayout height="655" style={{ backgroundColor: "lightgreen" }}>
+    <Main.CommenLayout height="624">
       <Main.ArticleTitle>
         <Main.MainH1 children="예정 전시" />
       </Main.ArticleTitle>
