@@ -5,6 +5,7 @@ function AlarmContainer() {
   return (
     <StAlramContainer>
       <AlramTitle>알림</AlramTitle>
+      <StAlramCount></StAlramCount>
     </StAlramContainer>
   );
 }
@@ -12,11 +13,21 @@ function AlarmContainer() {
 export default AlarmContainer;
 
 const StAlramContainer = styled.div`
-  background-color: #ffff001d;
-  width: 400px;
-  height: 550px;
+  width: 393px;
+  display: flex;
+  gap: 7px;
 `;
 
 const AlramTitle = styled.div`
-  font-size: 20px;
+  font-family: "S-CoreDream-3Light";
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+`;
+
+const StAlramCount = styled.div`
+  background-color: gray;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
 `;

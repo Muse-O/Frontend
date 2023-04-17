@@ -76,7 +76,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
   return (
     <StUserProfileModal>
       <StCloseBtn>
-        <GrFormClose size="28" onClick={updateModalCloseHandler} />
+        <GrFormClose size="30" onClick={updateModalCloseHandler} />
       </StCloseBtn>
 
       <StImgBox>
@@ -90,7 +90,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
 
         <StImgEditWrap>
           {/* input 숨기기 */}
-          <Stinput
+          <StInput
             type="file"
             ref={fileRef}
             accept="image/*"
@@ -100,7 +100,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
             <AiOutlineCamera size="20" color="gray" />
             프로필 사진 변경
           </UpdateIcon>
-          <div>10mb 이내의 이미지 파일을 업로드해주세요</div>
+          <div>10MB 이내의 이미지 파일을 업로드해주세요</div>
         </StImgEditWrap>
       </StImgBox>
 
@@ -125,6 +125,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
             name="introduction"
             value={editProfile.introduction}
             onChange={changeInputHandler}
+            maxLength="55"
           />
         </StEditInputWrap>
       </StTextBox>
@@ -137,6 +138,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
 export default UpdateUserProfileModal;
 
 const StUserProfileModal = styled.div`
+  font-family: "SpoqaHanSansNeo-Regular";
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -147,8 +149,7 @@ const StUserProfileModal = styled.div`
   position: fixed;
   z-index: 10201;
   top: 15%;
-  left: 30%;
-  /* transform: translate(75%); */
+  left: 35%;
   gap: 10px;
 `;
 
@@ -162,14 +163,15 @@ const StCloseBtn = styled.div`
 
 const StImgBox = styled.div`
   /* background-color: #81f0f42a; */
-  width: 550px;
-  height: 180px;
+  width: 570px;
+  height: 150px;
   display: flex;
   align-items: center;
   gap: 30px;
+  margin-bottom: 20px;
 `;
 
-const Stinput = styled.input`
+const StInput = styled.input`
   display: none;
 `;
 
@@ -186,6 +188,7 @@ const StImgEditWrap = styled.div`
 `;
 
 const UpdateIcon = styled.button`
+  font-family: "SpoqaHanSansNeo-Regular";
   background-color: white;
   border: 1px solid gray;
   width: 130px;
@@ -195,8 +198,11 @@ const UpdateIcon = styled.button`
   justify-content: center;
   align-items: center;
   gap: 3px;
-  font-size: 11px;
-  font-weight: bold;
+  font-size: 12px;
+
+  div {
+    font-size: 12px;
+  }
 `;
 
 const StTextBox = styled.div`
@@ -232,6 +238,7 @@ const StEditInputWrap = styled.div`
 `;
 
 const NameInput = styled.input`
+  font-family: "Montserrat", sans-serif;
   background-color: #80808034;
   height: 40px;
   border-radius: 5px;
@@ -240,26 +247,30 @@ const NameInput = styled.input`
   outline: none;
 `;
 
-const IntroInput = styled.input`
+const IntroInput = styled.textarea`
+  font-family: "Montserrat", sans-serif;
   background-color: #80808034;
-  height: 120px;
+  /* width: 360px; */
+  height: 100px;
   border-radius: 5px;
   margin-top: 20px;
   padding: 10px;
   font-size: 15px;
   white-space: pre-line;
+  resize: none;
+  border: none;
   outline: none;
 `;
 
 const StUpdateBtn = styled.div`
   border: 1px solid gray;
-  border-radius: 20px;
-  width: 65px;
-  height: 30px;
-  font-size: 12px;
+  border-radius: 30px;
+  width: 238px;
+  height: 50px;
+  font-size: 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 25px;
+  margin-top: 15px;
 `;
