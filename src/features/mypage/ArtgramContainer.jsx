@@ -85,7 +85,7 @@ const StArtgramBox = styled.div`
 const StWrap = styled.div`
   display: flex;
   flex-direction: column;
-  width: 970px;
+  /* width: 970px; */
 `;
 
 const StTabWrap = styled.div`

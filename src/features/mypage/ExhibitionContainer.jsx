@@ -35,7 +35,7 @@ function ExhibitionContainer() {
 
   return (
     <StContainer>
-      <div style={{ fontSize: "24px", marginBottom: "20px" }}>전시</div>
+      <StExhibition>전시</StExhibition>
       <StExhibitionBox>
         <StWrap>
           <StTabWrap>
@@ -46,19 +46,25 @@ function ExhibitionContainer() {
             ))}
           </StTabWrap>
 
-          <StImgWrap>
-            {menuArr[currentTab].content.map(list => {
-              return list.map(info => {
-                return (
-                  <StImg
-                    key={info.exhibition_id}
-                    src={info.post_image}
-                    alt={info.exhibition_title}
-                  />
-                );
-              });
-            })}
-          </StImgWrap>
+          <StImgBtnBox>
+            <StLeftBtn></StLeftBtn>
+            <StImgBox>
+              {menuArr[currentTab].content.map(list => {
+                return list.map(info => {
+                  return (
+                    <StImgWrap>
+                      <StImg
+                        key={info.exhibition_id}
+                        src={info.post_image}
+                        alt={info.exhibition_title}
+                      />
+                    </StImgWrap>
+                  );
+                });
+              })}
+            </StImgBox>
+            <StRightBtn></StRightBtn>
+          </StImgBtnBox>
         </StWrap>
       </StExhibitionBox>
     </StContainer>
@@ -72,9 +78,37 @@ const StContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+const StExhibition = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+
+const StImgBtnBox = styled.div`
+  width: 1070px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+`;
+
+const StLeftBtn = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: gray;
+`;
+
+const StRightBtn = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: gray;
+`;
+
 const StExhibitionBox = styled.div`
   background-color: #80808029;
-
   width: 1010px;
   height: 348px;
   display: flex;
@@ -85,30 +119,38 @@ const StExhibitionBox = styled.div`
 const StWrap = styled.div`
   display: flex;
   flex-direction: column;
-  width: 970px;
+  /* width: 970px; */
 `;
 
 const StTabWrap = styled.div`
+  height: 63px;
   display: flex;
-  gap: 30px;
+  align-items: center;
+  margin-left: 50px;
+  gap: 40px;
 `;
 
 const StTab = styled.div`
-  padding: 18px 0px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
+`;
+
+const StImgBox = styled.div`
+  width: 958px;
+  height: 261px;
+  /* background-color: #80808089; */
+  display: flex;
+  gap: 12px;
 `;
 
 const StImgWrap = styled.div`
-  width: 970px;
-  height: 230px;
-  background-color: #80808089;
+  background-color: #2c2c2c;
+  width: 182px;
+  height: 261px;
   display: flex;
-  gap: 30px;
+  align-items: center;
 `;
-
 const StImg = styled.img`
-  width: 170px;
-  height: 230px;
-  background: #0000007d;
+  max-width: 182px;
+  max-height: 261px;
 `;
