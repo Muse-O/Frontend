@@ -33,15 +33,14 @@ const StContainer = styled.div`
 `;
 
 const LeftContainer = styled.div`
-  width: 582px;
+  width: 560px;
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
 const RightContainer = styled.div`
-  /* background-color: #0077ff16; */
-  width: 1100px;
+  width: 1060px;
   height: 935px;
   display: flex;
   flex-direction: column;

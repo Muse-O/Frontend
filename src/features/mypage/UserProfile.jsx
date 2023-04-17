@@ -59,6 +59,7 @@ const StUserProfileBox = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 74px;
+  margin-left: 20px;
 `;
 
 const StEditBtnWrap = styled.div`
@@ -87,8 +88,9 @@ const StUserNameWrap = styled.div`
 `;
 
 const StInfoUserName = styled.div`
+  font-family: "Montserrat", sans-serif;
   font-size: 32px;
-  font-weight: bold;
+  font-weight: 600;
 `;
 
 const StArtistMark = styled.div`
@@ -105,7 +107,9 @@ const StUserInfoIntro = styled.div`
   margin-top: 35px;
 `;
 const InfoIntro = styled.div`
-  font-size: 15px;
+  font-family: "SpoqaHanSansNeo-Regular";
+  font-size: 16px;
+  /* font-weight: 400; */
   line-height: 25px;
   word-break: break-all;
 `;

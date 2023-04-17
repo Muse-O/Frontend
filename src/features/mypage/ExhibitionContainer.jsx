@@ -42,6 +42,7 @@ function ExhibitionContainer() {
             {menuArr.map(el => (
               <StTab key={el.id} onClick={() => selectMenuHandler(el.id)}>
                 {el.name}
+                <StTabCount>0</StTabCount>
               </StTab>
             ))}
           </StTabWrap>
@@ -80,6 +81,8 @@ const StContainer = styled.div`
 `;
 
 const StExhibition = styled.div`
+  font-family: "S-CoreDream-3Light";
+  font-weight: bold;
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
@@ -123,18 +126,36 @@ const StWrap = styled.div`
 `;
 
 const StTabWrap = styled.div`
+  width: 450px;
   height: 63px;
   display: flex;
   align-items: center;
-  margin-left: 50px;
-  gap: 40px;
+  margin-left: 55px;
+  gap: 36px;
 `;
 
 const StTab = styled.div`
+  display: flex;
+  align-items: center;
   cursor: pointer;
+  gap: 4px;
+  font-family: "SpoqaHanSansNeo-Regular";
+  font-weight: bold;
   font-size: 16px;
 `;
 
+const StTabCount = styled.div`
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+  font-size: 12px;
+  width: 32px;
+  height: 25px;
+  border-radius: 30px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const StImgBox = styled.div`
   width: 958px;
   height: 261px;

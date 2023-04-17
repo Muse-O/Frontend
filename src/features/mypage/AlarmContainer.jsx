@@ -19,6 +19,7 @@ const StAlramContainer = styled.div`
 `;
 
 const AlramTitle = styled.div`
+  font-family: "S-CoreDream-3Light";
   font-size: 24px;
   font-weight: bold;
   text-align: center;
