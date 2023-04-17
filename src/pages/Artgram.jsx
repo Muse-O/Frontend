@@ -1,124 +1,61 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import Header from "../components/Header";
-import { Article, Wrap } from "../shared/GlobalStyled";
-import * as Artgramparts from '../features/artgram/Artgramparts'
-import { useOpenModal } from "../hooks/artgram/useOpenModal";
-import ArgramBox from "../features/artgram/ArtgramBox";
-import ArtgramDetail from "../features/artgram/ArtgramDetail";
-import { useGetartgraminfinity } from "../hooks/artgram/useGetartgraminfinity";
-import styled from "styled-components";
+import { Article } from "../shared/GlobalStyled";
+import { useInterserctionObserver } from "../hooks/artgram/newArtgram/useIntersectionObserver";
 import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { BsPen } from "react-icons/bs";
 
+function Artgram() {
+  // InterserctionObserver 포함(window.scrollTo(0,0) 설정)
+  const { ref } = useInterserctionObserver();
+  // 하단에 아트그램 글쓰기 이동을 위한 react-router-dom
+  const navigate = useNavigate();
 
-
-const Artgram = () => {
-  const navigate = useNavigate()
-  // 아트그램 GET 관련 --------------------------------------------------------------------------------------------- //
-  const {data,isLoading,isError,fetchNextPage,hasNextPage} = useGetartgraminfinity()
-  // useGetartgraminfinity의 결과로 가져온 data.pages를 하나의 배열로 만드는 로직 
-  let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
-  // console.log(merged)
-  // intersection Observe --------------------------------------------------------------------------------------- //
-  const lastRef = useRef(null)
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) { // entry.isIntersecting 는 Boolean 데이터로 전달받는데, 참조가 되면 true 를 반환한다. 
-          fetchNextPage()
-        }
-      },
-      { threshold: 0.4 }
-    );
-    // 
-    if (lastRef.current) {
-      console.log("사이드 이팩트 실행");
-      observer.observe(lastRef.current);
-    }
-
-    return () => {
-      console.log("사이드 이팩트 해제");
-      if (lastRef.current) {
-        observer.unobserve(lastRef.current);
-      }
-    };
-  }, []);
-
-  // 아트그램 상세모달페이지 관련 ------------------------------------------------------------------------------------- //
-  const [modalArtgramId, modalState, setModalState, openModalhandle] = useOpenModal()
-
-  // 아트그램 GET 관련:에러 핸들링 ----------------------------------------------------------------------------------- //
-  if(isLoading || isError) {
-    return <div>로딩 중....</div>
-  }
-  // Argram의 뷰 파트 --------------------------------------------------------------------------------------------- //
   return (
     <>
       <Header />
       <Article>
-        <Wrap>
-          <Artgramparts.H1 fs="3rem" type="아트그램" children="아트그램 익명" />
-          <Artgramparts.MainFlex ai="center" gap="19" fw="wrap">
-            {/* 아트그램 개별구역 컴포넌트 -------------------------------------------------------------------------- */}
-            {/* artgramId, artgramTitle, imgUrl, imgcount, nickname, profileimg, liked(default : false), likecount */}
-            {/* 여기서 사용할 정보는 다음과 같다. 최소한의 정보만을 요청하고, 화면에 뿌려줄 예정이다. */}
-            {/* 딥한 정보는 상세모달페이지에서 전달해주려고 한다. */}
-            {merged.map( 
-              ({
-                artgramId,
-                artgramTitle,
-                imgCount,
-                imgUrl,
-                likeCount,
-                liked,
-                scrap,
-                profileImg,
-                nickname,
-                userEmail,
-              }) => {
-                  return (
-                    <ArgramBox
-                      key={artgramId}
-                      pos={{
-                        artgramId,
-                        artgramTitle,
-                        imgCount,
-                        imgUrl,
-                        likeCount,
-                        liked,
-                        scrap,
-                        profileImg,
-                        nickname,
-                        userEmail,
-                        openModalhandle
-                      }}
-                    />
-                  );
-              }
-            )}
-          </Artgramparts.MainFlex>
-        </Wrap>
-        {/* 상세모달페이지 구역 allArtgram + 댓글구역 -------------------------------------------------------------- */}
-        {/* 딥한 정보는 상세모달페이지에서 구현하게 되는데, 여기서 가져갈 값은 artgramId 밖에 없다. */}
-        {/* 상세모달페이지에서 댓글에 대한 GET 요청을 하듯이, artgramId를 통해서 상세한 요청을 진행하려 한다. */}
-        {modalState && (
-          <>
-            {merged.map(   
-              ({artgramId}) =>
-                artgramId === modalArtgramId && (
-                  <ArtgramDetail
-                    key={artgramId}
-                    pos={{artgramId, modalState, setModalState }}
-                  />
-                )
-            )}
-          </>
-        )}
-        {hasNextPage && (
-          <button style={{zIndex:"-1"}} ref={lastRef} onClick={() => fetchNextPage()} disabled={isLoading}>
-            {isLoading ? "로딩 중..." : "더 불러오기"}
-          </button>
-        )}
-        <ArtgramWrite onClick={()=> navigate('/artgram/create')}>아트그램 쓰기</ArtgramWrite>
+        <ArtgramLayout>
+        <ArtgramH1>아트그램 <span>Artgram</span></ArtgramH1>
+        <ArtgramWrap>
+          {artgramList.map((el,index) => {
+            return index + 1 === 16 ? (
+              <ArtgramBox key={index} ref={ref}>
+                <div className="imgWrap">
+                  <img src="https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png" />
+                </div>
+                <div className="artgraminfo">
+                  <div>PFimg</div>
+                  <div>마지막{el}</div>
+                  <div>scrap</div>
+                  <div>liked</div>
+                </div>
+              </ArtgramBox>
+            ) : (
+              <ArtgramBox key={index}>
+                <div className="imgWrap">
+                  <img src="https://cdn.mhns.co.kr/news/photo/202109/511451_618343_3128.png" />
+                </div>
+                <div className="artgraminfo">
+                  <div>PFimg</div>
+                  <div>Nick{el}</div>
+                  <div>scrap</div>
+                  <div>liked</div>
+                </div>
+              </ArtgramBox>
+            );
+          })}
+        </ArtgramWrap>
+        {/* infinetyScroll 및 글쓰기 버튼공간 */}
+        <ArtgramWrite onClick={() => navigate("/artgram/create")}
+            children={
+              <p>
+                <BsPen />
+              </p>
+            }>
+        </ArtgramWrite>
+        </ArtgramLayout>
       </Article>
     </>
   );
@@ -126,14 +63,72 @@ const Artgram = () => {
 
 export default Artgram;
 
+const ArtgramLayout = styled.div`
+  padding: 80px 75px;
+`
+const ArtgramH1 = styled.h1`
+  font-size: 48px;
+  font-family: 'S-CoreDream-3Light';
+
+  span {
+    font-family: 'Montserrat';
+    font-size: 32px;
+  }
+`
+
+const ArtgramWrap = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 23px;
+  width: 100%;
+  margin-top: 60px;
+  /* background-color: lightcoral; */
+`;
+
+const ArtgramBox = styled.div`
+  height: 426px;
+  box-shadow: 0px 4px 7px #878787;
+  border-radius: 5px;
+  background-color: #EFEFEF;
+  
+  .imgWrap {
+    min-height: 354px;
+    max-height: 354px;
+    overflow: hidden;
+  }
+
+  img {
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+    background-color: lightgreen;
+  }
+
+  .artgraminfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    height: 61px;
+    padding: 16px 12px;
+    align-items: center;
+  }
+
+`
+
 const ArtgramWrite = styled.div`
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: fit-content;
-  padding: 15px 20px;
-  border-radius: 8px;
-  color: white;
-  font-weight: 900;
-  background-color: blue;
-`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 50px;
+  background-color: #fff;
+  border: 1px solid #3c3c3c;
+
+  p {
+    font-size: 3rem;
+  }
+`;
+
+const artgramList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]

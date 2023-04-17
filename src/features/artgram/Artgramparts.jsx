@@ -11,7 +11,13 @@ const H1 = styled.h1`
   font-size: ${props=>props.fs};
   text-align: ${props=>props.ta};
   font-weight:900;
+  font-family: "S-CoreDream-3Light";
   margin: ${props => props.type === "아트그램" ? "50px 75px 0" : "10px" };
+
+  .english {
+    font-size: 32px;
+    font-family: 'Montserrat', sans-serif;
+  }
 `
 
 const MainFlex = styled(Flex)`
@@ -23,9 +29,11 @@ const MainFlex = styled(Flex)`
 
 const UserFlex = styled(Flex)`
   width:364px;
-  min-height:40px;
-  max-height:40px;
+  min-height:61px;
+  max-height:61px;
   position:relative;
+  padding: 0 16px;
+  background-color: lightcoral;
 `
 const MainDiv = styled.div`
   width: auto;
@@ -35,17 +43,18 @@ const MainDiv = styled.div`
 const Artgrambox = styled(Flex)`
   width:364px;
   min-width:364px;
-  min-height:306px;
-  max-height:306px;
+  min-height:426px;
+  max-height:426px;
   background-color:rgb(240, 240, 240);
   border-radius: 8px;
   position: relative;
+  box-shadow: 0px 4px 7px #878787;
 `
 
 const Img = styled.img`
   width:100%;
-  height:189px;
-  max-height:189px;
+  height:365px;
+  max-height:365px;
   overflow:hidden;
   border-radius: 8px 8px 0 0;
 `

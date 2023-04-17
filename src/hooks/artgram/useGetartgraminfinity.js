@@ -18,7 +18,7 @@ export const useGetartgraminfinity = (pageSize = 12) => {
             }
           }
         )
-        console.log(response.data.artgramList.sortedArtgramList.findArtgrmas);
+        // console.log(response.data.artgramList.sortedArtgramList.findArtgrmas);
         return response.data.artgramList.sortedArtgramList.findArtgrmas;
       },
       getNextPageParam: (lastPage, allPages) => {

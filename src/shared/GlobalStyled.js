@@ -28,6 +28,10 @@ export const GlobalStyle = createGlobalStyle`
       font-style: normal;
     }
   }
+
+  body {
+    font-family: 'SpoqaHanSansNeo-Regular';
+  }
 `;
 
 export const Wrap = styled.div`
