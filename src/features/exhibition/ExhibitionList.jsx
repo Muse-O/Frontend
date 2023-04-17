@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function ExhibitionList() {
   const [list, setList] = useState([]);
+  console.log(list);
   const [page, setPage] = useState(10);
   const [load, setLoad] = useState(1);
   const preventRef = useRef(true);
@@ -62,6 +63,7 @@ function ExhibitionList() {
     }
     setLoad(false);
   }, [page]);
+
   return (
     <>
       <ExhibitionWrap>
@@ -88,35 +90,77 @@ function ExhibitionList() {
                 <ImageBox src={item.postImage} />
                 <ExhibitionInfoBox>
                   <ExhibitionDate>
-                    {item.startDate + " ~ " + item.endDate}
+                    {item.startDate.slice(2, 10).replace(/-/g, ".") +
+                      " - " +
+                      item.endDate.slice(2, 10).replace(/-/g, ".")}
                   </ExhibitionDate>
-                  <ExhibitionTitle>{item.exhibitionTitle}</ExhibitionTitle>
+                  <ExhibitionTitleWrap>
+                    <ExhibitonTitle>{item.exhibitionTitle}</ExhibitonTitle>
+                    <ExhibitonSecondTitle>부제목 입니다</ExhibitonSecondTitle>
+                  </ExhibitionTitleWrap>
                 </ExhibitionInfoBox>
-                {/* <div>제목{item.exhibitionTitle}</div>
-                  <div>작성자email{item.authorNickName}</div> */}
 
-                <ExhibitionInfoBox2>
+                <ExhibitionInfoDetailBox>
                   <ExhibitionDatailInfo>
-                    {item.location}
-                    {
-                      // 입장료
-                      item.entranceFee
-                    }
-                    {
-                      // 작가
-                      item.authorNickName
-                    }
-                    {
-                      // 작품 수
-                      item.artWorkCnt
-                    }
+                    <DatailInfo>
+                      <InfoBox>
+                        <Info>
+                          <span>●</span>
+                          <div>
+                            <div>장소</div>
+                            <div>{item.location}</div>
+                          </div>
+                        </Info>
+                        <Info>
+                          <span>●</span>
+                          <div>
+                            <div>관람료</div>
+                            <div>{item.entranceFee}</div>
+                          </div>
+                        </Info>
+                      </InfoBox>
+                      <InfoBox>
+                        <Info>
+                          <span>●</span>
+                          <div>
+                            <div>작가</div>
+                            <div>{item.authorNickName}</div>
+                          </div>
+                        </Info>
+                        <Info>
+                          <span>●</span>
+                          <div>
+                            <div>작품수</div>
+                            <div>{item.artWorkCnt}</div>
+                          </div>
+                        </Info>
+                      </InfoBox>
+                      {/* {item.location}
+                    {item.entranceFee}
+                    {item.authorNickName}
+                    {item.artWorkCnt} */}
+                    </DatailInfo>
+                    <ExhibitionHashTag>
+                      {/* {item.tagName?.map((tag) => {
+                        return <span>{tag}</span>;
+                      })} */}
+                      <span>#tagg</span>
+                      <span>#tag</span>
+                      <span>#tag</span>
+                    </ExhibitionHashTag>
                   </ExhibitionDatailInfo>
+
                   <ExhibitionMore
                     onClick={() => {
                       navigator(`/exhibition/detail/${item.exhibitionId}`);
                     }}
-                  ></ExhibitionMore>
-                </ExhibitionInfoBox2>
+                  >
+                    <span>M</span>
+                    <span>O</span>
+                    <span>R</span>
+                    <span>E</span>
+                  </ExhibitionMore>
+                </ExhibitionInfoDetailBox>
               </ExhibitionItem>
             ))}
           </>
@@ -129,7 +173,51 @@ function ExhibitionList() {
 }
 
 export default ExhibitionList;
+const MoreText = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+`;
 
+const t = styled.div`
+  display: flex;
+`;
+const Info = styled.div`
+  width: 160px;
+  display: flex;
+`;
+const InfoBox = styled.div`
+  display: flex;
+`;
+const DatailInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  height: 300px;
+`;
+const ExhibitionHashTag = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+`;
+const ExhibitonTitle = styled.span`
+  font-family: "S-Core Dream";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 38px;
+  color: #000000;
+`;
+const ExhibitonSecondTitle = styled.span`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  color: #000000;
+`;
 const Div = styled.div`
   background-color: #a6d6a6;
   font-size: 40px;
@@ -154,7 +242,6 @@ const ExhibitionHeader = styled.div`
   margin-top: 70px;
   display: flex;
   flex-direction: column;
-  background-color: #f3f3f3;
 `;
 
 const HeaderTitle = styled.h1`
@@ -229,7 +316,7 @@ const ExhibitionWrap = styled.div`
 const ExhibitionItem = styled.div`
   display: flex;
   box-sizing: border-box;
-  font-size: 40px;
+  font-size: 25px;
   height: 380px;
   background: #d9d9d9;
 `;
@@ -247,15 +334,26 @@ const ExhibitionInfoBox = styled.div`
   flex: 1;
   flex-direction: column;
   padding: 40px;
+  position: relative;
 `;
 
 const ExhibitionDate = styled.p`
   font-size: 1em;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 25px;
+  color: #5a5a5a;
 `;
 
-const ExhibitionTitle = styled.p`
+const ExhibitionTitleWrap = styled.div`
+  gap: 6px;
+  position: absolute;
+  bottom: 63px;
+  right: 42px;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
 `;
 
 const ExhibitionDatailInfo = styled.div`
@@ -263,7 +361,7 @@ const ExhibitionDatailInfo = styled.div`
   flex: 1;
   flex-direction: column;
   border-left: 1px dashed gray;
-  padding: 84px;
+  padding: 60px 80px;
   box-sizing: border-box;
 `;
 
@@ -274,9 +372,12 @@ const ExhibitionMore = styled.div`
   flex-direction: column;
   border-left: 1px dashed gray;
   box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
 `;
 
-const ExhibitionInfoBox2 = styled.div`
+const ExhibitionInfoDetailBox = styled.div`
   max-width: 569px;
   display: flex;
   flex: 1;

@@ -208,15 +208,16 @@ function ExhibitionForm() {
           />
         </Box>
         <Box>
-          <Explanation>전시종류</Explanation>
+          <Explanation>전시 주최</Explanation>
           <select name="exhibitionCode" onChange={onchangeHandler}>
             <option>선택해 주세요</option>
-            <option value="ES0001">개인전</option>
-            <option value="ES0002">다인전</option>
+            <option value="ES0001">개인/팀</option>
+            <option value="ES0002">기업</option>
+            <option value="ES0003">기관</option>
           </select>
         </Box>
         <Box>
-          <Explanation>전회 테마</Explanation>
+          <Explanation>전시회 분류</Explanation>
           <select name="exhibitionCategoty" onChange={onchangeHandler}>
             <option>선택해 주세요</option>
             <option value="WK0001">애니메이션</option>
@@ -256,7 +257,7 @@ function ExhibitionForm() {
           />
         </Box>
         <Box>
-          <Explanation>주최/후원</Explanation>
+          <Explanation>후원</Explanation>
           <input
             onChange={onchangeHandler}
             value={exhibition.agencyAndSponsor}
