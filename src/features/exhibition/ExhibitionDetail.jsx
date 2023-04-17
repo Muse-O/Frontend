@@ -3,6 +3,8 @@ import { useDetailGetExibition } from "../../hooks/exhibition/useDetailGetExibit
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { Flex } from "../../components/Flex";
+import ExhibitionReview from "./ExhibitionReview";
+import ExhibitionReviewForm from "./ExhibitionReviewForm";
 
 function ExhibitionDetail() {
   const { id } = useParams();
@@ -113,6 +115,8 @@ function ExhibitionDetail() {
                 {info.createdAt}
                 {info.updatedAt}
               </DIV>
+              <ExhibitionReviewForm exhibitionID={id} />
+              <ExhibitionReview exhibitionID={id} />
             </Contents>
           </ContentWrap>
         </>
