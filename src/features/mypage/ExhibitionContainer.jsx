@@ -35,7 +35,7 @@ function ExhibitionContainer() {
 
   return (
     <StContainer>
-      <div style={{ fontSize: "25px", marginBottom: "15px" }}>전시</div>
+      <div style={{ fontSize: "24px", marginBottom: "20px" }}>전시</div>
       <StExhibitionBox>
         <StWrap>
           <StTabWrap>
@@ -68,14 +68,15 @@ function ExhibitionContainer() {
 export default ExhibitionContainer;
 
 const StContainer = styled.div`
-  margin-top: 60px;
+  margin-top: 50px;
   display: flex;
   flex-direction: column;
 `;
 const StExhibitionBox = styled.div`
-  background-color: #ffc0cb61;
-  width: 1050px;
-  height: 300px;
+  background-color: #80808029;
+
+  width: 1010px;
+  height: 348px;
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -4,6 +4,7 @@ import UpdateUserProfileModal from "./UpdateUserProfileModal";
 import UpdateModalBlackBg from "./UpdateModalBlackBg";
 import styled from "styled-components";
 import AlarmContainer from "./AlarmContainer";
+import { AiOutlineSetting } from "react-icons/ai";
 
 function UserProfile() {
   const { userProfile } = useGetUserProfile();
@@ -16,16 +17,23 @@ function UserProfile() {
 
   return (
     <>
-      <StUserProfileBox fd="column">
+      <StUserProfileBox>
         <ProfileImg src={userProfile?.profileImg} alt="userProfileImg" />
+
         <StEditBtnWrap>
-          <UpdateBtn onClick={updateUserProfileModalHandler}>수정</UpdateBtn>
+          <UpdateBtn onClick={updateUserProfileModalHandler}>
+            <AiOutlineSetting size="30" />
+          </UpdateBtn>
         </StEditBtnWrap>
 
-        <StInfoWrap>
-          <InfoUserName>{userProfile?.nickname}</InfoUserName>
+        <StUserNameWrap>
+          <StInfoUserName>{userProfile?.nickname}</StInfoUserName>
+          <StArtistMark></StArtistMark>
+        </StUserNameWrap>
+
+        <StUserInfoIntro>
           <InfoIntro>{userProfile?.introduction}</InfoIntro>
-        </StInfoWrap>
+        </StUserInfoIntro>
 
         <Line></Line>
 
@@ -43,46 +51,63 @@ function UserProfile() {
 export default UserProfile;
 
 const StUserProfileBox = styled.div`
-  background-color: #ffc0cb56;
-  width: 440px;
-  height: 800px;
+  background-color: #80808029;
+  width: 430px;
+  height: 822px;
+  /* height: 816px; */
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 70px;
+  margin-top: 74px;
 `;
 
 const StEditBtnWrap = styled.div`
   width: 450px;
   display: flex;
   justify-content: flex-end;
-  padding: 30px 15px;
+  padding: 10px 20px 0px;
 `;
 
 const UpdateBtn = styled.button`
-  background-color: #80808058;
-  width: 40px;
-  height: 40px;
+  background-color: white;
+  width: 41px;
+  height: 41px;
   border-radius: 50%;
   cursor: pointer;
 `;
 
-const StInfoWrap = styled.div`
+const StUserNameWrap = styled.div`
   width: 300px;
-  height: 130px;
+  height: 28px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  background-color: #ffff0024;
+  margin-top: 42px;
+  gap: 8px;
 `;
 
-const InfoUserName = styled.div`
-  font-size: 30px;
-  margin-bottom: 20px;
+const StInfoUserName = styled.div`
+  font-size: 32px;
+  font-weight: bold;
 `;
 
+const StArtistMark = styled.div`
+  background-color: gray;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+`;
+
+const StUserInfoIntro = styled.div`
+  font-size: 16px;
+  height: 90px;
+  width: 250px;
+  margin-top: 35px;
+`;
 const InfoIntro = styled.div`
   font-size: 15px;
+  line-height: 25px;
+  word-break: break-all;
 `;
 
 const ProfileImg = styled.img`
@@ -95,6 +120,6 @@ const ProfileImg = styled.img`
 
 const Line = styled.div`
   border-top: 1px solid white;
-  width: 400px;
+  width: 393px;
   height: 20px;
 `;

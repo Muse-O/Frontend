@@ -35,7 +35,7 @@ function ArtgramContainer() {
 
   return (
     <StContainer>
-      <div style={{ fontSize: "25px", marginBottom: "15px" }}>아트그램</div>
+      <div style={{ fontSize: "25px", marginBottom: "20px" }}>아트그램</div>
       <StArtgramBox>
         <StWrap>
           <StTabWrap>
@@ -68,14 +68,15 @@ function ArtgramContainer() {
 export default ArtgramContainer;
 
 const StContainer = styled.div`
-  margin-top: 40px;
+  margin-top: 25px;
   display: flex;
   flex-direction: column;
 `;
 const StArtgramBox = styled.div`
-  background-color: #ffc0cb50;
-  width: 1050px;
-  height: 410px;
+  background-color: #80808029;
+
+  width: 1010px;
+  height: 404px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -105,7 +106,7 @@ const StImgWrap = styled.div`
   gap: 10px;
 `;
 const StImg = styled.img`
-  width: 324px;
-  height: 325px;
+  width: 313px;
+  height: 315px;
   background: #0000007d;
 `;
