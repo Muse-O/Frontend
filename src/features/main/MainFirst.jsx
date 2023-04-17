@@ -17,13 +17,13 @@ function MainFirst() {
   // 서버에서 제공받은 시간을 가공하기 위해 만든 커스컴 훅
   const {editTimehandle} = useEditTime()
   // 서버로 부터 받아 온 배열을 슬라이더의 목적에 따라 가공하는 커스텀 훅
-  const [firstEditList] = useEditLists(firstSliderList);
+  const [EditList] = useEditLists(firstSliderList);
 
   return (
-    <Main.CommenLayout height="825">
+    <Main.CommenLayout height="704">
       {/* MainFirst-FirstTitle:absolute 좌상단 고정 */}
       <Main.ArticleTitle>
-        <Main.MainH4 children="전시 종류, API 설정 예정" />
+        <Main.MainH4 children="개인전(온,프라인), API 설정 예정" />
       </Main.ArticleTitle>
       {/* MainFirst-Slider 부분 */}
       <Flex>
@@ -33,31 +33,32 @@ function MainFirst() {
           <Slider {...firstSliderSettings}>
             {firstSliderList.map((exhibitionList, index) => (
               <StSlider.MainSliderOutline key={index}>
-
                 {/* 이미지 */}
                 <StSlider.MainSliderImg src={exhibitionList.imglink} />
 
-                {/* Num & Title */}
-                <StSlider.MainSliderTitle
-                  children={
-                    <>
-                      <div className="titleNum">
-                        {exhibitionList.num < 9
-                          ? `0${exhibitionList.num}`
-                          : `${exhibitionList.num}`}
-                        .
-                      </div>
-                      <div className="title">
-                        {exhibitionList.exhibitionTitle}
-                      </div>
-                    </>
-                  }
-                />
+                <StSlider.FirstMainSliderTitleDesc>
+                  {/* Num & Title */}
+                  <StSlider.MainSliderTitle
+                    children={
+                      <>
+                        <div className="titleNum">
+                          {exhibitionList.num < 9
+                            ? `0${exhibitionList.num}`
+                            : `${exhibitionList.num}`}
+                          .
+                        </div>
+                        <div className="title">
+                          {exhibitionList.exhibitionTitle}
+                        </div>
+                      </>
+                    }
+                  />
 
-                {/* Desc */}
-                <StSlider.MainSliderDesc
-                  children={exhibitionList.exhibitionDesc}
-                />
+                  {/* Desc */}
+                  <StSlider.MainSliderDesc
+                    children={exhibitionList.exhibitionDesc}
+                  />
+                </StSlider.FirstMainSliderTitleDesc>
 
                 {/* 전시 상세페이지이동 */}
                 <StSlider.MainSliderLink
@@ -89,7 +90,7 @@ function MainFirst() {
         {/* FirstSubSliderWrap -------------------------------------------------- */}
         <Main.FirstSubSliderWrap style={{ backgroundColor: "#80f09e82" }}>
           <Slider {...secondSliderSettings}>
-            {firstEditList.map((exhibitionList, index) => (
+            {EditList.map((exhibitionList, index) => (
               <StSlider.SubSliderOutline key={index}>
                 {/* 이미지 */}
                 <StSlider.SubSliderImg src={exhibitionList.imglink} />
@@ -97,7 +98,9 @@ function MainFirst() {
             ))}
           </Slider>
           <StSlider.CurrentSliderIndex>
-            <p>{currentSlideIndex} <span>/ 6</span></p>
+            <p>
+              0{currentSlideIndex} <span>/ 0{firstSliderList.length}</span>
+            </p>
           </StSlider.CurrentSliderIndex>
         </Main.FirstSubSliderWrap>
       </Flex>

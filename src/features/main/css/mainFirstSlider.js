@@ -11,36 +11,52 @@ const MainSliderOutline = styled.div`
 const MainSliderImg = styled.img`
   display: block;
   width: 492px;
-  height: 702px;
-  margin: 0 auto;
+  height: 704px;
+  margin-left: 390px;
   background-color: lightcyan;
 `
-
+const FirstMainSliderTitleDesc = styled.div`
+  /* background-color:lightpink; */
+  width:526px;
+  position:absolute;
+  top:148px;
+`
 const MainSliderTitle = styled.div`
-  position: absolute;
+  /* position: absolute; */
   display: grid;
   grid-template-columns: 56px 1fr;
   align-items: center;
-  top: 134px;
+  /* top: 134px; */
   width: fit-content;
-  height: 96px;
+  max-width: 526px;
+  /* min-height: 96px; */
+  /* background-color: lightcoral; */
 
   .titleNum {
     font-size: 24px;
   }
   .title {
-    font-size: 80px;
+    padding: 12px;
+    font-size: 48px;
+    background-color: rgba(37, 37, 37, 0.7);
+    color: #FFF;
   }
 `
 
 const MainSliderDesc = styled.div`
   width: 339px;
-  height: 96px;
-  position: absolute;
-  top: 344px;
+  height: 120px;
+  margin-top: 88px;
+  /* position: absolute; */
+  /* top: 344px; */
   word-break: keep-all;
   /* text-align: justify; */
   line-height: 25px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
 `
 
 const MainSliderLink = styled.div`
@@ -49,7 +65,7 @@ const MainSliderLink = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 314px;
+  min-width: 358px;
   height: 70px;
   border-radius: 50px;
   background-color: #D9D9D9;
@@ -57,8 +73,9 @@ const MainSliderLink = styled.div`
 
 const MainSliderinfo = styled.div`
   position: absolute;
-  top: 344px;
-  transform: translateX(-300px);
+  background-color: #D9D9D9;
+  top: 317px;
+  transform: translateX(932px);
 
   .title {
     font-size: 20px;
@@ -95,6 +112,7 @@ const CurrentSliderIndex = styled.div`
   align-items: center;
   width: 100px;
   height: 63px;
+  font-family: 'Montserrat', sans-serif;
 
   p {
     font-size: 25px;
@@ -112,6 +130,7 @@ export {
   // MainSlider 부분
   MainSliderOutline,
   MainSliderImg,
+  FirstMainSliderTitleDesc,
   MainSliderTitle,
   MainSliderDesc,
   MainSliderLink,

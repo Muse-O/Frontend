@@ -18,7 +18,8 @@ const CommenLayout = styled.div`
   width: 100%;
   max-height: ${pos=>pos.height}px;
   min-height: ${pos=>pos.height}px;
-  overflow: hidden;
+  /* overflow: hidden; */
+  margin-bottom: 160px;
 `
 // Main 페이지 세번째(3) TOP 10 (화면의 너미가 줄어들었을 때를 가정)
 const ThirdLayout = styled(CommenLayout)`
@@ -41,7 +42,7 @@ const MainH1 = styled.h4`
 //  Main 페이지 - 소제목(1 번째)
 const MainH4 = styled.h4`
   font-family: 'S-CoreDream-3Light';
-  font-size: 24px;
+  font-size: 20px;
   `
 
 // Main 개별 태그들에 대한 상세설정 //////////////////////////////////////////////////////////////////////
@@ -51,24 +52,25 @@ const FirstMainSliderWrap = styled.div`
   position: relative;
   max-width: 1256px;
   width: 1256px;
-  height: 825px;
+  height: 704px;
 `
 // Main 페이지 첫번째(1) 슬라이더 스타일설정
 const FirstSubSliderWrap = styled.div`
   position: relative;
   max-width: 269px;
   width: 269px;
-  height: 825px;
+  height: 704px;
 `
+
 
 // ---------------------------------------------------------------------------------- //
 // Main 페이지 두번째(2) 슬라이더 스타일설정
 const SecondSliderWrap = styled(FirstMainSliderWrap)`
   position: static;
-  margin-top: 75px;
+  margin-top: 66px;
   max-width: 1545px;
   width: 1545px;
-  height: 390px;
+  height: 393px;
   background-color: lightgoldenrodyellow;
 `
 
@@ -76,8 +78,8 @@ const SecondSliderWrap = styled(FirstMainSliderWrap)`
 const SecondSlider = styled.div`
   min-width: 235px;
   max-width: 235px;
-  min-height: 390px;
-  max-height: 390px;
+  min-height: 393px;
+  max-height: 393px;
   // 추후 색상 변경예정
   background-color: lightgray; 
 
@@ -108,13 +110,14 @@ const SecondSlider = styled.div`
 // ---------------------------------------------------------------------------------- //
 // Main 페이지 세번째(3) TOP10 상세 레이아웃
 const ThirdWrap = styled(Flex)`
-  margin-top: 75px;
+  margin-top: 66px;
   max-width: 1525px;
   padding-bottom: 24px;
 `
 
 // Main 페이지 세번째(3) TOP10 개별 영역설정
 const ThirdInner = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: 100px 88px 1fr;
   min-width: 751px;
@@ -127,7 +130,10 @@ const ThirdInner = styled.div`
   background-color: #f5f5f59a;
   
   .number{
-    font-size: 20px;
+    p{
+      font-size: 20px;
+      line-height: 124px;
+    }
   }
   .exhibitionimg {
     min-width: 87px;
@@ -135,15 +141,27 @@ const ThirdInner = styled.div`
     min-height: 124px;
     max-height: 124px;
     background-color: lightgray;
+    &:hover {
+      min-width: 175px;
+      max-width: 175px;
+      min-height: 251px;
+      max-height: 1251px;
+      z-index: 2;
+    }
   }
   
   .innerText {
     margin-left: 152px;
-    padding: 47px 0;;
+    margin-top: 26px;
     
-    .title {
-      margin-bottom: 4px;
+    .titleKo {
+      margin-bottom: 8px;
       font-size: 20px;
+    }
+    .titleEn {
+      margin-bottom: 12px;
+      font-size: 20px;
+      font-family: 'Montserrat', sans-serif;
     }
     .location {
       color: #5A5A5A;
@@ -161,7 +179,7 @@ const FourthWrap = styled.div`
   gap: 80px;
   min-height: 480px;
   max-height: 480px;
-  margin-top:75px;
+  margin-top:66px;
   
   .exhibitionimg {
     display: block;
@@ -227,7 +245,7 @@ const FourthExhibitioninfo = styled.div`
 // ---------------------------------------------------------------------------------- //  
 // Main 페이지 다섯번째(5) 아트그램 상세 레이아웃
 const FifitWrap = styled.div`
-  margin-top: 36px;
+  margin-top: 66px;
   min-height: 538px;
   max-height: 538px;
   position: relative;

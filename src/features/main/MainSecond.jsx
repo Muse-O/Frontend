@@ -10,7 +10,7 @@ function MainSecond() {
   const {slidersettings} = useCurrentExhibitonSlider()
 
   return (
-    <Main.CommenLayout height="570" style={{backgroundColor:"lightsalmon"}}>
+    <Main.CommenLayout height="459" style={{backgroundColor:"lightsalmon"}}>
       <Main.ArticleTitle>
         <Main.MainH1 children="최신 전시" />
       </Main.ArticleTitle>
