@@ -55,6 +55,17 @@ export const pwValidation = password => {
   }
 };
 
+//비밀번호 확인
+export const checkUserPassword = (checkPassword, password) => {
+  if (checkPassword === "") {
+    return "";
+  } else if (checkPassword !== password) {
+    return "비밀번호가 일치하지 않습니다.";
+  } else {
+    return "";
+  }
+};
+
 // 닉네임 형식 검사
 export const nicknameValidation = nickname => {
   if (nickname === "") {

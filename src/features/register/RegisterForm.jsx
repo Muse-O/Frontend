@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Flex } from "../../components/Flex";
 import { Link } from "react-router-dom";
 import { useRegister } from "../../hooks/register/useRegister";
 import { useEmailConfirm } from "../../hooks/register/useEmailConfirm";
@@ -11,19 +10,13 @@ import {
   pwValidation,
   nicknameValidation,
   registerHandler,
+  checkUserPassword,
 } from "./registerValidate";
 import styled from "styled-components";
 import { useEmailAuthSend } from "../../hooks/register/useEmailAuthSend";
 import { useEmailAuthConfirm } from "../../hooks/register/useEmailAuthComfirm";
 
 function RegisterForm() {
-  const [code, setCode] = useState("");
-  //react-query
-  const { register } = useRegister();
-  const { emailConfirm, checkEmailConfirm } = useEmailConfirm();
-  const { emailAuthSend } = useEmailAuthSend();
-  const { emailAuthConfirm } = useEmailAuthConfirm();
-
   //회원가입시 register에 보낼 정보
   const [registerInfo, setRegisterInfo] = useState({
     email: "",
@@ -31,11 +24,28 @@ function RegisterForm() {
     nickname: "",
   });
 
+  //이메일 인증번호
+  const [code, setCode] = useState("");
+
+  //비밀번호 확인
+  const [checkPassword, setCheckPassword] = useState("");
+
+  //react-query
+  const { register } = useRegister();
+  const { emailConfirm, checkEmailConfirm } = useEmailConfirm();
+  const { emailAuthSend } = useEmailAuthSend();
+  const { emailAuthConfirm } = useEmailAuthConfirm();
+
   const changeInputHandler = e => {
     const { value, name } = e.target;
     setRegisterInfo(pre => {
       return { ...pre, [name]: value };
     });
+  };
+
+  //비밀번호 확인
+  const changeCheckPasswordHandler = e => {
+    setCheckPassword(e.target.value);
   };
 
   //이메일 인증메일 발송
@@ -54,203 +64,311 @@ function RegisterForm() {
   };
 
   return (
-    <StFlex fd="column" gap="20">
-      <Link to="/">로고 자리(메인으로 돌아감)</Link>
+    <StRegister>
+      <StLinkBox>
+        <Link to="/">로고</Link>
+      </StLinkBox>
       <StEmailWrap>
-        <div>
-          <label>이메일</label>
-          <input type="email" name="email" onChange={changeInputHandler} />
-          <button
-            onClick={e => emailConfirmHandler(e, registerInfo, emailConfirm)}
-          >
-            중복확인
-          </button>
-        </div>
-
-        <div>{emailValidation(registerInfo.email)}</div>
-
-        <div>
-          <div style={{ display: "flex", gap: "10px" }}>
-            <button onClick={emailAuthSendHandler}>메일인증</button>
-            {/* 추후 남은시간 보여줄 것 */}
-            <div>인증코드 유효시간은 3분입니다.</div>
-          </div>
+        <StEmailInputBox>
+          <StEmailLabel>
+            <label>이메일</label>
+            <div>{emailValidation(registerInfo.email)}</div>
+          </StEmailLabel>
 
           <div>
+            <input type="email" name="email" onChange={changeInputHandler} />
+            <button
+              onClick={e => emailConfirmHandler(e, registerInfo, emailConfirm)}
+            >
+              중복확인
+            </button>
+          </div>
+        </StEmailInputBox>
+
+        <StEmailValidationBox>
+          <StEmailAuthWrap>
+            <StEmailAuthLabel>
+              <label>메일인증</label>
+              {/* 추후 남은시간 보여줄 것 */}
+              {/* <div>인증코드 유효시간은 3분입니다.</div> */}
+            </StEmailAuthLabel>
+          </StEmailAuthWrap>
+
+          <StEmailAuthBox>
+            <button onClick={emailAuthSendHandler}>인증발송</button>
             <input
               type="text"
               value={code}
               onChange={changeEmailAuthConfirmHandler}
             />
+            {/* 메인인증 클릭 후 인증메일 발송되면 인증확인 버튼 보이게 변경할것 */}
             <button onClick={emailAuthConfirmHandler}>인증확인</button>
-          </div>
-        </div>
+          </StEmailAuthBox>
+        </StEmailValidationBox>
       </StEmailWrap>
 
-      <div>
-        <label>비밀번호</label>
+      <StPwBox>
+        <StPwLabel>
+          <label>비밀번호</label>
+          <div>{pwValidation(registerInfo.password)}</div>
+        </StPwLabel>
         <input type="password" name="password" onChange={changeInputHandler} />
-        <div>{pwValidation(registerInfo.password)}</div>
-      </div>
 
-      <div>
-        <label>닉네임</label>
+        <StPwConformLabel>
+          <label>비밀번호 확인</label>
+          <div>{checkUserPassword(checkPassword, registerInfo.password)}</div>
+        </StPwConformLabel>
+        <input
+          type="password"
+          name="checkPassword"
+          value={checkPassword}
+          onChange={changeCheckPasswordHandler}
+        />
+      </StPwBox>
+
+      <StNickNameBox>
+        <StNickNameLabel>
+          <label>닉네임</label>
+          <div>{nicknameValidation(registerInfo.nickname)}</div>
+        </StNickNameLabel>
+
         <input type="text" name="nickname" onChange={changeInputHandler} />
-        <div>{nicknameValidation(registerInfo.nickname)}</div>
-      </div>
+      </StNickNameBox>
 
-      <button
+      <StRegisterBtn
         onClick={e =>
           registerHandler(e, registerInfo, checkEmailConfirm, register)
         }
       >
         회원가입
-      </button>
-    </StFlex>
+      </StRegisterBtn>
+    </StRegister>
   );
 }
 
 export default RegisterForm;
 
-const StFlex = styled(Flex)`
-  input {
-    border: 1px solid gray;
-  }
+const StRegister = styled.div`
+  background-color: #80808029;
+  width: 616px;
+  height: 840px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StLinkBox = styled.div`
+  background-color: white;
+  width: 333px;
+  height: 84px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 43px;
 `;
 
 const StEmailWrap = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 `;
 
-//기존 코드------------------------------------------------------------------
-// import React, { useState } from "react";
-// import { Flex } from "../../components/Flex";
-// import { Link } from "react-router-dom";
-// import { useRegister } from "../../hooks/register/useRegister";
-// import { useEmailConfirm } from "../../hooks/register/useEmailConfirm";
+const StEmailInputBox = styled.div`
+  width: 416px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  margin: 69px 0px 0px 0px;
 
-// function RegisterForm() {
-//   //react-query
-//   const { register } = useRegister();
-//   const { emailConfirm, checkEmailConfirm } = useEmailConfirm();
+  label {
+    font-size: 15px;
+    font-weight: bold;
+  }
 
-//   //회원가입시 register에 보낼 정보
-//   const [registerInfo, setRegisterInfo] = useState({
-//     email: "",
-//     password: "",
-//     nickname: "",
-//   });
+  input {
+    width: 310px;
+    height: 42px;
+    padding: 10px;
+    border: 1px solid gray;
+    outline: none;
+    font-size: 15px;
+    margin-right: 5px;
+  }
 
-//   const changeInputHandler = e => {
-//     const { value, name } = e.target;
-//     setRegisterInfo(pre => {
-//       return { ...pre, [name]: value };
-//     });
-//   };
+  button {
+    /* background: linear-gradient(#0038ff, #c984ff); */
+    background-color: gray;
+    width: 100px;
+    height: 42px;
+    border-radius: 10px;
+    color: white;
+    font-size: 15px;
+  }
+`;
 
-//   //회원가입 버튼 클릭시 useRegister에 payload(registerInfo) 전달
-//   const registerHandler = e => {
-//     //빈 값이 아닐때 register에 payload 보내기
-//     if (registerInfo.email === "") {
-//       alert("이메일을 입력해주세요.");
-//       e.preventDefault();
-//     } else if (registerInfo.password === "") {
-//       alert("비밀번호를 입력해주세요.");
-//       e.preventDefault();
-//     } else if (registerInfo.nickname === "") {
-//       alert("닉네임을 입력해주세요.");
-//       e.preventDefault();
-//     } else if (registerInfo.nickname.length < 2) {
-//       e.preventDefault();
-//       alert("닉네임을 2글자 이상 입력해주세요.");
-//       //이메일 중복체크 확인 후 register에 payload 보내기
-//     } else if (checkEmailConfirm === false) {
-//       e.preventDefault();
-//       alert("이메일 중복확인을 진행해주세요.");
-//     } else if (checkEmailConfirm === true) {
-//       e.preventDefault();
-//       register(registerInfo);
-//     }
-//   };
+const StEmailLabel = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
 
-//   //이메일 중복검사
-//   const checkEmail = {
-//     email: registerInfo.email,
-//   };
+  div {
+    color: #d90404;
+  }
+`;
 
-//   const emailConfirmHandler = e => {
-//     //빈값이 아닐때 보낼 수 있게 하기
-//     if (registerInfo.email === "") {
-//       alert("이메일을 입력해주세요.");
-//       e.preventDefault();
-//     } else if (!emailRegExp.test(registerInfo.email)) {
-//       e.preventDefault();
-//       return <div>이메일 형식이 올바르지 않습니다.</div>;
-//     } else {
-//       e.preventDefault();
-//       emailConfirm(checkEmail);
-//     }
-//   };
+const StEmailValidationBox = styled.div`
+  width: 416px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
 
-//   //이메일, 비밀번호 형식 정규식 -> 확인해볼것
-//   const emailRegExp = /^[a-zA-Z0-9+\-\\_.]+@[a-zA-Z0-9\\-]+\.[a-zA-Z0-9\-.]+$/;
-//   const pwRegExp =
-//     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,15}$/;
+const StEmailAuthWrap = styled.div`
+  display: flex;
+  flex-direction: column;
 
-//   //이메일 입력값에 따른 검사값 출력
-//   const emailValidation = () => {
-//     if (registerInfo.email === "") {
-//       return "";
-//     } else if (!emailRegExp.test(registerInfo.email)) {
-//       return "이메일 형식이 올바르지 않습니다.";
-//     } else {
-//       return "";
-//     }
-//   };
+  button {
+    /* background: linear-gradient(#0038ff, #c984ff); */
+    background-color: gray;
+    width: 100px;
+    height: 42px;
+    border-radius: 10px;
+    color: white;
+    font-size: 15px;
+  }
+`;
 
-//   //비밀번호 입력값에 따른 검사값 출력
-//   const pwValidation = () => {
-//     if (registerInfo.password === "") {
-//       return "";
-//     } else if (!pwRegExp.test(registerInfo.password)) {
-//       return "알파벳, 숫자, 특수문자 조합 6~15글자로 입력해주세요.";
-//     } else {
-//       return "";
-//     }
-//   };
+const StEmailAuthLabel = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
 
-//   //닉네임 빈 값 확인에 따른 검사값 출력
-//   const nicknameValidation = () => {
-//     if (registerInfo.nickname === "") {
-//       return "";
-//     } else if (registerInfo.nickname.length < 2) {
-//       return "2글자 이상 입력해주세요.";
-//     } else {
-//       return "";
-//     }
-//   };
+  label {
+    font-size: 15px;
+    font-weight: bold;
+  }
 
-//   return (
-//     <Flex as="form" fd="column" gap="10">
-//       <Link to="/">로고 자리(메인으로 돌아감)</Link>
-//       <label>이메일</label>
-//       <input type="email" name="email" onChange={changeInputHandler} />
-//       <button onClick={emailConfirmHandler}>중복확인</button>
-//       <div>{emailValidation()}</div>
+  div {
+    color: #d90404;
+  }
+`;
 
-//       <label>비밀번호</label>
-//       <input type="password" name="password" onChange={changeInputHandler} />
-//       <div>{pwValidation()}</div>
+const StEmailAuthBox = styled.div`
+  display: flex;
+  gap: 7px;
 
-//       <label>닉네임</label>
-//       <input type="text" name="nickname" onChange={changeInputHandler} />
-//       <div>{nicknameValidation()}</div>
+  input {
+    width: 200px;
+    height: 42px;
+    padding: 10px;
+    border: 1px solid gray;
+    outline: none;
+    font-size: 15px;
+  }
 
-//       <button onClick={registerHandler}>회원가입</button>
-//     </Flex>
-//   );
-// }
+  button {
+    background-color: gray;
+    width: 100px;
+    height: 42px;
+    border-radius: 10px;
+    color: white;
+    font-size: 15px;
+  }
+`;
 
-// export default RegisterForm;
+const StPwBox = styled.div`
+  width: 416px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+
+  input {
+    width: 416px;
+    height: 42px;
+    padding: 10px;
+    border: 1px solid gray;
+    outline: none;
+    font-size: 15px;
+    margin-right: 5px;
+  }
+`;
+
+const StPwLabel = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  label {
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  div {
+    color: #d90404;
+  }
+`;
+
+const StPwConformLabel = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  label {
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  div {
+    color: #d90404;
+  }
+`;
+
+const StNickNameBox = styled.div`
+  width: 416px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+
+  input {
+    width: 416px;
+    height: 42px;
+    padding: 10px;
+    border: 1px solid gray;
+    outline: none;
+    font-size: 15px;
+    margin-right: 5px;
+  }
+`;
+
+const StNickNameLabel = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  label {
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  div {
+    color: #d90404;
+  }
+`;
+
+const StRegisterBtn = styled.div`
+  background-color: gray;
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+  width: 195px;
+  height: 40px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  margin-top: 100px;
+`;
