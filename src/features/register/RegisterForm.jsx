@@ -149,6 +149,7 @@ function RegisterForm() {
 export default RegisterForm;
 
 const StRegister = styled.div`
+  font-family: "SpoqaHanSansNeo-Regular";
   background-color: #80808029;
   width: 616px;
   height: 840px;
@@ -187,6 +188,7 @@ const StEmailInputBox = styled.div`
   }
 
   input {
+    font-family: "SpoqaHanSansNeo-Regular";
     width: 310px;
     height: 42px;
     padding: 10px;
@@ -202,8 +204,9 @@ const StEmailInputBox = styled.div`
     width: 100px;
     height: 42px;
     border-radius: 10px;
-    color: white;
     font-size: 15px;
+    font-family: "SpoqaHanSansNeo-Regular";
+    cursor: pointer;
   }
 `;
 
@@ -227,16 +230,6 @@ const StEmailValidationBox = styled.div`
 const StEmailAuthWrap = styled.div`
   display: flex;
   flex-direction: column;
-
-  button {
-    /* background: linear-gradient(#0038ff, #c984ff); */
-    background-color: gray;
-    width: 100px;
-    height: 42px;
-    border-radius: 10px;
-    color: white;
-    font-size: 15px;
-  }
 `;
 
 const StEmailAuthLabel = styled.div`
@@ -259,6 +252,7 @@ const StEmailAuthBox = styled.div`
   gap: 7px;
 
   input {
+    font-family: "SpoqaHanSansNeo-Regular";
     width: 200px;
     height: 42px;
     padding: 10px;
@@ -272,8 +266,9 @@ const StEmailAuthBox = styled.div`
     width: 100px;
     height: 42px;
     border-radius: 10px;
-    color: white;
     font-size: 15px;
+    font-family: "SpoqaHanSansNeo-Regular";
+    cursor: pointer;
   }
 `;
 
@@ -333,6 +328,7 @@ const StNickNameBox = styled.div`
   margin-top: 20px;
 
   input {
+    font-family: "SpoqaHanSansNeo-Regular";
     width: 416px;
     height: 42px;
     padding: 10px;
@@ -358,7 +354,7 @@ const StNickNameLabel = styled.div`
   }
 `;
 
-const StRegisterBtn = styled.div`
+const StRegisterBtn = styled.button`
   background-color: gray;
   text-decoration: none;
   font-weight: bold;
@@ -369,6 +365,8 @@ const StRegisterBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: "SpoqaHanSansNeo-Regular";
   font-size: 15px;
   margin-top: 100px;
+  cursor: pointer;
 `;

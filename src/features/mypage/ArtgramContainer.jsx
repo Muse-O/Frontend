@@ -158,11 +158,10 @@ const StTabCount = styled.div`
 `;
 
 const StImgBox = styled.div`
-  width: 958px;
+  width: 964px;
   height: 261px;
   /* background-color: #80808089; */
   display: flex;
-  justify-content: center;
   gap: 12px;
 `;
 
