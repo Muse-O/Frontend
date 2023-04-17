@@ -103,8 +103,7 @@ function ExhibitionUpdate() {
       setFiles(previewFileArr);
     }
   }, [isLoading, isError, data]);
-  console.log("가지고오는값", info);
-  console.log("파일", files);
+
   //수정하기
   const submitHandler = (event) => {
     event.preventDefault();

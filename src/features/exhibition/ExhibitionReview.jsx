@@ -25,13 +25,7 @@ function ExhibitionReview({ exhibitionID }) {
     setLimit(e.target.value);
   };
 
-  //!!!!!!!!!!!!!!삭제 버튼
   const [deleteReview] = useDeleteReview();
-  console.log(
-    "갯수 나누기",
-    reviewData?.paginationInfo.exhibitionReviewCnt / limit
-  );
-  console.log("가지고온 값", reviewData);
   return (
     <ReviewWrap>
       {reviewData ? (
