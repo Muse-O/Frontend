@@ -5,16 +5,12 @@ import { useGetMyArtgramInfo } from "../../hooks/mypage/useGetMyArtgramInfo";
 import { useGetScrapArtgramInfo } from "../../hooks/mypage/useGetScrapArtgramInfo";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
-/**
- * 현재 상황
- * - 좋아요 탭에서만 잘 넘어가는 상황.
- * - 스크랩은 아직 실험 불가
- * - 나의 아트그램은 페이지가 넘어가질 않음, offset 계속 0으로 넘어감
- */
 function ArtgramContainer() {
-  const { LikedArtgramInfo, num, setNum } = useGetLikedArtgramInfo();
-  const { MyArtgramInfo } = useGetMyArtgramInfo();
-  const { ScrapArtgramInfo } = useGetScrapArtgramInfo();
+  const { LikedArtgramInfo, likedNum, setLikedNum } = useGetLikedArtgramInfo();
+  const { MyArtgramInfo, myArtgramNum, setMyArtgramNum } =
+    useGetMyArtgramInfo();
+  const { ScrapArtgramInfo, scrapArtgramNum, setScrapArtgramNum } =
+    useGetScrapArtgramInfo();
   // console.log(MyArtgramInfo?.paginationInfo?.hasNextPage, "info");
 
   const [currentTab, clickTab] = useState(0);
@@ -43,17 +39,32 @@ function ArtgramContainer() {
     clickTab(id);
   };
 
+  /**
+   * 클릭한 버튼의 탭 메뉴 아이디가 0이면 좋아요, 1이면 스크랩, 3이면 내글.
+   */
   //이전 데이터 불러오기
   const getBackDataHandler = () => {
     //데이터의 첫 페이지보다 작은 페이지로 이동하지 않도록 설정
-    setNum(num => Math.max(num - 3, 0));
-    console.log("check Back");
+    if (menuArr[currentTab].id === 0) {
+      setLikedNum(likedNum => Math.max(likedNum - 3, 0));
+    } else if (menuArr[currentTab].id === 1) {
+      setScrapArtgramNum(scrapArtgramNum => Math.max(scrapArtgramNum - 3, 0));
+    } else if (menuArr[currentTab].id === 2) {
+      setMyArtgramNum(myArtgramNum => Math.max(myArtgramNum - 3, 0));
+    }
+    // console.log("check Back");
   };
 
   //다음 데이터 불러오기
   const getNextDataHandler = () => {
-    setNum(num => num + 3);
-    console.log("check Next");
+    if (menuArr[currentTab].id === 0) {
+      setLikedNum(likedNum => likedNum + 3);
+    } else if (menuArr[currentTab].id === 1) {
+      setScrapArtgramNum(scrapArtgramNum => scrapArtgramNum + 3);
+    } else if (menuArr[currentTab].id === 2) {
+      setMyArtgramNum(myArtgramNum => myArtgramNum + 3);
+    }
+    // console.log("check Next");
   };
 
   return (
@@ -73,7 +84,7 @@ function ArtgramContainer() {
           </StTabWrap>
 
           <StImgBtnBox>
-            <StLeftBtn disabled={num <= 0} onClick={getBackDataHandler}>
+            <StLeftBtn onClick={getBackDataHandler}>
               <MdKeyboardArrowLeft size="30" color="white" />
             </StLeftBtn>
             <StImgBox>
@@ -87,10 +98,7 @@ function ArtgramContainer() {
                 });
               })}
             </StImgBox>
-            <StRightBtn
-              // disabled={LikedArtgramInfo?.paginationInfo?.hasNextPage === false}
-              onClick={getNextDataHandler}
-            >
+            <StRightBtn onClick={getNextDataHandler}>
               <MdKeyboardArrowRight size="30" color="white" />
             </StRightBtn>
           </StImgBtnBox>

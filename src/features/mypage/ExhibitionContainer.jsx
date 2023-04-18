@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useGetLikedExhibitionInfo } from "../../hooks/mypage/useGetLikedExhibitionInfo";
 import { useGetMyExhibitionInfo } from "../../hooks/mypage/useGetMyExhibitionInfo";
 import { useGetScrapExhibitionInfo } from "../../hooks/mypage/useGetScrapExhibitionInfo";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 function ExhibitionContainer() {
   const { LikedExhibitionInfo } = useGetLikedExhibitionInfo();
@@ -52,7 +53,9 @@ function ExhibitionContainer() {
           </StTabWrap>
 
           <StImgBtnBox>
-            <StLeftBtn></StLeftBtn>
+            <StLeftBtn>
+              <MdKeyboardArrowLeft size="30" color="white" />
+            </StLeftBtn>
             <StImgBox>
               {menuArr[currentTab].content.map(list => {
                 return list.map(info => {
@@ -67,7 +70,9 @@ function ExhibitionContainer() {
                 });
               })}
             </StImgBox>
-            <StRightBtn></StRightBtn>
+            <StRightBtn>
+              <MdKeyboardArrowRight size="30" color="white" />
+            </StRightBtn>
           </StImgBtnBox>
         </StWrap>
       </StExhibitionBox>
@@ -104,6 +109,10 @@ const StLeftBtn = styled.div`
   height: 40px;
   border-radius: 50%;
   background-color: gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const StRightBtn = styled.div`
@@ -111,6 +120,10 @@ const StRightBtn = styled.div`
   height: 40px;
   border-radius: 50%;
   background-color: gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const StExhibitionBox = styled.div`

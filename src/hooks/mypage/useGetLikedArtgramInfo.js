@@ -4,14 +4,14 @@ import { apis_token } from "../../api/apis";
 import { useState } from "react";
 
 export const useGetLikedArtgramInfo = () => {
-  const [num, setNum] = useState(0); // 페이지 0 초기설정
+  const [likedNum, setLikedNum] = useState(0); // 페이지 0 초기설정
 
   const { data } = useQuery({
-    queryKey: [keys.GET_LIKEDARTGRAMINFO, num],
+    queryKey: [keys.GET_LIKEDARTGRAMINFO, likedNum],
     queryFn: async () => {
       // console.log(num, "num??");
       const data = await apis_token.get(
-        `/mypage/artgram/likes?limit=3&offset=${num}`
+        `/mypage/artgram/likes?limit=3&offset=${likedNum}`
       );
       // console.log(data.data, "data");
       return data.data;
@@ -19,8 +19,8 @@ export const useGetLikedArtgramInfo = () => {
   });
   return {
     LikedArtgramInfo: data,
-    num,
-    setNum,
+    likedNum,
+    setLikedNum,
   };
 };
 
