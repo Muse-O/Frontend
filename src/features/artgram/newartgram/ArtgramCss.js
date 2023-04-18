@@ -152,6 +152,7 @@ const ModalWindow = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 15px 0 0 15px;
+    overflow: hidden;
 
     .sliderLayout {
       width: 635px;
@@ -173,7 +174,7 @@ const ModalWindow = styled.div`
     min-height: 268px;
     grid-template-columns: 33px 1fr;
     gap: 16px;
-    background-color: lightcoral;
+    /* background-color: lightcoral; */
 
     .profileimg {
       width: 33px;
@@ -226,6 +227,8 @@ const ModalWindow = styled.div`
     .commentWrap {
       div:first-child {
         display: flex;
+        height: 20px;
+        align-items: center;
         gap: 8px;
 
         .profileNickname {
@@ -262,7 +265,7 @@ const ModalWindow = styled.div`
     flex-direction: column;
     width: 100%;
     height: 168px;
-    border-radius: 0 0 15px 15px;
+    border-radius: 0 0 15px 0;
     background: #B9B9B9;
     overflow: hidden;
 

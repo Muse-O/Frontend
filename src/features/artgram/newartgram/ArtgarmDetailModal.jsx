@@ -3,12 +3,26 @@ import * as Artgramparts from "./ArtgramCss";
 import ArtgramSlider from "../ArtgramSlider";
 import { useGetartgramDetail } from "../../../hooks/artgram/useGetartgramDetail";
 import { useGetartgramComments } from "../../../hooks/artgram/useGetartgramComments";
+import { useFormInput } from "../../../hooks/useFormInput";
+import { usePostcomments } from "../../../hooks/artgram/usePostcomments";
+import { Input } from "../../../components/Input";
+import ArtgramDeteilCommentEdit from "./ArtgramDeteilCommentEdit";
 
 function ArtgarmDetailModal({ artgramId, modalState, openModalhandle }) {
-  const [detailIsLoading, detailIsError, detailData] =
-    useGetartgramDetail(artgramId);
-  const [commentsIsLoading, commentsIsError, commentsData] =
-    useGetartgramComments(artgramId);
+  const [detailIsLoading, detailIsError, detailData] = useGetartgramDetail(artgramId);
+  const [commentsIsLoading, commentsIsError, commentsData] = useGetartgramComments(artgramId);
+  // console.log(detailData);
+  // console.log(commentsData);
+
+
+  // 댓글입력받는 폼
+  const [formState, setFormState, handleInputChange] = useFormInput();
+  const [commentHandle] = usePostcomments(setFormState);
+  const onSubmitcomment = (e) => {
+    e.preventDefault()
+    commentHandle(e, artgramId, formState.comment)
+}
+
 
   return (
     <>
@@ -44,42 +58,20 @@ function ArtgarmDetailModal({ artgramId, modalState, openModalhandle }) {
                 <div className="profileimg" />
                 <div>
                   <div>
-                    <p className="profileNickname">EEEABCD</p>
-                    <p className="artgarmDetailTitle">대지의 시간</p>
-                    <p className="artgarmDetailDesc">
-                      대지의 시간》은 기후변화와 팬데믹 등 전 지구적 위기의
-                      시대를 맞이하여 새로운 시대정신으로 떠오르고 있는
-                      '생태학적 세계관'을 탐색하는 장으로서, '공생', '연결',
-                      '균형의 회복'을 지향하는 국내외 작가 16명의 작품과
-                      아카이브를 선보인다.
-                      대지의 시간》은 기후변화와 팬데믹 등 전 지구적 위기의
-                      시대를 맞이하여 새로운 시대정신으로 떠오르고 있는
-                      '생태학적 세계관'을 탐색하는 장으로서, '공생', '연결',
-                      '균형의 회복'을 지향하는 국내외 작가 16명의 작품과
-                      아카이브를 선보인다.
-                      대지의 시간》은 기후변화와 팬데믹 등 전 지구적 위기의
-                      시대를 맞이하여 새로운 시대정신으로 떠오르고 있는시대를 맞이하여 새로운 시대정신으로 떠오르고 있는시대를 맞이
-                    </p>
-                    <p className="artgarmDetailHashTag">#하하하 #크크크</p>
+                    <p className="profileNickname">{detailData.nickname}</p>
+                    <p className="artgarmDetailTitle">{detailData.artgramTitle}</p>
+                    <p className="artgarmDetailDesc">{detailData.artgramDesc}</p>
+                    <p className="artgarmDetailHashTag">{detailData.hashtag.map(tag => `#${tag}`+" ")}</p> 
                   </div>
                 </div>
               </div>
               <div className="artgarmcommentBox">
-                {Array(12)
-                  .fill(null)
-                  .map((el, idx) => (
-                    <div key={idx} className="artgarmcomments">
+                {commentsData.map(comment => (
+                    <div key={comment.commentId} className="artgarmcomments">
                       <div className="profileimg" />
                       <div>
                         <div className="commentWrap">
-                          <div>
-                            <p className="profileNickname">닉네임</p>
-                            <p className="artgarmcomment">댓글내용</p>
-                          </div>
-                          <div>
-                            <p className="artgarmcommentTime">4분전</p>
-                            <p className="commentwrite">답글달기</p>
-                          </div>
+                          <ArtgramDeteilCommentEdit artgramId={artgramId} comment={comment}/>
                         </div>
                       </div>
                     </div>
@@ -87,7 +79,17 @@ function ArtgarmDetailModal({ artgramId, modalState, openModalhandle }) {
               </div>
               <div className="commentWrite">
                 <div className="scrapLiked">좋아요/스크랩</div>
-                <div className="commentInput"><input placeholder="댓글입력"/></div>
+                <div className="commentInput"><form onSubmit={onSubmitcomment}>
+                <Input
+                  inputProps={{
+                    type: "text",
+                    name: "comment",
+                    value: formState["comment"] || "",
+                    placeholder: "댓글 달기...",
+                    onChange: handleInputChange,
+                  }}
+                />
+              </form></div>
               </div>
             </div>
           </>
