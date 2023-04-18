@@ -9,10 +9,11 @@ import { cookies } from "../../shared/cookies";
 import { useDeleteReview } from "../../hooks/exhibition/useDeleteReview";
 import { AiOutlineDelete } from "react-icons/ai";
 function ExhibitionReview({ exhibitionID }) {
+  //email가지고 오기
   const access_token = cookies.get("access_token");
-  const email = "";
+  let email = "";
   if (access_token) {
-    email = access_token?.jwtDecode(access_token);
+    email = jwtDecode(access_token).email;
   }
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
