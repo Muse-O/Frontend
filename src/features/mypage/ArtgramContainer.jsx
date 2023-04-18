@@ -3,11 +3,13 @@ import styled from "styled-components";
 import { useGetLikedArtgramInfo } from "../../hooks/mypage/useGetLikedArtgramInfo";
 import { useGetMyArtgramInfo } from "../../hooks/mypage/useGetMyArtgramInfo";
 import { useGetScrapArtgramInfo } from "../../hooks/mypage/useGetScrapArtgramInfo";
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 function ArtgramContainer() {
-  const { LikedArtgramInfo } = useGetLikedArtgramInfo();
+  const { LikedArtgramInfo, num, setNum } = useGetLikedArtgramInfo();
   const { MyArtgramInfo } = useGetMyArtgramInfo();
   const { ScrapArtgramInfo } = useGetScrapArtgramInfo();
+  console.log(MyArtgramInfo?.paginationInfo?.hasNextPage, "info");
 
   const [currentTab, clickTab] = useState(0);
 
@@ -35,6 +37,16 @@ function ArtgramContainer() {
     clickTab(id);
   };
 
+  //이전 데이터 불러오기
+  const getBackDataHandler = () => {
+    setNum(num => Math.max(num - 3, 0));
+  };
+
+  //다음 데이터 불러오기
+  const getNextDataHandler = () => {
+    setNum(num => num + 3);
+  };
+
   return (
     <StContainer>
       <StArtgram>아트그램</StArtgram>
@@ -52,7 +64,9 @@ function ArtgramContainer() {
           </StTabWrap>
 
           <StImgBtnBox>
-            <StLeftBtn></StLeftBtn>
+            <StLeftBtn disabled={num <= 0} onClick={getBackDataHandler}>
+              <MdKeyboardArrowLeft size="30" color="white" />
+            </StLeftBtn>
             <StImgBox>
               {menuArr[currentTab].content.map(list => {
                 return list.map(info => {
@@ -64,7 +78,12 @@ function ArtgramContainer() {
                 });
               })}
             </StImgBox>
-            <StRightBtn></StRightBtn>
+            <StRightBtn
+              disabled={LikedArtgramInfo?.paginationInfo?.hasNextPage === false}
+              onClick={getNextDataHandler}
+            >
+              <MdKeyboardArrowRight size="30" color="white" />
+            </StRightBtn>
           </StImgBtnBox>
         </StWrap>
       </StArtgramBox>
@@ -105,18 +124,26 @@ const StImgBtnBox = styled.div`
   gap: 5px;
 `;
 
-const StLeftBtn = styled.div`
+const StLeftBtn = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
   background-color: gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 `;
 
-const StRightBtn = styled.div`
+const StRightBtn = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
   background-color: gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 `;
 
 const StWrap = styled.div`
