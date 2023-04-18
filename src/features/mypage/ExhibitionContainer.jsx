@@ -8,7 +8,11 @@ function ExhibitionContainer() {
   const { LikedExhibitionInfo } = useGetLikedExhibitionInfo();
   const { MyExhibitionInfo } = useGetMyExhibitionInfo();
   const { ScrapExhibitionInfo } = useGetScrapExhibitionInfo();
-  // console.log(ScrapExhibitionInfo);
+  // console.log(LikedExhibitionInfo, "info");
+  console.log(
+    LikedExhibitionInfo?.paginationInfo,
+    "LikedExhibitionInfo?.paginationInfo"
+  );
 
   const [currentTab, clickTab] = useState(0);
 
@@ -17,16 +21,19 @@ function ExhibitionContainer() {
       id: 0,
       name: "좋아요",
       content: [LikedExhibitionInfo?.exhibitionList?.result || []],
+      count: LikedExhibitionInfo?.paginationInfo,
     },
     {
       id: 1,
       name: "스크랩",
       content: [ScrapExhibitionInfo?.exhibitionList?.result || []],
+      count: ScrapExhibitionInfo?.paginationInfo,
     },
     {
       id: 2,
       name: "내가 여는 전시",
       content: [MyExhibitionInfo?.myExhibitionList?.result || []],
+      count: MyExhibitionInfo?.paginationInfo,
     },
   ];
   const selectMenuHandler = id => {
@@ -42,7 +49,9 @@ function ExhibitionContainer() {
             {menuArr.map(el => (
               <StTab key={el.id} onClick={() => selectMenuHandler(el.id)}>
                 {el.name}
-                <StTabCount>0</StTabCount>
+                <StTabCount>
+                  {el?.count?.myExhibitionCnt ? el?.count?.myExhibitionCnt : 0}
+                </StTabCount>
               </StTab>
             ))}
           </StTabWrap>
@@ -53,9 +62,8 @@ function ExhibitionContainer() {
               {menuArr[currentTab].content.map(list => {
                 return list.map(info => {
                   return (
-                    <StImgWrap>
+                    <StImgWrap key={info.exhibition_id}>
                       <StImg
-                        key={info.exhibition_id}
                         src={info.post_image}
                         alt={info.exhibition_title}
                       />

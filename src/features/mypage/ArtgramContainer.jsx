@@ -8,7 +8,6 @@ function ArtgramContainer() {
   const { LikedArtgramInfo } = useGetLikedArtgramInfo();
   const { MyArtgramInfo } = useGetMyArtgramInfo();
   const { ScrapArtgramInfo } = useGetScrapArtgramInfo();
-  // console.log(ScrapArtgramInfo, "info");
 
   const [currentTab, clickTab] = useState(0);
 
@@ -17,16 +16,19 @@ function ArtgramContainer() {
       id: 0,
       name: "좋아요",
       content: [LikedArtgramInfo?.artgramList?.result || []],
+      count: LikedArtgramInfo?.paginationInfo,
     },
     {
       id: 1,
       name: "스크랩",
       content: [ScrapArtgramInfo?.artgramList?.result || []],
+      count: ScrapArtgramInfo?.paginationInfo,
     },
     {
       id: 2,
       name: "나의 아트그램",
       content: [MyArtgramInfo?.myArtgramList?.result || []],
+      count: MyArtgramInfo?.paginationInfo,
     },
   ];
   const selectMenuHandler = id => {
@@ -42,7 +44,9 @@ function ArtgramContainer() {
             {menuArr.map(el => (
               <StTab key={el.id} onClick={() => selectMenuHandler(el.id)}>
                 {el.name}
-                <StTabCount>0</StTabCount>
+                <StTabCount>
+                  {el?.count?.myArtgramCnt ? el?.count?.myArtgramCnt : 0}
+                </StTabCount>
               </StTab>
             ))}
           </StTabWrap>
@@ -53,12 +57,8 @@ function ArtgramContainer() {
               {menuArr[currentTab].content.map(list => {
                 return list.map(info => {
                   return (
-                    <StImgWrap>
-                      <StImg
-                        key={info.artgram_id}
-                        src={info.imgUrl}
-                        alt={info.artgram_title}
-                      />
+                    <StImgWrap key={info.artgram_id}>
+                      <StImg src={info.imgUrl} alt={info.artgram_title} />
                     </StImgWrap>
                   );
                 });
