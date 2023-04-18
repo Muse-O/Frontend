@@ -72,10 +72,20 @@ function ExhibitionForm() {
         <Post>
           <PageTitle>전시 등록</PageTitle>
           <SelectOnOff>
-            <Offline type="button" name="EK0001" onClick={changeOnOff}>
+            <Offline
+              type="button"
+              name="EK0001"
+              onClick={changeOnOff}
+              exhibitionKind={exhibitionKind}
+            >
               오프라인
             </Offline>
-            <OnLine type="button" name="EK0002" onClick={changeOnOff}>
+            <OnLine
+              type="button"
+              name="EK0002"
+              onClick={changeOnOff}
+              exhibitionKind={exhibitionKind}
+            >
               온라인
             </OnLine>
           </SelectOnOff>
@@ -382,9 +392,11 @@ const OnLine = styled.button`
   font-weight: 500;
   font-size: 32px;
   line-height: 38px;
+  background-color: #ffffff;
   :hover {
     background-color: #fff0f0;
   }
+  color: ${(props) => (props.exhibitionKind === "EK0002" ? "red" : "black")};
 `;
 const Offline = styled.button`
   font-family: "S-Core Dream";
@@ -393,9 +405,11 @@ const Offline = styled.button`
   font-size: 32px;
   line-height: 38px;
   margin-right: 60px;
+  background-color: #ffffff;
   :hover {
     background-color: #fff0f0;
   }
+  color: ${(props) => (props.exhibitionKind === "EK0001" ? "red" : "black")};
 `;
 const PageTitle = styled.h1`
   margin-top: 40px;
