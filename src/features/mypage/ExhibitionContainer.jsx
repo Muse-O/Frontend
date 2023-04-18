@@ -6,9 +6,14 @@ import { useGetScrapExhibitionInfo } from "../../hooks/mypage/useGetScrapExhibit
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 
 function ExhibitionContainer() {
-  const { LikedExhibitionInfo } = useGetLikedExhibitionInfo();
-  const { MyExhibitionInfo } = useGetMyExhibitionInfo();
-  const { ScrapExhibitionInfo } = useGetScrapExhibitionInfo();
+  const { LikedExhibitionInfo, likedNum, setLikedNum } =
+    useGetLikedExhibitionInfo();
+  const { MyExhibitionInfo, myExhibitionNum, setMyExhibitionNum } =
+    useGetMyExhibitionInfo();
+  const { ScrapExhibitionInfo, scrapExhibitionNum, setScrapExhibitionNum } =
+    useGetScrapExhibitionInfo();
+
+  console.log(LikedExhibitionInfo?.paginationInfo?.hasNextPage, "boolean");
 
   const [currentTab, clickTab] = useState(0);
 
@@ -36,6 +41,31 @@ function ExhibitionContainer() {
     clickTab(id);
   };
 
+  //이전 데이터 불러오기
+  const getBackDataHandler = () => {
+    //데이터의 첫 페이지보다 작은 페이지로 이동하지 않도록 설정
+    if (menuArr[currentTab].id === 0) {
+      setLikedNum(likedNum => Math.max(likedNum - 5, 0));
+    } else if (menuArr[currentTab].id === 1) {
+      setScrapExhibitionNum(scrapExhibitionNum =>
+        Math.max(scrapExhibitionNum - 5, 0)
+      );
+    } else if (menuArr[currentTab].id === 2) {
+      setMyExhibitionNum(myExhibitionNum => Math.max(myExhibitionNum - 5, 0));
+    }
+  };
+
+  //다음 데이터 불러오기
+  const getNextDataHandler = () => {
+    if (menuArr[currentTab].id === 0) {
+      setLikedNum(likedNum => likedNum + 5);
+    } else if (menuArr[currentTab].id === 1) {
+      setScrapExhibitionNum(scrapExhibitionNum => scrapExhibitionNum + 5);
+    } else if (menuArr[currentTab].id === 2) {
+      setMyExhibitionNum(myExhibitionNum => myExhibitionNum + 5);
+    }
+  };
+
   return (
     <StContainer>
       <StExhibition>전시</StExhibition>
@@ -53,7 +83,7 @@ function ExhibitionContainer() {
           </StTabWrap>
 
           <StImgBtnBox>
-            <StLeftBtn>
+            <StLeftBtn onClick={getBackDataHandler}>
               <MdKeyboardArrowLeft size="30" color="white" />
             </StLeftBtn>
             <StImgBox>
@@ -70,7 +100,17 @@ function ExhibitionContainer() {
                 });
               })}
             </StImgBox>
-            <StRightBtn>
+            <StRightBtn
+              disabled={
+                (menuArr[currentTab].id === 0 &&
+                  !LikedExhibitionInfo?.paginationInfo?.hasNextPage) ||
+                (menuArr[currentTab].id === 1 &&
+                  !ScrapExhibitionInfo?.paginationInfo?.hasNextPage) ||
+                (menuArr[currentTab].id === 2 &&
+                  !MyExhibitionInfo?.paginationInfo?.hasNextPage)
+              }
+              onClick={getNextDataHandler}
+            >
               <MdKeyboardArrowRight size="30" color="white" />
             </StRightBtn>
           </StImgBtnBox>
@@ -186,7 +226,9 @@ const StImgWrap = styled.div`
   height: 261px;
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
+
 const StImg = styled.img`
   max-width: 182px;
   max-height: 261px;

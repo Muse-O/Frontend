@@ -4,13 +4,13 @@ import { apis_token } from "../../api/apis";
 import { useState } from "react";
 
 export const useGetLikedExhibitionInfo = () => {
-  const [num, setNum] = useState(0); // 페이지 0 초기설정
+  const [likedNum, setLikedNum] = useState(0); // 페이지 0 초기설정
 
   const { data } = useQuery({
-    queryKey: [keys.GET_LIKEDEXHIBITIONINFO, num],
+    queryKey: [keys.GET_LIKEDEXHIBITIONINFO, likedNum],
     queryFn: async () => {
       const data = await apis_token.get(
-        `/mypage/exhibition/likes?limit=5&offset=${num}`
+        `/mypage/exhibition/likes?limit=5&offset=${likedNum}`
       );
       //   console.log(data.data, "data");
       return data.data;
@@ -19,7 +19,7 @@ export const useGetLikedExhibitionInfo = () => {
 
   return {
     LikedExhibitionInfo: data,
-    num,
-    setNum,
+    likedNum,
+    setLikedNum,
   };
 };
