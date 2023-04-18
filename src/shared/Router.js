@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { cookies } from "./cookies";
 import Main from "../pages/Main";
 import { ProtectedRoute } from "./protectedRoute";
@@ -13,6 +13,7 @@ import MyPage from "../pages/MyPage";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UpdateExhibition from "../pages/UpdateExhibition";
+import Artgramcopy from "../pages/Artgramcopy";
 
 function Router() {
   const token = cookies.get("access_token");
@@ -22,6 +23,12 @@ function Router() {
     {
       pathname: "/artgram",
       element: <Artgram />,
+      isPublic: true,
+      isLogin: false,
+    },
+    {
+      pathname: "/artgram/origin",
+      element: <Artgramcopy />,
       isPublic: true,
       isLogin: false,
     },

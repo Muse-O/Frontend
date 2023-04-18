@@ -20,7 +20,6 @@ export const useLikes = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(keys.GET_ARTGRAMDETAIL);
       queryClient.invalidateQueries(keys.GET_ARTGRAM);
-      console.log("좋아요가 등록되었습니다.");
     },
     onError: e => {
       console.log("좋아요가 등록되지 않았습니다.", e.message);

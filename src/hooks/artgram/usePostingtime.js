@@ -18,7 +18,11 @@ export const usePostingtime = () => {
     "hour"
   )}`;
   let postingTime;
-  if (gaphour < 24) {
+  if(gaphour < 1) {
+    postingTime = dayjs(dayjsDate).diff(dayjs(createdAt),"minute") < 2 
+    ? "방금 전" 
+    : `${dayjs(dayjsDate).diff(dayjs(createdAt),"minute")}분 전` 
+  } else if (gaphour <= 24) {
     postingTime = gaphour + "시간 전";
   } else if (gaphour < 720) {
     postingTime = Math.ceil(gaphour / 24) + "일 전";
