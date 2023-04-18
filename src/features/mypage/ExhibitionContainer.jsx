@@ -144,7 +144,7 @@ const StImgBtnBox = styled.div`
   gap: 5px;
 `;
 
-const StLeftBtn = styled.div`
+const StLeftBtn = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -155,7 +155,7 @@ const StLeftBtn = styled.div`
   cursor: pointer;
 `;
 
-const StRightBtn = styled.div`
+const StRightBtn = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
