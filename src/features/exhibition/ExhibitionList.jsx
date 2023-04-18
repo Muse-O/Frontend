@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { apis } from "../../api/apis";
 import { useGetExhibition } from "../../hooks/exhibition/useGetExhibition";
 import { useNavigate } from "react-router-dom";
+import { HeaderWhenSelect, HeaderWhereSelect } from "./ExhibitionHeaderSelect";
 
 function ExhibitionList() {
   const [list, setList] = useState([]);
@@ -64,10 +65,23 @@ function ExhibitionList() {
     setLoad(false);
   }, [page]);
 
-  const [calendarVisible, setCalendarVisible] = useState(false);
+  //헤더용
+  const [whenVisible, setWhenVisible] = useState(false);
+  const [whereVisible, setWhereVisible] = useState(false);
+  const [categoryVisible, setCategoryVisible] = useState(false);
+  const [tagVisible, setTagVisible] = useState(false);
 
-  const selectHandler = () => {
-    setCalendarVisible(!calendarVisible);
+  const selectHandler = (e) => {
+    const { name } = e.target;
+    if (name === "when") {
+      setWhenVisible(!whenVisible);
+    } else if (name === "where") {
+      setWhereVisible(!whereVisible);
+    } else if (name === "category") {
+      setCategoryVisible(!categoryVisible);
+    } else if (name === "tag") {
+      setTagVisible(!tagVisible);
+    }
   };
   return (
     <>
@@ -75,15 +89,24 @@ function ExhibitionList() {
         <ExhibitionHeader>
           <HeaderTitle>전시</HeaderTitle>
           <HeaderFilterWrap>
-            <FilterSelect onClick={selectHandler}>
+            <FilterSelect name="when" onClick={selectHandler}>
               When
-              <FilterSelectCalender visible={calendarVisible}>
-                23 24
-              </FilterSelectCalender>
+              <SelectBox visible={whenVisible}>진행중</SelectBox>
             </FilterSelect>
-            <FilterSelect>Where</FilterSelect>
-            <FilterSelect>Category</FilterSelect>
-            <FilterSelect>Tag</FilterSelect>
+            <FilterSelect name="where" onClick={selectHandler}>
+              Where
+              <SelectBox visible={whereVisible}>
+                <HeaderWhereSelect />
+              </SelectBox>
+            </FilterSelect>
+            <FilterSelect name="category" onClick={selectHandler}>
+              Category
+              <SelectBox visible={categoryVisible}>진행중</SelectBox>
+            </FilterSelect>
+            <FilterSelect name="tag" onClick={selectHandler}>
+              Category
+              <SelectBox visible={tagVisible}>진행중</SelectBox>
+            </FilterSelect>
             <FilterInputWrap>
               <FilterSearch Placeholder="검색"></FilterSearch>
               <FilterButton>검색하기</FilterButton>
@@ -106,7 +129,6 @@ function ExhibitionList() {
                     <ExhibitonSecondTitle>부제목 입니다</ExhibitonSecondTitle>
                   </ExhibitionTitleWrap>
                 </ExhibitionInfoBox>
-
                 <ExhibitionInfoDetailBox>
                   <ExhibitionDatailInfo>
                     <DatailInfo>
@@ -231,9 +253,7 @@ const Div = styled.div`
   height: 380px;
 `;
 
-const FilterSelectCalender = styled.div`
-  width: 200px;
-  height: 200px;
+const SelectBox = styled.div`
   z-index: 2;
   background: #ffffff;
   border: 1px solid #f3f3f3;
