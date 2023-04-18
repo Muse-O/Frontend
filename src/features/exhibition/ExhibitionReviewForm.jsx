@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { usePostReview } from "../../hooks/exhibition/usePostReview";
 import styled from "styled-components";
+import { cookies } from "../../shared/cookies";
 
 function ExhibitionReviewForm({ exhibitionID }) {
+  const access_token = cookies.get("access_token");
   const [createExhibition] = usePostReview(exhibitionID);
   const template = {
     reviewComment: "",
@@ -58,6 +60,10 @@ function ExhibitionReviewForm({ exhibitionID }) {
   //제출하기
   const onSubmitReview = (e) => {
     e.preventDefault();
+    if (!access_token) {
+      alert("로그인이 필요한 서비스 입니다.");
+      return;
+    }
     createExhibition({ hashTag, ...postReview });
     setPostReviews(template);
     setInputHashTag("");

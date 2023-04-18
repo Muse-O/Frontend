@@ -9,6 +9,7 @@ import ExhibitionLiked from "./ExhibitionLiked";
 import ExhibitionScrap from "./ExhibitionScrap";
 import { AiOutlineLike, AiOutlineLink, AiFillLike } from "react-icons/ai";
 import { BsBookmarkCheck, BsBookmarkCheckFill } from "react-icons/bs";
+import { cookies } from "../../shared/cookies";
 function ExhibitionDetail() {
   const { id } = useParams();
   const navigator = useNavigate();
@@ -17,7 +18,6 @@ function ExhibitionDetail() {
   if (isLoading) {
     return <div>로딩중</div>;
   }
-  console.log(info);
   return (
     <Flex>
       {info && (
@@ -50,7 +50,6 @@ function ExhibitionDetail() {
                       <AiFillLike />
                     </Icon>
                   )}
-
                   <ExhibitionLiked exhibitionId={id}>좋아요</ExhibitionLiked>
                 </ExBtn>
                 <ExBtn iscenter={true}>
