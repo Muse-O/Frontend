@@ -154,7 +154,7 @@ function ExhibitionForm() {
         <Box>
           <Explanation>전시 설명</Explanation>
           <ExDesc>
-            <input
+            <Textarea
               onChange={onchangeHandler}
               value={exhibition.exhibitionDesc}
               name="exhibitionDesc"
@@ -354,6 +354,26 @@ function ExhibitionForm() {
 
 export default ExhibitionForm;
 
+const Textarea = styled.textarea`
+  min-height: 258px;
+  resize: vertical;
+  width: 100%;
+  resize: none;
+  overflow-y: auto;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    background-color: none;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #bbb;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #999;
+  }
+`;
 const ComentBox = styled.div`
   display: flex;
 `;
@@ -537,7 +557,19 @@ const Postimg = styled.img`
 const ThumbsContainer = styled.aside`
   width: 500px;
   display: flex;
-  margin-top: 16;
+  margin: 16px 0px 40px 0px;
   gap: 13px;
   overflow-x: scroll;
+  ::-webkit-scrollbar {
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #888; /* 스크롤 바의 색상 */
+    border-radius: 4px; /* 스크롤 바의 모서리 둥글기 */
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); /* 스크롤 바의 그림자 */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #244dde;
+  }
 `;
