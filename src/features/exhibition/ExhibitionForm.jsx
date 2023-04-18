@@ -66,6 +66,8 @@ function ExhibitionForm() {
       setFiles(currentFiles);
     }
   };
+
+  console.log("보내질 값", exhibition);
   return (
     <Flex as="form" onSubmit={submitHandler} fd="row" gap="150">
       <PostWrap>
@@ -136,8 +138,16 @@ function ExhibitionForm() {
               </TitleKor>
             </ExTitleKor>
             <ExTitleKor>
-              <span>한글</span>
-              <TitleKor>제목</TitleKor>
+              <span>영문</span>
+              <TitleKor>
+                <input
+                  onChange={onchangeHandler}
+                  value={exhibition.exhibitionEngTitle}
+                  name="exhibitionEngTitle"
+                  type="text"
+                  placeholder="Title"
+                />
+              </TitleKor>
             </ExTitleKor>
           </EXColum>
         </Box>
@@ -153,18 +163,18 @@ function ExhibitionForm() {
             />
           </ExDesc>
         </Box>
-        {exhibitionKind === "EK0002" && (
-          <Box>
-            <Explanation>전시 링크</Explanation>
-            <input
-              onChange={onchangeHandler}
-              value={exhibition.exhibitionOnlineLink}
-              name="exhibitionOnlineLink"
-              type="text"
-              placeholder="링크"
-            />
-          </Box>
-        )}
+
+        <Box>
+          <Explanation>전시 링크</Explanation>
+          <input
+            onChange={onchangeHandler}
+            value={exhibition.exhibitionLink}
+            name="exhibitionLink"
+            type="text"
+            placeholder="링크"
+          />
+        </Box>
+
         <Box>
           <Explanation>전시 기간</Explanation>
           <Flex fd="colum">
@@ -184,46 +194,76 @@ function ExhibitionForm() {
             />
           </Flex>
         </Box>
-        <Box>
-          <Explanation>전시 위치</Explanation>
-          <p style={{ color: "red" }}>작성구역. 카카오 지도 api가지고 오기</p>
-          <button type="button" onClick={handleClick}>
-            주소 검색
-          </button>
-          <input
-            value={exhibition.detailLocation.address}
-            readOnly
-            placeholder="주소"
-          />
-          <input
-            value={exhibition.detailLocation.zonecode}
-            readOnly
-            placeholder="우편번호"
-          />
-          <input
-            type="text"
-            onChange={onchangeHandler}
-            value={exhibition.location}
-            name="location"
-            placeholder="상세주소"
-          />
-        </Box>
-        <Box>
-          <Explanation>입장료</Explanation>
-          <input
-            onChange={onchangeHandler}
-            value={exhibition.entranceFee}
-            name="entranceFee"
-            maxLength={7}
-          />
-        </Box>
+
+        {exhibitionKind === "EK0001" && (
+          <>
+            <Box>
+              <Explanation>전시 위치</Explanation>
+              <p style={{ color: "red" }}>
+                작성구역. 카카오 지도 api가지고 오기
+              </p>
+              <button type="button" onClick={handleClick}>
+                주소 검색
+              </button>
+              <input
+                value={exhibition.detailLocation.address}
+                readOnly
+                placeholder="주소"
+              />
+              <input
+                value={exhibition.detailLocation.zonecode}
+                readOnly
+                placeholder="우편번호"
+              />
+              <input
+                type="text"
+                onChange={onchangeHandler}
+                value={exhibition.location}
+                name="location"
+                placeholder="상세주소"
+              />
+            </Box>
+            <Box>
+              <Explanation>운영시간</Explanation>
+              <EXColum>
+                <div>
+                  <span>openTime</span>
+                  <input
+                    type="time"
+                    name="openTime"
+                    value={exhibition.openTime}
+                    onChange={onchangeHandler}
+                  />
+                </div>
+                <div>
+                  <span>closeTime</span>
+                  <input
+                    type="time"
+                    name="closeTime"
+                    value={exhibition.closeTime}
+                    onChange={onchangeHandler}
+                  />
+                </div>
+              </EXColum>
+            </Box>
+            <Box>
+              <Explanation>입장료</Explanation>
+              <input
+                onChange={onchangeHandler}
+                value={exhibition.entranceFee}
+                name="entranceFee"
+                maxLength={7}
+              />
+            </Box>
+          </>
+        )}
         <Box>
           <Explanation>전시 주최</Explanation>
-          <select name="exhibitionCode" onChange={onchangeHandler}>
+          <select name="exhibitionHost" onChange={onchangeHandler}>
             <option>선택해 주세요</option>
-            <option value="ES0001">개인/팀</option>
-            <option value="ES0002">기업</option>
-            <option value="ES0003">기관</option>
+            <option value="EH0001">개인/팀</option>
+            <option value="EH0002">기업</option>
+            <option value="EH0003">기관</option>
           </select>
         </Box>
         <Box>
@@ -254,9 +294,7 @@ function ExhibitionForm() {
             placeholder="작품수"
           />
         </Box>
-        <Box>
-          <Explanation>운영시간</Explanation>
-        </Box>
+
         <Box>
           <Explanation>연락처</Explanation>
           <input
@@ -503,199 +541,3 @@ const ThumbsContainer = styled.aside`
   gap: 13px;
   overflow-x: scroll;
 `;
-
-{
-  /* <DIV>
-<div style={{ color: "red" }}>온라인 오프라인?</div>
-<select name="exhibitionKind" onChange={onchangeHandler}>
-  <option>선택해 주세요</option>
-  <option value="EK0001 ">오프라인</option>
-  <option value="EK0002 ">온라인</option>
-</select>
-</DIV>
-{exhibition.exhibitionKind === "EK0002 " && (
-<DIV>
-  <div style={{ color: "red" }}>링크</div>
-  <input
-    onChange={onchangeHandler}
-    value={exhibition.exhibitionOnlineLink}
-    name="exhibitionOnlineLink"
-    type="text"
-    placeholder="링크"
-  />
-</DIV>
-)}
-<Box>
-<p style={{ color: "red" }}>작성구역. 카카오 지도 api가지고 오기</p>
-<button type="button" onClick={handleClick}>
-  주소 검색
-</button>
-<input
-  value={exhibition.detailLocation.address}
-  readOnly
-  placeholder="주소"
-/>
-<input
-  value={exhibition.detailLocation.zonecode}
-  readOnly
-  placeholder="우편번호"
-/>
-<input
-  type="text"
-  onChange={onchangeHandler}
-  value={exhibition.location}
-  name="location"
-  placeholder="상세주소"
-/>
-</Box>
-<DIV2>
-<div>섬네일이미지</div>
-<Section {...getRootPropsPOST({ className: "dropzone" })}>
-  <input {...getInputPropsPOST()} />
-  <DragIcon>
-    <MdOutlineFileDownload />
-  </DragIcon>
-</Section>
-<ThumbsContainer>
-  {postfiles &&
-    postfiles.map((file) => (
-      <Thumb key={file.name}>
-        <ThumbInner>
-          <Thumbimg
-            src={file.preview}
-            onLoad={() => {
-              URL.revokeObjectURL(file.preview);
-            }}
-          />
-        </ThumbInner>
-      </Thumb>
-    ))}
-</ThumbsContainer>
-</DIV2>
-<DIV2>
-<div>상세이미지</div>
-<Section {...getRootProps({ className: "dropzone" })}>
-  <input {...getInputProps()} />
-  <DragIcon>
-    <MdOutlineFileDownload />
-  </DragIcon>
-</Section>
-<ThumbsContainer>
-  {files?.map((file) => (
-    <Thumb key={file.name}>
-      <ThumbInner>
-        <Thumbimg
-          src={file.preview}
-          onLoad={() => {
-            URL.revokeObjectURL(file.preview);
-          }}
-        />
-      </ThumbInner>
-    </Thumb>
-  ))}
-</ThumbsContainer>
-</DIV2>
-<DIV>
-<div style={{ color: "red" }}>제목</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.exhibitionTitle}
-  name="exhibitionTitle"
-  type="text"
-  placeholder="제목"
-/>
-</DIV>
-
-<DIV>
-<div>작가</div>
-<input
-  type="text"
-  placeholder="작가"
-  onChange={onchangeHandler}
-  value={authorName}
-  name="author"
-/>
-</DIV>
-<DIV>
-<div>스폰서</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.agencyAndSponsor}
-  name="agencyAndSponsor"
-  type="text"
-  placeholder="후원"
-/>
-</DIV>
-<DIV>
-<div>관람료</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.entranceFee}
-  name="entranceFee"
-  maxLength={7}
-/>
-</DIV>
-<DIV>
-<div>작품수</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.artWorkCnt}
-  name="artWorkCnt"
-  type="text"
-  placeholder="작품수"
-/>
-</DIV>
-<DIV>
-<div style={{ color: "red" }}>시작일</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.startDate}
-  name="startDate"
-  type="date"
-/>
-<div style={{ color: "red" }}>종료일</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.endDate}
-  name="endDate"
-  type="date"
-/>
-</DIV>
-<DIV>
-<div style={{ color: "red" }}>상세내용</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.exhibitionDesc}
-  name="exhibitionDesc"
-  type="text"
-  placeholder="상세내용"
-/>
-</DIV>
-<DIV>
-<div>전화번호</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.contact}
-  name="contact"
-  type="number"
-  placeholder="전화번호"
-/>
-</DIV>
-<DIV>
-<div style={{ color: "red" }}>전시회 종류</div>
-<select name="exhibitionCode" onChange={onchangeHandler}>
-  <option>선택해 주세요</option>
-  <option value="ES0001">개인전</option>
-  <option value="ES0002">다인전</option>
-</select>
-</DIV>
-<DIV>
-<div>전시회 테마</div>
-<select name="exhibitionCategoty" onChange={onchangeHandler}>
-  <option value="WK0001">애니메이션</option>
-  <option value="WK0002">수채화</option>
-</select>
-<div>전시회 카테고리</div>
-</DIV>
-<button>등록</button> */
-}
