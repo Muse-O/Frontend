@@ -64,15 +64,22 @@ function ExhibitionList() {
     setLoad(false);
   }, [page]);
 
+  const [calendarVisible, setCalendarVisible] = useState(false);
+
+  const selectHandler = () => {
+    setCalendarVisible(!calendarVisible);
+  };
   return (
     <>
       <ExhibitionWrap>
         <ExhibitionHeader>
           <HeaderTitle>전시</HeaderTitle>
           <HeaderFilterWrap>
-            <FilterSelect>
+            <FilterSelect onClick={selectHandler}>
               When
-              <FilterSelectCalender>23 24</FilterSelectCalender>
+              <FilterSelectCalender visible={calendarVisible}>
+                23 24
+              </FilterSelectCalender>
             </FilterSelect>
             <FilterSelect>Where</FilterSelect>
             <FilterSelect>Category</FilterSelect>
@@ -235,7 +242,8 @@ const FilterSelectCalender = styled.div`
   position: absolute;
   left: 0;
   top: 49px;
-  display: block; //버튼식으로 hidden,block 으로 껏키가능 select
+  display: ${({ visible }) =>
+    visible ? "block" : "none"}; //버튼식으로 hidden,block 으로 껏키가능 select
 `;
 
 const ExhibitionHeader = styled.div`
