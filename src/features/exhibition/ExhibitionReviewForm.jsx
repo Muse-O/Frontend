@@ -100,7 +100,7 @@ function ExhibitionReviewForm({ exhibitionID }) {
               );
             })}
           <TagInput
-            placeholder="해시태그 입력 (5개만 입력가능)"
+            placeholder="해시태그 입력 (최대 5개)"
             value={inputHashTag}
             onChange={hashTaghandler}
             onKeyPress={upKeyPress}
@@ -108,34 +108,67 @@ function ExhibitionReviewForm({ exhibitionID }) {
           />
         </TagBox>
       </InputsReview>
-      <Select
-        onChange={reviewHandler}
-        name="reviewRating"
-        value={postReview.reviewRating}
-      >
-        <option>평점입력</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </Select>
-      <button onClick={onSubmitReview}>리뷰 추가</button>
+      <SubmitWrap>
+        <SubmitReviewBtn onClick={onSubmitReview}>
+          <span>리뷰추가</span>
+        </SubmitReviewBtn>
+        <Select
+          onChange={reviewHandler}
+          name="reviewRating"
+          value={postReview.reviewRating}
+        >
+          <option>평점입력</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </Select>
+      </SubmitWrap>
     </ReviewForm>
   );
 }
 
 export default ExhibitionReviewForm;
+const SubmitReviewBtn = styled.div`
+  height: 115px;
+  border-radius: 8px;
+  background-color: gray;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #555;
+  }
+
+  &:active {
+    background-color: #333;
+  }
+  span {
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+  }
+`;
+const SubmitWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+`;
 const InputReviewContainer = styled.div`
   position: relative;
 `;
 
 const InputReview = styled.textarea`
-  width: 100%;
+  width: 700px;
   height: 100px;
-  padding: 8px;
+  padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 8px;
   resize: none;
   &::-webkit-scrollbar {
     width: 6px;
@@ -179,8 +212,10 @@ const TagItem = styled.div`
 `;
 
 const TagInput = styled.input`
-  display: inline-flex;
-  width: 150px;
+  margin-left: 10px;
+  font-size: 15px;
+  height: 30px;
+  display: flex;
   background: transparent;
   border: none;
   outline: none;
@@ -190,12 +225,10 @@ const TagBox = styled.div`
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  min-height: 50px;
-  margin: 10px;
   padding: 0 10px;
+  width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-
   &:focus-within {
     border-color: #000000;
   }
@@ -204,22 +237,24 @@ const TagBox = styled.div`
 const Span = styled.span``;
 const Sect = styled.select``;
 const Select = styled.select`
-  height: 50px;
+  height: 30px;
 `;
 
 const InputsReview = styled.div`
   display: flex;
+  gap: 10px;
   flex-direction: column;
-  width: 823px;
+  width: 723px;
   height: 115px;
+  margin-right: 10px;
 `;
 
 const ReviewForm = styled.div`
-  background-color: #ebbaba;
+  width: 823px;
+  margin-top: 40px;
   display: flex;
   height: 315px;
   flex: 1;
-  gap: 23px;
 `;
 
 const ReviewInputArea = styled.textarea`

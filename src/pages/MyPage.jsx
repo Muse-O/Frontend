@@ -28,25 +28,23 @@ function MyPage() {
 
 export default MyPage;
 const StContainer = styled.div`
+  width: 1675px;
   display: flex;
-  gap: 10px;
 `;
 
 const LeftContainer = styled.div`
-  width: 550px;
-  height: 930px;
-  background-color: #0077ff10;
+  width: 560px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 100px;
 `;
+
 const RightContainer = styled.div`
-  background-color: #0077ff21;
-  width: 1100px;
-  height: 930px;
+  width: 1060px;
+  height: 935px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
 `;
+
+//height: 937px
