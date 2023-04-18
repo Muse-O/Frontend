@@ -7,8 +7,8 @@ import ExhibitionReview from "./ExhibitionReview";
 import ExhibitionReviewForm from "./ExhibitionReviewForm";
 import ExhibitionLiked from "./ExhibitionLiked";
 import ExhibitionScrap from "./ExhibitionScrap";
-import { AiOutlineLike, AiOutlineLink } from "react-icons/ai";
-import { BsBookmarkCheck } from "react-icons/bs";
+import { AiOutlineLike, AiOutlineLink, AiFillLike } from "react-icons/ai";
+import { BsBookmarkCheck, BsBookmarkCheckFill } from "react-icons/bs";
 function ExhibitionDetail() {
   const { id } = useParams();
   const navigator = useNavigate();
@@ -41,15 +41,28 @@ function ExhibitionDetail() {
               <PostImg src={info.postImage} />
               <EXButtons>
                 <ExBtn>
-                  <Icon>
-                    <AiOutlineLike />
-                  </Icon>
+                  {info.liked === 0 ? (
+                    <Icon>
+                      <AiOutlineLike />
+                    </Icon>
+                  ) : (
+                    <Icon>
+                      <AiFillLike />
+                    </Icon>
+                  )}
+
                   <ExhibitionLiked exhibitionId={id}>좋아요</ExhibitionLiked>
                 </ExBtn>
                 <ExBtn iscenter={true}>
-                  <Icon>
-                    <BsBookmarkCheck />
-                  </Icon>
+                  {info.scraped === 0 ? (
+                    <Icon>
+                      <BsBookmarkCheck />
+                    </Icon>
+                  ) : (
+                    <Icon>
+                      <BsBookmarkCheckFill />
+                    </Icon>
+                  )}
                   <ExhibitionScrap exhibitionId={id}>스크랩</ExhibitionScrap>
                 </ExBtn>
                 <ExBtn>

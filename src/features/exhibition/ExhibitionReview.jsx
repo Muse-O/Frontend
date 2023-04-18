@@ -10,7 +10,10 @@ import { useDeleteReview } from "../../hooks/exhibition/useDeleteReview";
 import { AiOutlineDelete } from "react-icons/ai";
 function ExhibitionReview({ exhibitionID }) {
   const access_token = cookies.get("access_token");
-  const { email } = jwtDecode(access_token);
+  const email = "";
+  if (access_token) {
+    email = access_token?.jwtDecode(access_token);
+  }
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
@@ -24,7 +27,6 @@ function ExhibitionReview({ exhibitionID }) {
   const changeLimit = (e) => {
     setLimit(e.target.value);
   };
-  console.log("리뷰데이터", reviewData);
   const [deleteReview] = useDeleteReview();
   return (
     <ReviewWrap>
@@ -43,7 +45,6 @@ function ExhibitionReview({ exhibitionID }) {
             <button>최신순</button>
             <button>평점순</button>
           </div>
-
           {reviewData?.searchExhibitionReviews.map((review, index) => {
             return (
               <>
