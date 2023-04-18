@@ -11,7 +11,6 @@ function ArtgramContainer() {
     useGetMyArtgramInfo();
   const { ScrapArtgramInfo, scrapArtgramNum, setScrapArtgramNum } =
     useGetScrapArtgramInfo();
-  // console.log(MyArtgramInfo?.paginationInfo?.hasNextPage, "info");
 
   const [currentTab, clickTab] = useState(0);
 
@@ -39,9 +38,6 @@ function ArtgramContainer() {
     clickTab(id);
   };
 
-  /**
-   * 클릭한 버튼의 탭 메뉴 아이디가 0이면 좋아요, 1이면 스크랩, 3이면 내글.
-   */
   //이전 데이터 불러오기
   const getBackDataHandler = () => {
     //데이터의 첫 페이지보다 작은 페이지로 이동하지 않도록 설정
@@ -52,7 +48,6 @@ function ArtgramContainer() {
     } else if (menuArr[currentTab].id === 2) {
       setMyArtgramNum(myArtgramNum => Math.max(myArtgramNum - 3, 0));
     }
-    // console.log("check Back");
   };
 
   //다음 데이터 불러오기
@@ -64,7 +59,6 @@ function ArtgramContainer() {
     } else if (menuArr[currentTab].id === 2) {
       setMyArtgramNum(myArtgramNum => myArtgramNum + 3);
     }
-    // console.log("check Next");
   };
 
   return (
@@ -98,7 +92,17 @@ function ArtgramContainer() {
                 });
               })}
             </StImgBox>
-            <StRightBtn onClick={getNextDataHandler}>
+            <StRightBtn
+              disabled={
+                (menuArr[currentTab].id === 0 &&
+                  !LikedArtgramInfo?.paginationInfo?.hasNextPage) ||
+                (menuArr[currentTab].id === 1 &&
+                  !ScrapArtgramInfo?.paginationInfo?.hasNextPage) ||
+                (menuArr[currentTab].id === 2 &&
+                  !MyArtgramInfo?.paginationInfo?.hasNextPage)
+              }
+              onClick={getNextDataHandler}
+            >
               <MdKeyboardArrowRight size="30" color="white" />
             </StRightBtn>
           </StImgBtnBox>
@@ -215,6 +219,7 @@ const StImgWrap = styled.div`
   height: 315px;
   display: flex;
   align-items: center;
+  justify-content: center;
 `;
 
 const StImg = styled.img`
