@@ -36,7 +36,7 @@ const settings = {
   infinite:false,
   slidesToShow: 1, // 화면에 보여지는 슬라이더의 수 
   slidesToScroll: 1, // 한번에 넘길 슬라이더이더의 수 
-  style:{width:"100%", position:"relative"},
+  style:{position:"relative"},
   prevArrow: <SamplePrevArrow />,
   nextArrow: <SampleNextArrow />,
 };

@@ -1,12 +1,13 @@
 import { useEffect, useRef } from "react";
 
-export const useInterserctionObserver = () => {
+export const useInterserctionObserver = (fetchNextPage) => {
   const ref = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
     const observer = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting) {
+        fetchNextPage()
         console.log("IntersectionObserver 동작")
         
       }

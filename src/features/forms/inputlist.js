@@ -22,5 +22,5 @@ export const loginInputList = [
 // 아트그램등록 input List
 export const createArtgramInputList = [
   { label: "아트그램 제목", type: "text", name: "artgramTitle"},
-  { label: "아트그램 내용", type: "text", name: "artgramDesc"},
+  { label: "아트그램 내용", type: "text", name: "artgramDesc", maxLength:"600"},
 ];
