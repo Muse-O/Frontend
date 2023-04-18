@@ -71,6 +71,7 @@ function ArtgramBox({ info }) {
           }
         />
       )}
+      
       {/* 상세모달 창 열기 */}
       {modalState && (
         <ArtgarmDetailModal artgramId={artgramId} modalState={modalState} openModalhandle={openModalhandle}/>

@@ -11,8 +11,8 @@ function Artgram() {
   // 아트그램 비동기통신(GET, 조회)관련 훅
   const { data, isLoading, isError, fetchNextPage, hasNextPage } = useGetartgraminfinity();
   let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
-  // console.log(merged);
-  // InterserctionObserver 포함(window.scrollTo(0,0) 설정)
+  
+  // 아트그램  InterserctionObserver 감지에 따른 fetchNextPage 호출관련 훅
   const { ref } = useInterserctionObserver(fetchNextPage);
 
   return (
@@ -28,6 +28,7 @@ function Artgram() {
             ? (<div>로딩 중...</div>)
             : merged.map(artgrams => <div key={artgrams.artgramId} children={ <ArtgramBox info={artgrams}/>}/>)}
           </Artgramparts.Wrap>
+
           {/* infinetyScroll 및 글쓰기 버튼공간 */}
           <ArtgramWrite />
           <Artgramparts.HiddenRef ref={ref} > {hasNextPage ? "새로요청" : "마지막 페이지 입니다"}</Artgramparts.HiddenRef>

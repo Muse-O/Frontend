@@ -31,7 +31,7 @@ const ArtgramboxWrap = styled.div`
   height: 426px;
   box-shadow: 0px 4px 7px #878787;
   border-radius: 5px;
-  background-color: #efefef;
+  background-color: #fff;
 
   .imgWrap {
     position: relative;
@@ -91,7 +91,7 @@ const Scrap = styled.div`
   align-items: center;
   p:first-child {
     font-size: 16px;
-    color: ${(props) => (props.state ? "#4FC0E8" : "lightgray")};
+    color: ${(props) => (props.state ? "#FFD43E" : "lightgray")};
     position: relative;
     top: 2px;
   }
@@ -99,9 +99,19 @@ const Scrap = styled.div`
 
 const Heart = styled(Scrap)`
   p:first-child {
-    color: ${(props) => (props.state ? "#E84FC0" : "lightgray")};
+    color: ${(props) => (props.state ? "#F65959" : "lightgray")};
   }
-`;
+  `;
+
+const DetailScrap = styled(Scrap)`
+  flex-direction: column;
+  gap: 8px;
+`
+const DetailHeart = styled(Heart)`
+  flex-direction: column;
+  gap: 8px;
+`
+
 
 const PluralImgs = styled.div`
   position: absolute;
@@ -110,13 +120,16 @@ const PluralImgs = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 5px;
-  background: #DDDDDD;
+  width: 40px;
+  height: 40px;
+  border-radius: 50px;
+  background: #fff;
   opacity: 0.8;
   p {
     font-size: 2rem;
+    position: relative;
+    right: 2px;
+    top:2px;
   }
 `
 const ModalBackground = styled.div`
@@ -140,156 +153,9 @@ const ModalWindow = styled.div`
   grid-template-columns: repeat(2, 1fr);
   width: 1264px;
   height: 894px;
-  background-color: #f2f2f2;
+  background-color: #fff;
   border-radius: 15px;
   z-index: 10200;
-
-  .artgarmDetailModalSlider {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 15px 0 0 15px;
-    overflow: hidden;
-
-    .sliderLayout {
-      width: 635px;
-    }
-  }
-
-  .artgarmDetailModalContent {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    border-radius: 0 15px 15px 0;
-    max-height: 894px;
-  }
-
-  .artgarmDetailinfo {
-    padding: 30px 24px 0;
-    display: grid;
-    max-height: 268px;
-    min-height: 268px;
-    grid-template-columns: 33px 1fr;
-    gap: 16px;
-    /* background-color: lightcoral; */
-
-    .profileimg {
-      width: 33px;
-      height: 33px;
-      border-radius: 50%;
-      background-color: lightgray;
-    }
-    .profileNickname {
-      font-family: "Montserrat";
-      font-size: 12px;
-      margin-bottom: 8px;
-    }
-    .artgarmDetailTitle {
-      font-size: 12px;
-      color: #ababab;
-    }
-    .artgarmDetailDesc {
-      margin-top: 32px;
-      font-size: 12px;
-      color: #434343;
-      line-height: 20px;
-    }
-    .artgarmDetailHashTag {
-      margin-top: 28px;
-      font-size: 11px;
-      color: #2b99ff;
-    }
-  }
-
-  .artgarmcommentBox {
-    max-height: 458px;
-    height: 458px;
-    overflow: scroll;
-  }
-
-  .artgarmcomments {
-    padding: 24px 24px 0;
-    display: grid;
-    max-height: 100px;
-    grid-template-columns: 33px 1fr;
-    gap: 16px;
-    /* background-color: lightcoral; */
-
-    .profileimg {
-      width: 33px;
-      height: 33px;
-      border-radius: 50%;
-      background-color: lightgray;
-    }
-    .commentWrap {
-      div:first-child {
-        display: flex;
-        height: 20px;
-        align-items: center;
-        gap: 8px;
-
-        .profileNickname {
-          font-family: "Montserrat";
-          font-size: 12px;
-        }
-        .artgarmcomment {
-          display: flex;
-          flex-grow: 1;
-          font-size: 13px;
-          color: #858585;
-        }
-      }
-      div:last-child {
-        margin-top: 8px;
-        display: flex;
-        gap: 16px;
-
-        .artgarmcommentTime {
-          font-size: 12px;
-          color: #ABABAB;
-        }
-        .commentwrite {
-          font-size: 12px;
-          color: #ABABAB;
-        }
-      }
-    }
-  }
-  .commentWrite {
-    position: absolute;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 168px;
-    border-radius: 0 0 15px 0;
-    background: #B9B9B9;
-    overflow: hidden;
-
-    .scrapLiked {
-      height: 113px;
-    }
-
-    .commentInput {
-      border-top: 1px solid #FFFFFF;;
-      input {
-      display: block;
-       width: 100%;
-       font-size: 15px;
-       background: #B9B9B9;
-       padding: 16px 24px;
-       ::placeholder {
-          color: white;
-        }
-      :focus {
-        outline: none;
-      }  
-      }
-    }
-  }
 `;
 
 
@@ -310,4 +176,8 @@ export {
   // 아트그램 DetailModal
   ModalBackground,
   ModalWindow,
+
+  // 아트그램 상세페이지
+  DetailScrap,
+  DetailHeart
 }

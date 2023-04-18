@@ -1,48 +1,90 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDeletecomments } from "../../../hooks/artgram/newArtgram/useDeletecomments";
 import { usePostingtime } from "../../../hooks/artgram/usePostingtime";
 import { cookies } from "../../../shared/cookies";
 import jwtDecode from "jwt-decode";
+import * as DetailModal from "./ArtgramDetailModalCss";
+import { useUpdatecomments } from "../../../hooks/artgram/newArtgram/useUpdatecomments";
+import { usePostReply } from "../../../hooks/artgram/newArtgram/usePostReply";
 
 function ArtgramDeteilCommentEdit({ artgramId, comment }) {
-  const token = cookies.get("access_token") || null
+  console.log(comment);
+  const token = cookies.get("access_token") || null;
   let email;
-  if(token) {
-    const getemail = jwtDecode(token)
-    email = getemail.email
+  if (token) {
+    const getemail = jwtDecode(token);
+    email = getemail.email;
   }
 
   const [timehandle] = usePostingtime();
   // 댓글 삭제
   const { deleteHandle } = useDeletecomments();
   const [edit, setEdit] = useState(false);
-  // useEffect(()=>{
-  //   const token = cookies.get("access_token")
-  //   console.log(token);
-  // },[])
+
+  // 댓글 수정
+  const { updateHandle } = useUpdatecomments();
+  const [updatecomment, setUpdateComment] = useState("");
+  const updateCommentsHandle = (e) => {
+    e.preventDefault();
+    updateHandle(artgramId, comment.commentId, updatecomment);
+    setEdit((pre) => !pre);
+    setUpdateComment("");
+  };
+
+  // 답글 입력하기
+  const [replyState, setReplyState] = useState(false);
+  const [reply, setReply] = useState("");
+  const {replyHandle} = usePostReply(setReply, setReplyState)
+  console.log(reply);
 
   return (
     <>
-      <div>
-        <p className="profileNickname">{comment.profileNickname}</p>
-        <p className="artgarmcomment">
+      <DetailModal.CommentsInnerText>
+        <div className="profileNickname">
+          <p>{comment.profileNickname}</p>
+        </div>
+        <div className="artgarmcomment">
           {!edit ? (
-            `${comment.comment}`
+            <p>{comment.comment}</p>
           ) : (
-            <input placeholder={comment.comment} />
+            <form onSubmit={updateCommentsHandle}>
+              <input
+                value={updatecomment}
+                onChange={(e) => setUpdateComment(e.target.value)}
+                placeholder={comment.comment}
+              />
+            </form>
           )}
-        </p>
-      </div>
-      <div>
+        </div>
+      </DetailModal.CommentsInnerText>
+
+      <DetailModal.CommentsSettings>
         <p className="artgarmcommentTime">{timehandle(comment.createdAt)}</p>
-        <p className="commentwrite" onClick={() => alert("기능구현중")}>
-          답글달기
-        </p>
+        {!replyState ? (
+          <p className="commentwrite" onClick={() => setReplyState((pre) => !pre)}>
+            답글달기
+          </p>
+        ) : (
+          <form onSubmit={(e)=> replyHandle(e, artgramId, comment.commentId, reply)}>
+            <input value={reply} onChange={(e) => setReply(e.target.value)} placeholder="답글을 입력해주세요." />
+          </form>
+        )}
         {email === comment.userEmail && (
           <>
-            <p className="commentwrite" onClick={() => setEdit((pre) => !pre)}>
-              수정
-            </p>
+            {!edit ? (
+              <p
+                className="commentwrite"
+                onClick={() => {
+                  setEdit((pre) => !pre);
+                }}
+              >
+                수정
+              </p>
+            ) : (
+              <p className="commentwrite" onClick={updateCommentsHandle}>
+                수정완료
+              </p>
+            )}
             <p
               className="commentwrite"
               onClick={() => deleteHandle(artgramId, comment.commentId)}
@@ -51,7 +93,13 @@ function ArtgramDeteilCommentEdit({ artgramId, comment }) {
             </p>
           </>
         )}
-      </div>
+      </DetailModal.CommentsSettings>
+      <DetailModal.Reply>
+        <div>
+          <hr />
+        </div>
+        <div>예정기능 답글보기(1) </div>
+      </DetailModal.Reply>
     </>
   );
 }

@@ -7,8 +7,13 @@ import * as Modal from "./ArtgramModal";
 import styled from "styled-components";
 
 
-function SamplePrevArrow(props) {
-  const { onClick } = props;
+function PrevArrow(props) {
+  const { onClick, currentSlide } = props;
+
+  if(currentSlide === 0 ) {
+    return null
+  }
+
   return (
     <CustomPrevButton
       onClick={onClick}>
@@ -18,8 +23,13 @@ function SamplePrevArrow(props) {
 }
 
 
-function SampleNextArrow(props) {
-  const { onClick } = props;
+function NextArrow(props) {
+  const { onClick ,currentSlide, slideCount} = props;
+  // currentSlide 현재 슬라이더의 위치를 추츨해준다. 0부터 개수
+  // slideCount 총 슬라이더의 개수를 파악해준다. 1부터 개수
+  if(currentSlide === slideCount-1) {
+    return null
+  }
   return (
     <CustomNextButton
       onClick={onClick}>
@@ -37,8 +47,8 @@ const settings = {
   slidesToShow: 1, // 화면에 보여지는 슬라이더의 수 
   slidesToScroll: 1, // 한번에 넘길 슬라이더이더의 수 
   style:{position:"relative"},
-  prevArrow: <SamplePrevArrow />,
-  nextArrow: <SampleNextArrow />,
+  prevArrow: <PrevArrow />,
+  nextArrow: <NextArrow />,
 };
 
 const ArtgramSlider = ({map}) => {
