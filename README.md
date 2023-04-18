@@ -40,3 +40,5 @@
 - 마이페이지 전시,아트그램 컴포넌트 탭메뉴 구현 브랜치 생성(완료 후 삭제)
 - 마이페이지 전시,아트그램 데이터 Get요청을 위한 브랜치 생성
   - features/29-mypage-function 브랜치에서 마이페이지 레이아웃 작업
+  - features/29-mypage-function 브랜치에서 탭메뉴별(좋아요,스크랩,내글) 갯수 출력 작업
+  - features/29-mypage-function 브랜치에서 페이지네이션 작업
