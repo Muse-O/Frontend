@@ -8,11 +8,6 @@ function ExhibitionContainer() {
   const { LikedExhibitionInfo } = useGetLikedExhibitionInfo();
   const { MyExhibitionInfo } = useGetMyExhibitionInfo();
   const { ScrapExhibitionInfo } = useGetScrapExhibitionInfo();
-  // console.log(LikedExhibitionInfo, "info");
-  console.log(
-    LikedExhibitionInfo?.paginationInfo,
-    "LikedExhibitionInfo?.paginationInfo"
-  );
 
   const [currentTab, clickTab] = useState(0);
 
