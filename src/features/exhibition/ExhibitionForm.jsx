@@ -27,21 +27,17 @@ function ExhibitionForm() {
     handleClick,
     onchangeHandler,
   ] = useSetExhibition();
-  //dropzoneinput의 file 관리
   const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
     useDropzoneinputPostEx();
   const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
-  //s3이미지 제출,url얻어오기
   const [s3imgurlhandle] = useGetimgurlEx(files);
   const [s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);
-  // 마운트 해제시, 데이터 url 취소
   useEffect(() => {
     return () => {
       files.forEach((file) => URL.revokeObjectURL(file.preview));
       postfiles.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   }, []);
-  //제출하기
   const submitHandler = (event) => {
     event.preventDefault();
     const urls = s3imgurlhandle(sourceUrl);
@@ -53,7 +49,6 @@ function ExhibitionForm() {
       exhibitionKind,
     });
   };
-  //삭제 버튼
   const deletePostImg = (name, index) => {
     if (name === "postFile") {
       const currentFiles = [...postfiles];
@@ -66,7 +61,6 @@ function ExhibitionForm() {
       setFiles(currentFiles);
     }
   };
-
   console.log("보내질 값", exhibition);
   return (
     <Flex as="form" onSubmit={submitHandler} fd="row" gap="150">
@@ -174,7 +168,6 @@ function ExhibitionForm() {
             placeholder="링크"
           />
         </Box>
-
         <Box>
           <Explanation>전시 기간</Explanation>
           <Flex fd="colum">
@@ -194,14 +187,10 @@ function ExhibitionForm() {
             />
           </Flex>
         </Box>
-
         {exhibitionKind === "EK0001" && (
           <>
             <Box>
               <Explanation>전시 위치</Explanation>
-              <p style={{ color: "red" }}>
-                작성구역. 카카오 지도 api가지고 오기
-              </p>
               <button type="button" onClick={handleClick}>
                 주소 검색
               </button>
@@ -360,7 +349,8 @@ const Textarea = styled.textarea`
   width: 100%;
   resize: none;
   overflow-y: auto;
-
+  border-radius: 8px;
+  padding: 10px;
   ::-webkit-scrollbar {
     width: 8px;
     background-color: none;
@@ -381,7 +371,6 @@ const Post = styled.div`
   position: fixed;
 `;
 const ExDesc = styled.div`
-  background-color: #7d7dfd;
   width: 493px;
   height: 254px;
 `;

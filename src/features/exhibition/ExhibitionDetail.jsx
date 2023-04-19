@@ -17,6 +17,7 @@ function ExhibitionDetail() {
   if (isLoading) {
     return <div>로딩중</div>;
   }
+  console.log("가지고온 데이터", info);
   return (
     <Flex>
       {info && (
@@ -27,12 +28,13 @@ function ExhibitionDetail() {
                 {info.startDate.slice(0, 10).replace(/-/g, ".")}-
                 {info.endDate.slice(0, 10).replace(/-/g, ".")}
               </DateP>
+              <OnOffTitle>{info.exhibitionKindName}</OnOffTitle>
             </Date>
             <Title>
               <TitleH1>{info.exhibitionTitle}</TitleH1>
             </Title>
             <SecondTitle>
-              <SecondTitleH2>부제목 입력 받아야함</SecondTitleH2>
+              <SecondTitleH2>{info.exhibitionEngTitle}</SecondTitleH2>
             </SecondTitle>
           </BlackBg>
           <PostWrap>
@@ -115,7 +117,9 @@ function ExhibitionDetail() {
                   <InfoBox>
                     {info.ExhibitionAuthors?.map((author) => {
                       return (
-                        <div key={author.author_name}>{author.author_name}</div>
+                        <div key={author.author}>
+                          <span>{author.author}</span>
+                        </div>
                       );
                     })}
                   </InfoBox>
@@ -127,12 +131,27 @@ function ExhibitionDetail() {
                   </InfoBox>
                 </ExhibitionInfo>
                 <ExhibitionInfo>
+                  <InfoTitle>후원</InfoTitle>
+                  <InfoBox>
+                    <span>{info.agencyAndSponsor}</span>
+                  </InfoBox>
+                </ExhibitionInfo>
+                <ExhibitionInfo>
                   <InfoTitle>기간</InfoTitle>
                   <InfoBox>
                     <p>시작</p>
                     {info.startDate.slice(0, 10)}
                     <p>끝</p>
                     {info.endDate.slice(0, 10)}
+                  </InfoBox>
+                </ExhibitionInfo>
+                <ExhibitionInfo>
+                  <InfoTitle>시간</InfoTitle>
+                  <InfoBox>
+                    <p>시작시간</p>
+                    {info.openTime.slice(0, 5)}
+                    <p>닫는시간</p>
+                    {info.closeTime.slice(0, 5)}
                   </InfoBox>
                 </ExhibitionInfo>
                 <ExhibitionInfo>
@@ -175,6 +194,17 @@ function ExhibitionDetail() {
 }
 
 export default ExhibitionDetail;
+const OnOffTitle = styled.div`
+  color: #ffffff;
+  padding-left: 16px;
+  margin-left: 16px;
+  border-left: 1px solid #ffffff;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+`;
 const Thumb = styled.div`
   display: inline-flex;
   border-radius: 2;
@@ -344,6 +374,7 @@ const BlackBg = styled.div`
 `;
 
 const Date = styled.div`
+  display: flex;
   margin-left: 648px;
   margin-top: 60px;
 `;
