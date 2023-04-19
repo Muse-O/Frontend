@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Flex } from "../../components/Flex";
 import useLogin from "../../hooks/login/useLogin";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -11,6 +10,10 @@ import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
 function LoginForm() {
   //react-query
   const { login } = useLogin();
+
+  //유효성 검사
+  const [emailMsg, setEmailMsg] = useState("");
+  const [pwMsg, setPwMsg] = useState("");
 
   //로그인시 login에 보낼 정보
   const [loginInfo, setLoginInfo] = useState({
@@ -28,15 +31,15 @@ function LoginForm() {
   //로그인 버튼 클릭시 실행될 유효성검사
   //빈 값 검사, 이메일 틀렸을 때 메시지, 비밀번호 틀렸을 때 메시지
   const loginHandler = e => {
+    e.preventDefault();
     if (loginInfo.email === "") {
-      alert("이메일을 입력해주세요.");
-      e.preventDefault();
+      setEmailMsg("이메일을 입력해주세요.");
     } else if (loginInfo.password === "") {
-      alert("비밀번호를 입력해주세요.");
-      e.preventDefault();
+      setPwMsg("비밀번호를 입력해주세요.");
     } else {
-      e.preventDefault();
       login(loginInfo);
+      setEmailMsg("");
+      setPwMsg("");
     }
   };
 
@@ -50,12 +53,28 @@ function LoginForm() {
 
       <StEmailInputBox>
         <label>이메일</label>
-        <input type="email" name="email" onChange={changeInputHandler} />
+        <StEmailInputWrap>
+          <input
+            type="email"
+            name="email"
+            required
+            onChange={changeInputHandler}
+          />
+          <div>{emailMsg}</div>
+        </StEmailInputWrap>
       </StEmailInputBox>
 
       <StPwInputBox>
         <label>비밀번호</label>
-        <input type="password" name="password" onChange={changeInputHandler} />
+        <StPwInputWrap>
+          <input
+            type="password"
+            name="password"
+            required
+            onChange={changeInputHandler}
+          />
+          <div>{pwMsg}</div>
+        </StPwInputWrap>
       </StPwInputBox>
 
       <StLoginBtn onClick={loginHandler}>로그인</StLoginBtn>
@@ -124,15 +143,26 @@ const StEmailInputBox = styled.div`
     font-size: 15px;
     font-weight: bold;
   }
+`;
+
+const StEmailInputWrap = styled.div`
+  width: 416px;
+  height: 48px;
 
   input {
     font-family: "SpoqaHanSansNeo-Regular";
+    width: 416px;
     height: 44px;
     padding: 10px;
     border: 1px solid #dddddd;
     border-radius: 5px;
     outline: none;
     font-size: 15px;
+    margin-bottom: 5px;
+  }
+
+  div {
+    color: #f65959;
   }
 `;
 
@@ -147,14 +177,25 @@ const StPwInputBox = styled.div`
     font-size: 15px;
     font-weight: bold;
   }
+`;
+
+const StPwInputWrap = styled.div`
+  width: 416px;
+  height: 48px;
 
   input {
+    width: 416px;
     height: 44px;
     padding: 10px;
     border: 1px solid #dddddd;
     border-radius: 5px;
     outline: none;
     font-size: 15px;
+    margin-bottom: 5px;
+  }
+
+  div {
+    color: #f65959;
   }
 `;
 
