@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import ExhibitionList from "./ExhibitionList";
+import { EXListApplyBox } from "./EXListApplyBox";
 
 export const HeaderWhereSelect = () => {
   const cities = [
@@ -148,11 +148,102 @@ export const HeaderWhereSelect = () => {
           );
         })}
       </SelectRoginBox>
-      <ExhibitionList />
+      <EXListApplyBox />
     </WhereBox>
   );
 };
 
+export const HeaderCategorySelect = () => {
+  return (
+    <CartegoryBox>
+      <PositionBox>
+        <CheckBoxContainer>
+          <Checkbox type="checkbox" />
+          <p>오프라인</p>
+        </CheckBoxContainer>
+        <CheckBoxContainer>
+          <Checkbox type="checkbox" />
+          <p>온라인</p>
+        </CheckBoxContainer>
+      </PositionBox>
+      <CategoryContainer>
+        <CategoryBox>
+          <CheckBoxContainer>
+            <Checkbox type="checkbox" />
+            <p>아카이브</p>
+          </CheckBoxContainer>
+          <CheckBoxContainer>
+            <Checkbox type="checkbox" />
+            <p>사진</p>
+          </CheckBoxContainer>
+        </CategoryBox>
+        <CategoryBox>
+          <CheckBoxContainer>
+            <Checkbox type="checkbox" />
+            <p>그림</p>
+          </CheckBoxContainer>
+          <CheckBoxContainer>
+            <Checkbox type="checkbox" />
+            <p>일러스트</p>
+          </CheckBoxContainer>
+        </CategoryBox>
+        <CategoryBox>
+          <CheckBoxContainer>
+            <Checkbox type="checkbox" />
+            <p>미디어</p>
+          </CheckBoxContainer>
+          <CheckBoxContainer>
+            <Checkbox type="checkbox" />
+            <p>공예</p>
+          </CheckBoxContainer>
+        </CategoryBox>
+        <CategoryBox>
+          <CheckBoxContainer>
+            <Checkbox type="checkbox" />
+            <p>설치</p>
+          </CheckBoxContainer>
+          <CheckBoxContainer>
+            <Checkbox type="checkbox" />
+            <p>조각</p>
+          </CheckBoxContainer>
+        </CategoryBox>
+      </CategoryContainer>
+
+      <EXListApplyBox />
+    </CartegoryBox>
+  );
+};
+
+export const HeaderTagSelect = () => {
+  return <div>진행중</div>;
+};
+
+const CategoryBox = styled.div`
+  display: flex;
+`;
+const CategoryContainer = styled.div`
+  border-top: 1px solid #cccccc;
+  padding: 24px 24px;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+const CheckBoxContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex: 1;
+`;
+
+const Checkbox = styled.input`
+  margin-right: 10px;
+`;
+
+const CartegoryBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 255px;
+`;
 const RegionContainer = styled.div`
   display: flex;
   margin: 2px;
