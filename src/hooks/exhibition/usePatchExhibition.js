@@ -12,12 +12,12 @@ export const usePatchExhibition = (id) => {
       return res.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: keys.GET_DETAILEXHIBITION });
       alert("수정완료");
       navigator("/exhibition");
+      queryClient.invalidateQueries({ queryKey: keys.GET_EXHIBITION });
     },
     onError: (e) => {
-      console.log("에러", e);
+      alert(e);
     },
   });
   return [updateExhibition];

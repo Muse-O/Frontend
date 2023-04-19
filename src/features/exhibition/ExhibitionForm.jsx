@@ -50,6 +50,7 @@ function ExhibitionForm({
   }, []);
   const submitHandler = (event) => {
     event.preventDefault();
+    alert("제출버튼 눌림");
     const urls = s3imgurlhandle(sourceUrl);
     const posturl = s3Postimgurlhandle(sourceUrl);
     createExhibition({
@@ -73,6 +74,7 @@ function ExhibitionForm({
   };
   const submitUpdateHandler = (event) => {
     event.preventDefault();
+    alert("수정버튼 눌림");
     let urls = null;
     let posturl = null;
     if (!postfiles[0].type) {
@@ -153,12 +155,7 @@ function ExhibitionForm({
   }, [DetailLoading, DetailError, Detaildata]);
   console.log("보내질 값", exhibition);
   return (
-    <Flex
-      as="form"
-      onsubmit={Detaildata ? submitUpdateHandler : submitHandler}
-      fd="row"
-      gap="150"
-    >
+    <Flex fd="row" gap="150">
       <PostWrap>
         <Post>
           <PageTitle>전시 등록</PageTitle>
@@ -208,13 +205,17 @@ function ExhibitionForm({
           )}
           {Detaildata ? (
             <UpDateButtons>
-              <SubmitButton type={"submit"}>전시수정하기</SubmitButton>
+              <SubmitButton type={"button"} onClick={submitUpdateHandler}>
+                전시수정하기
+              </SubmitButton>
               <SubmitButton type={"button"} onClick={deleteHandler}>
                 전시삭제하기
               </SubmitButton>
             </UpDateButtons>
           ) : (
-            <SubmitButton type={"submit"}>전시등록하기</SubmitButton>
+            <SubmitButton type={"button"} onClick={submitHandler}>
+              전시등록하기
+            </SubmitButton>
           )}
 
           <Caution>주의사항</Caution>

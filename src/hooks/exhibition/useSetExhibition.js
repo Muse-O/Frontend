@@ -7,15 +7,15 @@ export const useSetExhibition = () => {
   const [authorName, setAuthorName] = useState("");
   const templete = {
     startDate: "",
-    exhibitionLink: "",
     endDate: "",
+    exhibitionLink: "", //
     exhibitionTitle: "",
     exhibitionEngTitle: "",
     exhibitionDesc: "",
     exhibitionHost: "",
     entranceFee: "",
-    openTime: "",
-    closeTime: "",
+    openTime: "", //
+    closeTime: "", //
     artWorkCnt: "",
     agencyAndSponsor: "",
     location: "",
@@ -154,6 +154,7 @@ export const useSetExhibition = () => {
       });
     }
   };
+  //online,offline 변환
   const changeOnOff = (event) => {
     const { name } = event.target;
     if (
@@ -168,6 +169,7 @@ export const useSetExhibition = () => {
       setExhibitionKind(name);
     }
   };
+
   return [
     exhibition,
     setExhibition,
@@ -178,5 +180,6 @@ export const useSetExhibition = () => {
     setAuthorName,
     handleClick,
     onchangeHandler,
+    setExhibitionKind,
   ];
 };

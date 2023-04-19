@@ -10,6 +10,7 @@ export const useScrapExhibition = () => {
       return res.data;
     },
     onSuccess: () => {
+      alert("작성완료");
       queryClient.invalidateQueries({ queryKey: keys.GET_DETAILEXHIBITION });
     },
     onError: (e) => {
