@@ -1,19 +1,22 @@
 import React from "react";
 import LoginForm from "../features/login/LoginForm";
 import styled from "styled-components";
+import { MainWrap } from "../shared/GlobalStyled";
 
 function Login() {
   return (
-    <StLoginContainer>
+    <StMainWrap>
       <LoginForm />
-    </StLoginContainer>
+    </StMainWrap>
   );
 }
 
 export default Login;
 
-const StLoginContainer = styled.div`
+const StMainWrap = styled(MainWrap)`
+  background-color: #f5f5f5;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
-  margin-top: 118px;
+  align-items: center;
 `;

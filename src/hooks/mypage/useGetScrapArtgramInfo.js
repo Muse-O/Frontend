@@ -10,7 +10,7 @@ export const useGetScrapArtgramInfo = () => {
     queryKey: [keys.GET_SCRAPARTGRAMINFO, scrapArtgramNum],
     queryFn: async () => {
       const data = await apis_token.get(
-        `/mypage/artgram/scraps?limit=4&offset=${scrapArtgramNum}`
+        `/mypage/artgram/scraps?limit=3&offset=${scrapArtgramNum}`
       );
       return data.data;
     },

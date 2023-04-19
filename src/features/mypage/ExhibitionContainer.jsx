@@ -13,7 +13,7 @@ function ExhibitionContainer() {
   const { ScrapExhibitionInfo, scrapExhibitionNum, setScrapExhibitionNum } =
     useGetScrapExhibitionInfo();
 
-  console.log(LikedExhibitionInfo?.paginationInfo?.hasNextPage, "boolean");
+  // console.log(LikedExhibitionInfo?.paginationInfo?.hasNextPage, "boolean");
 
   const [currentTab, clickTab] = useState(0);
 
