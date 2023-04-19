@@ -8,7 +8,6 @@ import { useUpdatecomments } from "../../../hooks/artgram/newArtgram/useUpdateco
 import { usePostReply } from "../../../hooks/artgram/newArtgram/usePostReply";
 
 function ArtgramDeteilCommentEdit({ artgramId, comment }) {
-  console.log(comment);
   const token = cookies.get("access_token") || null;
   let email;
   if (token) {
@@ -35,7 +34,6 @@ function ArtgramDeteilCommentEdit({ artgramId, comment }) {
   const [replyState, setReplyState] = useState(false);
   const [reply, setReply] = useState("");
   const {replyHandle} = usePostReply(setReply, setReplyState)
-  console.log(reply);
 
   return (
     <>

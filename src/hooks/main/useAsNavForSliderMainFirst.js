@@ -9,8 +9,10 @@ export const useAsNavForSliderMainFirst = () => {
   const subSliderRef = useRef(null);
 
   useEffect(() => {
+   setInterval(()=> {
     setMainSlider(mainSliderRef.current);
     setSudSilder(subSliderRef.current);
+   }, 2000)
   }, []);
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(1);

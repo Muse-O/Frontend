@@ -81,16 +81,3 @@ function ArtgramBox({ info }) {
 }
 
 export default ArtgramBox;
-
-// artgramId: "7c4917c8-5e92-4fe8-a1bc-d8953ec10a45"
-// artgramTitle: "테스트"
-// createdAt: "2023-04-15 15:00:56"
-// imgCount: 1
-// imgUrl: "https://woog-s3-bucket.s3.amazonaws.com/artgram/418abc7a-0ea7-43e8-a0f8-6a6e47bb99d5.png"
-// likeCount: 2
-// liked: false
-// nickname: "edwin01"
-// profileImg: "https://avatars.githubusercontent.com/u/51357635?s=400&u=36fd01b69ccd7729620c086927f9c0847ffdb0e1&v=4"
-// scrap: false
-// scrapCount: 0
-// userEmail: "gg@g.com"
