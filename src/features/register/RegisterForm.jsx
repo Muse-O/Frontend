@@ -152,7 +152,7 @@ const StRegister = styled.div`
   font-family: "SpoqaHanSansNeo-Regular";
   background-color: #80808029;
   width: 616px;
-  height: 840px;
+  height: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;

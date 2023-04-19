@@ -3,6 +3,10 @@ import { Flex } from "../../components/Flex";
 import useLogin from "../../hooks/login/useLogin";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import naverLogo from "../../assets/imgs/login/네이버로고.png";
+import googleLogo from "../../assets/imgs/login/google-plus.png";
+import kakaoLogo from "../../assets/imgs/login/kakao-talk.png";
+import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
 
 function LoginForm() {
   //react-query
@@ -40,7 +44,7 @@ function LoginForm() {
     <StLogin>
       <StLinkBox>
         <Link to="/" style={{ fontSize: "15px" }}>
-          로고
+          <img src={museoLogo} alt="museoLogo" />
         </Link>
       </StLinkBox>
 
@@ -54,19 +58,32 @@ function LoginForm() {
         <input type="password" name="password" onChange={changeInputHandler} />
       </StPwInputBox>
 
-      <StLoginBtn onClick={loginHandler}>등록하기</StLoginBtn>
+      <StLoginBtn onClick={loginHandler}>로그인</StLoginBtn>
 
       <StSnsBox>
         <div>SNS로 간편하게 시작하기</div>
 
         <StSnsBtnWrap>
-          <div>{/* <img src='' alt=''/> */}</div>
-          <div>{/* <img src='' alt=''/> */}</div>
-          <div>{/* <img src='' alt=''/> */}</div>
+          <GoogleLogoDiv>
+            <img
+              src={googleLogo}
+              alt="googleLogo"
+              style={{ width: "30px", height: "30px" }}
+            />
+          </GoogleLogoDiv>
+          <div>
+            <img src={kakaoLogo} alt="kakaoLogo" />
+          </div>
+          <div>
+            <img src={naverLogo} alt="naverLogo" />
+          </div>
         </StSnsBtnWrap>
       </StSnsBox>
 
-      <StRegisterBtn to="/register">회원가입</StRegisterBtn>
+      <StRegisterLink>
+        <div>아직 회원이 아니시라면</div>
+        <StLink to="/register">회원가입</StLink>
+      </StRegisterLink>
     </StLogin>
   );
 }
@@ -75,41 +92,45 @@ export default LoginForm;
 
 const StLogin = styled.form`
   font-family: "SpoqaHanSansNeo-Regular";
-  background-color: #80808029;
   width: 616px;
-  height: 750px;
+  height: 779px;
+  background-color: white;
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 0px 5px 20px 0px rgba(148, 148, 148, 0.25);
 `;
 
 const StLinkBox = styled.div`
   background-color: white;
-  width: 333px;
-  height: 84px;
+  width: 217px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 43px;
+  margin-top: 72px;
 `;
 
 const StEmailInputBox = styled.div`
   width: 416px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
   margin: 69px 0px 26px;
 
   label {
+    color: #242424;
     font-size: 15px;
     font-weight: bold;
   }
 
   input {
     font-family: "SpoqaHanSansNeo-Regular";
-    height: 42px;
+    height: 44px;
     padding: 10px;
-    border: 1px solid gray;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
     outline: none;
     font-size: 15px;
   }
@@ -119,17 +140,19 @@ const StPwInputBox = styled.div`
   width: 416px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 16px;
 
   label {
+    color: #242424;
     font-size: 15px;
     font-weight: bold;
   }
 
   input {
-    height: 42px;
+    height: 44px;
     padding: 10px;
-    border: 1px solid gray;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
     outline: none;
     font-size: 15px;
   }
@@ -137,24 +160,30 @@ const StPwInputBox = styled.div`
 
 const StLoginBtn = styled.button`
   font-family: "SpoqaHanSansNeo-Regular";
-  background-color: gray;
+  background-color: white;
+  color: #171717;
   width: 416px;
   height: 65px;
+  border: 1px solid gray;
   border-radius: 30px;
   font-size: 15px;
   font-weight: bold;
-  margin: 32px 0px 75px;
+  margin: 44px 0px 72px;
   cursor: pointer;
 `;
 
 const StSnsBox = styled.div`
   width: 195px;
-  height: 90px;
+  height: 86px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 23px;
+
   div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 15px;
     font-weight: bold;
   }
@@ -162,10 +191,16 @@ const StSnsBox = styled.div`
 
 const StSnsBtnWrap = styled.div`
   display: flex;
-  gap: 24px;
+  gap: 16px;
 
   div {
-    background-color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  img {
     width: 48px;
     height: 48px;
     border-radius: 50%;
@@ -173,17 +208,26 @@ const StSnsBtnWrap = styled.div`
   }
 `;
 
-const StRegisterBtn = styled(Link)`
-  background-color: gray;
-  text-decoration: none;
-  font-weight: bold;
-  color: white;
-  width: 195px;
-  height: 40px;
-  border-radius: 30px;
+const GoogleLogoDiv = styled.div`
+  background-color: #f65959;
+  /* border: 1px solid rgba(148, 148, 148, 0.25); */
+`;
+
+const StRegisterLink = styled.div`
+  font-family: "SpoqaHanSansNeo-Regular";
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 15px;
   margin-top: 50px;
+  gap: 12px;
+
+  div {
+    font-size: 16px;
+    color: #5a5a5a;
+  }
+`;
+
+const StLink = styled(Link)`
+  font-size: 16px;
+  color: #3360ff;
 `;
