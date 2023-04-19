@@ -6,7 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useAsNavForSliderMainFifith } from "../../hooks/main/useAsNavForSliderMainFifith";
 import { useCurrentArtgram } from "../../hooks/main/useCurrentArtgram";
-import { useOpenModal } from "../../hooks/artgram/useOpenModal";
+import { useOpenModal } from '../../hooks/artgram/useOpenModal'
 import ArtgramDetail from "../artgram/ArtgramDetail";
 
 function MainFifith() {
@@ -24,7 +24,7 @@ function MainFifith() {
   }
 
     // 상세모달 
-    const [modalArtgramId, modalState, setModalState, openModalhandle] = useOpenModal()
+    // const [modalArtgramId, modalState, setModalState, openModalhandle] = useOpenModal()
 
   return (
     <Main.CommenLayout height="637">
@@ -39,7 +39,8 @@ function MainFifith() {
           ) : (
             <Slider {...firstSliderSettings}>
               {data.map((artgram) => (
-                <Main.FifithMainSlider key={artgram.artgramId} onClick={() => openModalhandle(artgram.artgramId)}>
+                // <Main.FifithMainSlider key={artgram.artgramId} onClick={() => openModalhandle(artgram.artgramId)}>
+                <Main.FifithMainSlider key={artgram.artgramId}>
                   <div className="artgramimg">
                     <img
                       src={artgram.imgUrl}
@@ -115,7 +116,7 @@ function MainFifith() {
           </Main.FifthCurrentSliderIndex>
         </Main.FifithSubSliderLayout>
       </Main.FifithWrap>
-      {modalState && (
+      {/* {modalState && (
           <>
             {data.map(   
               ({artgramId}) =>
@@ -127,7 +128,7 @@ function MainFifith() {
                 )
             )}
           </>
-        )}
+        )} */}
     </Main.CommenLayout>
   );
 }
