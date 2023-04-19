@@ -41,7 +41,7 @@ function LoginForm() {
     e.preventDefault();
     if (!loginInfo.email) {
       setEmailMsg("이메일을 입력해주세요.");
-    } else if (loginInfo.password === "") {
+    } else if (!loginInfo.password) {
       setPwMsg("비밀번호를 입력해주세요.");
     } else {
       login(loginInfo);
@@ -63,9 +63,9 @@ function LoginForm() {
 
   useEffect(() => {
     if (loginInfo.password === "") {
-      setEmailMsg("");
+      setPwMsg("");
     } else if (loginInfo.password) {
-      setEmailMsg("");
+      setPwMsg("");
     }
   }, [loginInfo.password]);
 
