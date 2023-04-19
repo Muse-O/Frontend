@@ -3,7 +3,12 @@ import styled from "styled-components";
 import { apis } from "../../api/apis";
 import { useGetExhibition } from "../../hooks/exhibition/useGetExhibition";
 import { useNavigate } from "react-router-dom";
-import { HeaderWhenSelect, HeaderWhereSelect } from "./ExhibitionHeaderSelect";
+import {
+  HeaderCategorySelect,
+  HeaderTagSelect,
+  HeaderWhenSelect,
+  HeaderWhereSelect,
+} from "./ExhibitionHeaderSelect";
 
 function ExhibitionList() {
   const [list, setList] = useState([]);
@@ -101,11 +106,15 @@ function ExhibitionList() {
             </FilterSelect>
             <FilterSelect name="category" onClick={selectHandler}>
               Category
-              <SelectBox visible={categoryVisible}>진행중</SelectBox>
+              <SelectBox visible={categoryVisible}>
+                <HeaderCategorySelect />
+              </SelectBox>
             </FilterSelect>
             <FilterSelect name="tag" onClick={selectHandler}>
-              Category
-              <SelectBox visible={tagVisible}>진행중</SelectBox>
+              Tag
+              <SelectBox visible={tagVisible}>
+                <HeaderTagSelect />
+              </SelectBox>
             </FilterSelect>
             <FilterInputWrap>
               <FilterSearch Placeholder="검색"></FilterSearch>

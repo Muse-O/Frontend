@@ -139,12 +139,12 @@ export const HeaderWhereSelect = () => {
       <SelectRoginBox>
         {selectRegion.map((item) => {
           return (
-            <RegionContainer>
-              <RegionTextBox>{item}</RegionTextBox>
+            <TagButton>
+              <TagText>{item}</TagText>
               <XBox onClick={deleteRegion} name={item}>
                 x
               </XBox>
-            </RegionContainer>
+            </TagButton>
           );
         })}
       </SelectRoginBox>
@@ -208,16 +208,117 @@ export const HeaderCategorySelect = () => {
           </CheckBoxContainer>
         </CategoryBox>
       </CategoryContainer>
-
       <EXListApplyBox />
     </CartegoryBox>
   );
 };
 
 export const HeaderTagSelect = () => {
-  return <div>진행중</div>;
+  const taglist = [
+    "#맛집",
+    "#맛집",
+    "#체험활동체험활동체험활동체험활동체험활동",
+    "# 핫플레이스",
+    "#체험 활동 체험",
+    "#top10",
+    "#꽃구경",
+    "#주차장",
+    "#그냥 긴택스트용 ",
+    "#교통",
+  ];
+  const [selectTags, setSelectTags] = useState([]);
+
+  //이거 where카테고리랑 같이쓰임 나중에 리팩토링시 분리 필요
+  const filterTags = (e) => {
+    const { innerText } = e.target;
+    setSelectTags((pre) => {
+      return [...pre, innerText];
+    });
+  };
+  const deleteTags = (e) => {
+    const { name } = e.currentTarget;
+    setSelectTags((pre) => {
+      const filteredArray = pre.filter((region) => region !== name);
+      return filteredArray;
+    });
+  };
+  return (
+    <TagContainer>
+      <TagBox>
+        <input placeholder="태그 검색" />
+        <div>
+          <TagRecomendTitle>인기태그 추천</TagRecomendTitle>
+        </div>
+        <RecomendTagContainer>
+          {taglist.map((tag) => {
+            return <RecomendTag onClick={filterTags}>{tag}</RecomendTag>;
+          })}
+        </RecomendTagContainer>
+        <SelectTagContainer>
+          {selectTags.map((tag) => {
+            return (
+              <TagButton>
+                <TagText>{tag}</TagText>
+                <XBox onClick={deleteTags} name={tag}>
+                  x
+                </XBox>
+              </TagButton>
+            );
+          })}
+        </SelectTagContainer>
+      </TagBox>
+      <EXListApplyBox />
+    </TagContainer>
+  );
 };
 
+const RecomendTag = styled.div`
+  box-sizing: border-box;
+  min-width: 67px;
+  height: 33px;
+  background: #ffffff;
+  border: 1px solid #5a5a5a;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  :hover {
+    background-color: #deb9fc;
+  }
+  padding: 0px 5px;
+`;
+const TagRecomendTitle = styled.p`
+  font-size: 12px;
+`;
+const TagBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 28px 24px 0px 24px;
+`;
+const RecomendTagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 536px;
+  min-height: 66px;
+  gap: 12px;
+  align-content: flex-start;
+`;
+const SelectTagContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 16px;
+  background-color: #f7f7f9;
+  border: 1px solid #dddddd;
+  width: 536px;
+  min-height: 149px;
+  margin-bottom: 24px;
+`;
+const TagContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 584px;
+`;
 const CategoryBox = styled.div`
   display: flex;
 `;
@@ -244,17 +345,19 @@ const CartegoryBox = styled.div`
   flex-direction: column;
   width: 255px;
 `;
-const RegionContainer = styled.div`
+const TagButton = styled.div`
   display: flex;
   margin: 2px;
+  padding: 0px 10px;
   align-items: center;
   background: #242424;
   border-radius: 50px;
-  width: 85px;
+  min-width: 85px;
   height: 33px;
+  gap: 8px;
 `;
 
-const RegionTextBox = styled.div`
+const TagText = styled.div`
   flex-grow: 3;
   padding-left: 10px;
   color: #fff; /* 텍스트 색상 설정 */
@@ -270,6 +373,7 @@ const XBox = styled.button`
   justify-content: center;
   align-items: center;
   background-color: inherit;
+  font-size: 18px;
 `;
 const SelectRoginBox = styled.div`
   display: flex;

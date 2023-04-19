@@ -1,7 +1,6 @@
-import { styled } from "@tanstack/react-query-devtools/build/lib/utils";
-import React from "react";
+import styled from "styled-components";
 
-export default function EXApplyBox() {
+export const EXListApplyBox = () => {
   return (
     <ApplyContainer>
       <ApplyResetBox>초기화</ApplyResetBox>
@@ -11,7 +10,7 @@ export default function EXApplyBox() {
       </ApllyBox>
     </ApplyContainer>
   );
-}
+};
 
 const ApplyResetBox = styled.div`
   display: flex;
