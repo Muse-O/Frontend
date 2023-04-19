@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useLogin from "../../hooks/login/useLogin";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -7,6 +7,11 @@ import googleLogo from "../../assets/imgs/login/google-plus.png";
 import kakaoLogo from "../../assets/imgs/login/kakao-talk.png";
 import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
 
+/**
+ * 할일
+ * 1) input 빈 값인경우 input ouline 적용
+ * 2) 비밀번호 보기/숨기기
+ */
 function LoginForm() {
   //react-query
   const { login } = useLogin();
@@ -28,19 +33,45 @@ function LoginForm() {
     });
   };
 
-  //로그인 버튼 클릭시 실행될 유효성검사
-  //빈 값 검사, 이메일 틀렸을 때 메시지, 비밀번호 틀렸을 때 메시지
+  /*
+로그인 유효성검사 1
+-> 로그인 버튼 클릭시 이메일, 비밀번호 빈 값 체크
+*/
   const loginHandler = e => {
     e.preventDefault();
-    if (loginInfo.email === "") {
+    if (!loginInfo.email) {
       setEmailMsg("이메일을 입력해주세요.");
     } else if (loginInfo.password === "") {
       setPwMsg("비밀번호를 입력해주세요.");
     } else {
       login(loginInfo);
-      setEmailMsg("");
-      setPwMsg("");
     }
+  };
+
+  /*
+로그인 유효성검사 2
+-> 로그인페이지 마운트시 input이 빈 값이어서 자동으로 빈 값 검사되는 것 방지
+-> 로그인버튼 클릭 후 input값 입력시 경고문구 사라지게 함
+*/
+  useEffect(() => {
+    if (loginInfo.email === "") {
+      setEmailMsg("");
+    } else if (loginInfo.email) {
+      setEmailMsg("");
+    }
+  }, [loginInfo.email]);
+
+  useEffect(() => {
+    if (loginInfo.password === "") {
+      setEmailMsg("");
+    } else if (loginInfo.password) {
+      setEmailMsg("");
+    }
+  }, [loginInfo.password]);
+
+  //소셜로그인 미구현 -> 서비스 제공 예정 alert
+  const socialLoginBtn = () => {
+    alert("서비스 제공 예정입니다.");
   };
 
   return (
@@ -54,12 +85,7 @@ function LoginForm() {
       <StEmailInputBox>
         <label>이메일</label>
         <StEmailInputWrap>
-          <input
-            type="email"
-            name="email"
-            required
-            onChange={changeInputHandler}
-          />
+          <input type="email" name="email" onChange={changeInputHandler} />
           <div>{emailMsg}</div>
         </StEmailInputWrap>
       </StEmailInputBox>
@@ -70,7 +96,6 @@ function LoginForm() {
           <input
             type="password"
             name="password"
-            required
             onChange={changeInputHandler}
           />
           <div>{pwMsg}</div>
@@ -83,17 +108,17 @@ function LoginForm() {
         <div>SNS로 간편하게 시작하기</div>
 
         <StSnsBtnWrap>
-          <GoogleLogoDiv>
+          <GoogleLogoDiv onClick={socialLoginBtn}>
             <img
               src={googleLogo}
               alt="googleLogo"
               style={{ width: "30px", height: "30px" }}
             />
           </GoogleLogoDiv>
-          <div>
+          <div onClick={socialLoginBtn}>
             <img src={kakaoLogo} alt="kakaoLogo" />
           </div>
-          <div>
+          <div onClick={socialLoginBtn}>
             <img src={naverLogo} alt="naverLogo" />
           </div>
         </StSnsBtnWrap>

@@ -5,6 +5,7 @@ import UpdateModalBlackBg from "./UpdateModalBlackBg";
 import styled from "styled-components";
 import AlarmContainer from "./AlarmContainer";
 import { AiOutlineSetting } from "react-icons/ai";
+import palette from "../../assets/imgs/paint-palette.png";
 
 function UserProfile() {
   const { userProfile } = useGetUserProfile();
@@ -28,7 +29,9 @@ function UserProfile() {
 
         <StUserNameWrap>
           <StInfoUserName>{userProfile?.nickname}</StInfoUserName>
-          <StArtistMark></StArtistMark>
+          <StArtistMark>
+            <img src={palette} alt="palette" />
+          </StArtistMark>
         </StUserNameWrap>
 
         <StUserInfoIntro>
@@ -94,10 +97,18 @@ const StInfoUserName = styled.div`
 `;
 
 const StArtistMark = styled.div`
-  background-color: gray;
+  background-color: #808080bd;
   width: 28px;
   height: 28px;
   border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 23px;
+    height: 23px;
+  }
 `;
 
 const StUserInfoIntro = styled.div`
