@@ -120,28 +120,24 @@ function ExhibitionForm() {
           <Explanation>전시제목</Explanation>
           <EXColum>
             <ExTitleKor>
-              <span>한글</span>
-              <TitleKor>
-                <input
-                  onChange={onchangeHandler}
-                  value={exhibition.exhibitionTitle}
-                  name="exhibitionTitle"
-                  type="text"
-                  placeholder="제목"
-                />
-              </TitleKor>
+              <TitleP>한글</TitleP>
+              <TitleInput
+                onChange={onchangeHandler}
+                value={exhibition.exhibitionTitle}
+                name="exhibitionTitle"
+                type="text"
+                placeholder="제목"
+              />
             </ExTitleKor>
             <ExTitleKor>
-              <span>영문</span>
-              <TitleKor>
-                <input
-                  onChange={onchangeHandler}
-                  value={exhibition.exhibitionEngTitle}
-                  name="exhibitionEngTitle"
-                  type="text"
-                  placeholder="Title"
-                />
-              </TitleKor>
+              <TitleP>영문</TitleP>
+              <TitleInput
+                onChange={onchangeHandler}
+                value={exhibition.exhibitionEngTitle}
+                name="exhibitionEngTitle"
+                type="text"
+                placeholder="Title"
+              />
             </ExTitleKor>
           </EXColum>
         </Box>
@@ -149,6 +145,8 @@ function ExhibitionForm() {
           <Explanation>전시 설명</Explanation>
           <ExDesc>
             <Textarea
+              width={"473px"}
+              height={"260px"}
               onChange={onchangeHandler}
               value={exhibition.exhibitionDesc}
               name="exhibitionDesc"
@@ -157,10 +155,9 @@ function ExhibitionForm() {
             />
           </ExDesc>
         </Box>
-
         <Box>
           <Explanation>전시 링크</Explanation>
-          <input
+          <TitleInput
             onChange={onchangeHandler}
             value={exhibition.exhibitionLink}
             name="exhibitionLink"
@@ -170,74 +167,85 @@ function ExhibitionForm() {
         </Box>
         <Box>
           <Explanation>전시 기간</Explanation>
-          <Flex fd="colum">
-            <div style={{ color: "red" }}>시작일</div>
-            <input
-              onChange={onchangeHandler}
-              value={exhibition.startDate}
-              name="startDate"
-              type="date"
-            />
-            <div style={{ color: "red" }}>종료일</div>
-            <input
-              onChange={onchangeHandler}
-              value={exhibition.endDate}
-              name="endDate"
-              type="date"
-            />
-          </Flex>
+          <TitleInput
+            onChange={onchangeHandler}
+            value={exhibition.startDate}
+            name="startDate"
+            type="date"
+          />
+          <Separator>-</Separator>
+          <TitleInput
+            onChange={onchangeHandler}
+            value={exhibition.endDate}
+            name="endDate"
+            type="date"
+          />
         </Box>
         {exhibitionKind === "EK0001" && (
           <>
             <Box>
               <Explanation>전시 위치</Explanation>
-              <button type="button" onClick={handleClick}>
-                주소 검색
-              </button>
-              <input
-                value={exhibition.detailLocation.address}
-                readOnly
-                placeholder="주소"
-              />
-              <input
-                value={exhibition.detailLocation.zonecode}
-                readOnly
-                placeholder="우편번호"
-              />
-              <input
-                type="text"
-                onChange={onchangeHandler}
-                value={exhibition.location}
-                name="location"
-                placeholder="상세주소"
-              />
+              <Location>
+                <LocationBox>
+                  <TitleInput
+                    bg={"#DDDDDD"}
+                    value={exhibition.detailLocation.address}
+                    readOnly
+                    placeholder="주소"
+                  />
+                  <TitleInput
+                    bg={"#DDDDDD"}
+                    value={exhibition.detailLocation.zonecode}
+                    readOnly
+                    placeholder="우편번호"
+                  />
+                  <ButtonsAddress type="button" onClick={handleClick}>
+                    주소 검색
+                  </ButtonsAddress>
+                </LocationBox>
+                <TitleInput
+                  type="text"
+                  onChange={onchangeHandler}
+                  value={exhibition.location}
+                  name="location"
+                  placeholder="상세주소"
+                />
+              </Location>
             </Box>
             <Box>
               <Explanation>운영시간</Explanation>
-              <EXColum>
-                <div>
-                  <span>openTime</span>
-                  <input
+              <Location>
+                <LocationBox>
+                  <TitleInput
                     type="time"
                     name="openTime"
                     value={exhibition.openTime}
                     onChange={onchangeHandler}
                   />
-                </div>
-                <div>
-                  <span>closeTime</span>
-                  <input
+                  <Separator>-</Separator>
+                  <TitleInput
                     type="time"
                     name="closeTime"
                     value={exhibition.closeTime}
                     onChange={onchangeHandler}
                   />
-                </div>
-              </EXColum>
+                </LocationBox>
+                <ExDesc>
+                  <Textarea
+                    // onChange={onchangeHandler}
+                    // value={exhibition.exhibitionDesc}
+                    width={"473px"}
+                    height={"91px"}
+                    name=""
+                    type="text"
+                    placeholder="설명"
+                  />
+                </ExDesc>
+              </Location>
             </Box>
             <Box>
               <Explanation>입장료</Explanation>
-              <input
+              <TitleInput
                 onChange={onchangeHandler}
                 value={exhibition.entranceFee}
                 name="entranceFee"
@@ -265,7 +273,7 @@ function ExhibitionForm() {
         </Box>
         <Box>
           <Explanation>작가</Explanation>
-          <input
+          <TitleInput
             type="text"
             placeholder="작가"
             onChange={onchangeHandler}
@@ -275,7 +283,7 @@ function ExhibitionForm() {
         </Box>
         <Box>
           <Explanation>작품수</Explanation>
-          <input
+          <TitleInput
             onChange={onchangeHandler}
             value={exhibition.artWorkCnt}
             name="artWorkCnt"
@@ -283,19 +291,19 @@ function ExhibitionForm() {
             placeholder="작품수"
           />
         </Box>
-
         <Box>
           <Explanation>연락처</Explanation>
-          <input
+          <TitleInput
             onChange={onchangeHandler}
             value={exhibition.contact}
             name="contact"
             placeholder="전화번호"
+            maxLength={"13"}
           />
         </Box>
         <Box>
           <Explanation>후원</Explanation>
-          <input
+          <TitleInput
             onChange={onchangeHandler}
             value={exhibition.agencyAndSponsor}
             name="agencyAndSponsor"
@@ -307,7 +315,7 @@ function ExhibitionForm() {
           <Explanation>작품사진</Explanation>
           <EXColum>
             <Section {...getRootProps({ className: "dropzone" })}>
-              <input {...getInputProps()} />
+              <TitleInput {...getInputProps()} />
               <DragIcon>
                 <MdOutlineFileDownload />
               </DragIcon>
@@ -342,11 +350,37 @@ function ExhibitionForm() {
 }
 
 export default ExhibitionForm;
+const ButtonsAddress = styled.button`
+  border: 1px solid #3c3c3c;
+  border-radius: 8px;
+  background: #ffffff;
+  width: 80px;
+  :hover {
+    background-color: #838383;
+  }
+`;
+const TitleP = styled.p`
+  flex: 1;
+  max-width: 32px;
+`;
+const LocationBox = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+const Location = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: auto;
+`;
+const Separator = styled.span`
+  margin: 0 8px;
+  font-size: 35px;
+`;
 
 const Textarea = styled.textarea`
-  min-height: 258px;
-  resize: vertical;
-  width: 100%;
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
   resize: none;
   overflow-y: auto;
   border-radius: 8px;
@@ -372,7 +406,7 @@ const Post = styled.div`
 `;
 const ExDesc = styled.div`
   width: 493px;
-  height: 254px;
+  height: auto;
 `;
 const Explanation = styled.div`
   font-weight: 500;
@@ -380,18 +414,27 @@ const Explanation = styled.div`
   line-height: 25px;
   width: 150px;
 `;
+const TitleInput = styled.input`
+  background-color: ${({ bg }) => bg};
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 15px;
+  font-size: 16px;
+  width: 100%;
+  height: 41px;
+  flex: 1;
+`;
 const TitleKor = styled.div`
   margin-left: 18px;
   width: 452px;
-  background-color: greenyellow;
   height: 100%;
+  flex: 1;
 `;
 const ExTitleKor = styled.div`
   display: flex;
   height: 41px;
   width: 452px;
   align-items: center;
-  background-color: aliceblue;
 `;
 const EXColum = styled.div`
   gap: 8px;
@@ -401,12 +444,13 @@ const EXColum = styled.div`
 
 const Box = styled.div`
   display: flex;
+  margin: 18px 0px;
 `;
 const ContentsWrap = styled.div`
   margin-top: 172px;
   display: flex;
+  width: 622px;
   flex-direction: column;
-  gap: 32px;
 `;
 const Caution = styled.div`
   width: 364px;
