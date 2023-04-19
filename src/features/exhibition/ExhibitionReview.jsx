@@ -49,10 +49,6 @@ function ExhibitionReview({ exhibitionID }) {
           {reviewData?.searchExhibitionReviews.map((review, index) => {
             return (
               <>
-                <ExhibitioninfoP>
-                  <p>후기</p>
-                  <p></p>
-                </ExhibitioninfoP>
                 <ReviewBox key={index}>
                   <ReviewHeader>
                     <div>평점:{review.reviewRating}</div>
