@@ -13,16 +13,9 @@ import {
 } from "../../hooks/exhibition/useDropzoneEx";
 import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
 
-function ExhibitionForm({
-  Detaildata,
-  DetailLoading,
-  DetailError,
-  updateExhibition,
-  deleteHandler,
-}) {
-  const info = Detaildata?.exhibitionInfo;
-  const ExAddress = Detaildata?.exhibitionInfo.ExhibitionAddress;
-  const [createExhibition] = usePostExhibition();
+function ExhibitionForm(props) {
+  const info = props.Detaildata?.exhibitionInfo;
+  const ExAddress = props.Detaildata?.exhibitionInfo.ExhibitionAddress;
   const sourceUrl = "exhibition";
   const [
     exhibition,
@@ -41,25 +34,26 @@ function ExhibitionForm({
   const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
   const [s3imgurlhandle] = useGetimgurlEx(files);
   const [s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);
-
+  //파일이 언마운트 되면 리샛시켜줌
   useEffect(() => {
     return () => {
       files.forEach((file) => URL.revokeObjectURL(file.preview));
       postfiles.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   }, []);
+  //제출버튼
   const submitHandler = (event) => {
     event.preventDefault();
-    alert("제출버튼 눌림");
     const urls = s3imgurlhandle(sourceUrl);
     const posturl = s3Postimgurlhandle(sourceUrl);
-    createExhibition({
+    props.createExhibition({
       ...exhibition,
       postImage: posturl,
       artImage: urls,
       exhibitionKind,
     });
   };
+  //이미지 삭제버튼
   const deletePostImg = (name, index) => {
     if (name === "postFile") {
       const currentFiles = [...postfiles];
@@ -72,9 +66,9 @@ function ExhibitionForm({
       setFiles(currentFiles);
     }
   };
+  //업데이트 버튼
   const submitUpdateHandler = (event) => {
     event.preventDefault();
-    alert("수정버튼 눌림");
     let urls = null;
     let posturl = null;
     if (!postfiles[0].type) {
@@ -87,18 +81,19 @@ function ExhibitionForm({
     } else {
       urls = s3imgurlhandle(sourceUrl);
     }
-    updateExhibition({
+    props.updateExhibition({
       ...exhibition,
       postImage: posturl,
       artImage: urls,
       exhibitionKind,
     });
   };
+  //data가 들어오면 data를 넣어주는 effect
   useEffect(() => {
     // 서버에서 받아온 데이터가 로딩되면 exhibition state를 업데이트
     //!나중에 필수값 유효성검사 필요!
     //!작가,이미지 order없이 받는데 어떻게 해야 하는가?
-    if (!DetailLoading && !DetailError && Detaildata) {
+    if (!props.DetailLoading && !props.DetailError && props.Detaildata) {
       //!value값 따로??
       setAuthorName(info.ExhibitionAuthors[authorid].author);
       const newarr = [...exhibition.authors];
@@ -152,10 +147,15 @@ function ExhibitionForm({
       });
       setFiles(previewFileArr);
     }
-  }, [DetailLoading, DetailError, Detaildata]);
+  }, [props.DetailLoading, props.DetailError, props.Detaildata]);
   console.log("보내질 값", exhibition);
   return (
-    <Flex fd="row" gap="150">
+    <Flex
+      as={"form"}
+      onSubmit={props.Detaildata ? submitUpdateHandler : submitHandler}
+      fd="row"
+      gap="150"
+    >
       <PostWrap>
         <Post>
           <PageTitle>전시 등록</PageTitle>
@@ -203,19 +203,15 @@ function ExhibitionForm({
               </div>
             ))
           )}
-          {Detaildata ? (
+          {props.Detaildata ? (
             <UpDateButtons>
-              <SubmitButton type={"button"} onClick={submitUpdateHandler}>
-                전시수정하기
-              </SubmitButton>
-              <SubmitButton type={"button"} onClick={deleteHandler}>
+              <SubmitButton type={"submit"}>전시수정하기</SubmitButton>
+              <SubmitButton type={"button"} onClick={props.deleteHandler}>
                 전시삭제하기
               </SubmitButton>
             </UpDateButtons>
           ) : (
-            <SubmitButton type={"button"} onClick={submitHandler}>
-              전시등록하기
-            </SubmitButton>
+            <SubmitButton type={"submit"}>전시등록하기</SubmitButton>
           )}
 
           <Caution>주의사항</Caution>
