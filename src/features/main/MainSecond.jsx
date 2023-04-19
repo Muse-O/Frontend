@@ -3,7 +3,6 @@ import * as Main from "./css/mainparts";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { SecondSliderList } from "./mainpageexample/SecondSliderList";
 import { useCurrentExhibitonSlider } from "../../hooks/main/useCurrentExhibitonSlider";
 import { useOpenExhibitionByDate } from "../../hooks/main/useOpenExhibitionByDate";
 import { useNavigator } from "../../hooks/main/useNavigator";
@@ -14,18 +13,6 @@ function MainSecond() {
   const { isLoading, isError, data } = useOpenExhibitionByDate();
   const { editTimehandle } = useEditTime();
   const { navigatehandle } = useNavigator();
-  console.log(data);
-
-  // detailRouter: "/exhibition/detail/b5492532-998c-4248-ad42-e347d12888e5";
-  // endDate: "2023-04-20T00:00:00.000Z";
-  // exhibitionId: "b5492532-998c-4248-ad42-e347d12888e5";
-  // exhibitionKind: "오프라인";
-  // exhibitionTitle: "제목";
-  // index: 1;
-  // location: "임건님";
-  // postImage: "https://woog-s3-bucket.s3.amazonaws.com/exhibition/e62832d3-4f71-4659-8753-ee143a3f41f5.jpeg";
-  // sido: "경북";
-  // startDate: "2023-04-14T00:00:00.000Z";
 
   return (
     <Main.CommenLayout height="459">

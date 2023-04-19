@@ -91,7 +91,7 @@ function MainFirst() {
                             {exhibition.author.length === 1 
                               ? exhibition.author.map(author => `${author}`)
                               : exhibition.author.length < 5 
-                              ? exhibition.author.map(author => `${author}, `)
+                              ? exhibition.author.map((author, index) => exhibition.author.length === index+1 ? `${author}` : `${author}, ` )
                               : `${exhibition.author[0]}외 ${exhibition.author.length -1}명`
                             }
                           </p>

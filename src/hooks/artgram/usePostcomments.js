@@ -21,6 +21,9 @@ export const usePostcomments = (setFormState) => {
       console.log("댓글이 등록되었습니다.");
     },
     onError: e => {
+      // if(e.response.status === 403) {
+      //   alert("댓글 쓰기는 로그인 후 가능힙니다.")
+      // }
       console.log("댓글이 등록되지 않았습니다.", e.message);
     }
   })
