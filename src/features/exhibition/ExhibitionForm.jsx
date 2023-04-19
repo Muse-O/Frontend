@@ -13,7 +13,15 @@ import {
 } from "../../hooks/exhibition/useDropzoneEx";
 import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
 
-function ExhibitionForm() {
+function ExhibitionForm({
+  Detaildata,
+  DetailLoading,
+  DetailError,
+  updateExhibition,
+  deleteHandler,
+}) {
+  const info = Detaildata?.exhibitionInfo;
+  const ExAddress = Detaildata?.exhibitionInfo.ExhibitionAddress;
   const [createExhibition] = usePostExhibition();
   const sourceUrl = "exhibition";
   const [
@@ -26,12 +34,14 @@ function ExhibitionForm() {
     setAuthorName,
     handleClick,
     onchangeHandler,
+    setExhibitionKind,
   ] = useSetExhibition();
   const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
     useDropzoneinputPostEx();
   const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
   const [s3imgurlhandle] = useGetimgurlEx(files);
   const [s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);
+
   useEffect(() => {
     return () => {
       files.forEach((file) => URL.revokeObjectURL(file.preview));
@@ -61,9 +71,94 @@ function ExhibitionForm() {
       setFiles(currentFiles);
     }
   };
+  const submitUpdateHandler = (event) => {
+    event.preventDefault();
+    let urls = null;
+    let posturl = null;
+    if (!postfiles[0].type) {
+      posturl = info.postImage;
+    } else {
+      posturl = s3Postimgurlhandle(sourceUrl);
+    }
+    if (!files[0].type) {
+      urls = info.ExhibitionImgs;
+    } else {
+      urls = s3imgurlhandle(sourceUrl);
+    }
+    updateExhibition({
+      ...exhibition,
+      postImage: posturl,
+      artImage: urls,
+      exhibitionKind,
+    });
+  };
+  useEffect(() => {
+    // 서버에서 받아온 데이터가 로딩되면 exhibition state를 업데이트
+    //!나중에 필수값 유효성검사 필요!
+    //!작가,이미지 order없이 받는데 어떻게 해야 하는가?
+    if (!DetailLoading && !DetailError && Detaildata) {
+      //!value값 따로??
+      setAuthorName(info.ExhibitionAuthors[authorid].author);
+      const newarr = [...exhibition.authors];
+      newarr.splice(authorid, 1, {
+        order: authorid + 1,
+        author: info.ExhibitionAuthors[authorid].author,
+      });
+      const newExCodeArr = info.ExhibitionCategories.map(
+        (item) => item.categoryCode
+      );
+      //TODO 디테일한 유효성 검사 필요
+      setExhibition((prevExhibition) => ({
+        ...prevExhibition,
+        startDate: info.startDate.slice(0, 10), //
+        endDate: info.endDate.slice(0, 10), //
+        exhibitionTitle: info.exhibitionTitle, //
+        exhibitionEngTitle: info.exhibitionEngTitle, //
+        exhibitionDesc: info.exhibitionDesc, //
+        exhibitionHost: info.exhibitionHost, //
+        exhibitionCode: info.exhibitionStatus,
+        entranceFee: info.entranceFee, //
+        artWorkCnt: info.artWorkCnt, //
+        agencyAndSponsor: info.agencyAndSponsor, //
+        location: info.location, //
+        contact: info.contact, //
+        authors: newarr, //
+        exhibitionCategoty: newExCodeArr, //
+        detailLocation: {
+          //
+          zonecode: ExAddress.zonecode,
+          address: ExAddress.address,
+          addressEnglish: ExAddress.addressEnglish,
+          addressType: ExAddress.addressType,
+          buildingName: ExAddress.buildingName,
+          buildingCode: ExAddress.buildingCode,
+          roadAddress: ExAddress.roadAddress,
+          roadAddressEnglish: ExAddress.roadAddressEnglish,
+          autoJibunAddress: ExAddress.autoJibunAddress,
+          autoJibunAddressEnglish: ExAddress.autoJibunAddressEnglish,
+          roadname: ExAddress.roadname,
+          roadnameCode: ExAddress.roadnameCode,
+          roadnameEnglish: ExAddress.roadnameEnglish,
+        },
+      }));
+      setExhibitionKind(info.exhibitionKind);
+      //*썸네일 미리보기 가지고 와보기
+      setPostFiles([{ preview: info?.postImage }]);
+      //*일반 파일 미리보기 가지고 와보기
+      const previewFileArr = info?.ExhibitionImgs.map((file) => {
+        return { preview: file.imgUrl };
+      });
+      setFiles(previewFileArr);
+    }
+  }, [DetailLoading, DetailError, Detaildata]);
   console.log("보내질 값", exhibition);
   return (
-    <Flex as="form" onSubmit={submitHandler} fd="row" gap="150">
+    <Flex
+      as="form"
+      onsubmit={Detaildata ? submitUpdateHandler : submitHandler}
+      fd="row"
+      gap="150"
+    >
       <PostWrap>
         <Post>
           <PageTitle>전시 등록</PageTitle>
@@ -97,7 +192,7 @@ function ExhibitionForm() {
               <div>
                 <Postimg
                   key={file.name}
-                  src={URL.createObjectURL(file)}
+                  src={file.preview}
                   onLoad={() => {
                     URL.revokeObjectURL(file.preview);
                   }}
@@ -111,7 +206,17 @@ function ExhibitionForm() {
               </div>
             ))
           )}
-          <SubmitButton>전시등록하기</SubmitButton>
+          {Detaildata ? (
+            <UpDateButtons>
+              <SubmitButton type={"submit"}>전시수정하기</SubmitButton>
+              <SubmitButton type={"button"} onClick={deleteHandler}>
+                전시삭제하기
+              </SubmitButton>
+            </UpDateButtons>
+          ) : (
+            <SubmitButton type={"submit"}>전시등록하기</SubmitButton>
+          )}
+
           <Caution>주의사항</Caution>
         </Post>
       </PostWrap>
@@ -256,7 +361,11 @@ function ExhibitionForm() {
         )}
         <Box>
           <Explanation>전시 주최</Explanation>
-          <select name="exhibitionHost" onChange={onchangeHandler}>
+          <select
+            name="exhibitionHost"
+            onChange={onchangeHandler}
+            value={exhibition.exhibitionHost}
+          >
             <option>선택해 주세요</option>
             <option value="EH0001">개인/팀</option>
             <option value="EH0002">기업</option>
@@ -264,11 +373,14 @@ function ExhibitionForm() {
           </select>
         </Box>
         <Box>
-          <Explanation>전시회 분류</Explanation>
+          <Explanation value={exhibition.exhibitionCategoty[0]}>
+            전시회 분류
+          </Explanation>
           <select name="exhibitionCategoty" onChange={onchangeHandler}>
             <option>선택해 주세요</option>
             <option value="WK0001">애니메이션</option>
             <option value="WK0002">수채화</option>
+            <option value="WK0003">이게뭐지?</option>
           </select>
         </Box>
         <Box>
@@ -326,7 +438,7 @@ function ExhibitionForm() {
                   <Thumb key={file.name}>
                     <ThumbInner>
                       <Thumbimg
-                        src={URL.createObjectURL(file)}
+                        src={file.preview}
                         onLoad={() => {
                           URL.revokeObjectURL(file.preview);
                         }}
@@ -350,6 +462,11 @@ function ExhibitionForm() {
 }
 
 export default ExhibitionForm;
+const UpDateButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
 const ButtonsAddress = styled.button`
   border: 1px solid #3c3c3c;
   border-radius: 8px;
