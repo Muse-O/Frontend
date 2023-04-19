@@ -15,7 +15,16 @@ import {
 import styled from "styled-components";
 import { useEmailAuthSend } from "../../hooks/register/useEmailAuthSend";
 import { useEmailAuthConfirm } from "../../hooks/register/useEmailAuthComfirm";
+import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
 
+/**
+ * 할일
+ * 1) input 빈 값인경우 input outline 적용
+ * 2) 비밀번호 보기/숨기기
+ * 3) 메일확인 -> 확인완료 토글
+ * 4) 메일인증 -> 인증번호 재발송 토글
+ * 5) 인증코드 유효시간
+ */
 function RegisterForm() {
   //회원가입시 register에 보낼 정보
   const [registerInfo, setRegisterInfo] = useState({
@@ -65,83 +74,102 @@ function RegisterForm() {
 
   return (
     <StRegister>
-      <StLinkBox>
-        <Link to="/">로고</Link>
-      </StLinkBox>
-      <StEmailWrap>
-        <StEmailInputBox>
-          <StEmailLabel>
+      <StRegisterWrap>
+        <StLinkBox>
+          <Link to="/">
+            <img src={museoLogo} alt="museoLogo" />
+          </Link>
+        </StLinkBox>
+
+        <StEmailWrap>
+          <StEmailInputBox>
             <label>이메일</label>
-            <div>{emailValidation(registerInfo.email)}</div>
-          </StEmailLabel>
+
+            <StEmailInputBtn>
+              <input type="email" name="email" onChange={changeInputHandler} />
+              {/* 추후 '확인 완료' 토글 구현할 것 */}
+              <button
+                onClick={e =>
+                  emailConfirmHandler(e, registerInfo, emailConfirm)
+                }
+              >
+                중복 확인
+              </button>
+            </StEmailInputBtn>
+
+            <StEmailInputWarning>
+              <div>{emailValidation(registerInfo.email)}</div>
+            </StEmailInputWarning>
+          </StEmailInputBox>
+
+          <StEmailValidationBox>
+            <label>이메일 인증</label>
+            {/* 추후 남은시간 보여줄 것 */}
+            {/* <div>인증코드 유효시간은 3분입니다.</div> */}
+
+            <StEmailAuthBox>
+              <input
+                type="text"
+                value={code}
+                onChange={changeEmailAuthConfirmHandler}
+              />
+              <button onClick={emailAuthSendHandler}>인증번호 발송</button>
+            </StEmailAuthBox>
+            <StEmailAuthBtn onClick={emailAuthConfirmHandler}>
+              확인
+            </StEmailAuthBtn>
+            {/* <div>
+              <div>이메일인증번호 틀렸을 시 들어가는 경고메시지</div>
+            </div> */}
+          </StEmailValidationBox>
+        </StEmailWrap>
+
+        <StPwWrap>
+          <label>비밀번호</label>
+          <div>
+            <input
+              type="password"
+              name="password"
+              onChange={changeInputHandler}
+            />
+            <StPwInputWarning>
+              {pwValidation(registerInfo.password)}
+            </StPwInputWarning>
+          </div>
+
+          <label>비밀번호 확인</label>
+          <div>
+            <input
+              type="password"
+              name="checkPassword"
+              value={checkPassword}
+              onChange={changeCheckPasswordHandler}
+            />
+            <StPwCheckWarning>
+              {checkUserPassword(checkPassword, registerInfo.password)}
+            </StPwCheckWarning>
+          </div>
+        </StPwWrap>
+
+        <StNickNameBox>
+          <label>닉네임</label>
 
           <div>
-            <input type="email" name="email" onChange={changeInputHandler} />
-            <button
-              onClick={e => emailConfirmHandler(e, registerInfo, emailConfirm)}
-            >
-              중복확인
-            </button>
+            <input type="text" name="nickname" onChange={changeInputHandler} />
+            <StNickNameWarning>
+              {nicknameValidation(registerInfo.nickname)}
+            </StNickNameWarning>
           </div>
-        </StEmailInputBox>
+        </StNickNameBox>
 
-        <StEmailValidationBox>
-          <StEmailAuthWrap>
-            <StEmailAuthLabel>
-              <label>메일인증</label>
-              {/* 추후 남은시간 보여줄 것 */}
-              {/* <div>인증코드 유효시간은 3분입니다.</div> */}
-            </StEmailAuthLabel>
-          </StEmailAuthWrap>
-
-          <StEmailAuthBox>
-            <button onClick={emailAuthSendHandler}>인증발송</button>
-            <input
-              type="text"
-              value={code}
-              onChange={changeEmailAuthConfirmHandler}
-            />
-            {/* 메인인증 클릭 후 인증메일 발송되면 인증확인 버튼 보이게 변경할것 */}
-            <button onClick={emailAuthConfirmHandler}>인증확인</button>
-          </StEmailAuthBox>
-        </StEmailValidationBox>
-      </StEmailWrap>
-
-      <StPwBox>
-        <StPwLabel>
-          <label>비밀번호</label>
-          <div>{pwValidation(registerInfo.password)}</div>
-        </StPwLabel>
-        <input type="password" name="password" onChange={changeInputHandler} />
-
-        <StPwConformLabel>
-          <label>비밀번호 확인</label>
-          <div>{checkUserPassword(checkPassword, registerInfo.password)}</div>
-        </StPwConformLabel>
-        <input
-          type="password"
-          name="checkPassword"
-          value={checkPassword}
-          onChange={changeCheckPasswordHandler}
-        />
-      </StPwBox>
-
-      <StNickNameBox>
-        <StNickNameLabel>
-          <label>닉네임</label>
-          <div>{nicknameValidation(registerInfo.nickname)}</div>
-        </StNickNameLabel>
-
-        <input type="text" name="nickname" onChange={changeInputHandler} />
-      </StNickNameBox>
-
-      <StRegisterBtn
-        onClick={e =>
-          registerHandler(e, registerInfo, checkEmailConfirm, register)
-        }
-      >
-        회원가입
-      </StRegisterBtn>
+        <StRegisterBtn
+          onClick={e =>
+            registerHandler(e, registerInfo, checkEmailConfirm, register)
+          }
+        >
+          가입하기
+        </StRegisterBtn>
+      </StRegisterWrap>
     </StRegister>
   );
 }
@@ -150,9 +178,19 @@ export default RegisterForm;
 
 const StRegister = styled.div`
   font-family: "SpoqaHanSansNeo-Regular";
-  background-color: #80808029;
+  background-color: white;
+  border-radius: 10px;
   width: 616px;
-  height: 800px;
+  height: 852px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 5px 20px 0px rgba(148, 148, 148, 0.25);
+`;
+
+const StRegisterWrap = styled.div`
+  width: 416px;
+  height: 700;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -160,213 +198,227 @@ const StRegister = styled.div`
 
 const StLinkBox = styled.div`
   background-color: white;
-  width: 333px;
-  height: 84px;
+  width: 217px;
+  height: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 43px;
+  margin: 52px 0px 36px 0px;
 `;
 
 const StEmailWrap = styled.div`
+  height: 260px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
 `;
 
 const StEmailInputBox = styled.div`
-  width: 416px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 15px;
-  margin: 69px 0px 0px 0px;
 
   label {
-    font-size: 15px;
+    height: 12px;
+    font-size: 16px;
     font-weight: bold;
+    margin-bottom: 16px;
   }
 
   input {
-    font-family: "SpoqaHanSansNeo-Regular";
-    width: 310px;
-    height: 42px;
+    font-family: "Montserrat", sans-serif;
+    width: 329px;
+    height: 44px;
     padding: 10px;
-    border: 1px solid gray;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
     outline: none;
-    font-size: 15px;
-    margin-right: 5px;
+    font-size: 16px;
+    margin-right: 8px;
   }
 
   button {
-    /* background: linear-gradient(#0038ff, #c984ff); */
-    background-color: gray;
-    width: 100px;
-    height: 42px;
-    border-radius: 10px;
-    font-size: 15px;
+    background-color: white;
+    color: #3c3c3c;
+    border: 1px solid #3c3c3c;
+    border-radius: 5px;
+    width: 79px;
+    height: 44px;
+    font-size: 12px;
     font-family: "SpoqaHanSansNeo-Regular";
     cursor: pointer;
   }
 `;
 
-const StEmailLabel = styled.div`
+const StEmailInputBtn = styled.div`
+  width: 416px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8px;
+`;
+
+const StEmailInputWarning = styled.div`
+  width: 416px;
+  height: 9px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  color: #f65959;
+  margin-bottom: 15px;
 
   div {
-    color: #d90404;
+    font-size: 12px;
   }
 `;
 
 const StEmailValidationBox = styled.div`
-  width: 416px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-`;
-
-const StEmailAuthWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StEmailAuthLabel = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
 
   label {
-    font-size: 15px;
+    height: 12px;
+    font-size: 16px;
     font-weight: bold;
-  }
-
-  div {
-    color: #d90404;
+    margin-bottom: 16px;
   }
 `;
 
 const StEmailAuthBox = styled.div`
   display: flex;
-  gap: 7px;
 
   input {
-    font-family: "SpoqaHanSansNeo-Regular";
-    width: 200px;
-    height: 42px;
+    font-family: "Montserrat", sans-serif;
+    width: 299px;
+    height: 44px;
     padding: 10px;
-    border: 1px solid gray;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
     outline: none;
-    font-size: 15px;
+    font-size: 16px;
+    margin-right: 8px;
   }
 
   button {
-    background-color: gray;
-    width: 100px;
-    height: 42px;
-    border-radius: 10px;
-    font-size: 15px;
+    background-color: white;
+    color: #3c3c3c;
+    border: 1px solid #3c3c3c;
+    border-radius: 5px;
+    width: 109px;
+    height: 44px;
+    font-size: 12px;
     font-family: "SpoqaHanSansNeo-Regular";
     cursor: pointer;
+    margin-bottom: 8px;
   }
 `;
 
-const StPwBox = styled.div`
+const StEmailAuthBtn = styled.button`
+  background-color: white;
+  color: #3c3c3c;
+  border: 1px solid #3c3c3c;
+  border-radius: 5px;
   width: 416px;
+  height: 44px;
+  font-size: 12px;
+  font-family: "SpoqaHanSansNeo-Regular";
+  cursor: pointer;
+`;
+
+const StPwWrap = styled.div`
+  width: 416px;
+  height: 208px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-top: 20px;
+
+  label {
+    height: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
 
   input {
+    font-family: "Montserrat", sans-serif;
     width: 416px;
-    height: 42px;
+    height: 44px;
     padding: 10px;
-    border: 1px solid gray;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
     outline: none;
-    font-size: 15px;
-    margin-right: 5px;
+    font-size: 16px;
+    margin-right: 8px;
   }
 `;
 
-const StPwLabel = styled.div`
+const StPwInputWarning = styled.div`
+  width: 416px;
+  height: 9px;
   display: flex;
   align-items: center;
-  gap: 10px;
-
-  label {
-    font-size: 15px;
-    font-weight: bold;
-  }
-
-  div {
-    color: #d90404;
-  }
+  color: #f65959;
+  margin: 8px 0px 15px 0px;
+  font-size: 12px;
 `;
 
-const StPwConformLabel = styled.div`
+const StPwCheckWarning = styled.div`
+  width: 416px;
+  height: 9px;
   display: flex;
   align-items: center;
-  gap: 10px;
-
-  label {
-    font-size: 15px;
-    font-weight: bold;
-  }
-
-  div {
-    color: #d90404;
-  }
+  color: #f65959;
+  margin-top: 8px;
+  font-size: 12px;
 `;
 
 const StNickNameBox = styled.div`
   width: 416px;
+  height: 89px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  margin-top: 20px;
+
+  label {
+    height: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
 
   input {
-    font-family: "SpoqaHanSansNeo-Regular";
+    font-family: "Montserrat", sans-serif;
     width: 416px;
-    height: 42px;
+    height: 44px;
     padding: 10px;
-    border: 1px solid gray;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
     outline: none;
-    font-size: 15px;
-    margin-right: 5px;
+    font-size: 16px;
+    margin-right: 8px;
   }
 `;
 
-const StNickNameLabel = styled.div`
+const StNickNameWarning = styled.div`
+  width: 416px;
+  height: 9px;
   display: flex;
   align-items: center;
-  gap: 10px;
-
-  label {
-    font-size: 15px;
-    font-weight: bold;
-  }
-
-  div {
-    color: #d90404;
-  }
+  color: #f65959;
+  margin-top: 8px;
+  font-size: 12px;
 `;
 
 const StRegisterBtn = styled.button`
-  background-color: gray;
+  margin-top: 40px;
+  background-color: white;
   text-decoration: none;
   font-weight: bold;
-  color: white;
-  width: 195px;
-  height: 40px;
-  border-radius: 30px;
+  color: #171717;
+  width: 416px;
+  height: 65px;
+  border-radius: 50px;
+  border: 1px solid #171717;
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "SpoqaHanSansNeo-Regular";
-  font-size: 15px;
-  margin-top: 100px;
+  font-size: 16px;
   cursor: pointer;
 `;
