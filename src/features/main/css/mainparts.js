@@ -203,7 +203,7 @@ const FourthWrap = styled.div`
   .exhibitioninfo{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     gap:12px;
     width: 100%;
     min-height: 480px;

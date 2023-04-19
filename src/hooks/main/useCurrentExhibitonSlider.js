@@ -3,7 +3,7 @@ import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 
 export const useCurrentExhibitonSlider = () => {
   const slidersettings = {
-    slidesToShow: 6, 
+    slidesToShow: 2, 
     swipeToSlide: true,
     focusOnSelect: true,
     autoplay: true, 
