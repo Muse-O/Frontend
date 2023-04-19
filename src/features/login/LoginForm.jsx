@@ -9,7 +9,7 @@ import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
 
 /**
  * 할일
- * 1) input 빈 값인경우 input ouline 적용
+ * 1) input 빈 값인경우 input outline 적용
  * 2) 비밀번호 보기/숨기기
  */
 function LoginForm() {
@@ -77,7 +77,7 @@ function LoginForm() {
   return (
     <StLogin>
       <StLinkBox>
-        <Link to="/" style={{ fontSize: "15px" }}>
+        <Link to="/">
           <img src={museoLogo} alt="museoLogo" />
         </Link>
       </StLinkBox>
@@ -175,14 +175,14 @@ const StEmailInputWrap = styled.div`
   height: 48px;
 
   input {
-    font-family: "SpoqaHanSansNeo-Regular";
+    font-family: "Montserrat", sans-serif;
     width: 416px;
     height: 44px;
     padding: 10px;
     border: 1px solid #dddddd;
     border-radius: 5px;
     outline: none;
-    font-size: 15px;
+    font-size: 16px;
     margin-bottom: 5px;
   }
 
@@ -209,13 +209,14 @@ const StPwInputWrap = styled.div`
   height: 48px;
 
   input {
+    font-family: "Montserrat", sans-serif;
     width: 416px;
     height: 44px;
     padding: 10px;
     border: 1px solid #dddddd;
     border-radius: 5px;
     outline: none;
-    font-size: 15px;
+    font-size: 16px;
     margin-bottom: 5px;
   }
 
