@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Flex } from "../../components/Flex";
 import useLogin from "../../hooks/login/useLogin";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 function LoginForm() {
   //react-query
@@ -36,17 +37,153 @@ function LoginForm() {
   };
 
   return (
-    <Flex as="form" fd="column" gap="10">
-      <Link to="/">로고 자리(메인으로 돌아감)</Link>
-      <label>이메일</label>
-      <input type="email" name="email" onChange={changeInputHandler} />
+    <StLogin>
+      <StLinkBox>
+        <Link to="/" style={{ fontSize: "15px" }}>
+          로고
+        </Link>
+      </StLinkBox>
 
-      <label>비밀번호</label>
-      <input type="password" name="password" onChange={changeInputHandler} />
+      <StEmailInputBox>
+        <label>이메일</label>
+        <input type="email" name="email" onChange={changeInputHandler} />
+      </StEmailInputBox>
 
-      <button onClick={loginHandler}>로그인</button>
-    </Flex>
+      <StPwInputBox>
+        <label>비밀번호</label>
+        <input type="password" name="password" onChange={changeInputHandler} />
+      </StPwInputBox>
+
+      <StLoginBtn onClick={loginHandler}>등록하기</StLoginBtn>
+
+      <StSnsBox>
+        <div>SNS로 간편하게 시작하기</div>
+
+        <StSnsBtnWrap>
+          <div>{/* <img src='' alt=''/> */}</div>
+          <div>{/* <img src='' alt=''/> */}</div>
+          <div>{/* <img src='' alt=''/> */}</div>
+        </StSnsBtnWrap>
+      </StSnsBox>
+
+      <StRegisterBtn to="/register">회원가입</StRegisterBtn>
+    </StLogin>
   );
 }
 
 export default LoginForm;
+
+const StLogin = styled.form`
+  font-family: "SpoqaHanSansNeo-Regular";
+  background-color: #80808029;
+  width: 616px;
+  height: 750px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StLinkBox = styled.div`
+  background-color: white;
+  width: 333px;
+  height: 84px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 43px;
+`;
+
+const StEmailInputBox = styled.div`
+  width: 416px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 69px 0px 26px;
+
+  label {
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  input {
+    font-family: "SpoqaHanSansNeo-Regular";
+    height: 42px;
+    padding: 10px;
+    border: 1px solid gray;
+    outline: none;
+    font-size: 15px;
+  }
+`;
+
+const StPwInputBox = styled.div`
+  width: 416px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  label {
+    font-size: 15px;
+    font-weight: bold;
+  }
+
+  input {
+    height: 42px;
+    padding: 10px;
+    border: 1px solid gray;
+    outline: none;
+    font-size: 15px;
+  }
+`;
+
+const StLoginBtn = styled.button`
+  font-family: "SpoqaHanSansNeo-Regular";
+  background-color: gray;
+  width: 416px;
+  height: 65px;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: bold;
+  margin: 32px 0px 75px;
+  cursor: pointer;
+`;
+
+const StSnsBox = styled.div`
+  width: 195px;
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 23px;
+  div {
+    font-size: 15px;
+    font-weight: bold;
+  }
+`;
+
+const StSnsBtnWrap = styled.div`
+  display: flex;
+  gap: 24px;
+
+  div {
+    background-color: white;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+`;
+
+const StRegisterBtn = styled(Link)`
+  background-color: gray;
+  text-decoration: none;
+  font-weight: bold;
+  color: white;
+  width: 195px;
+  height: 40px;
+  border-radius: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  margin-top: 50px;
+`;

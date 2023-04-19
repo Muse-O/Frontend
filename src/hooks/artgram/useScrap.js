@@ -15,10 +15,9 @@ export const useScrap = () => {
       })
       return reponse.data.message
     },
-    onSuccess: (reponse) => {
+    onSuccess: () => {
       queryClient.invalidateQueries(keys.GET_ARTGRAMDETAIL);
       queryClient.invalidateQueries(keys.GET_ARTGRAM);
-      console.log(reponse);
     },
     onError: e => {
       console.log("스크랩이 등록되지 않았습니다.", e.message);

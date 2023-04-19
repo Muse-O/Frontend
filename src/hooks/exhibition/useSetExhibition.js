@@ -41,6 +41,7 @@ export const useSetExhibition = () => {
   const handleClick = () => {
     open({
       onComplete: (data) => {
+        console.log("주소 받아온 값", data);
         setExhibition((old) => {
           return {
             ...old,

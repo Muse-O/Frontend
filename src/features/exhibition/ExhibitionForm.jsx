@@ -448,10 +448,9 @@ const DragIcon = styled.div`
 //   margin: 10px;
 //   text-align: center;
 // `;
-// const DIV2 = styled.div`
-//   background-color: #e1e78e;
-//   text-align: center;
-// `;
+const ReviewWrap = styled.div`
+  background-color: #e1e78e;
+`;
 
 const Thumb = styled.div`
   display: inline-flex;

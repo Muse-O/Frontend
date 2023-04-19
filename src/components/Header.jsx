@@ -130,6 +130,14 @@ function Header() {
         <br/>
         <button
           onClick={() => {
+            navigate("/artgram/origin");
+          }}
+        >
+          아트그램원본
+        </button>
+        <br/>
+        <button
+          onClick={() => {
             navigate("/login");
           }}
         >
