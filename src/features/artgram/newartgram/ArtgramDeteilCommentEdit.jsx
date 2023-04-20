@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { useDeletecomments } from "../../../hooks/artgram/newArtgram/useDeletecomments";
 import { usePostingtime } from "../../../hooks/artgram/usePostingtime";
 import { cookies } from "../../../shared/cookies";
@@ -6,6 +6,7 @@ import jwtDecode from "jwt-decode";
 import * as DetailModal from "./ArtgramDetailModalCss";
 import { useUpdatecomments } from "../../../hooks/artgram/newArtgram/useUpdatecomments";
 import { usePostReply } from "../../../hooks/artgram/newArtgram/usePostReply";
+import { useGetReply } from "../../../hooks/artgram/newArtgram/useGetReply";
 
 function ArtgramDeteilCommentEdit({ artgramId, comment }) {
   const token = cookies.get("access_token") || null;
@@ -33,7 +34,15 @@ function ArtgramDeteilCommentEdit({ artgramId, comment }) {
   // 답글 입력하기
   const [replyState, setReplyState] = useState(false);
   const [reply, setReply] = useState("");
-  const {replyHandle} = usePostReply(setReply, setReplyState)
+  const { replyHandle } = usePostReply(setReply, setReplyState);
+  const { isLoading, isError, data } = useGetReply(
+    artgramId,
+    comment.commentId
+  );
+
+  if (isLoading || isError) {
+    return <div>로딩 중 ...</div>;
+  }
 
   return (
     <>
@@ -59,12 +68,23 @@ function ArtgramDeteilCommentEdit({ artgramId, comment }) {
       <DetailModal.CommentsSettings>
         <p className="artgarmcommentTime">{timehandle(comment.createdAt)}</p>
         {!replyState ? (
-          <p className="commentwrite" onClick={() => setReplyState((pre) => !pre)}>
+          <p
+            className="commentwrite"
+            onClick={() => setReplyState((pre) => !pre)}
+          >
             답글달기
           </p>
         ) : (
-          <form onSubmit={(e)=> replyHandle(e, artgramId, comment.commentId, reply)}>
-            <input value={reply} onChange={(e) => setReply(e.target.value)} placeholder="답글을 입력해주세요." />
+          <form
+            onSubmit={(e) =>
+              replyHandle(e, artgramId, comment.commentId, reply)
+            }
+          >
+            <input
+              value={reply}
+              onChange={(e) => setReply(e.target.value)}
+              placeholder="답글을 입력해주세요."
+            />
           </form>
         )}
         {email === comment.userEmail && (
@@ -92,12 +112,14 @@ function ArtgramDeteilCommentEdit({ artgramId, comment }) {
           </>
         )}
       </DetailModal.CommentsSettings>
-      <DetailModal.Reply>
-        <div>
-          <hr />
-        </div>
-        <div>예정기능 답글보기(1) </div>
-      </DetailModal.Reply>
+      {comment.replyCount > 0 && (
+        <DetailModal.Reply>
+          <div>
+            <hr />
+          </div>
+          <div>답글보기 ({comment.replyCount}) </div>
+        </DetailModal.Reply>
+      )}
     </>
   );
 }
