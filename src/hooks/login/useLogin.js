@@ -20,8 +20,8 @@ function useLogin() {
       navigate("/");
     },
     //패스워드를 확인해주세요, 존재하지 않는 이메일 주소입니다
-    onError: error => {
-      alert(error.response.data.errorMessage);
+    onError: () => {
+      alert("이메일 또는 비밀번호를 확인해주세요.");
     },
   });
   //밖에서 login이라는 이름으로 해당 mutate 사용

@@ -17,6 +17,7 @@ function Header() {
   const navigate = useNavigate();
 
   const navList = [
+    { title: "홈", navigation: "/" },
     { title: "전시", navigation: "/exhibition" },
     { title: "아트그램", navigation: "/artgram" },
     { title: "마이페이지", navigation: isLoggedIn ? "/mypage" : "/login" },
@@ -125,6 +126,14 @@ function Header() {
           }}
         >
           아트그램
+        </button>
+        <br/>
+        <button
+          onClick={() => {
+            navigate("/artgram/origin");
+          }}
+        >
+          아트그램원본
         </button>
         <br/>
         <button

@@ -51,6 +51,7 @@ function ArtgramForm() {
               type: input.type,
               name: input.name,
               value: formState[input.name] || "",
+              maxLength:input.maxLength,
               onChange: handleInputChange,
             }}
           />
