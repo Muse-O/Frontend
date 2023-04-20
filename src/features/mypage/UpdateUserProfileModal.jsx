@@ -2,10 +2,15 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
 import { useUpdateUserProfile } from "../../hooks/mypage/useUpdateUserProfile";
-import { AiOutlineCamera } from "react-icons/ai";
 import { useGetimgurl } from "../../hooks/mypage/useGetImgUrl";
-import { GrFormClose } from "react-icons/gr";
+import upload from "../../assets/imgs/upload_gray.png";
+import cancel from "../../assets/imgs/common/cancel.png";
 
+/*
+ * 할 일
+ * 1) 모달 크기 디테일 및 폰트
+ * 2) 탭메뉴 클릭시 스타일 변경
+ */
 function UpdateUserProfileModal({ setOpenModal }) {
   /**
    * 모달 open 관리
@@ -75,34 +80,36 @@ function UpdateUserProfileModal({ setOpenModal }) {
 
   return (
     <StUserProfileModal>
-      <StCloseBtn>
-        <GrFormClose size="30" onClick={updateModalCloseHandler} />
+      <StCloseBtn onClick={updateModalCloseHandler}>
+        <img src={cancel} alt="cancel" />
       </StCloseBtn>
 
-      <StImgBox>
-        <div>
-          <ProfileImg
-            name="profileImg"
-            src={image === "" ? editProfile.profileImg : image}
-            alt="userProfileImg"
-          />
-        </div>
+      <StImgContainer>
+        <StImgBox>
+          <div>
+            <ProfileImg
+              name="profileImg"
+              src={image === "" ? editProfile.profileImg : image}
+              alt="userProfileImg"
+            />
+          </div>
 
-        <StImgEditWrap>
-          {/* input 숨기기 */}
-          <StInput
-            type="file"
-            ref={fileRef}
-            accept="image/*"
-            onChange={changeImageHandler}
-          />
-          <UpdateIcon onClick={imgUpdateHandler}>
-            <AiOutlineCamera size="20" color="gray" />
-            프로필 사진 변경
-          </UpdateIcon>
-          <div>10MB 이내의 이미지 파일을 업로드해주세요</div>
-        </StImgEditWrap>
-      </StImgBox>
+          <StImgEditWrap>
+            {/* input 숨기기 */}
+            <StInput
+              type="file"
+              ref={fileRef}
+              accept="image/*"
+              onChange={changeImageHandler}
+            />
+            <UpdateIcon onClick={imgUpdateHandler}>
+              <img src={upload} alt="upload" />
+              프로필 사진 변경
+            </UpdateIcon>
+            <div>10MB 이내의 이미지 파일을 업로드해주세요</div>
+          </StImgEditWrap>
+        </StImgBox>
+      </StImgContainer>
 
       <StTextBox>
         <StEditInputNameWrap>
@@ -142,27 +149,38 @@ const StUserProfileModal = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 720px;
-  height: 600px;
+  width: 750px;
+  height: 665px;
   background-color: white;
   border-radius: 20px;
   position: fixed;
   z-index: 10201;
   top: 15%;
   left: 35%;
-  gap: 10px;
 `;
 
 const StCloseBtn = styled.div`
   display: flex;
   width: 700px;
-  margin-top: 10px;
+  height: 68px;
   justify-content: end;
+  align-items: center;
   cursor: pointer;
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
+`;
+
+const StImgContainer = styled.div`
+  width: 750px;
+  height: 150px;
+  padding-left: 68px;
+  margin-bottom: 48px;
 `;
 
 const StImgBox = styled.div`
-  /* background-color: #81f0f42a; */
   width: 570px;
   height: 150px;
   display: flex;
@@ -191,36 +209,43 @@ const UpdateIcon = styled.button`
   font-family: "SpoqaHanSansNeo-Regular";
   background-color: white;
   border: 1px solid gray;
-  width: 130px;
-  height: 40px;
-  border-radius: 20px;
+  width: 154px;
+  height: 44px;
+  border-radius: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3px;
+  gap: 8px;
   font-size: 12px;
+  cursor: pointer;
 
   div {
     font-size: 12px;
+  }
+
+  img {
+    width: 12px;
+    height: 12px;
   }
 `;
 
 const StTextBox = styled.div`
   /* background-color: #ffc0cb62; */
-  width: 550px;
+  width: 543px;
   height: 250px;
   display: flex;
-  gap: 10px;
-  padding-top: 15px;
+  justify-content: space-around;
 `;
 
 const StEditInputNameWrap = styled.div`
-  width: 160px;
+  width: 54px;
   height: 100px;
-  padding: 13px 60px;
+  padding: 13px 0px;
   display: flex;
   flex-direction: column;
   gap: 60px;
+  /* margin-right: 61px; */
+
   div {
     width: 70px;
     font-size: 17px;
@@ -239,26 +264,28 @@ const StEditInputWrap = styled.div`
 
 const NameInput = styled.input`
   font-family: "Montserrat", sans-serif;
-  background-color: #80808034;
-  height: 40px;
+  border: 1px solid #cccccc;
+  width: 428px;
+  height: 41px;
   border-radius: 5px;
   padding: 10px;
-  font-size: 15px;
+  font-size: 16px;
   outline: none;
 `;
 
 const IntroInput = styled.textarea`
-  font-family: "Montserrat", sans-serif;
-  background-color: #80808034;
-  /* width: 360px; */
-  height: 100px;
+  font-family: "SpoqaHanSansNeo-Regular";
+  border: 1px solid #cccccc;
+  width: 406px;
+  height: 164px;
   border-radius: 5px;
   margin-top: 20px;
   padding: 10px;
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 25px;
   white-space: pre-line;
   resize: none;
-  border: none;
   outline: none;
 `;
 
@@ -272,5 +299,5 @@ const StUpdateBtn = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 15px;
+  margin-top: 35px;
 `;

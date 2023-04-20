@@ -28,6 +28,7 @@ function MyPage() {
 
 export default MyPage;
 const StContainer = styled.div`
+  background-color: #f6f2f9;
   width: 1675px;
   display: flex;
 `;

@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { useGetLikedArtgramInfo } from "../../hooks/mypage/useGetLikedArtgramInfo";
 import { useGetMyArtgramInfo } from "../../hooks/mypage/useGetMyArtgramInfo";
 import { useGetScrapArtgramInfo } from "../../hooks/mypage/useGetScrapArtgramInfo";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
+import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
 
 function ArtgramContainer() {
   const { LikedArtgramInfo, likedNum, setLikedNum } = useGetLikedArtgramInfo();
@@ -79,7 +80,7 @@ function ArtgramContainer() {
 
           <StImgBtnBox>
             <StLeftBtn onClick={getBackDataHandler}>
-              <MdKeyboardArrowLeft size="30" color="white" />
+              <img src={leftBtn} alt="leftBtn" />
             </StLeftBtn>
             <StImgBox>
               {menuArr[currentTab].content.map(list => {
@@ -103,7 +104,7 @@ function ArtgramContainer() {
               }
               onClick={getNextDataHandler}
             >
-              <MdKeyboardArrowRight size="30" color="white" />
+              <img src={rightBtn} alt="leftBtn" />
             </StRightBtn>
           </StImgBtnBox>
         </StWrap>
@@ -129,7 +130,8 @@ const StArtgram = styled.div`
 `;
 
 const StArtgramBox = styled.div`
-  background-color: #80808029;
+  background-color: #ffffff;
+  border-radius: 10px;
   width: 1010px;
   height: 404px;
   display: flex;
@@ -149,22 +151,33 @@ const StLeftBtn = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: gray;
+  background-color: #eeeeee;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+  img {
+    width: 14px;
+    height: 22px;
+    transform: rotate(-180deg);
+  }
 `;
 
 const StRightBtn = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: gray;
+  background-color: #eeeeee;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+  img {
+    width: 14px;
+    height: 22px;
+  }
 `;
 
 const StWrap = styled.div`
@@ -199,7 +212,7 @@ const StTabCount = styled.div`
   width: 32px;
   height: 25px;
   border-radius: 30px;
-  background-color: white;
+  background-color: #eeeeee;
   display: flex;
   justify-content: center;
   align-items: center;

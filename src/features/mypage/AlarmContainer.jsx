@@ -1,11 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import bell from "../../assets/imgs/mypage/bell_gray.png";
 
 function AlarmContainer() {
   return (
     <StAlramContainer>
       <AlramTitle>알림</AlramTitle>
-      <StAlramCount></StAlramCount>
+      <StBell>
+        <img src={bell} alt="bell" />
+      </StBell>
     </StAlramContainer>
   );
 }
@@ -15,7 +18,7 @@ export default AlarmContainer;
 const StAlramContainer = styled.div`
   width: 393px;
   display: flex;
-  gap: 7px;
+  gap: 4px;
 `;
 
 const AlramTitle = styled.div`
@@ -25,9 +28,12 @@ const AlramTitle = styled.div`
   text-align: center;
 `;
 
-const StAlramCount = styled.div`
-  background-color: gray;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
+const StBell = styled.div`
+  width: 23px;
+  height: 23px;
+
+  img {
+    width: 23px;
+    height: 23px;
+  }
 `;

@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { useGetLikedExhibitionInfo } from "../../hooks/mypage/useGetLikedExhibitionInfo";
 import { useGetMyExhibitionInfo } from "../../hooks/mypage/useGetMyExhibitionInfo";
 import { useGetScrapExhibitionInfo } from "../../hooks/mypage/useGetScrapExhibitionInfo";
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
+import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
 
 function ExhibitionContainer() {
   const { LikedExhibitionInfo, likedNum, setLikedNum } =
@@ -84,7 +85,7 @@ function ExhibitionContainer() {
 
           <StImgBtnBox>
             <StLeftBtn onClick={getBackDataHandler}>
-              <MdKeyboardArrowLeft size="30" color="white" />
+              <img src={leftBtn} alt="leftBtn" />
             </StLeftBtn>
             <StImgBox>
               {menuArr[currentTab].content.map(list => {
@@ -111,7 +112,7 @@ function ExhibitionContainer() {
               }
               onClick={getNextDataHandler}
             >
-              <MdKeyboardArrowRight size="30" color="white" />
+              <img src={rightBtn} alt="leftBtn" />
             </StRightBtn>
           </StImgBtnBox>
         </StWrap>
@@ -148,26 +149,38 @@ const StLeftBtn = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: gray;
+  background-color: #eeeeee;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+  img {
+    width: 14px;
+    height: 22px;
+    transform: rotate(-180deg);
+  }
 `;
 
 const StRightBtn = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: gray;
+  background-color: #eeeeee;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+  img {
+    width: 14px;
+    height: 22px;
+  }
 `;
 
 const StExhibitionBox = styled.div`
-  background-color: #80808029;
+  background-color: #ffffff;
+  border-radius: 10px;
   width: 1010px;
   height: 348px;
   display: flex;
@@ -207,7 +220,7 @@ const StTabCount = styled.div`
   width: 32px;
   height: 25px;
   border-radius: 30px;
-  background-color: white;
+  background-color: #eeeeee;
   display: flex;
   justify-content: center;
   align-items: center;
