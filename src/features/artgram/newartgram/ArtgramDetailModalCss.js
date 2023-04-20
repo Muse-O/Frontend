@@ -70,6 +70,7 @@ const ContentInnerText = styled.div`
 const CommentsLayout = styled.div`
   max-height: 458px;
   height: 458px;
+  padding: 24px;
   overflow: scroll;
 
   .artgarmcomments {
@@ -83,8 +84,12 @@ const CommentsLayout = styled.div`
       width: 33px;
       height: 33px;
       border-radius: 50%;
-      margin: 10px 0;
       background-color: lightgray;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+      }
     }
   }
 `;
@@ -93,8 +98,6 @@ const CommentsInnerText = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 53px;
-  margin-bottom: 8px;
 
   div {
     display: flex;
@@ -109,12 +112,15 @@ const CommentsInnerText = styled.div`
     flex-grow: 1;
     font-size: 13px;
     color: #858585;
-    /* height: 57px; */
+    min-height: 20px;
+    text-align: justify;
   }
 
   input {
+    width: 420px;
     border: 2px solid orange;
     border-radius: 15px;
+    font-size: 13px;
     padding: 0 12px;
     :focus {
       outline: none;
@@ -127,7 +133,7 @@ const CommentsSettings = styled.div`
   align-items: center;
   gap: 16px;
   height: 40px;
-  margin-bottom: 16px;
+  /* margin-bottom: 8px; */
 
   .artgarmcommentTime {
     font-size: 12px;

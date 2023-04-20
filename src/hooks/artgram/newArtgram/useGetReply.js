@@ -10,11 +10,11 @@ export const useGetReply = (artgramId,commentId) => {
       return response.data.Reply
     },
     onSuccess: (data) =>{
-      console.log(data);
-      console.log("대댓글 조회성공");
+      // console.log(data);
+      // console.log("대댓글 조회성공");
     },
     onError: (e) => {
-      console.log("대댓글 조회실패", e.message)
+      // console.log("대댓글 조회실패", e.message)
     }
   })
   return {isLoading, isError, data}

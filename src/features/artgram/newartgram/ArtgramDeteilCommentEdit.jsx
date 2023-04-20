@@ -1,44 +1,23 @@
-import React, { useState } from "react";
-import { useDeletecomments } from "../../../hooks/artgram/newArtgram/useDeletecomments";
-import { usePostingtime } from "../../../hooks/artgram/usePostingtime";
-import { cookies } from "../../../shared/cookies";
-import jwtDecode from "jwt-decode";
+import React from "react";
+// import CSS & icons & png ------------------------------------------------------------------------------/
 import * as DetailModal from "./ArtgramDetailModalCss";
-import { useUpdatecomments } from "../../../hooks/artgram/newArtgram/useUpdatecomments";
-import { usePostReply } from "../../../hooks/artgram/newArtgram/usePostReply";
+// import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { useGetReply } from "../../../hooks/artgram/newArtgram/useGetReply";
-
+import { usePostingtime } from "../../../hooks/artgram/usePostingtime";
+import { usePostReply } from "../../../hooks/artgram/newArtgram/usePostReply";
+import { useUpdatecomments } from "../../../hooks/artgram/newArtgram/useUpdatecomments";
+import { useDeletecomments } from "../../../hooks/artgram/newArtgram/useDeletecomments";
+// import 설정관련 -----------------------------------------------------------------------------------------/
+import { usetoken } from "../../../shared/cookies";
+// // ArtgramDetailComments 컴포넌트 -----------------------------------------------------------------------/ 
 function ArtgramDeteilCommentEdit({ artgramId, comment }) {
-  const token = cookies.get("access_token") || null;
-  let email;
-  if (token) {
-    const getemail = jwtDecode(token);
-    email = getemail.email;
-  }
-
-  const [timehandle] = usePostingtime();
-  // 댓글 삭제
-  const { deleteHandle } = useDeletecomments();
-  const [edit, setEdit] = useState(false);
-
-  // 댓글 수정
-  const { updateHandle } = useUpdatecomments();
-  const [updatecomment, setUpdateComment] = useState("");
-  const updateCommentsHandle = (e) => {
-    e.preventDefault();
-    updateHandle(artgramId, comment.commentId, updatecomment);
-    setEdit((pre) => !pre);
-    setUpdateComment("");
-  };
-
-  // 답글 입력하기
-  const [replyState, setReplyState] = useState(false);
-  const [reply, setReply] = useState("");
-  const { replyHandle } = usePostReply(setReply, setReplyState);
-  const { isLoading, isError, data } = useGetReply(
-    artgramId,
-    comment.commentId
-  );
+  const {decodetoken} = usetoken() // ToKen에서 사용자 Email 정보 가져오기 
+  const [timehandle] = usePostingtime(); // 서버로부터 받아온 날짜을 가공하는 커스텀 훅
+  const { deleteHandle } = useDeletecomments(); // 댓글삭제 비동기통신 DELETE 
+  const { edit, setEdit,updatecomment, setUpdateComment, onSubmitupdateComments } = 
+    useUpdatecomments(artgramId, comment.commentId); // 댓글수정 비동기통신 UPDATE
+  const {replyState, setReplyState,reply, setReply,replyHandle} = usePostReply(); // 대댓글입력 비동기통신 POST
+  const { isLoading, isError, data:replydata } = useGetReply(artgramId,comment.commentId); // 대댓글조회 비동기통신 GET
 
   if (isLoading || isError) {
     return <div>로딩 중 ...</div>;
@@ -54,7 +33,7 @@ function ArtgramDeteilCommentEdit({ artgramId, comment }) {
           {!edit ? (
             <p>{comment.comment}</p>
           ) : (
-            <form onSubmit={updateCommentsHandle}>
+            <form onSubmit={onSubmitupdateComments}>
               <input
                 value={updatecomment}
                 onChange={(e) => setUpdateComment(e.target.value)}
@@ -87,7 +66,7 @@ function ArtgramDeteilCommentEdit({ artgramId, comment }) {
             />
           </form>
         )}
-        {email === comment.userEmail && (
+        {decodetoken.email === comment.userEmail && (
           <>
             {!edit ? (
               <p
@@ -99,7 +78,7 @@ function ArtgramDeteilCommentEdit({ artgramId, comment }) {
                 수정
               </p>
             ) : (
-              <p className="commentwrite" onClick={updateCommentsHandle}>
+              <p className="commentwrite" onClick={onSubmitupdateComments}>
                 수정완료
               </p>
             )}
@@ -125,3 +104,4 @@ function ArtgramDeteilCommentEdit({ artgramId, comment }) {
 }
 
 export default ArtgramDeteilCommentEdit;
+
