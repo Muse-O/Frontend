@@ -1,16 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { usePostReview } from "../../hooks/exhibition/usePostReview";
-import { useParams } from "react-router-dom";
 import { useGetReview } from "../../hooks/exhibition/useGetReview";
-import { apis } from "../../api/apis";
-import jwtDecode from "jwt-decode";
-import { cookies } from "../../shared/cookies";
+import { usetoken } from "../../shared/cookies";
 import { useDeleteReview } from "../../hooks/exhibition/useDeleteReview";
 import { AiOutlineDelete } from "react-icons/ai";
 function ExhibitionReview({ exhibitionID }) {
-  const access_token = cookies.get("access_token");
-  const { email } = jwtDecode(access_token);
+  const { decodetoken } = usetoken();
+  const userEmail = decodetoken?.email;
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
@@ -24,12 +20,14 @@ function ExhibitionReview({ exhibitionID }) {
   const changeLimit = (e) => {
     setLimit(e.target.value);
   };
-  console.log("리뷰데이터", reviewData);
   const [deleteReview] = useDeleteReview();
   return (
     <ReviewWrap>
       {reviewData ? (
         <ShowReview>
+          <ExhibitioninfoP>
+            후기{reviewData.paginationInfo.exhibitionReviewCnt}
+          </ExhibitioninfoP>
           <div>
             <select onChange={changeLimit} name="reviewRating" value={limit}>
               <option value="10">10</option>
@@ -40,7 +38,6 @@ function ExhibitionReview({ exhibitionID }) {
             <button>최신순</button>
             <button>평점순</button>
           </div>
-
           {reviewData?.searchExhibitionReviews.map((review, index) => {
             return (
               <>
@@ -49,7 +46,7 @@ function ExhibitionReview({ exhibitionID }) {
                     <div>평점:{review.reviewRating}</div>
                     <Center>{review.userEmail}</Center>
                     <div>{review.createdAt.slice(0, 10)}</div>
-                    {review.userEmail === email ? (
+                    {review.userEmail === userEmail ? (
                       <DeleteIcon>
                         <AiOutlineDelete
                           onClick={() =>
@@ -106,6 +103,14 @@ function ExhibitionReview({ exhibitionID }) {
 }
 
 export default ExhibitionReview;
+const ExhibitioninfoP = styled.p`
+  font-family: "S-Core Dream";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 25px;
+  margin-top: 80px;
+`;
 const DeleteIcon = styled.div`
   font-size: 15px;
 `;

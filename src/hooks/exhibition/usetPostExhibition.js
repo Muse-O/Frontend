@@ -12,9 +12,12 @@ export const usePostExhibition = () => {
       return res.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: keys.GET_EXHIBITION });
       alert("생성완료");
       navigator("/exhibition");
+      queryClient.invalidateQueries({ queryKey: keys.GET_EXHIBITION });
+    },
+    onError: (e) => {
+      alert(e);
     },
   });
 

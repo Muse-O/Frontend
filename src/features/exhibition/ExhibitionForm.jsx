@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import React, { useEffect } from "react";
-import { usePostExhibition } from "../../hooks/exhibition/usetPostExhibition";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
 import {
@@ -13,8 +12,9 @@ import {
 } from "../../hooks/exhibition/useDropzoneEx";
 import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
 
-function ExhibitionForm() {
-  const [createExhibition] = usePostExhibition();
+function ExhibitionForm(props) {
+  const info = props.Detaildata?.exhibitionInfo;
+  const ExAddress = props.Detaildata?.exhibitionInfo.ExhibitionAddress;
   const sourceUrl = "exhibition";
   const [
     exhibition,
@@ -26,34 +26,33 @@ function ExhibitionForm() {
     setAuthorName,
     handleClick,
     onchangeHandler,
+    setExhibitionKind,
   ] = useSetExhibition();
-  //dropzoneinput의 file 관리
   const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
     useDropzoneinputPostEx();
   const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
-  //s3이미지 제출,url얻어오기
   const [s3imgurlhandle] = useGetimgurlEx(files);
   const [s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);
-  // 마운트 해제시, 데이터 url 취소
+  //파일이 언마운트 되면 리샛시켜줌
   useEffect(() => {
     return () => {
       files.forEach((file) => URL.revokeObjectURL(file.preview));
       postfiles.forEach((file) => URL.revokeObjectURL(file.preview));
     };
   }, []);
-  //제출하기
+  //제출버튼
   const submitHandler = (event) => {
     event.preventDefault();
     const urls = s3imgurlhandle(sourceUrl);
     const posturl = s3Postimgurlhandle(sourceUrl);
-    createExhibition({
+    props.createExhibition({
       ...exhibition,
       postImage: posturl,
       artImage: urls,
       exhibitionKind,
     });
   };
-  //삭제 버튼
+  //이미지 삭제버튼
   const deletePostImg = (name, index) => {
     if (name === "postFile") {
       const currentFiles = [...postfiles];
@@ -66,16 +65,114 @@ function ExhibitionForm() {
       setFiles(currentFiles);
     }
   };
+  //업데이트 버튼
+  const submitUpdateHandler = (event) => {
+    event.preventDefault();
+    let urls = null;
+    let posturl = null;
+    if (!postfiles[0].type) {
+      posturl = info.postImage;
+    } else {
+      posturl = s3Postimgurlhandle(sourceUrl);
+    }
+    if (!files[0].type) {
+      urls = info.ExhibitionImgs;
+    } else {
+      urls = s3imgurlhandle(sourceUrl);
+    }
+    props.updateExhibition({
+      ...exhibition,
+      postImage: posturl,
+      artImage: urls,
+      exhibitionKind,
+    });
+  };
+  //data가 들어오면 data를 넣어주는 effect
+  useEffect(() => {
+    // 서버에서 받아온 데이터가 로딩되면 exhibition state를 업데이트
+    //!나중에 필수값 유효성검사 필요!
+    //!작가,이미지 order없이 받는데 어떻게 해야 하는가?
+    if (!props.DetailLoading && !props.DetailError && props.Detaildata) {
+      //!value값 따로??
+      setAuthorName(info.ExhibitionAuthors[authorid].author);
+      const newarr = [...exhibition.authors];
+      newarr.splice(authorid, 1, {
+        order: authorid + 1,
+        author: info.ExhibitionAuthors[authorid].author,
+      });
+      const newExCodeArr = info.ExhibitionCategories.map(
+        (item) => item.categoryCode
+      );
+      //TODO 디테일한 유효성 검사 필요
+      setExhibition((prevExhibition) => ({
+        ...prevExhibition,
+        startDate: info.startDate.slice(0, 10), //
+        endDate: info.endDate.slice(0, 10), //
+        exhibitionTitle: info.exhibitionTitle, //
+        exhibitionEngTitle: info.exhibitionEngTitle, //
+        exhibitionDesc: info.exhibitionDesc, //
+        exhibitionHost: info.exhibitionHost, //
+        exhibitionCode: info.exhibitionStatus,
+        entranceFee: info.entranceFee, //
+        artWorkCnt: info.artWorkCnt, //
+        agencyAndSponsor: info.agencyAndSponsor, //
+        location: info.location, //
+        contact: info.contact, //
+        authors: newarr, //
+        exhibitionCategoty: newExCodeArr, //
+        detailLocation: {
+          //
+          zonecode: ExAddress.zonecode,
+          address: ExAddress.address,
+          addressEnglish: ExAddress.addressEnglish,
+          addressType: ExAddress.addressType,
+          buildingName: ExAddress.buildingName,
+          buildingCode: ExAddress.buildingCode,
+          roadAddress: ExAddress.roadAddress,
+          roadAddressEnglish: ExAddress.roadAddressEnglish,
+          autoJibunAddress: ExAddress.autoJibunAddress,
+          autoJibunAddressEnglish: ExAddress.autoJibunAddressEnglish,
+          roadname: ExAddress.roadname,
+          roadnameCode: ExAddress.roadnameCode,
+          roadnameEnglish: ExAddress.roadnameEnglish,
+        },
+      }));
+      setExhibitionKind(info.exhibitionKind);
+      //*썸네일 미리보기 가지고 와보기
+      setPostFiles([{ preview: info?.postImage }]);
+      //*일반 파일 미리보기 가지고 와보기
+      const previewFileArr = info?.ExhibitionImgs.map((file) => {
+        return { preview: file.imgUrl };
+      });
+      setFiles(previewFileArr);
+    }
+  }, [props.DetailLoading, props.DetailError, props.Detaildata]);
+  console.log("보내질 값", exhibition);
   return (
-    <Flex as="form" onSubmit={submitHandler} fd="row" gap="150">
+    <Flex
+      as={"form"}
+      onSubmit={props.Detaildata ? submitUpdateHandler : submitHandler}
+      fd="row"
+      gap="150"
+    >
       <PostWrap>
         <Post>
           <PageTitle>전시 등록</PageTitle>
           <SelectOnOff>
-            <Offline type="button" name="EK0001" onClick={changeOnOff}>
+            <Offline
+              type="button"
+              name="EK0001"
+              onClick={changeOnOff}
+              exhibitionKind={exhibitionKind}
+            >
               오프라인
             </Offline>
-            <OnLine type="button" name="EK0002" onClick={changeOnOff}>
+            <OnLine
+              type="button"
+              name="EK0002"
+              onClick={changeOnOff}
+              exhibitionKind={exhibitionKind}
+            >
               온라인
             </OnLine>
           </SelectOnOff>
@@ -91,7 +188,7 @@ function ExhibitionForm() {
               <div>
                 <Postimg
                   key={file.name}
-                  src={URL.createObjectURL(file)}
+                  src={file.preview}
                   onLoad={() => {
                     URL.revokeObjectURL(file.preview);
                   }}
@@ -105,7 +202,16 @@ function ExhibitionForm() {
               </div>
             ))
           )}
-          <SubmitButton>전시등록하기</SubmitButton>
+          {props.Detaildata ? (
+            <UpDateButtons>
+              <SubmitButton type={"submit"}>전시수정하기</SubmitButton>
+              <SubmitButton type={"button"} onClick={props.deleteHandler}>
+                전시삭제하기
+              </SubmitButton>
+            </UpDateButtons>
+          ) : (
+            <SubmitButton type={"submit"}>전시등록하기</SubmitButton>
+          )}
           <Caution>주의사항</Caution>
         </Post>
       </PostWrap>
@@ -114,27 +220,33 @@ function ExhibitionForm() {
           <Explanation>전시제목</Explanation>
           <EXColum>
             <ExTitleKor>
-              <span>한글</span>
-              <TitleKor>
-                <input
-                  onChange={onchangeHandler}
-                  value={exhibition.exhibitionTitle}
-                  name="exhibitionTitle"
-                  type="text"
-                  placeholder="제목"
-                />
-              </TitleKor>
+              <TitleP>한글</TitleP>
+              <TitleInput
+                onChange={onchangeHandler}
+                value={exhibition.exhibitionTitle}
+                name="exhibitionTitle"
+                type="text"
+                placeholder="제목"
+              />
             </ExTitleKor>
             <ExTitleKor>
-              <span>한글</span>
-              <TitleKor>제목</TitleKor>
+              <TitleP>영문</TitleP>
+              <TitleInput
+                onChange={onchangeHandler}
+                value={exhibition.exhibitionEngTitle}
+                name="exhibitionEngTitle"
+                type="text"
+                placeholder="Title"
+              />
             </ExTitleKor>
           </EXColum>
         </Box>
         <Box>
           <Explanation>전시 설명</Explanation>
           <ExDesc>
-            <input
+            <Textarea
+              width={"473px"}
+              height={"260px"}
               onChange={onchangeHandler}
               value={exhibition.exhibitionDesc}
               name="exhibitionDesc"
@@ -143,89 +255,132 @@ function ExhibitionForm() {
             />
           </ExDesc>
         </Box>
-        {exhibitionKind === "EK0002" && (
-          <Box>
-            <Explanation>전시 링크</Explanation>
-            <input
-              onChange={onchangeHandler}
-              value={exhibition.exhibitionOnlineLink}
-              name="exhibitionOnlineLink"
-              type="text"
-              placeholder="링크"
-            />
-          </Box>
-        )}
+        <Box>
+          <Explanation>전시 링크</Explanation>
+          <TitleInput
+            onChange={onchangeHandler}
+            value={exhibition.exhibitionLink}
+            name="exhibitionLink"
+            type="text"
+            placeholder="링크"
+          />
+        </Box>
         <Box>
           <Explanation>전시 기간</Explanation>
-          <Flex fd="colum">
-            <div style={{ color: "red" }}>시작일</div>
-            <input
-              onChange={onchangeHandler}
-              value={exhibition.startDate}
-              name="startDate"
-              type="date"
-            />
-            <div style={{ color: "red" }}>종료일</div>
-            <input
-              onChange={onchangeHandler}
-              value={exhibition.endDate}
-              name="endDate"
-              type="date"
-            />
-          </Flex>
-        </Box>
-        <Box>
-          <Explanation>전시 위치</Explanation>
-          <p style={{ color: "red" }}>작성구역. 카카오 지도 api가지고 오기</p>
-          <button type="button" onClick={handleClick}>
-            주소 검색
-          </button>
-          <input
-            value={exhibition.detailLocation.address}
-            readOnly
-            placeholder="주소"
-          />
-          <input
-            value={exhibition.detailLocation.zonecode}
-            readOnly
-            placeholder="우편번호"
-          />
-          <input
-            type="text"
+          <TitleInput
             onChange={onchangeHandler}
-            value={exhibition.location}
-            name="location"
-            placeholder="상세주소"
+            value={exhibition.startDate}
+            name="startDate"
+            type="date"
           />
-        </Box>
-        <Box>
-          <Explanation>입장료</Explanation>
-          <input
+          <Separator>-</Separator>
+          <TitleInput
             onChange={onchangeHandler}
-            value={exhibition.entranceFee}
-            name="entranceFee"
-            maxLength={7}
+            value={exhibition.endDate}
+            name="endDate"
+            type="date"
           />
         </Box>
+        {exhibitionKind === "EK0001" && (
+          <>
+            <Box>
+              <Explanation>전시 위치</Explanation>
+              <Location>
+                <LocationBox>
+                  <TitleInput
+                    bg={"#DDDDDD"}
+                    value={exhibition.detailLocation.address}
+                    readOnly
+                    placeholder="주소"
+                  />
+                  <TitleInput
+                    bg={"#DDDDDD"}
+                    value={exhibition.detailLocation.zonecode}
+                    readOnly
+                    placeholder="우편번호"
+                  />
+                  <ButtonsAddress type="button" onClick={handleClick}>
+                    주소 검색
+                  </ButtonsAddress>
+                </LocationBox>
+                <TitleInput
+                  type="text"
+                  onChange={onchangeHandler}
+                  value={exhibition.location}
+                  name="location"
+                  placeholder="상세주소"
+                />
+              </Location>
+            </Box>
+            <Box>
+              <Explanation>운영시간</Explanation>
+              <Location>
+                <LocationBox>
+                  <TitleInput
+                    type="time"
+                    name="openTime"
+                    value={exhibition.openTime}
+                    onChange={onchangeHandler}
+                  />
+                  <Separator>-</Separator>
+                  <TitleInput
+                    type="time"
+                    name="closeTime"
+                    value={exhibition.closeTime}
+                    onChange={onchangeHandler}
+                  />
+                </LocationBox>
+                <ExDesc>
+                  <Textarea
+                    // onChange={onchangeHandler}
+                    // value={exhibition.exhibitionDesc}
+                    width={"473px"}
+                    height={"91px"}
+                    name=""
+                    type="text"
+                    placeholder="설명"
+                  />
+                </ExDesc>
+              </Location>
+            </Box>
+            <Box>
+              <Explanation>입장료</Explanation>
+              <TitleInput
+                onChange={onchangeHandler}
+                value={exhibition.entranceFee}
+                name="entranceFee"
+                maxLength={7}
+              />
+            </Box>
+          </>
+        )}
         <Box>
-          <Explanation>전시종류</Explanation>
-          <select name="exhibitionCode" onChange={onchangeHandler}>
+          <Explanation>전시 주최</Explanation>
+          <select
+            name="exhibitionHost"
+            onChange={onchangeHandler}
+            value={exhibition.exhibitionHost}
+          >
             <option>선택해 주세요</option>
-            <option value="ES0001">개인전</option>
-            <option value="ES0002">다인전</option>
+            <option value="EH0001">개인/팀</option>
+            <option value="EH0002">기업</option>
+            <option value="EH0003">기관</option>
           </select>
         </Box>
         <Box>
-          <Explanation>전회 테마</Explanation>
+          <Explanation value={exhibition.exhibitionCategoty[0]}>
+            전시회 분류
+          </Explanation>
           <select name="exhibitionCategoty" onChange={onchangeHandler}>
             <option>선택해 주세요</option>
             <option value="WK0001">애니메이션</option>
             <option value="WK0002">수채화</option>
+            <option value="WK0003">이게뭐지?</option>
           </select>
         </Box>
         <Box>
           <Explanation>작가</Explanation>
-          <input
+          <TitleInput
             type="text"
             placeholder="작가"
             onChange={onchangeHandler}
@@ -235,7 +390,7 @@ function ExhibitionForm() {
         </Box>
         <Box>
           <Explanation>작품수</Explanation>
-          <input
+          <TitleInput
             onChange={onchangeHandler}
             value={exhibition.artWorkCnt}
             name="artWorkCnt"
@@ -244,20 +399,18 @@ function ExhibitionForm() {
           />
         </Box>
         <Box>
-          <Explanation>운영시간</Explanation>
-        </Box>
-        <Box>
           <Explanation>연락처</Explanation>
-          <input
+          <TitleInput
             onChange={onchangeHandler}
             value={exhibition.contact}
             name="contact"
             placeholder="전화번호"
+            maxLength={"13"}
           />
         </Box>
         <Box>
-          <Explanation>주최/후원</Explanation>
-          <input
+          <Explanation>후원</Explanation>
+          <TitleInput
             onChange={onchangeHandler}
             value={exhibition.agencyAndSponsor}
             name="agencyAndSponsor"
@@ -269,7 +422,7 @@ function ExhibitionForm() {
           <Explanation>작품사진</Explanation>
           <EXColum>
             <Section {...getRootProps({ className: "dropzone" })}>
-              <input {...getInputProps()} />
+              <TitleInput {...getInputProps()} />
               <DragIcon>
                 <MdOutlineFileDownload />
               </DragIcon>
@@ -280,7 +433,7 @@ function ExhibitionForm() {
                   <Thumb key={file.name}>
                     <ThumbInner>
                       <Thumbimg
-                        src={URL.createObjectURL(file)}
+                        src={file.preview}
                         onLoad={() => {
                           URL.revokeObjectURL(file.preview);
                         }}
@@ -304,7 +457,59 @@ function ExhibitionForm() {
 }
 
 export default ExhibitionForm;
+const UpDateButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
+const ButtonsAddress = styled.button`
+  border: 1px solid #3c3c3c;
+  border-radius: 8px;
+  background: #ffffff;
+  width: 80px;
+  :hover {
+    background-color: #838383;
+  }
+`;
+const TitleP = styled.p`
+  flex: 1;
+  max-width: 32px;
+`;
+const LocationBox = styled.div`
+  display: flex;
+  gap: 5px;
+`;
+const Location = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: auto;
+`;
+const Separator = styled.span`
+  margin: 0 8px;
+  font-size: 35px;
+`;
 
+const Textarea = styled.textarea`
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  resize: none;
+  overflow-y: auto;
+  border-radius: 8px;
+  padding: 10px;
+  ::-webkit-scrollbar {
+    width: 8px;
+    background-color: none;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #bbb;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #999;
+  }
+`;
 const ComentBox = styled.div`
   display: flex;
 `;
@@ -312,9 +517,8 @@ const Post = styled.div`
   position: fixed;
 `;
 const ExDesc = styled.div`
-  background-color: #7d7dfd;
   width: 493px;
-  height: 254px;
+  height: auto;
 `;
 const Explanation = styled.div`
   font-weight: 500;
@@ -322,18 +526,27 @@ const Explanation = styled.div`
   line-height: 25px;
   width: 150px;
 `;
+const TitleInput = styled.input`
+  background-color: ${({ bg }) => bg};
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 15px;
+  font-size: 16px;
+  width: 100%;
+  height: 41px;
+  flex: 1;
+`;
 const TitleKor = styled.div`
   margin-left: 18px;
   width: 452px;
-  background-color: greenyellow;
   height: 100%;
+  flex: 1;
 `;
 const ExTitleKor = styled.div`
   display: flex;
   height: 41px;
   width: 452px;
   align-items: center;
-  background-color: aliceblue;
 `;
 const EXColum = styled.div`
   gap: 8px;
@@ -343,12 +556,13 @@ const EXColum = styled.div`
 
 const Box = styled.div`
   display: flex;
+  margin: 18px 0px;
 `;
 const ContentsWrap = styled.div`
   margin-top: 172px;
   display: flex;
+  width: 622px;
   flex-direction: column;
-  gap: 32px;
 `;
 const Caution = styled.div`
   width: 364px;
@@ -381,9 +595,11 @@ const OnLine = styled.button`
   font-weight: 500;
   font-size: 32px;
   line-height: 38px;
+  background-color: #ffffff;
   :hover {
     background-color: #fff0f0;
   }
+  color: ${(props) => (props.exhibitionKind === "EK0002" ? "red" : "black")};
 `;
 const Offline = styled.button`
   font-family: "S-Core Dream";
@@ -392,9 +608,11 @@ const Offline = styled.button`
   font-size: 32px;
   line-height: 38px;
   margin-right: 60px;
+  background-color: #ffffff;
   :hover {
     background-color: #fff0f0;
   }
+  color: ${(props) => (props.exhibitionKind === "EK0001" ? "red" : "black")};
 `;
 const PageTitle = styled.h1`
   margin-top: 40px;
@@ -484,203 +702,19 @@ const Postimg = styled.img`
 const ThumbsContainer = styled.aside`
   width: 500px;
   display: flex;
-  margin-top: 16;
+  margin: 16px 0px 40px 0px;
   gap: 13px;
   overflow-x: scroll;
+  ::-webkit-scrollbar {
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #888; /* 스크롤 바의 색상 */
+    border-radius: 4px; /* 스크롤 바의 모서리 둥글기 */
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3); /* 스크롤 바의 그림자 */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #244dde;
+  }
 `;
-
-{
-  /* <DIV>
-<div style={{ color: "red" }}>온라인 오프라인?</div>
-<select name="exhibitionKind" onChange={onchangeHandler}>
-  <option>선택해 주세요</option>
-  <option value="EK0001 ">오프라인</option>
-  <option value="EK0002 ">온라인</option>
-</select>
-</DIV>
-{exhibition.exhibitionKind === "EK0002 " && (
-<DIV>
-  <div style={{ color: "red" }}>링크</div>
-  <input
-    onChange={onchangeHandler}
-    value={exhibition.exhibitionOnlineLink}
-    name="exhibitionOnlineLink"
-    type="text"
-    placeholder="링크"
-  />
-</DIV>
-)}
-<Box>
-<p style={{ color: "red" }}>작성구역. 카카오 지도 api가지고 오기</p>
-<button type="button" onClick={handleClick}>
-  주소 검색
-</button>
-<input
-  value={exhibition.detailLocation.address}
-  readOnly
-  placeholder="주소"
-/>
-<input
-  value={exhibition.detailLocation.zonecode}
-  readOnly
-  placeholder="우편번호"
-/>
-<input
-  type="text"
-  onChange={onchangeHandler}
-  value={exhibition.location}
-  name="location"
-  placeholder="상세주소"
-/>
-</Box>
-<DIV2>
-<div>섬네일이미지</div>
-<Section {...getRootPropsPOST({ className: "dropzone" })}>
-  <input {...getInputPropsPOST()} />
-  <DragIcon>
-    <MdOutlineFileDownload />
-  </DragIcon>
-</Section>
-<ThumbsContainer>
-  {postfiles &&
-    postfiles.map((file) => (
-      <Thumb key={file.name}>
-        <ThumbInner>
-          <Thumbimg
-            src={file.preview}
-            onLoad={() => {
-              URL.revokeObjectURL(file.preview);
-            }}
-          />
-        </ThumbInner>
-      </Thumb>
-    ))}
-</ThumbsContainer>
-</DIV2>
-<DIV2>
-<div>상세이미지</div>
-<Section {...getRootProps({ className: "dropzone" })}>
-  <input {...getInputProps()} />
-  <DragIcon>
-    <MdOutlineFileDownload />
-  </DragIcon>
-</Section>
-<ThumbsContainer>
-  {files?.map((file) => (
-    <Thumb key={file.name}>
-      <ThumbInner>
-        <Thumbimg
-          src={file.preview}
-          onLoad={() => {
-            URL.revokeObjectURL(file.preview);
-          }}
-        />
-      </ThumbInner>
-    </Thumb>
-  ))}
-</ThumbsContainer>
-</DIV2>
-<DIV>
-<div style={{ color: "red" }}>제목</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.exhibitionTitle}
-  name="exhibitionTitle"
-  type="text"
-  placeholder="제목"
-/>
-</DIV>
-
-<DIV>
-<div>작가</div>
-<input
-  type="text"
-  placeholder="작가"
-  onChange={onchangeHandler}
-  value={authorName}
-  name="author"
-/>
-</DIV>
-<DIV>
-<div>스폰서</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.agencyAndSponsor}
-  name="agencyAndSponsor"
-  type="text"
-  placeholder="후원"
-/>
-</DIV>
-<DIV>
-<div>관람료</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.entranceFee}
-  name="entranceFee"
-  maxLength={7}
-/>
-</DIV>
-<DIV>
-<div>작품수</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.artWorkCnt}
-  name="artWorkCnt"
-  type="text"
-  placeholder="작품수"
-/>
-</DIV>
-<DIV>
-<div style={{ color: "red" }}>시작일</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.startDate}
-  name="startDate"
-  type="date"
-/>
-<div style={{ color: "red" }}>종료일</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.endDate}
-  name="endDate"
-  type="date"
-/>
-</DIV>
-<DIV>
-<div style={{ color: "red" }}>상세내용</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.exhibitionDesc}
-  name="exhibitionDesc"
-  type="text"
-  placeholder="상세내용"
-/>
-</DIV>
-<DIV>
-<div>전화번호</div>
-<input
-  onChange={onchangeHandler}
-  value={exhibition.contact}
-  name="contact"
-  type="number"
-  placeholder="전화번호"
-/>
-</DIV>
-<DIV>
-<div style={{ color: "red" }}>전시회 종류</div>
-<select name="exhibitionCode" onChange={onchangeHandler}>
-  <option>선택해 주세요</option>
-  <option value="ES0001">개인전</option>
-  <option value="ES0002">다인전</option>
-</select>
-</DIV>
-<DIV>
-<div>전시회 테마</div>
-<select name="exhibitionCategoty" onChange={onchangeHandler}>
-  <option value="WK0001">애니메이션</option>
-  <option value="WK0002">수채화</option>
-</select>
-<div>전시회 카테고리</div>
-</DIV>
-<button>등록</button> */
-}

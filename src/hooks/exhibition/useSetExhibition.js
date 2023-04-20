@@ -7,12 +7,15 @@ export const useSetExhibition = () => {
   const [authorName, setAuthorName] = useState("");
   const templete = {
     startDate: "",
-    exhibitionOnlineLink: "",
     endDate: "",
+    exhibitionLink: "", //
     exhibitionTitle: "",
+    exhibitionEngTitle: "",
     exhibitionDesc: "",
-    exhibitionCode: "",
+    exhibitionHost: "",
     entranceFee: "",
+    openTime: "", //
+    closeTime: "", //
     artWorkCnt: "",
     agencyAndSponsor: "",
     location: "",
@@ -35,13 +38,12 @@ export const useSetExhibition = () => {
       roadnameEnglish: "",
     },
   };
-  const [exhibition, setExhibition] = useState(templete);
+  const [exhibition, setExhibition] = useState({ ...templete });
   //카카오 주소
   const open = useDaumPostcodePopup(process.env.REACT_APP_KAKAO_ADDRESS_URL);
   const handleClick = () => {
     open({
       onComplete: (data) => {
-        console.log("주소 받아온 값", data);
         setExhibition((old) => {
           return {
             ...old,
@@ -88,7 +90,7 @@ export const useSetExhibition = () => {
       setExhibition((old) => {
         return {
           ...old,
-          exhibitionCategoty: [...old.exhibitionCategoty, value],
+          exhibitionCategoty: [value],
         };
       });
     }
@@ -152,6 +154,7 @@ export const useSetExhibition = () => {
       });
     }
   };
+  //online,offline 변환
   const changeOnOff = (event) => {
     const { name } = event.target;
     if (
@@ -166,6 +169,7 @@ export const useSetExhibition = () => {
       setExhibitionKind(name);
     }
   };
+
   return [
     exhibition,
     setExhibition,
@@ -176,5 +180,6 @@ export const useSetExhibition = () => {
     setAuthorName,
     handleClick,
     onchangeHandler,
+    setExhibitionKind,
   ];
 };
