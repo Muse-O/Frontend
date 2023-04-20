@@ -11,6 +11,8 @@ import {
   useDropzoneinputPostEx,
 } from "../../hooks/exhibition/useDropzoneEx";
 import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
+import { useGetImgUrl } from "./CreateURL";
+import { useDropzoneInput } from "../../hooks/exhibition/useDropZone";
 
 function ExhibitionForm(props) {
   const info = props.Detaildata?.exhibitionInfo;
@@ -28,11 +30,12 @@ function ExhibitionForm(props) {
     onchangeHandler,
     setExhibitionKind,
   ] = useSetExhibition();
+
   const [postfiles, setPostFiles, getRootPropsPOST, getInputPropsPOST] =
-    useDropzoneinputPostEx();
-  const [files, setFiles, getRootProps, getInputProps] = useDropzoneinputEx();
-  const [s3imgurlhandle] = useGetimgurlEx(files);
-  const [s3Postimgurlhandle] = useGetPostimgurlEx(postfiles);
+    useDropzoneInput(1);
+  const [files, setFiles, getRootProps, getInputProps] = useDropzoneInput(10);
+  const [s3ImgUrlHandle] = useGetImgUrl(sourceUrl);
+  const [s3PostImgUrlHandle] = useGetImgUrl(sourceUrl, true);
   //파일이 언마운트 되면 리샛시켜줌
   useEffect(() => {
     return () => {
@@ -43,8 +46,8 @@ function ExhibitionForm(props) {
   //제출버튼
   const submitHandler = (event) => {
     event.preventDefault();
-    const urls = s3imgurlhandle(sourceUrl);
-    const posturl = s3Postimgurlhandle(sourceUrl);
+    const urls = s3ImgUrlHandle(files);
+    const posturl = s3PostImgUrlHandle(postfiles);
     props.createExhibition({
       ...exhibition,
       postImage: posturl,
@@ -56,11 +59,13 @@ function ExhibitionForm(props) {
   const deletePostImg = (name, index) => {
     if (name === "postFile") {
       const currentFiles = [...postfiles];
+      URL.revokeObjectURL(currentFiles.preview);
       currentFiles.splice(index, 1);
       setPostFiles(currentFiles);
     }
     if (name === "files") {
       const currentFiles = [...files];
+      URL.revokeObjectURL(currentFiles.preview);
       currentFiles.splice(index, 1);
       setFiles(currentFiles);
     }
@@ -73,12 +78,12 @@ function ExhibitionForm(props) {
     if (!postfiles[0].type) {
       posturl = info.postImage;
     } else {
-      posturl = s3Postimgurlhandle(sourceUrl);
+      posturl = s3PostImgUrlHandle(sourceUrl);
     }
     if (!files[0].type) {
       urls = info.ExhibitionImgs;
     } else {
-      urls = s3imgurlhandle(sourceUrl);
+      urls = s3ImgUrlHandle(sourceUrl);
     }
     props.updateExhibition({
       ...exhibition,
@@ -147,7 +152,7 @@ function ExhibitionForm(props) {
       setFiles(previewFileArr);
     }
   }, [props.DetailLoading, props.DetailError, props.Detaildata]);
-  console.log("보내질 값", exhibition);
+  console.log("보내질 값", files);
   return (
     <Flex
       as={"form"}
@@ -186,13 +191,7 @@ function ExhibitionForm(props) {
           ) : (
             postfiles.map((file, index) => (
               <div>
-                <Postimg
-                  key={file.name}
-                  src={file.preview}
-                  onLoad={() => {
-                    URL.revokeObjectURL(file.preview);
-                  }}
-                />
+                <Postimg key={file.name} src={file.preview} />
                 <button
                   type="button"
                   onClick={() => deletePostImg("postFile", index)}
@@ -432,12 +431,7 @@ function ExhibitionForm(props) {
                 <div>
                   <Thumb key={file.name}>
                     <ThumbInner>
-                      <Thumbimg
-                        src={file.preview}
-                        onLoad={() => {
-                          URL.revokeObjectURL(file.preview);
-                        }}
-                      />
+                      <Thumbimg src={file.preview} />
                     </ThumbInner>
                   </Thumb>
                   <button
