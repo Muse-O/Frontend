@@ -111,7 +111,13 @@ function LoginForm() {
                 type="password"
                 name="password"
                 onChange={changeInputHandler}
-                style={{ borderColor: !pwMsg ? "#dddddd" : "red" }}
+                style={{
+                  borderColor: !pwMsg ? "#dddddd" : "red",
+                  fontFamily: "Verdana",
+                  fontSize: "35px",
+                  padding: "10px 10px 15px",
+                  letterSpacing: "-0.08em",
+                }}
               />
               <div onClick={visibleChangeHandler}>
                 <img src={falseVisibleEyes} alt="invisibleEyes" />
@@ -123,7 +129,9 @@ function LoginForm() {
                 type="text"
                 name="password"
                 onChange={changeInputHandler}
-                style={{ borderColor: !pwMsg ? "#dddddd" : "red" }}
+                style={{
+                  borderColor: !pwMsg ? "#dddddd" : "red",
+                }}
               />
               <div onClick={visibleChangeHandler}>
                 <img src={trueVisibleEyes} alt="trueVisibleEyes" />
