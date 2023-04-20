@@ -6,6 +6,8 @@ import naverLogo from "../../assets/imgs/login/네이버로고.png";
 import googleLogo from "../../assets/imgs/login/google-plus.png";
 import kakaoLogo from "../../assets/imgs/login/kakao-talk.png";
 import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
+import falseVisibleEyes from "../../assets/imgs/login/invisible_gray.png";
+import trueVisibleEyes from "../../assets/imgs/login/eye_gray.png";
 
 /**
  * 할일
@@ -17,9 +19,9 @@ function LoginForm() {
   //react-query
   const { login } = useLogin();
 
-  //유효성 검사
-  const [emailMsg, setEmailMsg] = useState("");
-  const [pwMsg, setPwMsg] = useState("");
+  const [emailMsg, setEmailMsg] = useState(""); //유효성 검사
+  const [pwMsg, setPwMsg] = useState(""); //유효성 검사
+  const [pwVisible, setPwVisible] = useState(false); //비밀번호
 
   //로그인시 login에 보낼 정보
   const [loginInfo, setLoginInfo] = useState({
@@ -70,6 +72,10 @@ function LoginForm() {
     }
   }, [loginInfo.password]);
 
+  const visibleChangeHandler = () => {
+    setPwVisible(visible => !visible); //toggle
+  };
+
   //소셜로그인 미구현 -> 서비스 제공 예정 alert
   const socialLoginBtn = () => {
     alert("서비스 제공 예정입니다.");
@@ -86,7 +92,12 @@ function LoginForm() {
       <StEmailInputBox>
         <label>이메일</label>
         <StEmailInputWrap>
-          <input type="email" name="email" onChange={changeInputHandler} />
+          <input
+            type="email"
+            name="email"
+            onChange={changeInputHandler}
+            style={{ borderColor: !emailMsg ? "#dddddd" : "red" }}
+          />
           <div>{emailMsg}</div>
         </StEmailInputWrap>
       </StEmailInputBox>
@@ -94,13 +105,42 @@ function LoginForm() {
       <StPwInputBox>
         <label>비밀번호</label>
         <StPwInputWrap>
-          <input
-            type="password"
-            name="password"
-            onChange={changeInputHandler}
-          />
-          <div>{pwMsg}</div>
+          {!pwVisible ? (
+            <StPwInputImgWrap>
+              <input
+                type="password"
+                name="password"
+                onChange={changeInputHandler}
+                style={{
+                  borderColor: !pwMsg ? "#dddddd" : "red",
+                  fontFamily: "Verdana",
+                  fontSize: "36px",
+                  color: "#242424",
+                  padding: "10px 10px 15px",
+                  letterSpacing: "-0.08em",
+                }}
+              />
+              <div onClick={visibleChangeHandler}>
+                <img src={falseVisibleEyes} alt="invisibleEyes" />
+              </div>
+            </StPwInputImgWrap>
+          ) : (
+            <StPwInputImgWrap>
+              <input
+                type="text"
+                name="password"
+                onChange={changeInputHandler}
+                style={{
+                  borderColor: !pwMsg ? "#dddddd" : "red",
+                }}
+              />
+              <div onClick={visibleChangeHandler}>
+                <img src={trueVisibleEyes} alt="trueVisibleEyes" />
+              </div>
+            </StPwInputImgWrap>
+          )}
         </StPwInputWrap>
+        <StPwWarning>{pwMsg}</StPwWarning>
       </StPwInputBox>
 
       <StLoginBtn onClick={loginHandler}>로그인</StLoginBtn>
@@ -196,12 +236,12 @@ const StPwInputBox = styled.div`
   width: 416px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 
   label {
     color: #242424;
     font-size: 15px;
     font-weight: bold;
+    margin-bottom: 16px;
   }
 `;
 
@@ -209,6 +249,12 @@ const StPwInputWrap = styled.div`
   width: 416px;
   height: 48px;
 
+  div {
+    color: #f65959;
+  }
+`;
+
+const StPwInputImgWrap = styled.div`
   input {
     font-family: "Montserrat", sans-serif;
     width: 416px;
@@ -218,12 +264,20 @@ const StPwInputWrap = styled.div`
     border-radius: 5px;
     outline: none;
     font-size: 16px;
-    margin-bottom: 5px;
+    position: absolute;
   }
 
-  div {
-    color: #f65959;
+  img {
+    width: 20px;
+    height: 20px;
+    transform: translate(385px, 12px);
+    cursor: pointer;
   }
+`;
+
+const StPwWarning = styled.div`
+  color: #f65959;
+  height: 9px;
 `;
 
 const StLoginBtn = styled.button`
