@@ -114,7 +114,8 @@ function LoginForm() {
                 style={{
                   borderColor: !pwMsg ? "#dddddd" : "red",
                   fontFamily: "Verdana",
-                  fontSize: "35px",
+                  fontSize: "36px",
+                  color: "#242424",
                   padding: "10px 10px 15px",
                   letterSpacing: "-0.08em",
                 }}
