@@ -4,8 +4,8 @@ import UpdateUserProfileModal from "./UpdateUserProfileModal";
 import UpdateModalBlackBg from "./UpdateModalBlackBg";
 import styled from "styled-components";
 import AlarmContainer from "./AlarmContainer";
-import { AiOutlineSetting } from "react-icons/ai";
 import palette from "../../assets/imgs/paint-palette.png";
+import setting from "../../assets/imgs/mypage/gear_gray.png";
 
 function UserProfile() {
   const { userProfile } = useGetUserProfile();
@@ -23,7 +23,7 @@ function UserProfile() {
 
         <StEditBtnWrap>
           <UpdateBtn onClick={updateUserProfileModalHandler}>
-            <AiOutlineSetting size="30" />
+            <img src={setting} alt="setting" />
           </UpdateBtn>
         </StEditBtnWrap>
 
@@ -54,10 +54,10 @@ function UserProfile() {
 export default UserProfile;
 
 const StUserProfileBox = styled.div`
-  background-color: #80808029;
+  background-color: #ffffff;
+  border-radius: 10px;
   width: 430px;
   height: 822px;
-  /* height: 816px; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,6 +78,11 @@ const UpdateBtn = styled.button`
   height: 41px;
   border-radius: 50%;
   cursor: pointer;
+
+  img {
+    width: 25px;
+    height: 25px;
+  }
 `;
 
 const StUserNameWrap = styled.div`
@@ -134,7 +139,7 @@ const ProfileImg = styled.img`
 `;
 
 const Line = styled.div`
-  border-top: 1px solid white;
-  width: 393px;
+  border-top: 1px solid #cccccc;
+  width: 392px;
   height: 20px;
 `;
