@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import React, { useEffect } from "react";
-import { usePostExhibition } from "../../hooks/exhibition/usetPostExhibition";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
 import {
@@ -213,7 +212,6 @@ function ExhibitionForm(props) {
           ) : (
             <SubmitButton type={"submit"}>전시등록하기</SubmitButton>
           )}
-
           <Caution>주의사항</Caution>
         </Post>
       </PostWrap>

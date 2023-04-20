@@ -9,15 +9,18 @@ import ExhibitionLiked from "./ExhibitionLiked";
 import ExhibitionScrap from "./ExhibitionScrap";
 import { AiOutlineLike, AiOutlineLink, AiFillLike } from "react-icons/ai";
 import { BsBookmarkCheck, BsBookmarkCheckFill } from "react-icons/bs";
+import { usetoken } from "../../shared/cookies";
+
 function ExhibitionDetail() {
   const { id } = useParams();
   const navigator = useNavigate();
+  const { decodetoken } = usetoken();
+  const userEmail = decodetoken?.email;
   const [data, isLoading, isError] = useDetailGetExibition(id);
   const info = data?.exhibitionInfo;
   if (isLoading) {
     return <div>로딩중</div>;
   }
-  console.log("가지고온 데이터", info);
   return (
     <Flex>
       {info && (
@@ -76,13 +79,15 @@ function ExhibitionDetail() {
           </PostWrap>
           <ContentWrap>
             <Contents>
-              <button
-                onClick={() =>
-                  navigator(`/exhibition/update/${info.exhibitionId}`)
-                }
-              >
-                수정하기
-              </button>
+              {info.userEmail === userEmail && (
+                <button
+                  onClick={() =>
+                    navigator(`/exhibition/update/${info.exhibitionId}`)
+                  }
+                >
+                  수정하기
+                </button>
+              )}
               <ExhibitionDescBOX>{info.exhibitionDesc}</ExhibitionDescBOX>
               <ExhibitioninfoP>전시 정보</ExhibitioninfoP>
               <ExhibitionInfoWrap>
@@ -90,7 +95,7 @@ function ExhibitionDetail() {
                   <InfoTitle>위치</InfoTitle>
                   <InfoBox>
                     <span>{info.ExhibitionAddress.address}</span>
-                    <div>{info?.ExhibitionAddress.zonecode}</div>
+                    <div>{info.ExhibitionAddress.zonecode}</div>
                     <span>{info.location}</span>
                   </InfoBox>
                 </ExhibitionInfo>

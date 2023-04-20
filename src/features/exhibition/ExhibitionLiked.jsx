@@ -1,10 +1,10 @@
 import React from "react";
 import { useLikeExhibition } from "../../hooks/exhibition/useLikeExhibition";
-import styled, { isStyledComponent } from "styled-components";
-import { cookies } from "../../shared/cookies";
+import styled from "styled-components";
+import { usetoken } from "../../shared/cookies";
 
 function ExhibitionLiked({ exhibitionId, children }) {
-  const access_token = cookies.get("access_token");
+  const { access_token } = usetoken();
   const [likeExhibition] = useLikeExhibition();
   const likeHandler = (exhibitionId) => {
     if (!access_token) {

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { usePostReview } from "../../hooks/exhibition/usePostReview";
 import styled from "styled-components";
-import { cookies } from "../../shared/cookies";
+import { cookies, usetoken } from "../../shared/cookies";
 
 function ExhibitionReviewForm({ exhibitionID }) {
-  const access_token = cookies.get("access_token");
+  const { access_token } = usetoken();
   const [createExhibition] = usePostReview(exhibitionID);
   const template = {
     reviewComment: "",

@@ -5,16 +5,12 @@ import { useParams } from "react-router-dom";
 import { useGetReview } from "../../hooks/exhibition/useGetReview";
 import { apis } from "../../api/apis";
 import jwtDecode from "jwt-decode";
-import { cookies } from "../../shared/cookies";
+import { usetoken } from "../../shared/cookies";
 import { useDeleteReview } from "../../hooks/exhibition/useDeleteReview";
 import { AiOutlineDelete } from "react-icons/ai";
 function ExhibitionReview({ exhibitionID }) {
-  //email가지고 오기
-  const access_token = cookies.get("access_token");
-  let email = "";
-  if (access_token) {
-    email = jwtDecode(access_token).email;
-  }
+  const { decodetoken } = usetoken();
+  const userEmail = decodetoken?.email;
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const offset = (page - 1) * limit;
@@ -54,7 +50,7 @@ function ExhibitionReview({ exhibitionID }) {
                     <div>평점:{review.reviewRating}</div>
                     <Center>{review.userEmail}</Center>
                     <div>{review.createdAt.slice(0, 10)}</div>
-                    {review.userEmail === email ? (
+                    {review.userEmail === userEmail ? (
                       <DeleteIcon>
                         <AiOutlineDelete
                           onClick={() =>
