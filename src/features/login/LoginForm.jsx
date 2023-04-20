@@ -92,7 +92,12 @@ function LoginForm() {
       <StEmailInputBox>
         <label>이메일</label>
         <StEmailInputWrap>
-          <input type="email" name="email" onChange={changeInputHandler} />
+          <input
+            type="email"
+            name="email"
+            onChange={changeInputHandler}
+            style={{ borderColor: !emailMsg ? "#dddddd" : "red" }}
+          />
           <div>{emailMsg}</div>
         </StEmailInputWrap>
       </StEmailInputBox>
@@ -106,6 +111,7 @@ function LoginForm() {
                 type="password"
                 name="password"
                 onChange={changeInputHandler}
+                style={{ borderColor: !pwMsg ? "#dddddd" : "red" }}
               />
               <div onClick={visibleChangeHandler}>
                 <img src={falseVisibleEyes} alt="invisibleEyes" />
@@ -117,15 +123,15 @@ function LoginForm() {
                 type="text"
                 name="password"
                 onChange={changeInputHandler}
+                style={{ borderColor: !pwMsg ? "#dddddd" : "red" }}
               />
               <div onClick={visibleChangeHandler}>
                 <img src={trueVisibleEyes} alt="trueVisibleEyes" />
               </div>
             </StPwInputImgWrap>
           )}
-
-          <div>{pwMsg}</div>
         </StPwInputWrap>
+        <StPwWarning>{pwMsg}</StPwWarning>
       </StPwInputBox>
 
       <StLoginBtn onClick={loginHandler}>로그인</StLoginBtn>
@@ -221,12 +227,12 @@ const StPwInputBox = styled.div`
   width: 416px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
 
   label {
     color: #242424;
     font-size: 15px;
     font-weight: bold;
+    margin-bottom: 16px;
   }
 `;
 
@@ -249,7 +255,6 @@ const StPwInputImgWrap = styled.div`
     border-radius: 5px;
     outline: none;
     font-size: 16px;
-    margin-bottom: 5px;
     position: absolute;
   }
 
@@ -259,6 +264,11 @@ const StPwInputImgWrap = styled.div`
     transform: translate(385px, 12px);
     cursor: pointer;
   }
+`;
+
+const StPwWarning = styled.div`
+  color: #f65959;
+  height: 9px;
 `;
 
 const StLoginBtn = styled.button`
