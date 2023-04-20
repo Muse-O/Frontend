@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { usePostReview } from "../../hooks/exhibition/usePostReview";
 import styled from "styled-components";
-import { cookies, usetoken } from "../../shared/cookies";
+import { usetoken } from "../../shared/cookies";
 
 function ExhibitionReviewForm({ exhibitionID }) {
   const { access_token } = usetoken();

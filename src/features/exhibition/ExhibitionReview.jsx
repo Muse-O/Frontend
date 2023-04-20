@@ -1,10 +1,6 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { usePostReview } from "../../hooks/exhibition/usePostReview";
-import { useParams } from "react-router-dom";
 import { useGetReview } from "../../hooks/exhibition/useGetReview";
-import { apis } from "../../api/apis";
-import jwtDecode from "jwt-decode";
 import { usetoken } from "../../shared/cookies";
 import { useDeleteReview } from "../../hooks/exhibition/useDeleteReview";
 import { AiOutlineDelete } from "react-icons/ai";

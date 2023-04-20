@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "../components/Header";
 import { Article } from "../shared/GlobalStyled";
-import ExhibitionUpdate from "../features/exhibition/ExhibitionUpdate";
 import { useParams } from "react-router-dom";
 import { useDetailGetExibition } from "../hooks/exhibition/useDetailGetExibition";
 import ExhibitionForm from "../features/exhibition/ExhibitionForm";
