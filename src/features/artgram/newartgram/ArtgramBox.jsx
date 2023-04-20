@@ -1,82 +1,61 @@
 import React from "react";
+// import CSS & icons & png ------------------------------------------------------------------------------/
 import * as Artgramparts from "./ArtgramCss";
-import { BsBookmarkFill, BsFillHeartFill, BsFiles } from "react-icons/bs";
+// import { BsBookmarkFill, BsFillHeartFill } from "react-icons/bs";
+import {RiBookmarkFill} from "react-icons/ri"
+import {AiFillHeart} from "react-icons/ai"
+import overlap_gray from '../../../assets/imgs/artgram/overlap_gray.png'
+// import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { useLikes } from "../../../hooks/artgram/useLikes";
 import { useScrap } from "../../../hooks/artgram/useScrap";
 import { useOpenModal } from "../../../hooks/artgram/useOpenModal";
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
 import ArtgarmDetailModal from "./ArtgarmDetailModal";
-
+// ArtgramBox 컴포넌트 -------------------------------------------------------------------------------------/
 function ArtgramBox({ info }) {
-  const {
-    artgramId,
-    imgUrl,
-    imgCount,
-    profileImg,
-    nickname,
-    scrapCount,
-    scrap,
-    likeCount,
-    liked,
-  } = info;
-
-  const { patchLikes } = useLikes();
-  const { patchScrap } = useScrap();
-  // Modal 관련 함수 
-  const {modalState, openModalhandle} = useOpenModal();
+  const { artgramId, imgUrl, imgCount, profileImg,nickname, scrapCount, scrap, likeCount, liked,} 
+  = info; // props로 전달받은 useGetartgraminfinity의 개별데이터의내용 
+  const { patchScrap } = useScrap(); // 스크랩관련 비동기통신 PATCH
+  const { patchLikes } = useLikes(); // 좋아요관련 비동기통신 PATCH
+  const {modalState, openModalhandle} = useOpenModal(); // 개별데이터 상세페이지를 열 모달관련 커스컴 훅 
 
   return (
-    <Artgramparts.ArtgramboxWrap onClick={() => openModalhandle()}>
-      <div className="imgWrap">
-        <img className="artgramimg" src={imgUrl} alt="아트그램 이미지" />
-      </div>
-      <div className="artgraminfo">
-        <div
-          className="artgramProfileImg"
-          children={<img src={profileImg} alt="artgramProfileImg" />}
-        />
-        <div className="artgramProfileNickname">
-          <span>by</span> {nickname}
-        </div>
+    <Artgramparts.BoxWrap onClick={() => openModalhandle()}>
+      <Artgramparts.BoxImg children={<img className="artgramimg" src={imgUrl} alt="아트그램 이미지" />}/>
+      <Artgramparts.BoxProfile>
+        <Artgramparts.BoxProfileimg
+          children={<img src={profileImg} alt="artgramProfileImg" />} />
+        <Artgramparts.BoxProfileNickname 
+          children={<><span>by</span> {nickname}</>} />
         <Artgramparts.Scrap
           state={scrap}
           onClick={(event) => {
             event.stopPropagation();
-            patchScrap(artgramId);
-          }}
-        >
-          <p>
-            <BsBookmarkFill />
-          </p>
-          <p>{scrapCount}</p>
-        </Artgramparts.Scrap>
+            patchScrap(artgramId);}}
+          children={
+            <>
+              <p children={<RiBookmarkFill />} />
+              <p children={scrapCount}/>
+            </>}/>
         <Artgramparts.Heart
           state={liked}
           onClick={(event) => {
             event.stopPropagation();
-            patchLikes(artgramId);
-          }}
-        >
-          <p>
-            <BsFillHeartFill />
-          </p>
-          <p>{likeCount}</p>
-        </Artgramparts.Heart>
-      </div>
-      {imgCount > 1 && (
-        <Artgramparts.PluralImgs
+            patchLikes(artgramId);}}
           children={
-            <p>
-              <BsFiles />
-            </p>
-          }
-        />
-      )}
+            <>
+              <p children={<AiFillHeart />} />
+              <p children={likeCount}/>
+            </>} />
+      </Artgramparts.BoxProfile>
+
+       {/* 해당 아트그램의 이미지가 복수인 경우 표시할 아이콘 */}
+      {imgCount > 1 && (
+        <Artgramparts.PluralImgs children={<img src={overlap_gray} alt="복수이미지표시" />} />)}
       
-      {/* 상세모달 창 열기 */}
-      {modalState && (
-        <ArtgarmDetailModal artgramId={artgramId} modalState={modalState} openModalhandle={openModalhandle}/>
-      )}
-    </Artgramparts.ArtgramboxWrap>
+      {/* 해당 아크그램을 클릭했을 때 상세모달페이지가 실행되는 컴포넌트 */}
+      {modalState && (<ArtgarmDetailModal artgramId={artgramId} modalState={modalState} openModalhandle={openModalhandle}/>)}
+    </Artgramparts.BoxWrap>
   );
 }
 

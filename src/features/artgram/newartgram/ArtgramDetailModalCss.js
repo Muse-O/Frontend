@@ -83,7 +83,7 @@ const CommentsLayout = styled.div`
       width: 33px;
       height: 33px;
       border-radius: 50%;
-      margin: 8px 0;
+      margin: 10px 0;
       background-color: lightgray;
     }
   }

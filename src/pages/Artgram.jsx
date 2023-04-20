@@ -1,37 +1,34 @@
 import React from "react";
-import Header from "../components/Header";
+// import CSS --------------------------------------------------------------------------------------------/
 import { Article } from "../shared/GlobalStyled";
-import ArtgramBox from "../features/artgram/newartgram/ArtgramBox";
-import ArtgramWrite from "../features/artgram/newartgram/ArtgramWrite";
 import * as Artgramparts from '../features/artgram/newartgram/ArtgramCss'
+// import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { useInterserctionObserver } from "../hooks/artgram/newArtgram/useIntersectionObserver";
 import { useGetartgraminfinity } from "../hooks/artgram/useGetartgraminfinity";
-
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
+import Header from "../components/Header";
+import ArtgramBox from "../features/artgram/newartgram/ArtgramBox";
+import ArtgramWrite from "../features/artgram/newartgram/ArtgramWrite";
+// Artgram 컴포넌트 ----------------------------------------------------------------------------------------/
 function Artgram() {
-  // 아트그램 비동기통신(GET, 조회)관련 훅
-  const { data, isLoading, isError, fetchNextPage, hasNextPage } = useGetartgraminfinity();
-  let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
-  
-  // 아트그램  InterserctionObserver 감지에 따른 fetchNextPage 호출관련 훅
-  const { ref } = useInterserctionObserver(fetchNextPage);
+  const { data, isLoading, isError, fetchNextPage, hasNextPage } = useGetartgraminfinity(); // 비동기통신 GET
+  let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : []; // 무한스크롤에 따른, data-merge
+  const { ref } = useInterserctionObserver(fetchNextPage); // useRef를 통해서, 무한스크롤 감지를 위한 커스컴 훅
 
   return (
     <>
-      <Header />
+      <Header/>
       <Article>
         <Artgramparts.Layout>
-          <Artgramparts.H1>
-            아트그램 <span>Artgram</span>
-          </Artgramparts.H1>
-          <Artgramparts.Wrap>
-            {isLoading || isError
-            ? (<div>로딩 중...</div>)
-            : merged.map(artgrams => <div key={artgrams.artgramId} children={ <ArtgramBox info={artgrams}/>}/>)}
-          </Artgramparts.Wrap>
-
-          {/* infinetyScroll 및 글쓰기 버튼공간 */}
-          <ArtgramWrite />
-          <Artgramparts.HiddenRef ref={ref} > {hasNextPage ? "새로요청" : "마지막 페이지 입니다"}</Artgramparts.HiddenRef>
+          <Artgramparts.H1 children={<>아트그램 <span>Artgram</span></>} />
+          <Artgramparts.Wrap 
+            children={isLoading || isError
+              ? (<div>로딩 중...</div>)
+              : merged.map(artgrams => 
+                <div key={artgrams.artgramId} children={ <ArtgramBox info={artgrams}/>}/>)}
+          />
+          <ArtgramWrite /> {/* 아트그램 생성으로 이동하는 버튼 */}
+          <Artgramparts.HiddenRef ref={ref} children={hasNextPage ? "새로운목록요청-GET" : "마지막페이지입니다"} />
         </Artgramparts.Layout>
       </Article>
     </>

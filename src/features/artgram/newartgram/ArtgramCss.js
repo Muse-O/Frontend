@@ -26,29 +26,13 @@ const HiddenRef = styled.div`
   color: transparent;
 `
 
-const ArtgramboxWrap = styled.div`
+const BoxWrap = styled.div`
   position: relative;
   height: 426px;
   box-shadow: 0px 4px 7px #878787;
   border-radius: 5px;
   background-color: #fff;
-
-  .imgWrap {
-    position: relative;
-    max-width: 364px;
-    min-height: 365px;
-    max-height: 365px;
-    overflow: hidden;
-  }
-
-  .artgramimg {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 354px;
-    border-radius: 5px 5px 0 0;
-    background-color: lightgreen;
-  }
+  overflow: hidden;
 
   .artgraminfo {
     display: grid;
@@ -83,12 +67,65 @@ const ArtgramboxWrap = styled.div`
   }
 `;
 
+const BoxImg = styled.div`
+  position: relative;
+  max-width: 364px;
+  min-height: 365px;
+  max-height: 365px;
+  overflow: hidden;
+
+  .artgramimg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+`;
+
+const BoxProfile = styled.div`
+  display: grid;
+  grid-template-columns: 29px 1fr 47px 47px;
+  gap: 8px;
+  height: 61px;
+  padding: 16px 12px;
+  align-items: center;
+`;
+
+const BoxProfileimg = styled.div`
+  width: 29px;
+  height: 29px;
+  border-radius: 50px;
+  background-color: lightgray;
+
+  img {
+    display: block;
+    width: 100%;
+    border-radius: 50px;
+  }
+`;
+
+const BoxProfileNickname = styled.div`
+  font-family: "Montserrat";
+  font-size: 12px;
+  font-weight: 600;
+
+  span {
+    font-weight: 400;
+    color: #767676;
+  }
+`;
+
 const Scrap = styled.div`
   font-family: "Montserrat";
   font-size: 12px;
   display: flex;
   gap: 8px;
   align-items: center;
+  
   p:first-child {
     font-size: 16px;
     color: ${(props) => (props.state ? "#FFD43E" : "lightgray")};
@@ -125,11 +162,10 @@ const PluralImgs = styled.div`
   border-radius: 50px;
   background: #fff;
   opacity: 0.8;
-  p {
-    font-size: 2rem;
-    position: relative;
-    right: 2px;
-    top:2px;
+  padding: 9px;
+
+  img {
+    width: 100%;
   }
 `
 const ModalBackground = styled.div`
@@ -139,9 +175,15 @@ const ModalBackground = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  /* background-color: ; */
+  padding: 20px;
   background-color: rgba(35, 35, 35, 0.7);
   z-index: 10200;
+  
+  img {
+    display: block;
+    width: 2rem;
+    margin-left: auto;
+  }
 `
 
 const ModalWindow = styled.div`
@@ -168,7 +210,11 @@ export {
   HiddenRef,
 
   // 아트그램 Box
-  ArtgramboxWrap,
+  BoxWrap,
+  BoxImg,
+  BoxProfile,
+  BoxProfileimg,
+  BoxProfileNickname,
   Scrap,
   Heart,
   PluralImgs,
