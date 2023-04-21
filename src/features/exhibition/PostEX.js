@@ -1,14 +1,14 @@
-import { usePostExhibition } from "../../hooks/exhibition/usetPostExhibition";
-
+//post 버튼
 export const PostEX = (
   s3ImgUrlHandle,
   s3PostImgUrlHandle,
   files,
   postfiles,
   exhibition,
-  exhibitionKind
+  exhibitionKind,
+  createExhibition
 ) => {
-  const [createExhibition] = usePostExhibition();
+  // const [createExhibition] = usePostExhibition();
   const PostEXHandler = (event) => {
     event.preventDefault();
     const urls = s3ImgUrlHandle(files);

@@ -1,15 +1,22 @@
 import styled from "styled-components";
-import React, { useEffect } from "react";
+import React from "react";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { Flex } from "../../components/Flex";
 import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
 import { useGetImgUrl } from "./CreateURL";
 import { useDropzoneInput } from "../../hooks/exhibition/useDropZone";
 import { PostEX } from "./PostEX";
+import { UpdateEX } from "./UpdateEX";
 
-function ExhibitionForm(props) {
-  const info = props.Detaildata?.exhibitionInfo;
+function ExhibitionForm({
+  createExhibition,
+  Detaildata,
+  DetailLoading,
+  updateExhibition,
+  deleteHandler,
+}) {
   const sourceUrl = "exhibition";
+  //썸네일용 dorpzone
   const [
     postfiles,
     setPostFiles,
@@ -17,10 +24,14 @@ function ExhibitionForm(props) {
     getInputPropsPOST,
     deleteImgPOST,
   ] = useDropzoneInput(1);
+  //상세설명용 dorpzone
   const [files, setFiles, getRootProps, getInputProps, deleteImg] =
     useDropzoneInput(10);
+  //이미지 URL 생성기 + 이미지 파일 업로드 함수
   const [s3ImgUrlHandle] = useGetImgUrl(sourceUrl);
   const [s3PostImgUrlHandle] = useGetImgUrl(sourceUrl, true);
+  //업로드 정보, ONLINE,OFF라인 변경버튼,카카오 주소 버튼, 데이터 onChange 함수
+  //detaildata 가 있으면 수정페이지 접속시 데이터 적용
   const [
     exhibition,
     exhibitionKind,
@@ -28,367 +39,324 @@ function ExhibitionForm(props) {
     authorName,
     handleClick,
     onchangeHandler,
-  ] = useSetExhibition(
-    props.DetailLoading,
-    props.DetailError,
-    props.Detaildata,
-    setFiles,
-    setPostFiles
-  );
-
+  ] = useSetExhibition(DetailLoading, Detaildata, setFiles, setPostFiles);
+  //post
   const PostEXHandler = PostEX(
     s3ImgUrlHandle,
     s3PostImgUrlHandle,
     files,
     postfiles,
     exhibition,
-    exhibitionKind
+    exhibitionKind,
+    createExhibition
   );
-  //업데이트 버튼
+  //update
+  const UpdateEXHandler = UpdateEX(
+    s3ImgUrlHandle,
+    s3PostImgUrlHandle,
+    files,
+    postfiles,
+    exhibition,
+    exhibitionKind,
+    Detaildata,
+    updateExhibition
+  );
 
-  const hasFileProperty = (obj) => {
-    return (
-      obj instanceof File ||
-      (typeof obj === "object" &&
-        obj.hasOwnProperty("name") &&
-        obj.hasOwnProperty("lastModified") &&
-        obj.hasOwnProperty("size") &&
-        obj.hasOwnProperty("type"))
-    );
-  };
-
-  const submitUpdateHandler = (event) => {
-    event.preventDefault();
-    const posturl = hasFileProperty(postfiles)
-      ? s3PostImgUrlHandle(postfiles)
-      : info.postImage;
-
-    const fileObjs = [];
-    const otherObjs = [];
-    files.forEach((obj) => {
-      if (hasFileProperty(obj)) {
-        fileObjs.push(obj);
-      } else {
-        otherObjs.push(obj);
-      }
-    });
-
-    const currentobjs = otherObjs.map((file) => {
-      return {
-        order: file.order,
-        imgUrl: file.preview,
-        imgCaption: file.imgCaption,
-      };
-    });
-
-    const urls = [...currentobjs, ...s3ImgUrlHandle(fileObjs)];
-
-    props.updateExhibition({
-      ...exhibition,
-      postImage: posturl,
-      artImage: urls,
-      exhibitionKind,
-    });
-  };
-
-  const checkFile = () => {
-    // console.log(info.postImage);
-    // console.log(info.ExhibitionImgs);
-    console.log("파일들", files);
-    console.log("정보", info);
-  };
   return (
-    <Flex
-      as={"form"}
-      onSubmit={props.Detaildata ? submitUpdateHandler : PostEXHandler}
-      fd="row"
-      gap="150"
-    >
-      <PostWrap>
-        <Post>
-          <PageTitle>전시 등록</PageTitle>
-          <button type="button" onClick={checkFile}>
-            {" "}
-            확인
-          </button>
-          <SelectOnOff>
-            <Offline
-              type="button"
-              name="EK0001"
-              onClick={changeOnOff}
-              exhibitionKind={exhibitionKind}
-            >
-              오프라인
-            </Offline>
-            <OnLine
-              type="button"
-              name="EK0002"
-              onClick={changeOnOff}
-              exhibitionKind={exhibitionKind}
-            >
-              온라인
-            </OnLine>
-          </SelectOnOff>
-          {postfiles.length === 0 ? (
-            <PostImgArea {...getRootPropsPOST({ className: "dropzone" })}>
-              <DragIcon>
-                <MdOutlineFileDownload />
-              </DragIcon>
-              <input {...getInputPropsPOST()} />
-            </PostImgArea>
-          ) : (
-            postfiles.map((file, index) => (
-              <div>
-                <Postimg key={file.name} src={file.preview} />
-                <button type="button" onClick={() => deleteImgPOST(index)}>
-                  삭제
-                </button>
-              </div>
-            ))
-          )}
-          {props.Detaildata ? (
-            <UpDateButtons>
-              <SubmitButton type={"submit"}>전시수정하기</SubmitButton>
-              <SubmitButton type={"button"} onClick={props.deleteHandler}>
-                전시삭제하기
-              </SubmitButton>
-            </UpDateButtons>
-          ) : (
-            <SubmitButton type={"submit"}>전시등록하기</SubmitButton>
-          )}
-          <Caution>주의사항</Caution>
-        </Post>
-      </PostWrap>
-      <ContentsWrap>
-        <Box>
-          <Explanation>전시제목</Explanation>
-          <EXColum>
-            <ExTitleKor>
-              <TitleP>한글</TitleP>
-              <TitleInput
-                onChange={onchangeHandler}
-                value={exhibition.exhibitionTitle}
-                name="exhibitionTitle"
-                type="text"
-                placeholder="제목"
-              />
-            </ExTitleKor>
-            <ExTitleKor>
-              <TitleP>영문</TitleP>
-              <TitleInput
-                onChange={onchangeHandler}
-                value={exhibition.exhibitionEngTitle}
-                name="exhibitionEngTitle"
-                type="text"
-                placeholder="Title"
-              />
-            </ExTitleKor>
-          </EXColum>
-        </Box>
-        <Box>
-          <Explanation>전시 설명</Explanation>
-          <ExDesc>
-            <Textarea
-              width={"473px"}
-              height={"260px"}
-              onChange={onchangeHandler}
-              value={exhibition.exhibitionDesc}
-              name="exhibitionDesc"
-              type="text"
-              placeholder="상세내용"
-            />
-          </ExDesc>
-        </Box>
-        <Box>
-          <Explanation>전시 링크</Explanation>
-          <TitleInput
-            onChange={onchangeHandler}
-            value={exhibition.exhibitionLink}
-            name="exhibitionLink"
-            type="text"
-            placeholder="링크"
-          />
-        </Box>
-        <Box>
-          <Explanation>전시 기간</Explanation>
-          <TitleInput
-            onChange={onchangeHandler}
-            value={exhibition.startDate}
-            name="startDate"
-            type="date"
-          />
-          <Separator>-</Separator>
-          <TitleInput
-            onChange={onchangeHandler}
-            value={exhibition.endDate}
-            name="endDate"
-            type="date"
-          />
-        </Box>
-        {exhibitionKind === "EK0001" && (
-          <>
+    <>
+      {DetailLoading ? (
+        <div>로딩중</div>
+      ) : (
+        <Flex
+          as={"form"}
+          onSubmit={Detaildata ? UpdateEXHandler : PostEXHandler}
+          fd="row"
+          gap="150"
+        >
+          <PostWrap>
+            <Post>
+              <PageTitle>전시 등록</PageTitle>
+
+              <SelectOnOff>
+                <Offline
+                  type="button"
+                  name="EK0001"
+                  onClick={changeOnOff}
+                  exhibitionKind={exhibitionKind}
+                >
+                  오프라인
+                </Offline>
+                <OnLine
+                  type="button"
+                  name="EK0002"
+                  onClick={changeOnOff}
+                  exhibitionKind={exhibitionKind}
+                >
+                  온라인
+                </OnLine>
+              </SelectOnOff>
+              {postfiles.length === 0 ? (
+                <PostImgArea {...getRootPropsPOST({ className: "dropzone" })}>
+                  <DragIcon>
+                    <MdOutlineFileDownload />
+                  </DragIcon>
+                  <input {...getInputPropsPOST()} />
+                </PostImgArea>
+              ) : (
+                postfiles.map((file, index) => (
+                  <div>
+                    <Postimg key={file.name} src={file.preview} />
+                    <button type="button" onClick={() => deleteImgPOST(index)}>
+                      삭제
+                    </button>
+                  </div>
+                ))
+              )}
+              {Detaildata ? (
+                <UpDateButtons>
+                  <SubmitButton type={"submit"}>전시수정하기</SubmitButton>
+                  <SubmitButton type={"button"} onClick={deleteHandler}>
+                    전시삭제하기
+                  </SubmitButton>
+                </UpDateButtons>
+              ) : (
+                <SubmitButton type={"submit"}>전시등록하기</SubmitButton>
+              )}
+              <Caution>주의사항</Caution>
+            </Post>
+          </PostWrap>
+          <ContentsWrap>
             <Box>
-              <Explanation>전시 위치</Explanation>
-              <Location>
-                <LocationBox>
+              <Explanation>전시제목</Explanation>
+              <EXColum>
+                <ExTitleKor>
+                  <TitleP>한글</TitleP>
                   <TitleInput
-                    bg={"#DDDDDD"}
-                    value={exhibition.detailLocation.address}
-                    readOnly
-                    placeholder="주소"
-                  />
-                  <TitleInput
-                    bg={"#DDDDDD"}
-                    value={exhibition.detailLocation.zonecode}
-                    readOnly
-                    placeholder="우편번호"
-                  />
-                  <ButtonsAddress type="button" onClick={handleClick}>
-                    주소 검색
-                  </ButtonsAddress>
-                </LocationBox>
-                <TitleInput
-                  type="text"
-                  onChange={onchangeHandler}
-                  value={exhibition.location}
-                  name="location"
-                  placeholder="상세주소"
-                />
-              </Location>
-            </Box>
-            <Box>
-              <Explanation>운영시간</Explanation>
-              <Location>
-                <LocationBox>
-                  <TitleInput
-                    type="time"
-                    name="openTime"
-                    value={exhibition.openTime}
                     onChange={onchangeHandler}
-                  />
-                  <Separator>-</Separator>
-                  <TitleInput
-                    type="time"
-                    name="closeTime"
-                    value={exhibition.closeTime}
-                    onChange={onchangeHandler}
-                  />
-                </LocationBox>
-                <ExDesc>
-                  <Textarea
-                    // onChange={onchangeHandler}
-                    // value={exhibition.exhibitionDesc}
-                    width={"473px"}
-                    height={"91px"}
-                    name=""
+                    value={exhibition.exhibitionTitle}
+                    name="exhibitionTitle"
                     type="text"
-                    placeholder="설명"
+                    placeholder="제목"
                   />
-                </ExDesc>
-              </Location>
+                </ExTitleKor>
+                <ExTitleKor>
+                  <TitleP>영문</TitleP>
+                  <TitleInput
+                    onChange={onchangeHandler}
+                    value={exhibition.exhibitionEngTitle}
+                    name="exhibitionEngTitle"
+                    type="text"
+                    placeholder="Title"
+                  />
+                </ExTitleKor>
+              </EXColum>
             </Box>
             <Box>
-              <Explanation>입장료</Explanation>
+              <Explanation>전시 설명</Explanation>
+              <ExDesc>
+                <Textarea
+                  width={"473px"}
+                  height={"260px"}
+                  onChange={onchangeHandler}
+                  value={exhibition.exhibitionDesc}
+                  name="exhibitionDesc"
+                  type="text"
+                  placeholder="상세내용"
+                />
+              </ExDesc>
+            </Box>
+            <Box>
+              <Explanation>전시 링크</Explanation>
               <TitleInput
                 onChange={onchangeHandler}
-                value={exhibition.entranceFee}
-                name="entranceFee"
-                maxLength={7}
+                value={exhibition.exhibitionLink}
+                name="exhibitionLink"
+                type="text"
+                placeholder="링크"
               />
             </Box>
-          </>
-        )}
-        <Box>
-          <Explanation>전시 주최</Explanation>
-          <select
-            name="exhibitionHost"
-            onChange={onchangeHandler}
-            value={exhibition.exhibitionHost}
-          >
-            <option>선택해 주세요</option>
-            <option value="EH0001">개인/팀</option>
-            <option value="EH0002">기업</option>
-            <option value="EH0003">기관</option>
-          </select>
-        </Box>
-        <Box>
-          <Explanation value={exhibition.exhibitionCategoty[0]}>
-            전시회 분류
-          </Explanation>
-          <select name="exhibitionCategoty" onChange={onchangeHandler}>
-            <option>선택해 주세요</option>
-            <option value="WK0001">애니메이션</option>
-            <option value="WK0002">수채화</option>
-            <option value="WK0003">이게뭐지?</option>
-          </select>
-        </Box>
-        <Box>
-          <Explanation>작가</Explanation>
-          <TitleInput
-            type="text"
-            placeholder="작가"
-            onChange={onchangeHandler}
-            value={authorName}
-            name="author"
-          />
-        </Box>
-        <Box>
-          <Explanation>작품수</Explanation>
-          <TitleInput
-            onChange={onchangeHandler}
-            value={exhibition.artWorkCnt}
-            name="artWorkCnt"
-            type="text"
-            placeholder="작품수"
-          />
-        </Box>
-        <Box>
-          <Explanation>연락처</Explanation>
-          <TitleInput
-            onChange={onchangeHandler}
-            value={exhibition.contact}
-            name="contact"
-            placeholder="전화번호"
-            maxLength={"13"}
-          />
-        </Box>
-        <Box>
-          <Explanation>후원</Explanation>
-          <TitleInput
-            onChange={onchangeHandler}
-            value={exhibition.agencyAndSponsor}
-            name="agencyAndSponsor"
-            type="text"
-            placeholder="후원"
-          />
-        </Box>
-        <Box>
-          <Explanation>작품사진</Explanation>
-          <EXColum>
-            <Section {...getRootProps({ className: "dropzone" })}>
-              <TitleInput {...getInputProps()} />
-              <DragIcon>
-                <MdOutlineFileDownload />
-              </DragIcon>
-            </Section>
-            <ThumbsContainer>
-              {files?.map((file, index) => (
-                <div>
-                  <Thumb key={file.name}>
-                    <ThumbInner>
-                      <Thumbimg src={file.preview} />
-                    </ThumbInner>
-                  </Thumb>
-                  <button type="button" onClick={() => deleteImg(index)}>
-                    삭제
-                  </button>
-                </div>
-              ))}
-            </ThumbsContainer>
-          </EXColum>
-        </Box>
-      </ContentsWrap>
-    </Flex>
+            <Box>
+              <Explanation>전시 기간</Explanation>
+              <TitleInput
+                onChange={onchangeHandler}
+                value={exhibition.startDate}
+                name="startDate"
+                type="date"
+              />
+              <Separator>-</Separator>
+              <TitleInput
+                onChange={onchangeHandler}
+                value={exhibition.endDate}
+                name="endDate"
+                type="date"
+              />
+            </Box>
+            {exhibitionKind === "EK0001" && (
+              <>
+                <Box>
+                  <Explanation>전시 위치</Explanation>
+                  <Location>
+                    <LocationBox>
+                      <TitleInput
+                        bg={"#DDDDDD"}
+                        value={exhibition.detailLocation.address}
+                        readOnly
+                        placeholder="주소"
+                      />
+                      <TitleInput
+                        bg={"#DDDDDD"}
+                        value={exhibition.detailLocation.zonecode}
+                        readOnly
+                        placeholder="우편번호"
+                      />
+                      <ButtonsAddress type="button" onClick={handleClick}>
+                        주소 검색
+                      </ButtonsAddress>
+                    </LocationBox>
+                    <TitleInput
+                      type="text"
+                      onChange={onchangeHandler}
+                      value={exhibition.location}
+                      name="location"
+                      placeholder="상세주소"
+                    />
+                  </Location>
+                </Box>
+                <Box>
+                  <Explanation>운영시간</Explanation>
+                  <Location>
+                    <LocationBox>
+                      <TitleInput
+                        type="time"
+                        name="openTime"
+                        value={exhibition.openTime}
+                        onChange={onchangeHandler}
+                      />
+                      <Separator>-</Separator>
+                      <TitleInput
+                        type="time"
+                        name="closeTime"
+                        value={exhibition.closeTime}
+                        onChange={onchangeHandler}
+                      />
+                    </LocationBox>
+                    <ExDesc>
+                      <Textarea
+                        // onChange={onchangeHandler}
+                        // value={exhibition.exhibitionDesc}
+                        width={"473px"}
+                        height={"91px"}
+                        name=""
+                        type="text"
+                        placeholder="설명"
+                      />
+                    </ExDesc>
+                  </Location>
+                </Box>
+                <Box>
+                  <Explanation>입장료</Explanation>
+                  <TitleInput
+                    onChange={onchangeHandler}
+                    value={exhibition.entranceFee}
+                    name="entranceFee"
+                    maxLength={7}
+                  />
+                </Box>
+              </>
+            )}
+            <Box>
+              <Explanation>전시 주최</Explanation>
+              <select
+                name="exhibitionHost"
+                onChange={onchangeHandler}
+                value={exhibition.exhibitionHost}
+              >
+                <option>선택해 주세요</option>
+                <option value="EH0001">개인/팀</option>
+                <option value="EH0002">기업</option>
+                <option value="EH0003">기관</option>
+              </select>
+            </Box>
+            <Box>
+              <Explanation value={exhibition.exhibitionCategoty[0]}>
+                전시회 분류
+              </Explanation>
+              <select name="exhibitionCategoty" onChange={onchangeHandler}>
+                <option>선택해 주세요</option>
+                <option value="WK0001">애니메이션</option>
+                <option value="WK0002">수채화</option>
+                <option value="WK0003">이게뭐지?</option>
+              </select>
+            </Box>
+            <Box>
+              <Explanation>작가</Explanation>
+              <TitleInput
+                type="text"
+                placeholder="작가"
+                onChange={onchangeHandler}
+                value={authorName}
+                name="author"
+              />
+            </Box>
+            <Box>
+              <Explanation>작품수</Explanation>
+              <TitleInput
+                onChange={onchangeHandler}
+                value={exhibition.artWorkCnt}
+                name="artWorkCnt"
+                type="text"
+                placeholder="작품수"
+              />
+            </Box>
+            <Box>
+              <Explanation>연락처</Explanation>
+              <TitleInput
+                onChange={onchangeHandler}
+                value={exhibition.contact}
+                name="contact"
+                placeholder="전화번호"
+                maxLength={"13"}
+              />
+            </Box>
+            <Box>
+              <Explanation>후원</Explanation>
+              <TitleInput
+                onChange={onchangeHandler}
+                value={exhibition.agencyAndSponsor}
+                name="agencyAndSponsor"
+                type="text"
+                placeholder="후원"
+              />
+            </Box>
+            <Box>
+              <Explanation>작품사진</Explanation>
+              <EXColum>
+                <Section {...getRootProps({ className: "dropzone" })}>
+                  <TitleInput {...getInputProps()} />
+                  <DragIcon>
+                    <MdOutlineFileDownload />
+                  </DragIcon>
+                </Section>
+                <ThumbsContainer>
+                  {files?.map((file, index) => (
+                    <div>
+                      <Thumb key={file.name}>
+                        <ThumbInner>
+                          <Thumbimg src={file.preview} />
+                        </ThumbInner>
+                      </Thumb>
+                      <button type="button" onClick={() => deleteImg(index)}>
+                        삭제
+                      </button>
+                    </div>
+                  ))}
+                </ThumbsContainer>
+              </EXColum>
+            </Box>
+          </ContentsWrap>
+        </Flex>
+      )}
+    </>
   );
 }
 
