@@ -1,12 +1,11 @@
 // !영찬님이 컴포넌트에서 사용하실때
 // const [files, setFiles, getRootProps, getInputProps] = useDropzoneInput(5(이건 max갯수));
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
 export const useDropzoneInput = (maxFiles) => {
   const [files, setFiles] = useState([]);
-
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [],
@@ -36,6 +35,18 @@ export const useDropzoneInput = (maxFiles) => {
       });
     },
   });
-
-  return [files, setFiles, getRootProps, getInputProps];
+  //언마운트시 컴포넌트에서 작성된 것을 결속 해제 시켜줌
+  useEffect(() => {
+    return () => {
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+    };
+  }, []);
+  //이미지 삭제 버튼
+  const deleteImg = (index) => {
+    const currentFiles = [...files];
+    URL.revokeObjectURL(currentFiles.preview);
+    currentFiles.splice(index, 1);
+    setFiles(currentFiles);
+  };
+  return [files, setFiles, getRootProps, getInputProps, deleteImg];
 };
