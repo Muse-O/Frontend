@@ -231,7 +231,11 @@ export const useSetExhibition = (
       setPostFiles([{ preview: info?.postImage }]);
       //*일반 파일 미리보기 가지고 와보기
       const previewFileArr = info?.ExhibitionImgs.map((file) => {
-        return { preview: file.imgUrl };
+        return {
+          order: file.order,
+          preview: file.imgUrl,
+          imgCaption: file.imgCaption,
+        };
       });
       setFiles(previewFileArr);
     }

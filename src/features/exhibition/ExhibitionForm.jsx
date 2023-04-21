@@ -49,20 +49,43 @@ function ExhibitionForm(props) {
   };
   //업데이트 버튼
 
+  const hasFileProperty = (obj) => {
+    return (
+      obj instanceof File ||
+      (typeof obj === "object" &&
+        obj.hasOwnProperty("name") &&
+        obj.hasOwnProperty("lastModified") &&
+        obj.hasOwnProperty("size") &&
+        obj.hasOwnProperty("type"))
+    );
+  };
+
   const submitUpdateHandler = (event) => {
     event.preventDefault();
-    let urls = null;
-    let posturl = null;
-    if (!postfiles[0].type) {
-      posturl = info.postImage;
-    } else {
-      posturl = s3PostImgUrlHandle(postfiles);
-    }
-    if (!files[0].type) {
-      urls = info.ExhibitionImgs;
-    } else {
-      urls = s3ImgUrlHandle(files);
-    }
+    const posturl = hasFileProperty(postfiles)
+      ? s3PostImgUrlHandle(postfiles)
+      : info.postImage;
+
+    const fileObjs = [];
+    const otherObjs = [];
+    files.forEach((obj) => {
+      if (hasFileProperty(obj)) {
+        fileObjs.push(obj);
+      } else {
+        otherObjs.push(obj);
+      }
+    });
+
+    const currentobjs = otherObjs.map((file) => {
+      return {
+        order: file.order,
+        imgUrl: file.preview,
+        imgCaption: file.imgCaption,
+      };
+    });
+
+    const urls = [...currentobjs, ...s3ImgUrlHandle(fileObjs)];
+
     props.updateExhibition({
       ...exhibition,
       postImage: posturl,
@@ -71,8 +94,12 @@ function ExhibitionForm(props) {
     });
   };
 
-  console.log("외부파일 그냥파일", files);
-  console.log("외부파일포스트", postfiles);
+  const checkFile = () => {
+    // console.log(info.postImage);
+    // console.log(info.ExhibitionImgs);
+    console.log("파일들", files);
+    console.log("정보", info);
+  };
   return (
     <Flex
       as={"form"}
@@ -83,6 +110,10 @@ function ExhibitionForm(props) {
       <PostWrap>
         <Post>
           <PageTitle>전시 등록</PageTitle>
+          <button type="button" onClick={checkFile}>
+            {" "}
+            확인
+          </button>
           <SelectOnOff>
             <Offline
               type="button"
@@ -112,10 +143,7 @@ function ExhibitionForm(props) {
             postfiles.map((file, index) => (
               <div>
                 <Postimg key={file.name} src={file.preview} />
-                <button
-                  type="button"
-                  onClick={() => deleteImgPOST("postFile", index)}
-                >
+                <button type="button" onClick={() => deleteImgPOST(index)}>
                   삭제
                 </button>
               </div>
@@ -354,10 +382,7 @@ function ExhibitionForm(props) {
                       <Thumbimg src={file.preview} />
                     </ThumbInner>
                   </Thumb>
-                  <button
-                    type="button"
-                    onClick={() => deleteImg("files", index)}
-                  >
+                  <button type="button" onClick={() => deleteImg(index)}>
                     삭제
                   </button>
                 </div>
