@@ -3,7 +3,6 @@ import { useDaumPostcodePopup } from "react-daum-postcode";
 
 export const useSetExhibition = (
   DetailLoading,
-  DetailError,
   Detaildata,
   setFiles,
   setPostFiles
@@ -181,7 +180,7 @@ export const useSetExhibition = (
     // 서버에서 받아온 데이터가 로딩되면 exhibition state를 업데이트
     //!나중에 필수값 유효성검사 필요!
     //!작가,이미지 order없이 받는데 어떻게 해야 하는가?
-    if (!DetailLoading && !DetailError && Detaildata) {
+    if (!DetailLoading && Detaildata) {
       //!value값 따로??
       setAuthorName(info.ExhibitionAuthors[authorid].author);
       const newarr = [...exhibition.authors];
@@ -243,7 +242,7 @@ export const useSetExhibition = (
     return () => {
       setExhibition({ ...templete });
     };
-  }, [DetailLoading, DetailError, Detaildata]);
+  }, [DetailLoading, Detaildata]);
   return [
     exhibition,
     exhibitionKind,
