@@ -5,6 +5,7 @@ import { Flex } from "../../components/Flex";
 import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
 import { useGetImgUrl } from "./CreateURL";
 import { useDropzoneInput } from "../../hooks/exhibition/useDropZone";
+import { PostEX } from "./PostEX";
 
 function ExhibitionForm(props) {
   const info = props.Detaildata?.exhibitionInfo;
@@ -35,18 +36,14 @@ function ExhibitionForm(props) {
     setPostFiles
   );
 
-  //제출버튼
-  const submitHandler = (event) => {
-    event.preventDefault();
-    const urls = s3ImgUrlHandle(files);
-    const posturl = s3PostImgUrlHandle(postfiles);
-    props.createExhibition({
-      ...exhibition,
-      postImage: posturl,
-      artImage: urls,
-      exhibitionKind,
-    });
-  };
+  const PostEXHandler = PostEX(
+    s3ImgUrlHandle,
+    s3PostImgUrlHandle,
+    files,
+    postfiles,
+    exhibition,
+    exhibitionKind
+  );
   //업데이트 버튼
 
   const hasFileProperty = (obj) => {
@@ -103,7 +100,7 @@ function ExhibitionForm(props) {
   return (
     <Flex
       as={"form"}
-      onSubmit={props.Detaildata ? submitUpdateHandler : submitHandler}
+      onSubmit={props.Detaildata ? submitUpdateHandler : PostEXHandler}
       fd="row"
       gap="150"
     >
