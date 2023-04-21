@@ -113,11 +113,10 @@ function LoginForm() {
                 onChange={changeInputHandler}
                 style={{
                   borderColor: !pwMsg ? "#dddddd" : "red",
-                  fontFamily: "Verdana",
-                  fontSize: "36px",
+                  fontFamily: "Malgun gothic",
                   color: "#242424",
                   padding: "10px 10px 15px",
-                  letterSpacing: "-0.08em",
+                  letterSpacing: "3px",
                 }}
               />
               <div onClick={visibleChangeHandler}>
