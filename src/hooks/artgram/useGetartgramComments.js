@@ -13,7 +13,7 @@ export const useGetartgramComments = (artgramId) => {
       refetchOnWindowFocus: false, 
       retry: 1,
       // onSuccess: ()  => {
-      //       console.log("getartgramComments 요청 성공")
+      //       console.log("댓글요청 요청 성공")
       //     },
           onError: e => {
             console.log(e.message)

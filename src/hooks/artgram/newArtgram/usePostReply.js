@@ -11,21 +11,21 @@ export const usePostReply = () => {
     mutationFn : async ({artgramId,commentId,reply}) => {
       // console.log(reply);
       const token = cookies.get("access_token");
-      const response = await apis.post(`/artgram/${artgramId}/comments/${commentId}/reply`, {comment:reply}, {
+      await apis.post(`/artgram/${artgramId}/comments/${commentId}/reply`, {comment:reply}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      return response;
+      return {artgramId, commentId};
     },
-    onSuccess: () => {
+    onSuccess: ({artgramId, commentId}) => {
       queryClient.invalidateQueries(keys.GET_ARTGRAMCOMMENTS);
       queryClient.invalidateQueries(keys.GET_ARTGRAM);
-      queryClient.invalidateQueries(keys.GET_ARTGRAMREPLY);
-      // console.log("대댓글이 등록되었습니다.");
+      queryClient.invalidateQueries([keys.GET_ARTGRAMREPLY+artgramId+commentId]);
+      console.log("대댓글이 등록되었습니다.");
     },
     onError: e => {
-      // console.log("대댓글이 등록되지 않았습니다.", e.message);
+      console.log("대댓글이 등록되지 않았습니다.", e.message);
     }
   })
 
