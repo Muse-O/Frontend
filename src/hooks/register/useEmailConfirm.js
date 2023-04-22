@@ -4,6 +4,8 @@ import { useState } from "react";
 
 export function useEmailConfirm() {
   const [checkEmailConfirm, setCheckEmailConfirm] = useState(false);
+  const [warningMsg, setWarningMsg] = useState("");
+  const [emailConfirmMsg, setCheckEmailConfirmMsg] = useState("");
 
   const { mutate } = useMutation({
     mutationFn: async payload => {
@@ -12,20 +14,22 @@ export function useEmailConfirm() {
     },
     onSuccess: data => {
       if (data.status === 201) {
-        alert("사용 가능한 이메일입니다");
         setCheckEmailConfirm(true);
+        setCheckEmailConfirmMsg(data.data.message);
+        setWarningMsg("");
       }
     },
     onError: error => {
-      if (error) {
-        setCheckEmailConfirm(false);
-        alert(error.response.data.errorMessage);
-      }
+      setCheckEmailConfirm(false);
+      setWarningMsg(error.response.data.errorMessage);
+      setCheckEmailConfirmMsg("");
     },
   });
 
   return {
     emailConfirm: mutate,
     checkEmailConfirm,
+    warningMsg,
+    emailConfirmMsg,
   };
 }

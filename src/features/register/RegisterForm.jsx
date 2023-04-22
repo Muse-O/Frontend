@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRegister } from "../../hooks/register/useRegister";
 import { useEmailConfirm } from "../../hooks/register/useEmailConfirm";
 import {
-  emailConfirmHandler,
+  // emailConfirmHandler,
   emailRegExp,
   pwRegExp,
   emailValidation,
@@ -16,6 +16,8 @@ import styled from "styled-components";
 import { useEmailAuthSend } from "../../hooks/register/useEmailAuthSend";
 import { useEmailAuthConfirm } from "../../hooks/register/useEmailAuthComfirm";
 import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
+import falseVisibleEyes from "../../assets/imgs/login/invisible_gray.png";
+import trueVisibleEyes from "../../assets/imgs/login/eye_gray.png";
 
 /**
  * 할일
@@ -33,15 +35,15 @@ function RegisterForm() {
     nickname: "",
   });
 
-  //이메일 인증번호
-  const [code, setCode] = useState("");
-
-  //비밀번호 확인
-  const [checkPassword, setCheckPassword] = useState("");
+  const [emailMsg, setEmailMsg] = useState(""); //이메일 유효성검사
+  const [code, setCode] = useState(""); //이메일 인증번호
+  const [checkPassword, setCheckPassword] = useState(""); //비밀번호 확인
+  const [pwVisible, setPwVisible] = useState(false); //비밀번호 보임/숨김
 
   //react-query
   const { register } = useRegister();
-  const { emailConfirm, checkEmailConfirm } = useEmailConfirm();
+  const { emailConfirm, checkEmailConfirm, warningMsg, emailConfirmMsg } =
+    useEmailConfirm();
   const { emailAuthSend } = useEmailAuthSend();
   const { emailAuthConfirm } = useEmailAuthConfirm();
 
@@ -51,6 +53,10 @@ function RegisterForm() {
       return { ...pre, [name]: value };
     });
   };
+
+  const emailRegExp = /^[a-zA-Z0-9+\-\\_.]+@[a-zA-Z0-9\\-]+\.[a-zA-Z0-9\-.]+$/;
+  const pwRegExp =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{6,15}$/;
 
   //비밀번호 확인
   const changeCheckPasswordHandler = e => {
@@ -72,6 +78,40 @@ function RegisterForm() {
     emailAuthConfirm({ email: registerInfo.email, code: Number(code) });
   };
 
+  //비밀번호 보임/숨김
+  const visibleChangeHandler = () => {
+    setPwVisible(visible => !visible); //toggle
+  };
+
+  const registerHandler = e => {
+    e.preventDefault();
+    if (!registerInfo.email) {
+      setEmailMsg("이메일을 입력해주세요.");
+    }
+  };
+
+  const emailConfirmHandler = e => {
+    e.preventDefault();
+    if (registerInfo.email === "") {
+      setEmailMsg("이메일을 입력해주세요.");
+    } else if (!emailRegExp.test(registerInfo.email)) {
+      setEmailMsg("이메일 형식이 맞지 않습니다.");
+    } else {
+      emailConfirm({ email: registerInfo.email });
+    }
+  };
+
+  //이메일 유효성 - 마운트, 빈 값이 아닐경우, 정규식
+  useEffect(() => {
+    if (registerInfo.email === "") {
+      setEmailMsg("");
+    } else if (!emailRegExp.test(registerInfo.email)) {
+      setEmailMsg("이메일 형식이 맞지 않습니다.");
+    } else {
+      setEmailMsg("");
+    }
+  }, [registerInfo.email]);
+
   return (
     <StRegister>
       <StRegisterWrap>
@@ -86,19 +126,29 @@ function RegisterForm() {
             <label>이메일</label>
 
             <StEmailInputBtn>
-              <input type="email" name="email" onChange={changeInputHandler} />
+              <input
+                type="email"
+                name="email"
+                onChange={changeInputHandler}
+                style={{
+                  borderColor: emailMsg || warningMsg ? "red" : "#dddddd",
+                }}
+              />
               {/* 추후 '확인 완료' 토글 구현할 것 */}
               <button
-                onClick={e =>
-                  emailConfirmHandler(e, registerInfo, emailConfirm)
-                }
+                // onClick={e =>
+                //   emailConfirmHandler(e, registerInfo, emailConfirm)
+                // }
+                onClick={emailConfirmHandler}
               >
                 중복 확인
               </button>
             </StEmailInputBtn>
 
             <StEmailInputWarning>
-              <div>{emailValidation(registerInfo.email)}</div>
+              <div>{emailMsg || warningMsg || emailConfirmMsg}</div>
+              {/* <div>{emailMsg}</div> */}
+              {/* <div>{emailValidation(registerInfo.email)}</div> */}
             </StEmailInputWarning>
           </StEmailInputBox>
 
@@ -125,28 +175,55 @@ function RegisterForm() {
         </StEmailWrap>
 
         <StPwWrap>
-          <label>비밀번호</label>
           <div>
-            <input
-              type="password"
-              name="password"
-              onChange={changeInputHandler}
-            />
+            <label>비밀번호</label>
+            {!pwVisible ? (
+              <StPwInputImgWrap>
+                <input
+                  type="password"
+                  name="password"
+                  onChange={changeInputHandler}
+                  style={{
+                    fontFamily: "Malgun gothic",
+                    color: "#242424",
+                    padding: "10px 10px 15px",
+                    letterSpacing: "3px",
+                  }}
+                />
+                <div onClick={visibleChangeHandler}>
+                  <img src={falseVisibleEyes} alt="invisibleEyes" />
+                </div>
+              </StPwInputImgWrap>
+            ) : (
+              <StPwInputImgWrap>
+                <input
+                  type="text"
+                  name="password"
+                  onChange={changeInputHandler}
+                />
+                <div onClick={visibleChangeHandler}>
+                  <img src={trueVisibleEyes} alt="trueVisibleEyes" />
+                </div>
+              </StPwInputImgWrap>
+            )}
             <StPwInputWarning>
-              {pwValidation(registerInfo.password)}
+              {/* {pwValidation(registerInfo.password)} */}
             </StPwInputWarning>
           </div>
 
-          <label>비밀번호 확인</label>
           <div>
-            <input
-              type="password"
-              name="checkPassword"
-              value={checkPassword}
-              onChange={changeCheckPasswordHandler}
-            />
+            <label>비밀번호 확인</label>
+            <div>
+              <input
+                type="password"
+                name="checkPassword"
+                value={checkPassword}
+                onChange={changeCheckPasswordHandler}
+              />
+            </div>
+
             <StPwCheckWarning>
-              {checkUserPassword(checkPassword, registerInfo.password)}
+              {/* {checkUserPassword(checkPassword, registerInfo.password)} */}
             </StPwCheckWarning>
           </div>
         </StPwWrap>
@@ -157,15 +234,16 @@ function RegisterForm() {
           <div>
             <input type="text" name="nickname" onChange={changeInputHandler} />
             <StNickNameWarning>
-              {nicknameValidation(registerInfo.nickname)}
+              {/* {nicknameValidation(registerInfo.nickname)} */}
             </StNickNameWarning>
           </div>
         </StNickNameBox>
 
         <StRegisterBtn
-          onClick={e =>
-            registerHandler(e, registerInfo, checkEmailConfirm, register)
-          }
+          // onClick={e =>
+          //   registerHandler(e, registerInfo, checkEmailConfirm, register)
+          // }
+          onClick={registerHandler}
         >
           가입하기
         </StRegisterBtn>
@@ -349,6 +427,27 @@ const StPwWrap = styled.div`
   }
 `;
 
+const StPwInputImgWrap = styled.div`
+  input {
+    font-family: "Montserrat", sans-serif;
+    width: 416px;
+    height: 44px;
+    padding: 10px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    position: absolute;
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+    transform: translate(385px, 12px);
+    cursor: pointer;
+  }
+`;
+
 const StPwInputWarning = styled.div`
   width: 416px;
   height: 9px;
@@ -421,4 +520,10 @@ const StRegisterBtn = styled.button`
   font-family: "SpoqaHanSansNeo-Regular";
   font-size: 16px;
   cursor: pointer;
+
+  &:hover {
+    border: none;
+    background-color: #242424;
+    color: white;
+  }
 `;
