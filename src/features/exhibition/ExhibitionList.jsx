@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { apis } from "../../api/apis";
-import { useGetExhibition } from "../../hooks/exhibition/useGetExhibition";
+import { useGetExhibitioninfinity } from "../../hooks/exhibition/useGetExhibition";
 import { useNavigate } from "react-router-dom";
 import {
   HeaderCategorySelect,
@@ -11,70 +11,43 @@ import {
 } from "./ExhibitionHeaderSelect";
 
 function ExhibitionList() {
-  const [list, setList] = useState([]);
-  console.log(list);
-  const [page, setPage] = useState(10);
-  const [load, setLoad] = useState(1);
-  const preventRef = useRef(true);
-  const obsRef = useRef(null);
-  const endRef = useRef(true);
-  const [exhibitionData, exhibitionIsLoading] = useGetExhibition();
   const navigator = useNavigate();
-  // console.log("exhibitionData", exhibitionData);
-
-  //*컴포넌트가 마운트 될 때  옵저버를 생성하고 언마운트될 경우 옵저버를 해제
-  useEffect(() => {
-    getFirstItem();
-    const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
-    if (obsRef.current) observer.observe(obsRef.current);
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  //*페이지가 변경될때마다 실행
-  useEffect(() => {
-    getItem();
-  }, [page]);
-
-  //*element를 확인될때 page를 올림
-  const obsHandler = (entries) => {
-    const target = entries[0];
-    if (target.isIntersecting && preventRef.current && endRef.current) {
-      preventRef.current = false;
-      setPage((prev) => prev + 1);
-    }
-  };
-  //*처음 받아오는값
-  const getFirstItem = useCallback(async () => {
-    const res = await apis.get("/exhibition");
-    endRef.current = res.data.paginationInfo.hasNextPage;
-    if (res.data) {
-      setList((prev) => [...prev, ...res.data.exhibitionList.rows]);
-      preventRef.current = true;
-    } else {
-      console.log(res);
-    }
-  }, []);
-
-  const getItem = useCallback(async () => {
-    setLoad(true);
-    const res = await apis.get(`/exhibition?limit=1&offset=${page}`);
-    endRef.current = res.data.paginationInfo.hasNextPage;
-    if (res.data) {
-      setList((prev) => [...prev, { ...res.data.exhibitionList.rows[0] }]);
-      preventRef.current = true;
-    } else {
-      console.log(res);
-    }
-    setLoad(false);
-  }, [page]);
-
   //헤더용
   const [whenVisible, setWhenVisible] = useState(false);
   const [whereVisible, setWhereVisible] = useState(false);
   const [categoryVisible, setCategoryVisible] = useState(false);
   const [tagVisible, setTagVisible] = useState(false);
+  const lastRef = useRef(null);
+  // const endRef = useRef(true);
+  const [data, isLoading, isError, fetchNextPage, hasNextPage] =
+    useGetExhibitioninfinity();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          console.log("확인~");
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.01 }
+    );
+    if (lastRef.current) {
+      console.log("사이드 이팩트 실행");
+      observer.observe(lastRef.current);
+    }
+    return () => {
+      console.log("사이드 이팩트 해제");
+      if (lastRef.current) {
+        observer.unobserve(lastRef.current);
+      }
+    };
+  }, []);
+  let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
+  console.log("merged?", merged);
+  if (isLoading || isError) {
+    return <div>로딩 중....</div>;
+  }
 
   const selectHandler = (e) => {
     const { name } = e.target;
@@ -122,9 +95,9 @@ function ExhibitionList() {
             </FilterInputWrap>
           </HeaderFilterWrap>
         </ExhibitionHeader>
-        {list && (
+        {merged && (
           <>
-            {list.map((item) => (
+            {merged.map((item) => (
               <ExhibitionItem key={item.exhibitionId}>
                 <ImageBox src={item.postImage} />
                 <ExhibitionInfoBox>
@@ -174,14 +147,14 @@ function ExhibitionList() {
                         </Info>
                       </InfoBox>
                       {/* {item.location}
-                    {item.entranceFee}
-                    {item.authorNickName}
-                    {item.artWorkCnt} */}
+            {item.entranceFee}
+            {item.authorNickName}
+            {item.artWorkCnt} */}
                     </DatailInfo>
                     <ExhibitionHashTag>
                       {/* {item.tagName?.map((tag) => {
-                        return <span>{tag}</span>;
-                      })} */}
+                return <span>{tag}</span>;
+              })} */}
                       <span>#tagg</span>
                       <span>#tag</span>
                       <span>#tag</span>
@@ -203,14 +176,96 @@ function ExhibitionList() {
             ))}
           </>
         )}
-        {/* {load && <div ref={obsRef}>로딩 중</div>} */}
-        <div ref={obsRef}>스피너</div>
+        {/* {load && <div ref={lastRef}>로딩 중</div>} */}
+        <div ref={lastRef}>스피너</div>
       </ExhibitionWrap>
     </>
   );
 }
 
 export default ExhibitionList;
+
+// {data && (
+//   <>
+//     {data.map((item) => (
+//       <ExhibitionItem key={item.exhibitionId}>
+//         <ImageBox src={item.postImage} />
+//         <ExhibitionInfoBox>
+//           <ExhibitionDate>
+//             {item.startDate.slice(2, 10).replace(/-/g, ".") +
+//               " - " +
+//               item.endDate.slice(2, 10).replace(/-/g, ".")}
+//           </ExhibitionDate>
+//           <ExhibitionTitleWrap>
+//             <ExhibitonTitle>{item.exhibitionTitle}</ExhibitonTitle>
+//             <ExhibitonSecondTitle>부제목 입니다</ExhibitonSecondTitle>
+//           </ExhibitionTitleWrap>
+//         </ExhibitionInfoBox>
+//         <ExhibitionInfoDetailBox>
+//           <ExhibitionDatailInfo>
+//             <DatailInfo>
+//               <InfoBox>
+//                 <Info>
+//                   <span>●</span>
+//                   <div>
+//                     <div>장소</div>
+//                     <div>{item.location}</div>
+//                   </div>
+//                 </Info>
+//                 <Info>
+//                   <span>●</span>
+//                   <div>
+//                     <div>관람료</div>
+//                     <div>{item.entranceFee}</div>
+//                   </div>
+//                 </Info>
+//               </InfoBox>
+//               <InfoBox>
+//                 <Info>
+//                   <span>●</span>
+//                   <div>
+//                     <div>작가</div>
+//                     <div>{item.authorNickName}</div>
+//                   </div>
+//                 </Info>
+//                 <Info>
+//                   <span>●</span>
+//                   <div>
+//                     <div>작품수</div>
+//                     <div>{item.artWorkCnt}</div>
+//                   </div>
+//                 </Info>
+//               </InfoBox>
+//               {/* {item.location}
+//             {item.entranceFee}
+//             {item.authorNickName}
+//             {item.artWorkCnt} */}
+//             </DatailInfo>
+//             <ExhibitionHashTag>
+//               {/* {item.tagName?.map((tag) => {
+//                 return <span>{tag}</span>;
+//               })} */}
+//               <span>#tagg</span>
+//               <span>#tag</span>
+//               <span>#tag</span>
+//             </ExhibitionHashTag>
+//           </ExhibitionDatailInfo>
+
+//           <ExhibitionMore
+//             onClick={() => {
+//               navigator(`/exhibition/detail/${item.exhibitionId}`);
+//             }}
+//           >
+//             <span>M</span>
+//             <span>O</span>
+//             <span>R</span>
+//             <span>E</span>
+//           </ExhibitionMore>
+//         </ExhibitionInfoDetailBox>
+//       </ExhibitionItem>
+//     ))}
+//   </>
+// )}
 const MoreText = styled.div`
   display: flex;
   flex-direction: column;
