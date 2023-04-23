@@ -16,9 +16,6 @@ import UpdateExhibition from "../pages/UpdateExhibition";
 import Artgramcopy from "../pages/Artgramcopy";
 
 function Router() {
-  // const token = cookies.get("access_token");
-  const { access_token } = usetoken();
-  console.log("access_token", access_token);
   const pages = [
     { pathname: "/", element: <Main />, isPublic: true, isLogin: true },
     { pathname: "/login", element: <Login />, isPublic: true, isLogin: false },
