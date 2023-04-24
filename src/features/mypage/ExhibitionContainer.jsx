@@ -5,8 +5,11 @@ import { useGetMyExhibitionInfo } from "../../hooks/mypage/useGetMyExhibitionInf
 import { useGetScrapExhibitionInfo } from "../../hooks/mypage/useGetScrapExhibitionInfo";
 import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
 import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
+import { useNavigate } from "react-router-dom";
 
 function ExhibitionContainer() {
+  const navigate = useNavigate();
+
   const { LikedExhibitionInfo, likedNum, setLikedNum } =
     useGetLikedExhibitionInfo();
   const { MyExhibitionInfo, myExhibitionNum, setMyExhibitionNum } =
@@ -67,6 +70,11 @@ function ExhibitionContainer() {
     }
   };
 
+  const detailExhibitionPage = info => {
+    const exhibitionId = info?.exhibition_id;
+    navigate(`/exhibition/detail/${exhibitionId}`);
+  };
+
   return (
     <StContainer>
       <StExhibition>전시</StExhibition>
@@ -91,7 +99,10 @@ function ExhibitionContainer() {
               {menuArr[currentTab].content.map(list => {
                 return list.map(info => {
                   return (
-                    <StImgWrap key={info.exhibition_id}>
+                    <StImgWrap
+                      key={info.exhibition_id}
+                      onClick={() => detailExhibitionPage(info)}
+                    >
                       <StImg
                         src={info.post_image}
                         alt={info.exhibition_title}
