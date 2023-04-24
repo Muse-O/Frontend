@@ -7,6 +7,7 @@ import commentIcon from "../../assets/imgs/mypage/chat_blue.png";
 import { usePatchAlramInfo } from "../../hooks/mypage/usePatchAlramInfo";
 import ArtgarmDetailModal from "./../artgram/newartgram/ArtgarmDetailModal";
 import { useOpenModal } from "./../../hooks/artgram/useOpenModal";
+import { useNavigate } from "react-router-dom";
 
 function AlarmContainer() {
   const { modalState, openModalhandle } = useOpenModal(); //아트그램 모달
@@ -15,15 +16,26 @@ function AlarmContainer() {
   //react-query
   const { AlramInfo } = useGetAlramInfo();
   const { updateAlramInfo } = usePatchAlramInfo();
+  const navigate = useNavigate();
 
-  console.log(AlramInfo, "info");
+  // console.log(AlramInfo, "info");
 
   const seenTrueHandler = list => {
     const notiId = list.notiId;
-    const artgramId = list?.noti_content_id;
-    setArtgramId(artgramId); //id 넘겨주기
-    openModalhandle(artgramId);
     updateAlramInfo(notiId);
+    list.seen = true;
+
+    if (list.noti_content === "artgram") {
+      const artgramId = list?.noti_content_id;
+      setArtgramId(artgramId); //id 넘겨주기
+      openModalhandle(artgramId);
+    } else if (list.noti_content === "exhibition") {
+      navigate(`/exhibition/detail/${list?.noti_content_id}`);
+    }
+  };
+
+  const seenAllTrueHandler = list => {
+    // console.log(list, "list");
     list.seen = true;
   };
 
@@ -88,12 +100,12 @@ function AlarmContainer() {
 
                       <StAlramContents>
                         <StAlramTheme>전시</StAlramTheme>
-                        <diStAlramContent>
+                        <StAlramContent>
                           {(list.noti_type === "like" &&
                             `${list.noti_sender_nickname} 님이 회원님의 글을 좋아합니다.`) ||
                             (list.noti_type === "comment" &&
                               `${list.noti_sender_nickname} 님이 회원님의 글에 후기를 남겼습니다.`)}
-                        </diStAlramContent>
+                        </StAlramContent>
                       </StAlramContents>
                     </div>
                   ))}
@@ -103,6 +115,7 @@ function AlarmContainer() {
         </StAlramBox>
       </StAlramContainer>
 
+      {/* 아트그램 모달 */}
       {modalState && (
         <ArtgarmDetailModal
           artgramId={artgramId}
