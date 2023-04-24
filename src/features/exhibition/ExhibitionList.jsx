@@ -31,14 +31,25 @@ function ExhibitionList() {
   const selectHandler = (e) => {
     const { name } = e.target;
     if (name === "when") {
-      console.log("버튼이먹냐?");
       setWhenVisible(!whenVisible);
+      setWhereVisible(false);
+      setCategoryVisible(false);
+      setTagVisible(false);
     } else if (name === "where") {
       setWhereVisible(!whereVisible);
+      setWhenVisible(false);
+      setCategoryVisible(false);
+      setTagVisible(false);
     } else if (name === "category") {
       setCategoryVisible(!categoryVisible);
+      setWhereVisible(false);
+      setWhenVisible(false);
+      setTagVisible(false);
     } else if (name === "tag") {
       setTagVisible(!tagVisible);
+      setCategoryVisible(false);
+      setWhereVisible(false);
+      setWhenVisible(false);
     }
   };
   return (
