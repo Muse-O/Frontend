@@ -3,10 +3,15 @@ import styled from "styled-components";
 import { useGetLikedArtgramInfo } from "../../hooks/mypage/useGetLikedArtgramInfo";
 import { useGetMyArtgramInfo } from "../../hooks/mypage/useGetMyArtgramInfo";
 import { useGetScrapArtgramInfo } from "../../hooks/mypage/useGetScrapArtgramInfo";
+import { useOpenModal } from "./../../hooks/artgram/useOpenModal";
 import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
 import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
+import ArtgarmDetailModal from "../artgram/newartgram/ArtgarmDetailModal";
 
 function ArtgramContainer() {
+  const { modalState, openModalhandle } = useOpenModal(); //아트그램 모달
+  const [artgramId, setArtgramId] = useState(""); //id를 넘겨주기 위한 state=
+
   const { LikedArtgramInfo, likedNum, setLikedNum } = useGetLikedArtgramInfo();
   const { MyArtgramInfo, myArtgramNum, setMyArtgramNum } =
     useGetMyArtgramInfo();
@@ -62,54 +67,74 @@ function ArtgramContainer() {
     }
   };
 
-  return (
-    <StContainer>
-      <StArtgram>아트그램</StArtgram>
-      <StArtgramBox>
-        <StWrap>
-          <StTabWrap>
-            {menuArr.map(el => (
-              <StTab key={el.id} onClick={() => selectMenuHandler(el.id)}>
-                {el.name}
-                <StTabCount>
-                  {el?.count?.myArtgramCnt ? el?.count?.myArtgramCnt : 0}
-                </StTabCount>
-              </StTab>
-            ))}
-          </StTabWrap>
+  const detailArtgramModal = info => {
+    const artgramId = info?.artgram_id;
+    setArtgramId(artgramId); //id 넘겨주기
+    openModalhandle(artgramId);
+  };
 
-          <StImgBtnBox>
-            <StLeftBtn onClick={getBackDataHandler}>
-              <img src={leftBtn} alt="leftBtn" />
-            </StLeftBtn>
-            <StImgBox>
-              {menuArr[currentTab].content.map(list => {
-                return list.map(info => {
-                  return (
-                    <StImgWrap key={info.artgram_id}>
-                      <StImg src={info.imgUrl} alt={info.artgram_title} />
-                    </StImgWrap>
-                  );
-                });
-              })}
-            </StImgBox>
-            <StRightBtn
-              disabled={
-                (menuArr[currentTab].id === 0 &&
-                  !LikedArtgramInfo?.paginationInfo?.hasNextPage) ||
-                (menuArr[currentTab].id === 1 &&
-                  !ScrapArtgramInfo?.paginationInfo?.hasNextPage) ||
-                (menuArr[currentTab].id === 2 &&
-                  !MyArtgramInfo?.paginationInfo?.hasNextPage)
-              }
-              onClick={getNextDataHandler}
-            >
-              <img src={rightBtn} alt="leftBtn" />
-            </StRightBtn>
-          </StImgBtnBox>
-        </StWrap>
-      </StArtgramBox>
-    </StContainer>
+  return (
+    <>
+      <StContainer>
+        <StArtgram>아트그램</StArtgram>
+        <StArtgramBox>
+          <StWrap>
+            <StTabWrap>
+              {menuArr.map(el => (
+                <StTab key={el.id} onClick={() => selectMenuHandler(el.id)}>
+                  {el.name}
+                  <StTabCount>
+                    {el?.count?.myArtgramCnt ? el?.count?.myArtgramCnt : 0}
+                  </StTabCount>
+                </StTab>
+              ))}
+            </StTabWrap>
+
+            <StImgBtnBox>
+              <StLeftBtn onClick={getBackDataHandler}>
+                <img src={leftBtn} alt="leftBtn" />
+              </StLeftBtn>
+              <StImgBox>
+                {menuArr[currentTab].content.map(list => {
+                  return list.map(info => {
+                    return (
+                      <StImgWrap
+                        key={info.artgram_id}
+                        onClick={() => detailArtgramModal(info)}
+                      >
+                        <StImg src={info.imgUrl} alt={info.artgram_title} />
+                      </StImgWrap>
+                    );
+                  });
+                })}
+              </StImgBox>
+              <StRightBtn
+                disabled={
+                  (menuArr[currentTab].id === 0 &&
+                    !LikedArtgramInfo?.paginationInfo?.hasNextPage) ||
+                  (menuArr[currentTab].id === 1 &&
+                    !ScrapArtgramInfo?.paginationInfo?.hasNextPage) ||
+                  (menuArr[currentTab].id === 2 &&
+                    !MyArtgramInfo?.paginationInfo?.hasNextPage)
+                }
+                onClick={getNextDataHandler}
+              >
+                <img src={rightBtn} alt="leftBtn" />
+              </StRightBtn>
+            </StImgBtnBox>
+          </StWrap>
+        </StArtgramBox>
+      </StContainer>
+
+      {/* 아트그램 모달 */}
+      {modalState && (
+        <ArtgarmDetailModal
+          artgramId={artgramId}
+          modalState={modalState}
+          openModalhandle={openModalhandle}
+        />
+      )}
+    </>
   );
 }
 

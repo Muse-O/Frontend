@@ -34,6 +34,7 @@ function AlarmContainer() {
     }
   };
 
+  //나중에 알림 전체 읽기 기능 구현할떄 사용
   const seenAllTrueHandler = list => {
     // console.log(list, "list");
     list.seen = true;
