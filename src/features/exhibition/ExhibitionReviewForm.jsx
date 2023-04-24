@@ -1,105 +1,35 @@
-import React, { useState } from "react";
+import React from "react";
 import { usePostReview } from "../../hooks/exhibition/usePostReview";
 import styled from "styled-components";
-import { usetoken } from "../../shared/cookies";
 import cancel_WGray from "../../assets/imgs/common/cancel_WGray.png";
 import sparkle from "../../assets/imgs/exhibition/sparkle.png";
 import sparkle_full_gradient from "../../assets/imgs/exhibition/sparkle_full_gradient.png";
+import { PostEXReview, ReviewHashTag, ReviewRating } from "./PostEXReview";
 
 function ExhibitionReviewForm({ exhibitionID }) {
-  const { access_token } = usetoken();
-  const [createExhibition] = usePostReview(exhibitionID);
-  const template = {
-    reviewComment: "",
-    reviewRating: 0,
-  };
-  const [postReview, setPostReviews] = useState(template);
-  const [hashTag, setHashTags] = useState([]);
-  const [inputHashTag, setInputHashTag] = useState("");
-  const reviewHandler = (event) => {
-    const { value, name } = event.target;
-    if (name === "reviewRating") {
-      const satarvalue = event.target.dataset.value;
-      setPostReviews((pre) => {
-        return {
-          ...pre,
-          [name]: Number(satarvalue),
-        };
-      });
-    } else {
-      setPostReviews((pre) => {
-        return {
-          ...pre,
-          [name]: value,
-        };
-      });
-    }
-  };
-  //헤시태그 전용
-  const hashTaghandler = (e) => {
-    const { value } = e.target;
-    setInputHashTag(value);
-  };
-  const upKeyPress = (e) => {
-    const { value } = e.target;
-    if (value.length !== 0 && e.key === "Enter") {
-      if (hashTag.length > 4) {
-        alert("해시태그는 5개 까지 입력가능합니다");
-        return;
-      }
-      let updatedHash = value.trim();
-      const regExp = /[\{\}\[\]\/?.;,:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/g;
-      if (regExp.test(updatedHash)) {
-        alert("태그 내부에 특수문자는 불가능 합니다");
-        return;
-      }
-      if (updatedHash === "") return;
-      setHashTags((pre) => {
-        return [...pre, `#${updatedHash}`];
-      });
-
-      setInputHashTag("");
-    }
-  };
-
-  //제출하기
-  const onSubmitReview = (e) => {
-    e.preventDefault();
-    if (!access_token) {
-      alert("로그인이 필요한 서비스 입니다.");
-      return;
-    }
-    createExhibition({ hashTag, ...postReview });
-    setPostReviews(template);
-    setRating(0);
-    setInputHashTag("");
-    setHashTags([]);
-  };
-
-  const deleteTagItem = (e) => {
-    const deleteTagItem = e.target.parentElement.firstChild.innerText;
-    const filteredTagList = hashTag.filter(
-      (tagItem) => tagItem !== deleteTagItem
-    );
-    setHashTags(filteredTagList);
-  };
-
   const maxlength = 100;
-
-  //별점
-  const [rating, setRating] = useState(0); // 현재 별점 상태
-  const handleHover = (value) => {
-    setRating(value); // hover되는 별의 값으로 rating 상태를 업데이트
-  };
-  const ratingReview = [
-    "별점을 등록해 주세요",
-    "많이 아쉬웠어요.",
-    "조금 아쉬웠어요. ",
-    "보통이에요.",
-    "좋아요. ",
-    "최고의 경험이었어요.",
-  ];
-
+  //쿼리
+  const [createExhibition] = usePostReview(exhibitionID);
+  //헤시태그
+  const [
+    hashTag,
+    setHashTags,
+    inputHashTag,
+    setInputHashTag,
+    hashTaghandler,
+    upKeyPress,
+    deleteTagItem,
+  ] = ReviewHashTag();
+  //별점 만들기
+  const [rating, setRating, handleHover, ratingReview] = ReviewRating();
+  //리뷰 제출
+  const [reviewHandler, postReview, onSubmitReview] = PostEXReview(
+    createExhibition,
+    hashTag,
+    setRating,
+    setInputHashTag,
+    setHashTags
+  );
   return (
     <ReviewForm>
       <ReviewCount>
