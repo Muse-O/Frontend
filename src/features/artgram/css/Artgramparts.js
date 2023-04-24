@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Flex } from "../../components/Flex";
-import { Wrap } from "../../shared/GlobalStyled";
+import { Flex } from "../../../components/Flex";
+import { Wrap } from "../../../shared/GlobalStyled";
 
 const ArtgramWrap = styled(Wrap)`
   width: 1525px;
@@ -12,12 +12,16 @@ const H1 = styled.h1`
   text-align: ${props=>props.ta};
   font-weight:900;
   font-family: "S-CoreDream-3Light";
-  margin: ${props => props.type === "아트그램" ? "50px 75px 0" : "10px" };
+  margin: ${props => props.type === "아트그램" ? "81px 75px 0" : "10px" };
 
   .english {
     font-size: 32px;
     font-family: 'Montserrat', sans-serif;
   }
+  @media (max-width: 1440px) {
+    margin: ${props => props.type === "아트그램" ? "60.75px 56.25px 0" : "7.5px" };
+  }
+
 `
 
 const MainFlex = styled(Flex)`
@@ -37,7 +41,7 @@ const UserFlex = styled(Flex)`
 `
 const MainDiv = styled.div`
   width: auto;
-  margin: 50px 75px 100px;
+  margin: 61px 75px 100px;
 `;
 
 const Artgrambox = styled(Flex)`

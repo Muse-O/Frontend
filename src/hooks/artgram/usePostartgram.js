@@ -5,6 +5,7 @@ import { keys } from '../../shared/queryKeys'
 
 
 const postArtgram = async (payload) => {
+  console.log(payload);
   const token = cookies.get('access_token')
   const response = await apis.post("/artgram", payload, {
     headers: {

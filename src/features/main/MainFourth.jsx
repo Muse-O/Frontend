@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Main from "./css/mainparts";
-import { fourthDataList } from "./mainpageexample/fourthDataList";
 import { useGetDate } from "../../hooks/main/useGetDate";
 import { useNearestExhibition } from "../../hooks/main/useNearestExhibition";
-import { useNavigate } from "react-router-dom";
 import { useNavigator } from "../../hooks/main/useNavigator";
 
 function MainFourth() {
