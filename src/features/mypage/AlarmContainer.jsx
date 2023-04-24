@@ -4,11 +4,18 @@ import bell from "../../assets/imgs/mypage/bell_gray.png";
 import { useGetAlramInfo } from "../../hooks/mypage/useGetAlramInfo";
 import likeIcon from "../../assets/imgs/common/heart_red.png";
 import commentIcon from "../../assets/imgs/mypage/chat_blue.png";
+import { usePatchAlramInfo } from "../../hooks/mypage/usePatchAlramInfo";
 
 function AlarmContainer() {
   //react-query
   const { AlramInfo } = useGetAlramInfo();
-  console.log(AlramInfo);
+  const { updateAlramInfo } = usePatchAlramInfo();
+  // console.log(AlramInfo);
+
+  const seenTrueHandler = list => {
+    const id = list.notiId;
+    updateAlramInfo(id);
+  };
 
   return (
     <StAlramContainer>
@@ -21,7 +28,15 @@ function AlarmContainer() {
       <StAlramBox>
         {AlramInfo?.map(list => {
           return (
-            <StAlramWrap key={list.id}>
+            <StAlramWrap
+              style={
+                list.seen === false
+                  ? { backgroundColor: "#F0F3FF" }
+                  : { backgroundColor: "white" }
+              }
+              key={list.notiId}
+              onClick={() => seenTrueHandler(list)}
+            >
               {(list.noti_content === "artgram" && (
                 <div>
                   <StIconWrap>
@@ -116,12 +131,11 @@ const StBell = styled.div`
 `;
 
 const StAlramBox = styled.div`
-  /* background-color: gray; */
+  background-color: white;
   width: 392px;
   height: 469px;
   display: flex;
   flex-direction: column;
-  gap: 1px;
 
   overflow-y: scroll;
 
@@ -132,11 +146,11 @@ const StAlramBox = styled.div`
 `;
 
 const StAlramWrap = styled.div`
-  /* background-color: #f0f3ff; */
-  border: 1px solid black;
   width: 392px;
   height: 66px;
   padding: 10px;
+  margin-bottom: 1px;
+  cursor: pointer;
 
   div {
     display: flex;
