@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { ContentInnerText } from '../ArtgramDetailModalCss'
-import dots_gray2 from '../../../../assets/imgs/artgram/dots_gray2.png'
-import { useDeleteArtgram } from '../../../../hooks/artgram/newArtgram/useDeleteArtgram'
-import { usetoken } from '../../../../shared/cookies'
+import { ContentInnerText } from '../css/ArtgramDetailModalCss'
+import dots_gray2 from '../../../assets/imgs/artgram/dots_gray2.png'
+import { useDeleteArtgram } from '../../../hooks/artgram/newArtgram/useDeleteArtgram'
+import { usetoken } from '../../../shared/cookies'
 
 function ArtgramDetailContent({ detailData }) {
   const [settingBox, setSettingBox] = useState(false)

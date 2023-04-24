@@ -1,80 +1,62 @@
-import React from 'react'
-import {BsHeartFill, BsFilePlusFill} from 'react-icons/bs' 
-import * as Artgramparts from './Artgramparts'
-import { usePostingtime } from '../../hooks/artgram/usePostingtime'
-import {IoMdImages} from 'react-icons/io'
-import { useLikes } from '../../hooks/artgram/useLikes'
-import { useScrap } from '../../hooks/artgram/useScrap'
+import React from "react";
+// import CSS & icons & png ------------------------------------------------------------------------------/
+import * as Artgramparts from "./css/ArtgramCss";
+// import { BsBookmarkFill, BsFillHeartFill } from "react-icons/bs";
+import {RiBookmarkFill} from "react-icons/ri"
+import {AiFillHeart} from "react-icons/ai"
+import overlap_gray from '../../assets/imgs/artgram/overlap_gray.png'
+// import 커스텀 훅 ----------------------------------------------------------------------------------------/
+import { useLikes } from "../../hooks/artgram/useLikes";
+import { useScrap } from "../../hooks/artgram/useScrap";
+import { useOpenModal } from "../../hooks/artgram/useOpenModal";
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
+import ArtgarmDetailModal from "./detailModal/ArtgarmDetailModal";
+// ArtgramBox 컴포넌트 -------------------------------------------------------------------------------------/
+function ArtgramBox({ info }) {
+  const { artgramId, imgUrl, imgCount, profileImg,nickname, scrapCount, scrap, likeCount, liked,} 
+  = info; // props로 전달받은 useGetartgraminfinity의 개별데이터의내용 
+  const { patchScrap } = useScrap(); // 스크랩관련 비동기통신 PATCH
+  const { patchLikes } = useLikes(); // 좋아요관련 비동기통신 PATCH
+  const {modalState, openModalhandle} = useOpenModal(); // 개별데이터 상세페이지를 열 모달관련 커스컴 훅 
 
-const ArgramBox = ({pos}) => {
-  // pos으로 전달받은 내용 구조분해 할당 ------------------------------------------------------------------------------- //
-  const {
-    artgramId,artgramTitle,imgCount,imgUrl,likeCount,liked,scrap,profileImg,nickname,openModalhandle} = pos;
-  const {patchLikes} = useLikes()
-  const {patchScrap} = useScrap()
-  // GET : allArtgram.Posting 의 시간을 구하는 커스텀 훅 -------------------------------------------------------------- //
   return (
-    <>
-      {/* ArgramBox의 개별 Argram 뷰파트 ---------------------------------------------------------------------- */}
-      <Artgramparts.Artgrambox
-        fd="column"
-        gap="10"
-        onClick={() => openModalhandle(artgramId)}>
-        <Artgramparts.Img src={imgUrl && imgUrl} />
-        <Artgramparts.UserFlex>
-          <Artgramparts.ProflieBox url={profileImg} />
-          <Artgramparts.Nickname
-            children={
-              <>
-                <span>by</span> {nickname}
-              </>
-            }
-          />
-          <div
-            onClick={(event) => {
-              event.stopPropagation();
-              patchScrap(artgramId);
-            }}
-            style={{ display: "inline", zIndex: "10" }}
-          >
-            <span>
-              <BsFilePlusFill
-                color={(scrap && "#4FC0E8") || "lightgray"}
-              />
-            </span>
-          </div>
-          <Artgramparts.Likes
-            children={
-              <>
-                <div
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    patchLikes(artgramId);
-                  }}
-                  style={{ display: "inline", zIndex: "10" }}
-                >
-                  <span>
-                    <BsHeartFill color={(liked && "#FB6E52") || "lightgray"} />
-                  </span>{" "}
-                </div>
-                {likeCount}
-              </>
-            }
-          />
-        </Artgramparts.UserFlex>
-        {/* 사진 복수 유무에 따른 조건부 렌더링 --------------------------------------------------------------------- */}
-        {imgCount > 1 && (
-          <Artgramparts.PluralImgs
-            children={
-              <p>
-                <IoMdImages />
-              </p>
-            }
-          />
-        )}
-      </Artgramparts.Artgrambox>
-    </>
+    <Artgramparts.BoxWrap onClick={() => openModalhandle()}>
+      <Artgramparts.BoxImg children={<img className="artgramimg" src={imgUrl} alt="아트그램 이미지" />}/>
+      <Artgramparts.BoxProfile>
+        <Artgramparts.BoxProfileimg
+          children={<img src={profileImg} alt="artgramProfileImg" />} />
+        <Artgramparts.BoxProfileNickname 
+          children={<><span>by</span> {nickname}</>} />
+        <Artgramparts.Scrap
+          state={scrap}
+          onClick={(event) => {
+            event.stopPropagation();
+            patchScrap(artgramId);}}
+          children={
+            <>
+              <p children={<RiBookmarkFill />} />
+              <p children={scrapCount}/>
+            </>}/>
+        <Artgramparts.Heart
+          state={liked}
+          onClick={(event) => {
+            event.stopPropagation();
+            patchLikes(artgramId);}}
+          children={
+            <>
+              <p children={<AiFillHeart />} />
+              <p children={likeCount}/>
+            </>} />
+      </Artgramparts.BoxProfile>
+
+       {/* 해당 아트그램의 이미지가 복수인 경우 표시할 아이콘 */}
+      {imgCount > 1 && (
+        <Artgramparts.PluralImgs children={<img src={overlap_gray} alt="복수이미지표시" />} />)}
+      
+      {/* 해당 아크그램을 클릭했을 때 상세모달페이지가 실행되는 컴포넌트 */}
+      {modalState && (<ArtgarmDetailModal artgramId={artgramId} modalState={modalState} openModalhandle={openModalhandle}/>)}
+    </Artgramparts.BoxWrap>
   );
 }
 
-export default ArgramBox
+export default ArtgramBox;

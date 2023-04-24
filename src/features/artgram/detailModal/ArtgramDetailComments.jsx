@@ -1,9 +1,9 @@
 import React from "react";
 // import CSS & icons & png ------------------------------------------------------------------------------/
-import { CommentsLayout } from "../ArtgramDetailModalCss";
-import * as Comment from './ArtgramDetailCss'
+import { CommentsLayout } from "../css/ArtgramDetailModalCss";
+import * as Comment from '../css/ArtgramDetailCss'
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
-import { useGetartgramComments } from "../../../../hooks/artgram/useGetartgramComments";
+import { useGetartgramComments } from "../../../hooks/artgram/useGetartgramComments";
 import ArtgramDeteilCommentsEdit from "./ArtgramDeteilCommentsEdit";
 // ArtgramDetailComments 컴포넌트 --------------------------------------------------------------------------/
 function ArtgramDetailComments({ artgramId }) {

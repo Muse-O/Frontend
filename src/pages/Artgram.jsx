@@ -1,14 +1,14 @@
 import React from "react";
 // import CSS --------------------------------------------------------------------------------------------/
 import { Article } from "../shared/GlobalStyled";
-import * as Artgramparts from '../features/artgram/newartgram/ArtgramCss'
+import * as Artgramparts from '../features/artgram/css/ArtgramCss'
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { useInterserctionObserver } from "../hooks/artgram/newArtgram/useIntersectionObserver";
 import { useGetartgraminfinity } from "../hooks/artgram/useGetartgraminfinity";
 // import 컴포넌트 -----------------------------------------------------------------------------------------/
 import Header from "../components/Header";
-import ArtgramBox from "../features/artgram/newartgram/ArtgramBox";
-import ArtgramWrite from "../features/artgram/newartgram/ArtgramWrite";
+import ArtgramBox from "../features/artgram/ArtgramBox";
+import ArtgramWrite from "../features/artgram/ArtgramWrite";
 // Artgram 컴포넌트 ----------------------------------------------------------------------------------------/
 function Artgram() {
   const { data, isLoading, isError, fetchNextPage, hasNextPage } = useGetartgraminfinity(); // 비동기통신 GET

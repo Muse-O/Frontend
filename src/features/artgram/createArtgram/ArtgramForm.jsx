@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { createArtgramInputList } from "../forms/inputlist";
-import { useFormInput } from "../../hooks/useFormInput";
-import { HashTagInput, Input } from "../../components/Input";
-import { Flex } from "../../components/Flex";
-import { usePostartgram } from "../../hooks/artgram/usePostartgram";
+// import CSS --------------------------------------------------------------------------------------------/
+import { Flex } from "../../../components/Flex";
 import { MdOutlineFileDownload } from 'react-icons/md'
 import * as ArtgramFormparts from './ArtgramFormImgparts'
-import { useDropzoneinput } from "../../hooks/artgram/useDropzoneinput";
-import { useGetimgurl } from "../../hooks/artgram/useGetimgurl";
+import { createArtgramInputList } from "../../forms/inputlist";
+// import 커스텀 훅 ----------------------------------------------------------------------------------------/
+import { usePostartgram } from "../../../hooks/artgram/usePostartgram";
+import { useFormInput } from "../../../hooks/useFormInput";
+import { useDropzoneinput } from "../../../hooks/artgram/useDropzoneinput";
+import { useGetimgurl } from "../../../hooks/artgram/useGetimgurl";
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
+import { HashTagInput, Input } from "../../../components/Input";
 
 
+// ArtgramForm 컴포넌트 -------------------------------------------------------------------------------------/
 function ArtgramForm() {
   // 비동기 통신을 위하 커스텀 훅(리액트 쿼리)  ------------------------------------------------------------------ //
   const [postArtgrams] = usePostartgram();

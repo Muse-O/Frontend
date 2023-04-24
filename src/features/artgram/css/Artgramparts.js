@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Flex } from "../../components/Flex";
-import { Wrap } from "../../shared/GlobalStyled";
+import { Flex } from "../../../components/Flex";
+import { Wrap } from "../../../shared/GlobalStyled";
 
 const ArtgramWrap = styled(Wrap)`
   width: 1525px;
