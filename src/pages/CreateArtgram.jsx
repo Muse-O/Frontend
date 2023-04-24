@@ -16,7 +16,7 @@ function CreateArtgram() {
             children="아트그램등록하기"
           />
           <Artgramparts.MainDiv>
-            <ArtgramForm />
+            <ArtgramForm/>
           </Artgramparts.MainDiv>
         </Wrap>
       </Article>
