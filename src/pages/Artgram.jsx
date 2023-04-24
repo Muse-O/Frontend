@@ -28,7 +28,7 @@ function Artgram() {
                 <div key={artgrams.artgramId} children={ <ArtgramBox info={artgrams}/>}/>)}
           />
           <ArtgramWrite /> {/* 아트그램 생성으로 이동하는 버튼 */}
-          <Artgramparts.HiddenRef ref={ref} children={hasNextPage ? "새로운목록요청-GET" : "마지막페이지입니다"} />
+          <Artgramparts.HiddenRef ref={ref} children={hasNextPage ? "fetchNextPage요청" : "마지막페이지"} />
         </Artgramparts.Layout>
       </Article>
     </>

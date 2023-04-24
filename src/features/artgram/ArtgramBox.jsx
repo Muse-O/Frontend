@@ -48,7 +48,7 @@ function ArtgramBox({ info }) {
               <p children={likeCount}/>
             </>} />
       </Artgramparts.BoxProfile>
-
+      
        {/* 해당 아트그램의 이미지가 복수인 경우 표시할 아이콘 */}
       {imgCount > 1 && (
         <Artgramparts.PluralImgs children={<img src={overlap_gray} alt="복수이미지표시" />} />)}
