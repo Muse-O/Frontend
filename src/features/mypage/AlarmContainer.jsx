@@ -1,72 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import bell from "../../assets/imgs/mypage/bell_gray.png";
 import { useGetAlramInfo } from "../../hooks/mypage/useGetAlramInfo";
 import likeIcon from "../../assets/imgs/common/heart_red.png";
 import commentIcon from "../../assets/imgs/mypage/chat_blue.png";
 import { usePatchAlramInfo } from "../../hooks/mypage/usePatchAlramInfo";
+import ArtgarmDetailModal from "./../artgram/newartgram/ArtgarmDetailModal";
+import { useOpenModal } from "./../../hooks/artgram/useOpenModal";
 
 function AlarmContainer() {
+  const { modalState, openModalhandle } = useOpenModal(); //아트그램 모달
+  const [artgramId, setArtgramId] = useState(""); //id를 넘겨주기 위한 state
+
   //react-query
   const { AlramInfo } = useGetAlramInfo();
   const { updateAlramInfo } = usePatchAlramInfo();
-  // console.log(AlramInfo);
+
+  console.log(AlramInfo, "info");
 
   const seenTrueHandler = list => {
-    const id = list.notiId;
-    updateAlramInfo(id);
+    const notiId = list.notiId;
+    const artgramId = list?.noti_content_id;
+    setArtgramId(artgramId); //id 넘겨주기
+    openModalhandle(artgramId);
+    updateAlramInfo(notiId);
+    list.seen = true;
   };
 
   return (
-    <StAlramContainer>
-      <StAlramTitle>
-        <AlramTitle>알림</AlramTitle>
-        <StBell>
-          <img src={bell} alt="bell" />
-        </StBell>
-      </StAlramTitle>
-      <StAlramBox>
-        {AlramInfo?.map(list => {
-          return (
-            <StAlramWrap
-              style={
-                list.seen === false
-                  ? { backgroundColor: "#F0F3FF" }
-                  : { backgroundColor: "white" }
-              }
-              key={list.notiId}
-              onClick={() => seenTrueHandler(list)}
-            >
-              {(list.noti_content === "artgram" && (
-                <div>
-                  <StIconWrap>
-                    {(list.noti_type === "like" && (
-                      <img src={likeIcon} alt="likeIcon" />
-                    )) ||
-                      (list.noti_type === "comment" && (
-                        <img src={commentIcon} alt="commentIcon" />
-                      )) ||
-                      (list.noti_type === "reply" && (
-                        <img src={commentIcon} alt="commentIcon" />
-                      ))}
-                  </StIconWrap>
-
-                  <StAlramContents>
-                    <div style={{ fontSize: "14px", marginBottom: "7px" }}>
-                      아트그램
-                    </div>
-                    <div style={{ fontSize: "12px", color: "#3C3C3C" }}>
-                      {(list.noti_type === "like" &&
-                        `${list.noti_sender_nickname} 님이 회원님의 아트그램을 좋아합니다.`) ||
-                        (list.noti_type === "comment" &&
-                          `${list.noti_sender_nickname} 님이 회원님의 아트그램에 댓글을 남겼습니다.`) ||
-                        (list.noti_type === "reply" &&
-                          `${list.noti_sender_nickname} 님이 회원님의 댓글에 답글을 남겼습니다.`)}
-                    </div>
-                  </StAlramContents>
-                </div>
-              )) ||
-                (list.noti_content === "exhibition" && (
+    <>
+      <StAlramContainer>
+        <StAlramTitle>
+          <AlramTitle>알림</AlramTitle>
+          <StBell>
+            <img src={bell} alt="bell" />
+          </StBell>
+        </StAlramTitle>
+        <StAlramBox>
+          {AlramInfo?.map(list => {
+            return (
+              <StAlramWrap
+                style={
+                  list.seen === false
+                    ? { backgroundColor: "#F0F3FF" }
+                    : { backgroundColor: "white" }
+                }
+                key={list.notiId}
+                onClick={() => seenTrueHandler(list)}
+              >
+                {(list.noti_content === "artgram" && (
                   <div>
                     <StIconWrap>
                       {(list.noti_type === "like" && (
@@ -74,27 +56,61 @@ function AlarmContainer() {
                       )) ||
                         (list.noti_type === "comment" && (
                           <img src={commentIcon} alt="commentIcon" />
+                        )) ||
+                        (list.noti_type === "reply" && (
+                          <img src={commentIcon} alt="commentIcon" />
                         ))}
                     </StIconWrap>
 
                     <StAlramContents>
-                      <div style={{ fontSize: "14px", marginBottom: "7px" }}>
-                        전시
-                      </div>
-                      <div style={{ fontSize: "12px", color: "#3C3C3C" }}>
+                      <StAlramTheme>아트그램</StAlramTheme>
+                      <StAlramContent>
                         {(list.noti_type === "like" &&
-                          `${list.noti_sender_nickname} 님이 회원님의 글을 좋아합니다.`) ||
+                          `${list.noti_sender_nickname} 님이 회원님의 아트그램을 좋아합니다.`) ||
                           (list.noti_type === "comment" &&
-                            `${list.noti_sender_nickname} 님이 회원님의 글에 후기를 남겼습니다.`)}
-                      </div>
+                            `${list.noti_sender_nickname} 님이 회원님의 아트그램에 댓글을 남겼습니다.`) ||
+                          (list.noti_type === "reply" &&
+                            `${list.noti_sender_nickname} 님이 회원님의 댓글에 답글을 남겼습니다.`)}
+                      </StAlramContent>
                     </StAlramContents>
                   </div>
-                ))}
-            </StAlramWrap>
-          );
-        })}
-      </StAlramBox>
-    </StAlramContainer>
+                )) ||
+                  (list.noti_content === "exhibition" && (
+                    <div>
+                      <StIconWrap>
+                        {(list.noti_type === "like" && (
+                          <img src={likeIcon} alt="likeIcon" />
+                        )) ||
+                          (list.noti_type === "comment" && (
+                            <img src={commentIcon} alt="commentIcon" />
+                          ))}
+                      </StIconWrap>
+
+                      <StAlramContents>
+                        <StAlramTheme>전시</StAlramTheme>
+                        <diStAlramContent>
+                          {(list.noti_type === "like" &&
+                            `${list.noti_sender_nickname} 님이 회원님의 글을 좋아합니다.`) ||
+                            (list.noti_type === "comment" &&
+                              `${list.noti_sender_nickname} 님이 회원님의 글에 후기를 남겼습니다.`)}
+                        </diStAlramContent>
+                      </StAlramContents>
+                    </div>
+                  ))}
+              </StAlramWrap>
+            );
+          })}
+        </StAlramBox>
+      </StAlramContainer>
+
+      {modalState && (
+        <ArtgarmDetailModal
+          artgramId={artgramId}
+          modalState={modalState}
+          openModalhandle={openModalhandle}
+        />
+      )}
+    </>
   );
 }
 
@@ -177,9 +193,19 @@ const StIconWrap = styled.div`
 const StAlramContents = styled.div`
   display: flex;
   flex-direction: column;
+`;
 
-  div {
-    font-size: 14px;
-    font-family: "SpoqaHanSansNeo-Regular";
-  }
+const StAlramTheme = styled.div`
+  font-family: "SpoqaHanSansNeo-Regular";
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 7px;
+`;
+
+const StAlramContent = styled.div`
+  font-family: "SpoqaHanSansNeo-Regular";
+  font-size: 12px;
+  font-weight: 400;
+  color: #3c3c3c;
+  letter-spacing: -0.003em;
 `;

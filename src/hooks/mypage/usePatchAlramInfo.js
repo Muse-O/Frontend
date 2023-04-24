@@ -14,7 +14,6 @@ export const usePatchAlramInfo = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(keys.GET_ALRAMINFO);
     },
-    // refetchQueries: () => [keys.GET_ALRAMINFO],
   });
 
   return {
