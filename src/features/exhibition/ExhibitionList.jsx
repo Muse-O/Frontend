@@ -9,42 +9,21 @@ import {
   HeaderWhenSelect,
   HeaderWhereSelect,
 } from "./ExhibitionHeaderSelect";
+import { IntersectionObserverEX } from "./IntersectionObserverEX";
 
 function ExhibitionList() {
   const navigator = useNavigate();
-  //헤더용
+  //헤더
   const [whenVisible, setWhenVisible] = useState(false);
   const [whereVisible, setWhereVisible] = useState(false);
   const [categoryVisible, setCategoryVisible] = useState(false);
   const [tagVisible, setTagVisible] = useState(false);
+  //무한 스클롤
   const lastRef = useRef(null);
-  // const endRef = useRef(true);
   const [data, isLoading, isError, fetchNextPage, hasNextPage] =
     useGetExhibitioninfinity();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          console.log("확인~");
-          fetchNextPage();
-        }
-      },
-      { threshold: 0.01 }
-    );
-    if (lastRef.current) {
-      console.log("사이드 이팩트 실행");
-      observer.observe(lastRef.current);
-    }
-    return () => {
-      console.log("사이드 이팩트 해제");
-      if (lastRef.current) {
-        observer.unobserve(lastRef.current);
-      }
-    };
-  }, []);
   let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
-  console.log("merged?", merged);
+  IntersectionObserverEX(fetchNextPage, lastRef);
   if (isLoading || isError) {
     return <div>로딩 중....</div>;
   }
@@ -52,6 +31,7 @@ function ExhibitionList() {
   const selectHandler = (e) => {
     const { name } = e.target;
     if (name === "when") {
+      console.log("버튼이먹냐?");
       setWhenVisible(!whenVisible);
     } else if (name === "where") {
       setWhereVisible(!whereVisible);
@@ -185,87 +165,6 @@ function ExhibitionList() {
 
 export default ExhibitionList;
 
-// {data && (
-//   <>
-//     {data.map((item) => (
-//       <ExhibitionItem key={item.exhibitionId}>
-//         <ImageBox src={item.postImage} />
-//         <ExhibitionInfoBox>
-//           <ExhibitionDate>
-//             {item.startDate.slice(2, 10).replace(/-/g, ".") +
-//               " - " +
-//               item.endDate.slice(2, 10).replace(/-/g, ".")}
-//           </ExhibitionDate>
-//           <ExhibitionTitleWrap>
-//             <ExhibitonTitle>{item.exhibitionTitle}</ExhibitonTitle>
-//             <ExhibitonSecondTitle>부제목 입니다</ExhibitonSecondTitle>
-//           </ExhibitionTitleWrap>
-//         </ExhibitionInfoBox>
-//         <ExhibitionInfoDetailBox>
-//           <ExhibitionDatailInfo>
-//             <DatailInfo>
-//               <InfoBox>
-//                 <Info>
-//                   <span>●</span>
-//                   <div>
-//                     <div>장소</div>
-//                     <div>{item.location}</div>
-//                   </div>
-//                 </Info>
-//                 <Info>
-//                   <span>●</span>
-//                   <div>
-//                     <div>관람료</div>
-//                     <div>{item.entranceFee}</div>
-//                   </div>
-//                 </Info>
-//               </InfoBox>
-//               <InfoBox>
-//                 <Info>
-//                   <span>●</span>
-//                   <div>
-//                     <div>작가</div>
-//                     <div>{item.authorNickName}</div>
-//                   </div>
-//                 </Info>
-//                 <Info>
-//                   <span>●</span>
-//                   <div>
-//                     <div>작품수</div>
-//                     <div>{item.artWorkCnt}</div>
-//                   </div>
-//                 </Info>
-//               </InfoBox>
-//               {/* {item.location}
-//             {item.entranceFee}
-//             {item.authorNickName}
-//             {item.artWorkCnt} */}
-//             </DatailInfo>
-//             <ExhibitionHashTag>
-//               {/* {item.tagName?.map((tag) => {
-//                 return <span>{tag}</span>;
-//               })} */}
-//               <span>#tagg</span>
-//               <span>#tag</span>
-//               <span>#tag</span>
-//             </ExhibitionHashTag>
-//           </ExhibitionDatailInfo>
-
-//           <ExhibitionMore
-//             onClick={() => {
-//               navigator(`/exhibition/detail/${item.exhibitionId}`);
-//             }}
-//           >
-//             <span>M</span>
-//             <span>O</span>
-//             <span>R</span>
-//             <span>E</span>
-//           </ExhibitionMore>
-//         </ExhibitionInfoDetailBox>
-//       </ExhibitionItem>
-//     ))}
-//   </>
-// )}
 const MoreText = styled.div`
   display: flex;
   flex-direction: column;
@@ -358,12 +257,11 @@ const FilterSelect = styled.button`
   font-size: 18px;
   border-bottom: 1px solid #5b5b5b;
   padding: 12px 20px;
-  cursor: pointer;
   position: relative;
-
   :hover {
     background-color: #f3f3f3;
   }
+  /* cursor: pointer; */
 `;
 
 const FilterInputWrap = styled.div`
@@ -391,7 +289,6 @@ const FilterButton = styled.button`
   padding: 0 12px;
   position: absolute;
   right: 0;
-  cursor: pointer;
 `;
 
 const ExhibitionWrap = styled.div`
