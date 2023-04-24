@@ -6,11 +6,9 @@ import { ContentSettingBoxLayout, SettingBtn,SettingBtnborderline } from "../css
 function ContentSettingBox({ detailData, setSettingBox }) {
   const { decodetoken } = usetoken(); // ToKen에서 사용자 Email 정보 가져오기
   const { deleteHandle } = useDeleteArtgram();
-  console.log(decodetoken.email ===detailData.userEmail);
-  console.log();
   return (
     <ContentSettingBoxLayout>
-      {decodetoken.email === detailData.userEmail 
+      {decodetoken?.email === detailData?.userEmail 
       ? (<>
           <SettingBtnborderline onClick={() => deleteHandle(detailData.artgramId)} children="삭제" />
           <SettingBtnborderline onClick={() => alert("현재 개발 중...")} children="수정"/> 

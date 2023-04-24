@@ -13,7 +13,11 @@ const SliderOutline = styled.div`
 
   .sliderLayout {
     width: 635px;
+    @media (max-width: 1440px) {
+      width: 476.25px
+    }
   }
+  //
 `;
 
 const ModalContent = styled.div`
