@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useGetLikedExhibitionInfo } from "../../hooks/mypage/useGetLikedExhibitionInfo";
 import { useGetMyExhibitionInfo } from "../../hooks/mypage/useGetMyExhibitionInfo";
 import { useGetScrapExhibitionInfo } from "../../hooks/mypage/useGetScrapExhibitionInfo";
-import btn from "../../assets/imgs/common/next_cut_gray2.png";
+import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
+import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
 import whiteBtn from "../../assets/imgs/common/next_cut_white.png";
 import { useNavigate } from "react-router-dom";
 
@@ -75,8 +76,10 @@ function ExhibitionContainer() {
     navigate(`/exhibition/detail/${exhibitionId}`);
   };
 
-  const [src, setSrc] = useState(btn);
-  const [hoverImg, setHoverImg] = useState(whiteBtn);
+  const [leftBtnSrc, setLeftSrc] = useState(leftBtn);
+  const [leftHoverImg, setLeftHoverImg] = useState(whiteBtn);
+  const [rightBtnSrc, setRightSrc] = useState(rightBtn);
+  const [rightHoverImg, setRightHoverImg] = useState(whiteBtn);
 
   return (
     <StContainer>
@@ -105,9 +108,16 @@ function ExhibitionContainer() {
                 (menuArr[currentTab].id === 2 &&
                   !MyExhibitionInfo?.paginationInfo?.hasBackPage)
               }
+              onMouseOver={() => {
+                setLeftSrc(leftHoverImg);
+              }}
+              onMouseOut={() => {
+                setLeftSrc(leftBtnSrc);
+                setLeftSrc(leftBtn);
+              }}
             >
               {LikedExhibitionInfo?.paginationInfo?.hasBackPage ? (
-                <StLeftImg src={btn} alt="leftBtn" />
+                <StLeftImg src={leftBtnSrc} alt="leftBtn" />
               ) : (
                 <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
               )}
@@ -139,14 +149,14 @@ function ExhibitionContainer() {
                   !MyExhibitionInfo?.paginationInfo?.hasNextPage)
               }
               onClick={getNextDataHandler}
-              onMouseOver={() => setSrc(hoverImg)}
-              onMouseOut={() => setSrc(btn)}
+              onMouseOver={() => setRightSrc(rightHoverImg)}
+              onMouseOut={() => setRightSrc(rightBtnSrc)}
             >
               {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
-                <StRightImg src={src} alt="rightBtn" />
+                <StRightImg src={rightBtn} alt="rightBtn" />
               )) ||
                 (!LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
-                  <StRightImg src={whiteBtn} alt="whiteLeftBtn" />
+                  <StRightImg src={whiteBtn} alt="whiteBtn" />
                 ))}
             </StRightBtn>
           </StImgBtnBox>
