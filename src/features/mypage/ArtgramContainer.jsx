@@ -127,7 +127,6 @@ function ArtgramContainer() {
                   setLeftSrc(leftHoverImg);
                 }}
                 onMouseOut={() => {
-                  setLeftSrc(leftBtnSrc);
                   setLeftSrc(leftBtn);
                 }}
               >
@@ -162,27 +161,20 @@ function ArtgramContainer() {
                     !MyArtgramInfo?.paginationInfo?.hasNextPage)
                 }
                 onClick={getNextDataHandler}
-                onMouseOver={disabled => {
-                  if (!disabled) {
-                    setRightSrc(rightHoverImg);
-                  } else if (disabled) {
-                    setRightSrc(rightHoverImg);
-                  }
+                onMouseOver={() => {
+                  setRightSrc(rightHoverImg);
                 }}
-                onMouseOut={disabled => {
-                  if (!disabled) {
-                    setRightSrc(rightBtnSrc);
-                    setRightSrc(rightBtn);
-                  }
+                onMouseOut={() => {
+                  setRightSrc(rightBtn);
                 }}
               >
-                {/* {(LikedArtgramInfo?.paginationInfo?.hasNextPage && (
+                {(LikedArtgramInfo?.paginationInfo?.hasNextPage && (
                   <StRightImg src={rightBtnSrc} alt="rightBtn" />
                 )) ||
                   (!LikedArtgramInfo?.paginationInfo?.hasNextPage && (
                     <StRightImg src={whiteBtn} alt="whiteBtn" />
-                  ))} */}
-                {LikedArtgramInfo?.paginationInfo?.hasNextPage ? (
+                  ))}
+                {/* {LikedArtgramInfo?.paginationInfo?.hasNextPage ? (
                   <StRightImg src={rightBtnSrc} alt="rightBtn" />
                 ) : ScrapArtgramInfo?.paginationInfo?.hasNextPage ? (
                   <StRightImg src={rightBtnSrc} alt="rightBtn" />
@@ -190,7 +182,7 @@ function ArtgramContainer() {
                   <StRightImg src={rightBtnSrc} alt="rightBtn" />
                 ) : (
                   <StRightImg src={whiteBtn} alt="whiteBtn" />
-                )}
+                )} */}
               </StRightBtn>
             </StImgBtnBox>
           </StWrap>
