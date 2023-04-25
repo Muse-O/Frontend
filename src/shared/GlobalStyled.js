@@ -58,6 +58,9 @@ export const Article = styled.div`
   @media (max-width: 1440px) {
     margin-left: 183.75px;
 }
+@media (max-width: 390px) {
+  margin-left: 0;
+  }
 `;
 
 
@@ -74,9 +77,15 @@ const Headerwrap = styled.header`
   
   @media (max-width: 1440px) {
     width: 183.75px;
+    padding:4px;
+  }
+
+  @media (max-width: 390px) {
+    width: 100%;
+    height: 50px;
+    padding:8px;
   }
 `;
-
 
 const Logo = styled.div`
   height: 40px;
@@ -85,6 +94,9 @@ const Logo = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 2rem;
+  @media (max-width: 390px) {
+    display: none;
+  }
 `
 const LoginState = styled.div`
   height: 95px;
@@ -92,6 +104,9 @@ const LoginState = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+  @media (max-width: 390px) {
+   display: none;
+  }
 `
 
 const LoginStateImg = styled.div`
@@ -99,13 +114,22 @@ const LoginStateImg = styled.div`
   height: 50px;
   border-radius: 50px;
   background-color: #D9D9D9;
+  @media (max-width: 390px) {
+   display: none;
+  }
 `
 const LoginStateNickname = styled.p`
   color: #EBEBEB;
+  @media (max-width: 390px) {
+   display: none;
+  }
 `
 
 const Nav = styled.div`
   margin-top: 22px;
+  @media (max-width: 390px) {
+   display: none;
+  }
 `
 
 const NavSearch = styled.div`
@@ -113,6 +137,9 @@ const NavSearch = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 30px;
+  @media (max-width: 390px) {
+   display: none;
+  }
 `
 
 const NavSearchInput = styled.input`
@@ -121,12 +148,18 @@ const NavSearchInput = styled.input`
   background-color: #D9D9D9;
   padding: 12px;
   border-radius: 5px;
+  @media (max-width: 390px) {
+   display: none;
+  }
 `;
 
 const NavIcons = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 23px;
+  @media (max-width: 390px) {
+   display: none;
+  }
 `
 
 const Navgate = styled.div`
@@ -134,6 +167,9 @@ const Navgate = styled.div`
   height: 32px;
   border-radius: 50px;
   background-color: #D9D9D9;
+  @media (max-width: 390px) {
+   display: none;
+  }
 `
 const NavgatePath = styled.p`
   margin-left: 12px;
@@ -141,6 +177,9 @@ const NavgatePath = styled.p`
   color: #FFFFFF;
   @media (max-width: 1440px) {
     font-size: 18px;
+  }
+  @media (max-width: 390px) {
+   display: none;
   }
 `
 const NavBottom = styled.div`
@@ -154,6 +193,9 @@ const NavBottom = styled.div`
   flex-direction:column;
   background-color: #252525;
   gap:22px;
+  @media (max-width: 390px) {
+   display: none;
+  }
 `
 const NavBottomPath = styled.div`
   width: 200px;
@@ -169,6 +211,32 @@ const NavBottomPath = styled.div`
     width: 137.75px;
     font-size: 1.5rem;
   }
+  @media (max-width: 390px) {
+   display: none;
+  }
+`
+
+const MobileHeaerLayout = styled.div`
+  display: none;
+  @media (max-width: 390px) {
+   display: grid;
+   grid-template-columns: 1fr 2fr;
+   align-items: center;
+   color: white;
+   width: 100%;
+   height: 100%;
+  }
+`
+const MobileHeaerLogo = styled.img`
+  display: block;
+  width: fit-content;
+  height: 20px;
+  font-size: 2rem;
+`
+const MobileSettings = styled.div`
+  width: 100%;
+  height: 34px;
+  background-color: red;
 `
 
 export {
@@ -184,5 +252,8 @@ export {
   Navgate,
   NavgatePath,
   NavBottom,
-  NavBottomPath
+  NavBottomPath,
+  MobileHeaerLayout,
+  MobileHeaerLogo,
+  MobileSettings
 }

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Logout from "../features/login/Logout";
 import { cookies } from "../shared/cookies";
 import jwtDecode from "jwt-decode";
 import * as Headers from "../shared/GlobalStyled";
+import MobileHeaer from "./MobileHeaer";
 
 function Header() {
   const accessToken = cookies.get("access_token");
@@ -25,6 +25,7 @@ function Header() {
 
   return (
     <Headers.Headerwrap>
+        <MobileHeaer/>
         <Headers.Logo>
           <p>로고자리</p>
         </Headers.Logo>
@@ -132,6 +133,8 @@ function Header() {
           회원가입 페이지
         </button> */}
 
+
+
       <Headers.NavBottom>
         {!isLoggedIn
         ? (<>
@@ -151,6 +154,7 @@ function Header() {
         </>)
         : (<Logout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />)}
       </Headers.NavBottom>
+      
     </Headers.Headerwrap>
   );
 }
