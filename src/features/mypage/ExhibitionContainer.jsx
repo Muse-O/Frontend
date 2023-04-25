@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { useGetLikedExhibitionInfo } from "../../hooks/mypage/useGetLikedExhibitionInfo";
 import { useGetMyExhibitionInfo } from "../../hooks/mypage/useGetMyExhibitionInfo";
 import { useGetScrapExhibitionInfo } from "../../hooks/mypage/useGetScrapExhibitionInfo";
-import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
-import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
+import btn from "../../assets/imgs/common/next_cut_gray2.png";
 import whiteBtn from "../../assets/imgs/common/next_cut_white.png";
 import { useNavigate } from "react-router-dom";
 
@@ -76,6 +75,9 @@ function ExhibitionContainer() {
     navigate(`/exhibition/detail/${exhibitionId}`);
   };
 
+  const [src, setSrc] = useState(btn);
+  const [hoverImg, setHoverImg] = useState(whiteBtn);
+
   return (
     <StContainer>
       <StExhibition>전시</StExhibition>
@@ -105,9 +107,9 @@ function ExhibitionContainer() {
               }
             >
               {LikedExhibitionInfo?.paginationInfo?.hasBackPage ? (
-                <img src={leftBtn} alt="leftBtn" />
+                <StLeftImg src={btn} alt="leftBtn" />
               ) : (
-                <img src={whiteBtn} alt="whiteLeftBtn" />
+                <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
               )}
             </StLeftBtn>
             <StImgBox>
@@ -137,12 +139,15 @@ function ExhibitionContainer() {
                   !MyExhibitionInfo?.paginationInfo?.hasNextPage)
               }
               onClick={getNextDataHandler}
+              onMouseOver={() => setSrc(hoverImg)}
+              onMouseOut={() => setSrc(btn)}
             >
-              {LikedExhibitionInfo?.paginationInfo?.hasNextPage ? (
-                <img src={rightBtn} alt="rightBtn" />
-              ) : (
-                <img src={whiteBtn} alt="whiteLeftBtn" />
-              )}
+              {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
+                <StRightImg src={src} alt="rightBtn" />
+              )) ||
+                (!LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={whiteBtn} alt="whiteLeftBtn" />
+                ))}
             </StRightBtn>
           </StImgBtnBox>
         </StWrap>
@@ -175,41 +180,6 @@ const StImgBtnBox = styled.div`
   gap: 5px;
 `;
 
-// const disabledBtnStyle = css`
-//   background-color: #EEEEEE;
-//   width: 40px;
-//   height: 40px;
-//   border-radius: 50%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   cursor: pointer;
-
-//   img {
-//   background-color: white;
-//     width: 14px;
-//     height: 22px;
-//     transform: rotate(-180deg);
-//   }
-// `
-
-// const abledBtnStyle = css`
-//     background-color: #EEEEEE;
-//   width: 40px;
-//   height: 40px;
-//   border-radius: 50%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   cursor: pointer;
-
-//   img {
-//     width: 14px;
-//     height: 22px;
-//     transform: rotate(-180deg);
-//   }
-// `
-
 const StLeftBtn = styled.button`
   width: 40px;
   height: 40px;
@@ -224,11 +194,16 @@ const StLeftBtn = styled.button`
     cursor: default;
   }
 
-  img {
-    width: 14px;
-    height: 22px;
-    transform: rotate(-180deg);
+  /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
+  &:not(:disabled):hover {
+    background-color: #242424;
   }
+`;
+
+const StLeftImg = styled.img`
+  width: 14px;
+  height: 22px;
+  transform: rotate(-180deg);
 `;
 
 const StRightBtn = styled.button`
@@ -241,10 +216,19 @@ const StRightBtn = styled.button`
   align-items: center;
   cursor: pointer;
 
-  img {
-    width: 14px;
-    height: 22px;
+  &:disabled {
+    cursor: default;
   }
+
+  /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
+  &:not(:disabled):hover {
+    background-color: #242424;
+  }
+`;
+
+const StRightImg = styled.img`
+  width: 14px;
+  height: 22px;
 `;
 
 const StExhibitionBox = styled.div`
