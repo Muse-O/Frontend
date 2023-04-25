@@ -6,6 +6,7 @@ import { useGetScrapArtgramInfo } from "../../hooks/mypage/useGetScrapArtgramInf
 import { useOpenModal } from "./../../hooks/artgram/useOpenModal";
 import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
 import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
+import whiteBtn from "../../assets/imgs/common/next_cut_white.png";
 import ArtgarmDetailModal from "../artgram/detailModal/ArtgarmDetailModal";
 
 function ArtgramContainer() {
@@ -73,6 +74,11 @@ function ArtgramContainer() {
     openModalhandle(artgramId);
   };
 
+  const [leftBtnSrc, setLeftSrc] = useState(leftBtn);
+  const [leftHoverImg, setLeftHoverImg] = useState(whiteBtn);
+  const [rightBtnSrc, setRightSrc] = useState(rightBtn);
+  const [rightHoverImg, setRightHoverImg] = useState(whiteBtn);
+
   return (
     <>
       <StContainer>
@@ -91,8 +97,30 @@ function ArtgramContainer() {
             </StTabWrap>
 
             <StImgBtnBox>
-              <StLeftBtn onClick={getBackDataHandler}>
-                <img src={leftBtn} alt="leftBtn" />
+              <StLeftBtn
+                onClick={getBackDataHandler}
+                disabled={
+                  (menuArr[currentTab].id === 0 &&
+                    !LikedArtgramInfo?.paginationInfo?.hasBackPage) ||
+                  (menuArr[currentTab].id === 1 &&
+                    !ScrapArtgramInfo?.paginationInfo?.hasBackPage) ||
+                  (menuArr[currentTab].id === 2 &&
+                    !MyArtgramInfo?.paginationInfo?.hasBackPage)
+                }
+                onMouseOver={() => {
+                  setLeftSrc(leftHoverImg);
+                }}
+                onMouseOut={() => {
+                  setLeftSrc(leftBtnSrc);
+                  setLeftSrc(leftBtn);
+                }}
+              >
+                {(LikedArtgramInfo?.paginationInfo?.hasBackPage && (
+                  <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                )) ||
+                  (!LikedArtgramInfo?.paginationInfo?.hasBackPage && (
+                    <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                  ))}
               </StLeftBtn>
               <StImgBox>
                 {menuArr[currentTab].content.map(list => {
@@ -118,8 +146,20 @@ function ArtgramContainer() {
                     !MyArtgramInfo?.paginationInfo?.hasNextPage)
                 }
                 onClick={getNextDataHandler}
+                onMouseOver={() => {
+                  setRightSrc(rightHoverImg);
+                }}
+                onMouseOut={() => {
+                  setRightSrc(rightBtnSrc);
+                  setRightSrc(rightBtn);
+                }}
               >
-                <img src={rightBtn} alt="leftBtn" />
+                {(LikedArtgramInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                )) ||
+                  (!LikedArtgramInfo?.paginationInfo?.hasNextPage && (
+                    <StRightImg src={whiteBtn} alt="whiteBtn" />
+                  ))}
               </StRightBtn>
             </StImgBtnBox>
           </StWrap>
@@ -182,11 +222,20 @@ const StLeftBtn = styled.button`
   align-items: center;
   cursor: pointer;
 
-  img {
-    width: 14px;
-    height: 22px;
-    transform: rotate(-180deg);
+  &:disabled {
+    cursor: default;
   }
+
+  /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
+  &:not(:disabled):hover {
+    background-color: #242424;
+  }
+`;
+
+const StLeftImg = styled.img`
+  width: 14px;
+  height: 22px;
+  transform: rotate(-180deg);
 `;
 
 const StRightBtn = styled.button`
@@ -199,10 +248,19 @@ const StRightBtn = styled.button`
   align-items: center;
   cursor: pointer;
 
-  img {
-    width: 14px;
-    height: 22px;
+  &:disabled {
+    cursor: default;
   }
+
+  /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
+  &:not(:disabled):hover {
+    background-color: #242424;
+  }
+`;
+
+const StRightImg = styled.img`
+  width: 14px;
+  height: 22px;
 `;
 
 const StWrap = styled.div`

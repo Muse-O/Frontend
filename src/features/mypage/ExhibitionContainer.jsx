@@ -116,11 +116,12 @@ function ExhibitionContainer() {
                 setLeftSrc(leftBtn);
               }}
             >
-              {LikedExhibitionInfo?.paginationInfo?.hasBackPage ? (
+              {(LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
                 <StLeftImg src={leftBtnSrc} alt="leftBtn" />
-              ) : (
-                <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
-              )}
+              )) ||
+                (!LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
+                  <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                ))}
             </StLeftBtn>
             <StImgBox>
               {menuArr[currentTab].content.map(list => {
