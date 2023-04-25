@@ -11,7 +11,7 @@ import ArtgarmDetailModal from "../artgram/detailModal/ArtgarmDetailModal";
 
 function ArtgramContainer() {
   const { modalState, openModalhandle } = useOpenModal(); //아트그램 모달
-  const [artgramId, setArtgramId] = useState(""); //id를 넘겨주기 위한 state=
+  const [artgramId, setArtgramId] = useState(""); //id를 넘겨주기 위한 state
 
   const { LikedArtgramInfo, likedNum, setLikedNum } = useGetLikedArtgramInfo();
   const { MyArtgramInfo, myArtgramNum, setMyArtgramNum } =
@@ -74,6 +74,7 @@ function ArtgramContainer() {
     openModalhandle(artgramId);
   };
 
+  //버튼 스타일
   const [leftBtnSrc, setLeftSrc] = useState(leftBtn);
   const [leftHoverImg, setLeftHoverImg] = useState(whiteBtn);
   const [rightBtnSrc, setRightSrc] = useState(rightBtn);
