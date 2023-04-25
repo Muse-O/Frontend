@@ -1,13 +1,13 @@
 import React from 'react'
 // import CSS & icons & png ------------------------------------------------------------------------------/
-import * as Comment from './ArtgramDetailCss'
+import * as Comment from '../css/ArtgramDetailCss'
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
-import { useGetReply } from '../../../../hooks/artgram/newArtgram/useGetReply'
+import { useGetReply } from '../../../hooks/artgram/newArtgram/useGetReply'
 import styled from 'styled-components';
-import { usetoken } from '../../../../shared/cookies';
+import { usetoken } from '../../../shared/cookies';
 import { useMutation } from '@tanstack/react-query';
-import { useDeleteReply } from '../../../../hooks/artgram/newArtgram/useDeleteReply';
-import { usePostingtime } from '../../../../hooks/artgram/usePostingtime';
+import { useDeleteReply } from '../../../hooks/artgram/newArtgram/useDeleteReply';
+import { usePostingtime } from '../../../hooks/artgram/usePostingtime';
 
 function ArtgramDetailReply({artgramId, commentId}) {
   const { isLoading, isError, data: reply } = useGetReply(

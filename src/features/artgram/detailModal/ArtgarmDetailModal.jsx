@@ -1,15 +1,15 @@
 import React from "react";
 // import CSS & icons & png ------------------------------------------------------------------------------/
-import * as Artgramparts from "./ArtgramCss";
-import * as DetailModal from './ArtgramDetailModalCss'
+import * as Artgramparts from "../css/ArtgramCss";
+import * as DetailModal from '../css/ArtgramDetailModalCss'
 import cancel_WGray from '../../../assets/imgs/common/cancel_WGray.png'
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { useGetartgramDetail } from "../../../hooks/artgram/useGetartgramDetail";
 // import 컴포넌트 -----------------------------------------------------------------------------------------/
 import ArtgramSlider from "../ArtgramSlider";
-import ArtgramDetailContent from "./artgarmDetailModal/ArtgramDetailContent";
-import ArtgramDetailComments from "./artgarmDetailModal/ArtgramDetailComments";
-import ArtgramDetailCommentWrite from "./artgarmDetailModal/ArtgramDetailCommentWrite";
+import ArtgramDetailContent from "./ArtgramDetailContent";
+import ArtgramDetailComments from "./ArtgramDetailComments";
+import ArtgramDetailCommentWrite from "./ArtgramDetailCommentWrite";
 // ArtgarmDetailModal 컴포넌트 -----------------------------------------------------------------------------/
 function ArtgarmDetailModal({ artgramId, modalState, openModalhandle }) {
   const [detailIsLoading, detailIsError, detailData] = useGetartgramDetail(artgramId); // 아트그램상세정보 비동기통신 GET

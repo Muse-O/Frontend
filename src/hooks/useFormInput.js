@@ -2,7 +2,6 @@ import { useState } from "react";
 
 export const useFormInput = () => {
   const [formState, setFormState] = useState({});
-
   const handleInputChange = (event) => {
     event.persist();
     setFormState((prevState) => ({

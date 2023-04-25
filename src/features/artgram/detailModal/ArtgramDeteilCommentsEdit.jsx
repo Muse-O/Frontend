@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
-import { usetoken } from '../../../../shared/cookies';
-import {usePostingtime} from '../../../../hooks/artgram/usePostingtime'
-import {useDeletecomments} from '../../../../hooks/artgram/newArtgram/useDeletecomments'
-import {useUpdatecomments} from '../../../../hooks/artgram/newArtgram/useUpdatecomments'
-import {usePostReply} from '../../../../hooks/artgram/newArtgram/usePostReply'
-import * as Comment from './ArtgramDetailCss'
+import { usetoken } from '../../../shared/cookies';
+import {usePostingtime} from '../../../hooks/artgram/usePostingtime'
+import {useDeletecomments} from '../../../hooks/artgram/newArtgram/useDeletecomments'
+import {useUpdatecomments} from '../../../hooks/artgram/newArtgram/useUpdatecomments'
+import {usePostReply} from '../../../hooks/artgram/newArtgram/usePostReply'
+import * as Comment from '../css/ArtgramDetailCss'
 import ArtgramDetailReply from './ArtgramDetailReply';
 
 // // ArtgramDeteilCommentsEdit 컴포넌트 -------------------------------------------------------------------/

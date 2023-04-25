@@ -13,7 +13,11 @@ const SliderOutline = styled.div`
 
   .sliderLayout {
     width: 635px;
+    @media (max-width: 1440px) {
+      width: 476.25px
+    }
   }
+  //
 `;
 
 const ModalContent = styled.div`
@@ -60,9 +64,9 @@ const ContentInnerText = styled.div`
     font-size: 11px;
 
     // 글자에 그라데이션 효과를 주는 방법 가운데 하나로, 배경화면에 색을 주입하고, 이를 글자의 색상에 첨부하는 방식이 활용될 수 있다.
-    background: linear-gradient(to bottom, #3360ff 0%, #b960ff 40%);
-    background-clip: text;
-    color: transparent;
+    /* background: linear-gradient(to bottom, #3360ff 0%, #b960ff 40%);
+    background-clip: text; */
+    color: blue;
     font-weight: 600;
   }
 `;
@@ -192,15 +196,53 @@ const CommentWriteLayout = styled.div`
   }
 `;
 
+const ContentSetting = styled.div`
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  width: 20px;
+  height: 20px;
+  font-family:  Montserrat;
+`
+
+const ContentSettingBoxLayout = styled.div`
+  position: absolute;
+  top: 60px;
+  right: 30px;
+  width: 135px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 3px;
+  box-shadow:  0px 4px 4px rgba(0, 0, 0, 0.25);
+`
+
+const SettingBtn = styled.div`
+  text-align: center;
+  line-height: 32px;
+  font-size: 12px;
+`
+
+const SettingBtnborderline = styled(SettingBtn)`
+  border-bottom: 1px solid gray;
+`
+
+
+
 export {
   // 좌측 슬라이더 부분
   SliderOutline,
   // 우측 컨텐츠 부분
   ModalContent,
   ContentInnerText,
+  ContentSetting,
   CommentsLayout,
   CommentsInnerText,
   CommentsSettings,
   Reply,
   CommentWriteLayout,
+  // ContentSetting 관련
+  ContentSettingBoxLayout,
+  SettingBtn,
+  SettingBtnborderline
 };

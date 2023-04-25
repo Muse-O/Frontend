@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import * as Main from "./css/mainparts";
-import { fifithSliderList } from "./mainpageexample/fifithSliderList";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useAsNavForSliderMainFifith } from "../../hooks/main/useAsNavForSliderMainFifith";
 import { useCurrentArtgram } from "../../hooks/main/useCurrentArtgram";
 import { useOpenModal } from '../../hooks/main/useOpenModal'
-import ArtgarmDetailModal from '../artgram/newartgram/ArtgarmDetailModal'
+import ArtgarmDetailModal from '../artgram/detailModal/ArtgarmDetailModal'
 
 function MainFifith() {
   // 서버로 부터 받아 온 배열을 슬라이더의 목적에 따라 가공하는 커스텀 훅
@@ -112,7 +111,7 @@ function MainFifith() {
           )}
           <Main.FifthCurrentSliderIndex>
             <p>
-              0{currentSlideIndex} <span>/ 0{fifithSliderList.length}</span>
+              0{currentSlideIndex} <span>/ 0{data?.length}</span>
             </p>
           </Main.FifthCurrentSliderIndex>
         </Main.FifithSubSliderLayout>

@@ -128,6 +128,7 @@ const InfoIntro = styled.div`
   /* font-weight: 400; */
   line-height: 25px;
   word-break: break-all;
+  text-align: center;
 `;
 
 const ProfileImg = styled.img`
@@ -141,5 +142,5 @@ const ProfileImg = styled.img`
 const Line = styled.div`
   border-top: 1px solid #cccccc;
   width: 392px;
-  height: 20px;
+  height: 32px;
 `;

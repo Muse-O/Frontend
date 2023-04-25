@@ -47,6 +47,7 @@ const settings = {
   slidesToShow: 1, // 화면에 보여지는 슬라이더의 수 
   slidesToScroll: 1, // 한번에 넘길 슬라이더이더의 수 
   style:{position:"relative"},
+  verticalAlign: "middle", // 슬라이드를 상하 중앙으로 정렬
   prevArrow: <PrevArrow />,
   nextArrow: <NextArrow />,
 };

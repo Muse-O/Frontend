@@ -2,6 +2,9 @@ import styled from "styled-components";
 
 const Layout = styled.div`
   padding: 80px 75px;
+  @media (max-width: 1440px) {
+    padding: 60px 56.25px;
+  }
 `
 const H1 = styled.h1`
   font-size: 48px;
@@ -11,6 +14,12 @@ const H1 = styled.h1`
     font-family: 'Montserrat';
     font-size: 32px;
   }
+  @media (max-width: 1440px) {
+    font-size: 36px;
+    span {
+      font-size: 24px;
+    }
+  }
 `
 
 const Wrap = styled.div`
@@ -19,6 +28,11 @@ const Wrap = styled.div`
   gap: 23px;
   width: 100%;
   margin-top: 60px;
+
+  @media (max-width: 1440px) {
+    gap: 17.25px;
+    margin-top: 45px;
+  }
 `;
 
 const HiddenRef = styled.div`
@@ -34,36 +48,8 @@ const BoxWrap = styled.div`
   background-color: #fff;
   overflow: hidden;
 
-  .artgraminfo {
-    display: grid;
-    grid-template-columns: 29px 1fr 47px 47px;
-    gap: 8px;
-    height: 61px;
-    padding: 16px 12px;
-    align-items: center;
-  }
-
-  .artgramProfileImg {
-    width: 29px;
-    height: 29px;
-    border-radius: 50px;
-    background-color: lightgray;
-
-    img {
-      display: block;
-      width: 100%;
-      border-radius: 50px;
-    }
-  }
-
-  .artgramProfileNickname {
-    font-family: "Montserrat";
-    font-size: 12px;
-    font-weight: 600;
-    span {
-      font-weight: 400;
-      color: #767676;
-    }
+  @media (max-width: 1440px) {
+    height: 319.5px;
   }
 `;
 
@@ -84,6 +70,11 @@ const BoxImg = styled.div`
     object-fit: cover;
     object-position: center;
   }
+  @media (max-width: 1440px) {
+    max-width: 273px;
+    min-height: 273.75px;
+    max-height: 273.75px;
+  }
 `;
 
 const BoxProfile = styled.div`
@@ -93,6 +84,13 @@ const BoxProfile = styled.div`
   height: 61px;
   padding: 16px 12px;
   align-items: center;
+
+  @media (max-width: 1440px) {
+    padding: 12px 9px;
+    grid-template-columns: 21.75px 1fr 35.25px 35.25px;
+    gap: 6px;
+    height: 45.75px;
+  }
 `;
 
 const BoxProfileimg = styled.div`
@@ -106,12 +104,19 @@ const BoxProfileimg = styled.div`
     width: 100%;
     border-radius: 50px;
   }
+  @media (max-width: 1440px) {
+    width: 21.75px;
+    height: 21.75px;
+  }
 `;
 
 const BoxProfileNickname = styled.div`
   font-family: "Montserrat";
   font-size: 12px;
   font-weight: 600;
+  @media (max-width: 1440px) {
+    font-size: 9px;
+  }
 
   span {
     font-weight: 400;
@@ -167,6 +172,13 @@ const PluralImgs = styled.div`
   img {
     width: 100%;
   }
+  @media (max-width: 1440px) {
+    top: 9px;
+    right: 9px;
+    width: 30px;
+    height: 30px;
+    padding: 6.75px;
+  }
 `
 const ModalBackground = styled.div`
   display: ${props => props.state ? "block" : "none"};
@@ -198,6 +210,11 @@ const ModalWindow = styled.div`
   background-color: #fff;
   border-radius: 15px;
   z-index: 10200;
+  @media (max-width: 1440px) {
+    top: 47%;
+    width: 948px;
+    height: 670.5px;
+  }
 `;
 
 

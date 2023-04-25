@@ -1,15 +1,15 @@
 import React from "react";
-import { CommentWriteLayout } from "../ArtgramDetailModalCss";
-import { useScrap } from "../../../../hooks/artgram/useScrap";
-import { useLikes } from "../../../../hooks/artgram/useLikes";
+import { CommentWriteLayout } from "../css/ArtgramDetailModalCss";
+import { useScrap } from "../../../hooks/artgram/useScrap";
+import { useLikes } from "../../../hooks/artgram/useLikes";
 import dayjs from "dayjs";
-import { usePostcomments } from "../../../../hooks/artgram/usePostcomments";
-import { useFormInput } from "../../../../hooks/useFormInput";
+import { usePostcomments } from "../../../hooks/artgram/usePostcomments";
+import { useFormInput } from "../../../hooks/useFormInput";
 import {RiBookmarkFill} from "react-icons/ri"
 import {AiFillHeart} from "react-icons/ai"
-import { Flex } from "../../../../components/Flex";
-import * as Artgramparts from "../ArtgramCss";
-import { Input } from "../../../../components/Input";
+import { Flex } from "../../../components/Flex";
+import * as Artgramparts from "../css/ArtgramCss";
+import { Input } from "../../../components/Input";
 // import { BsBookmarkFill, BsFillHeartFill } from "react-icons/bs";
 
 function ArtgramDetailCommentWrite({artgramId, detailData}) {

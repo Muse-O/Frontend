@@ -13,7 +13,6 @@ import MyPage from "../pages/MyPage";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UpdateExhibition from "../pages/UpdateExhibition";
-import Artgramcopy from "../pages/Artgramcopy";
 
 function Router() {
   const pages = [
@@ -26,16 +25,10 @@ function Router() {
       isLogin: true,
     },
     {
-      pathname: "/artgram/origin",
-      element: <Artgramcopy />,
-      isPublic: true,
-      isLogin: true,
-    },
-    {
       pathname: "/artgram/create",
       element: <CreateArtgram />,
-      isPublic: false,
-      isLogin: true,
+      isPublic: true,
+      isLogin: false,
     },
     {
       pathname: "/exhibition/create",
