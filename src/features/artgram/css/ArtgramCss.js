@@ -35,6 +35,17 @@ const Wrap = styled.div`
   }
 `;
 
+const ArtgramWriteWrap = styled.div`
+  display:flex;
+  justify-content:end;
+  position:relative;
+  left:37.5px;
+
+  @media (max-width: 1440px) {
+    left:28.125px
+  }
+`
+
 const HiddenRef = styled.div`
   margin-top: 10px;
   color: transparent;
@@ -242,5 +253,9 @@ export {
 
   // 아트그램 상세페이지
   DetailScrap,
-  DetailHeart
+  DetailHeart,
+
+  // 아트그램 생성
+  ArtgramWriteWrap
+  
 }

@@ -25,9 +25,8 @@ function Artgram() {
             children={isLoading || isError
               ? (<div>로딩 중...</div>)
               : merged.map(artgrams => 
-                <div key={artgrams.artgramId} children={ <ArtgramBox info={artgrams}/>}/>)}
-          />
-          <ArtgramWrite /> {/* 아트그램 생성으로 이동하는 버튼 */}
+                <div key={artgrams.artgramId} children={ <ArtgramBox info={artgrams}/>}/>)}/>
+          <Artgramparts.ArtgramWriteWrap children={<ArtgramWrite /> } />
           <Artgramparts.HiddenRef ref={ref} children={hasNextPage ? "fetchNextPage요청" : "마지막페이지"} />
         </Artgramparts.Layout>
       </Article>
