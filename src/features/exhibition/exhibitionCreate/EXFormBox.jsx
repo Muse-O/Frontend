@@ -1,10 +1,10 @@
-import { styled } from "@tanstack/react-query-devtools/build/lib/utils";
+import styled from "styled-components";
 
-export const EXFormBox = ({ Explan, WiteRule, childrend }) => {
+export const EXFormBox = ({ Explan, WiteRule, children }) => {
   return (
     <Box>
       <Explanation>{Explan}</Explanation>
-      <DetailExplanation>{childrend}</DetailExplanation>
+      <DetailExplanation>{children}</DetailExplanation>
       {WiteRule && (
         <WriteRule>
           <span>{WiteRule}</span>

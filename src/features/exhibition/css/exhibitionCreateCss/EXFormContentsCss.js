@@ -1,4 +1,4 @@
-import { styled } from "@tanstack/react-query-devtools/build/lib/utils";
+import styled from "styled-components";
 
 const SectionSpan = styled.span`
   color: #ffffff;
@@ -8,6 +8,7 @@ const SectionSpan = styled.span`
   line-height: 25px;
   user-select: none;
 `;
+
 const Count = styled.span`
   margin-left: 12px;
   font-style: normal;
@@ -15,27 +16,16 @@ const Count = styled.span`
   font-size: 16px;
   line-height: 25px;
 `;
-const DetailExplanation = styled.div`
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  flex: 1;
-  max-width: 495px;
-`;
-const UpDateButtons = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-`;
+
 const ButtonsAddress = styled.button`
   border: 1px solid #3c3c3c;
   border-radius: 8px;
   background: #ffffff;
-
   :hover {
     background-color: #eeeeee;
   }
 `;
+
 const TitleP = styled.p`
   flex: 1;
   max-width: 32px;
@@ -66,7 +56,6 @@ const Textarea = styled.textarea`
     width: 8px;
     background-color: none;
   }
-
   ::-webkit-scrollbar-thumb {
     background-color: #bbb;
     border-radius: 4px;
@@ -76,21 +65,11 @@ const Textarea = styled.textarea`
   }
 `;
 
-const Post = styled.div`
-  position: fixed;
-`;
 const ExDesc = styled.div`
   width: 493px;
   height: auto;
 `;
-const Explanation = styled.div`
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 25px;
-  flex: 1;
-  max-width: 130px;
-  padding-top: 8px;
-`;
+
 const TitleInput = styled.input`
   background-color: ${({ bg }) => bg};
   max-width: ${({ width }) => width || "100%"};
@@ -108,6 +87,7 @@ const ExTitleKor = styled.div`
   width: 100%;
   align-items: center;
 `;
+
 const EXColum = styled.div`
   gap: 8px;
   display: flex;
@@ -115,85 +95,11 @@ const EXColum = styled.div`
   width: 100%;
 `;
 
-const Box = styled.div`
-  display: flex;
-  margin: 18px 0px;
-`;
 const ContentsWrap = styled.div`
   margin-top: 172px;
   display: flex;
   width: 820px;
   flex-direction: column;
-`;
-const Caution = styled.div`
-  width: 364px;
-  height: 100px;
-  background-color: #d9d9d9;
-  margin-top: 20px;
-`;
-const SubmitButton = styled.button`
-  background-color: #d9d9d9;
-  width: 364px;
-  height: 40px;
-  border-radius: 50px;
-  margin-top: 15px;
-`;
-const PostImgArea = styled.div`
-  display: flex;
-  background-color: #d9d9d9;
-  height: 520px;
-  width: 364px;
-  margin-top: 40px;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;
-const OnLine = styled.button`
-  font-family: "S-Core Dream";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 32px;
-  line-height: 38px;
-  background-color: #ffffff;
-  :hover {
-    background-color: #fff0f0;
-  }
-  color: ${(props) => (props.exhibitionKind === "EK0002" ? "red" : "black")};
-`;
-const Offline = styled.button`
-  font-family: "S-Core Dream";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 32px;
-  line-height: 38px;
-  margin-right: 60px;
-  background-color: #ffffff;
-  :hover {
-    background-color: #fff0f0;
-  }
-  color: ${(props) => (props.exhibitionKind === "EK0001" ? "red" : "black")};
-`;
-const PageTitle = styled.h1`
-  margin-top: 40px;
-  font-family: "S-Core Dream";
-  font-style: normal;
-  font-weight: 600;
-  font-size: 48px;
-  line-height: 57px;
-`;
-
-const PostWrap = styled.div`
-  position: relative;
-  flex-direction: column;
-  display: flex;
-  flex: 1;
-  max-width: 515px;
-  max-height: 1080px;
-  margin-left: 75px;
-`;
-
-const SelectOnOff = styled.div`
-  margin-top: 30px;
 `;
 
 const Section = styled.section`
@@ -204,18 +110,6 @@ const Section = styled.section`
   min-height: 110px;
   background: #3c3c3c;
   border-radius: 10px 10px 0px 0px;
-`;
-
-const DragIcon = styled.img`
-  width: 3em;
-  height: 3em;
-`;
-
-const Postimg = styled.img`
-  display: block;
-  width: 365px;
-  max-height: 520px;
-  margin-top: 40px;
 `;
 
 const Thumb = styled.div`
@@ -230,19 +124,6 @@ const ThumbInner = styled.div`
   display: flex;
   min-width: 0;
   overflow: hidden;
-`;
-
-const WriteRule = styled.div`
-  display: flex;
-  flex: 1;
-  max-width: 190px;
-  margin-left: 12px;
-  & > span {
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 20px;
-    color: #5a5a5a;
-  }
 `;
 
 const Thumbimg = styled.img`
@@ -263,6 +144,7 @@ const ThumbsContainer = styled.aside`
   border-radius: 0 0 10px 10px;
   margin: 0px 0px 50px 0px;
 `;
+
 const TumbsWrap = styled.div`
   width: 100%;
   display: flex;
@@ -281,7 +163,6 @@ const TumbsWrap = styled.div`
     border-radius: 4px;
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   }
-
   ::-webkit-scrollbar-thumb:hover {
     background-color: #244dde;
   }
@@ -290,35 +171,19 @@ const TumbsWrap = styled.div`
 export {
   SectionSpan,
   Count,
-  DetailExplanation,
-  UpDateButtons,
   ButtonsAddress,
   TitleP,
   LocationBox,
   Separator,
   Textarea,
-  Post,
   ExDesc,
-  Explanation,
   TitleInput,
   ExTitleKor,
   EXColum,
-  Box,
   ContentsWrap,
-  Caution,
-  SubmitButton,
-  PostImgArea,
-  OnLine,
-  Offline,
-  PageTitle,
-  PostWrap,
-  SelectOnOff,
   Section,
-  DragIcon,
-  Postimg,
   Thumb,
   ThumbInner,
-  WriteRule,
   Thumbimg,
   ThumbsContainer,
   TumbsWrap,
