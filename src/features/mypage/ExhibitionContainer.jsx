@@ -17,7 +17,7 @@ function ExhibitionContainer() {
   const { ScrapExhibitionInfo, scrapExhibitionNum, setScrapExhibitionNum } =
     useGetScrapExhibitionInfo();
 
-  // console.log(LikedExhibitionInfo?.paginationInfo?.hasNextPage, "boolean");
+  console.log(LikedExhibitionInfo?.paginationInfo?.hasBackPage, "boolean");
 
   const [currentTab, clickTab] = useState(0);
 
@@ -92,7 +92,17 @@ function ExhibitionContainer() {
           </StTabWrap>
 
           <StImgBtnBox>
-            <StLeftBtn onClick={getBackDataHandler}>
+            <StLeftBtn
+              onClick={getBackDataHandler}
+              disabled={
+                (menuArr[currentTab].id === 0 &&
+                  !LikedExhibitionInfo?.paginationInfo?.hasBackPage) ||
+                (menuArr[currentTab].id === 1 &&
+                  !ScrapExhibitionInfo?.paginationInfo?.hasBackPage) ||
+                (menuArr[currentTab].id === 2 &&
+                  !MyExhibitionInfo?.paginationInfo?.hasBackPage)
+              }
+            >
               <img src={leftBtn} alt="leftBtn" />
             </StLeftBtn>
             <StImgBox>
