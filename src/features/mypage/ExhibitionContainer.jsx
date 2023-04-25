@@ -71,6 +71,7 @@ function ExhibitionContainer() {
     }
   };
 
+  //전시 상세페이지 이동
   const detailExhibitionPage = info => {
     const exhibitionId = info?.exhibition_id;
     navigate(`/exhibition/detail/${exhibitionId}`);
@@ -123,6 +124,7 @@ function ExhibitionContainer() {
                   <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
                 ))}
             </StLeftBtn>
+
             <StImgBox>
               {menuArr[currentTab].content.map(list => {
                 return list.map(info => {
