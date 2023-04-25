@@ -23,6 +23,12 @@ function Header() {
     { title: "마이페이지", navigation: isLoggedIn ? "/mypage" : "/login" },
   ];
 
+  const searchhanler = (e) => {
+    e.preventDefault()
+    alert("기능구현  중")
+    navigate('search')
+  }
+
   return (
     <Headers.Headerwrap>
         <MobileHeaer/>
@@ -34,7 +40,7 @@ function Header() {
           <Headers.LoginStateNickname children={nickname}/>
         </Headers.LoginState>
         <Headers.Nav>
-          <Headers.NavSearch>
+          <Headers.NavSearch as="form" onSubmit={searchhanler}>
           <Headers.NavSearchInput placeholder="검색"/>
           </Headers.NavSearch>
           {navList.map(({ title, navigation }) => (

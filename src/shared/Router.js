@@ -13,11 +13,39 @@ import MyPage from "../pages/MyPage";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UpdateExhibition from "../pages/UpdateExhibition";
+import UnifiedSearch from "../pages/UnifiedSearch";
+import UnifiedSearchArt from "../pages/UnifiedSearchArt";
+import UnifiedSearchEx from "../pages/UnifiedSearchEx";
+import UnifiedSearchUser from "../pages/UnifiedSearchUser";
 
 function Router() {
   const pages = [
     { pathname: "/", element: <Main />, isPublic: true, isLogin: true },
     { pathname: "/login", element: <Login />, isPublic: true, isLogin: false },
+    {
+      pathname: "/search",
+      element: <UnifiedSearch />,
+      isPublic: true,
+      isLogin: true,
+    },
+    {
+      pathname: "/search/art",
+      element: <UnifiedSearchArt />,
+      isPublic: true,
+      isLogin: true,
+    },
+    {
+      pathname: "/search/exhibition",
+      element: <UnifiedSearchEx />,
+      isPublic: true,
+      isLogin: true,
+    },
+    {
+      pathname: "/search/users",
+      element: <UnifiedSearchUser />,
+      isPublic: true,
+      isLogin: true,
+    },
     {
       pathname: "/artgram",
       element: <Artgram />,
