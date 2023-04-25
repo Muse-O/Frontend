@@ -149,11 +149,16 @@ function ExhibitionContainer() {
                   !MyExhibitionInfo?.paginationInfo?.hasNextPage)
               }
               onClick={getNextDataHandler}
-              onMouseOver={() => setRightSrc(rightHoverImg)}
-              onMouseOut={() => setRightSrc(rightBtnSrc)}
+              onMouseOver={() => {
+                setRightSrc(rightHoverImg);
+              }}
+              onMouseOut={() => {
+                setRightSrc(rightBtnSrc);
+                setRightSrc(rightBtn);
+              }}
             >
               {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
-                <StRightImg src={rightBtn} alt="rightBtn" />
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
               )) ||
                 (!LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
                   <StRightImg src={whiteBtn} alt="whiteBtn" />
