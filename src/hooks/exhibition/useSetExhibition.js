@@ -21,7 +21,7 @@ export const useSetExhibition = (
     entranceFee: "",
     openTime: "", //
     closeTime: "", //
-    // significant: "",
+    significant: "",
     artWorkCnt: "",
     agencyAndSponsor: "",
     location: "",

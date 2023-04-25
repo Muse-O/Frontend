@@ -247,9 +247,9 @@ function ExhibitionForm({
                         value={exhibition.significant}
                         width={"100%"}
                         height={"91px"}
-                        name=""
+                        name="significant"
                         type="text"
-                        placeholder="설명"
+                        placeholder="상세 운영일"
                       />
                     </EXContents.ExDesc>
                   </EXContents.EXColum>
