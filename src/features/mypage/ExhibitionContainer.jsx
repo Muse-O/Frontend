@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useGetLikedExhibitionInfo } from "../../hooks/mypage/useGetLikedExhibitionInfo";
 import { useGetMyExhibitionInfo } from "../../hooks/mypage/useGetMyExhibitionInfo";
 import { useGetScrapExhibitionInfo } from "../../hooks/mypage/useGetScrapExhibitionInfo";
 import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
 import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
+import whiteBtn from "../../assets/imgs/common/next_cut_white.png";
 import { useNavigate } from "react-router-dom";
 
 function ExhibitionContainer() {
@@ -17,7 +18,7 @@ function ExhibitionContainer() {
   const { ScrapExhibitionInfo, scrapExhibitionNum, setScrapExhibitionNum } =
     useGetScrapExhibitionInfo();
 
-  console.log(LikedExhibitionInfo?.paginationInfo?.hasBackPage, "boolean");
+  // console.log(LikedExhibitionInfo?.paginationInfo?.hasBackPage, "boolean");
 
   const [currentTab, clickTab] = useState(0);
 
@@ -103,7 +104,11 @@ function ExhibitionContainer() {
                   !MyExhibitionInfo?.paginationInfo?.hasBackPage)
               }
             >
-              <img src={leftBtn} alt="leftBtn" />
+              {LikedExhibitionInfo?.paginationInfo?.hasBackPage ? (
+                <img src={leftBtn} alt="leftBtn" />
+              ) : (
+                <img src={whiteBtn} alt="whiteLeftBtn" />
+              )}
             </StLeftBtn>
             <StImgBox>
               {menuArr[currentTab].content.map(list => {
@@ -133,7 +138,11 @@ function ExhibitionContainer() {
               }
               onClick={getNextDataHandler}
             >
-              <img src={rightBtn} alt="leftBtn" />
+              {LikedExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                <img src={rightBtn} alt="rightBtn" />
+              ) : (
+                <img src={whiteBtn} alt="whiteLeftBtn" />
+              )}
             </StRightBtn>
           </StImgBtnBox>
         </StWrap>
@@ -166,6 +175,41 @@ const StImgBtnBox = styled.div`
   gap: 5px;
 `;
 
+// const disabledBtnStyle = css`
+//   background-color: #EEEEEE;
+//   width: 40px;
+//   height: 40px;
+//   border-radius: 50%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   cursor: pointer;
+
+//   img {
+//   background-color: white;
+//     width: 14px;
+//     height: 22px;
+//     transform: rotate(-180deg);
+//   }
+// `
+
+// const abledBtnStyle = css`
+//     background-color: #EEEEEE;
+//   width: 40px;
+//   height: 40px;
+//   border-radius: 50%;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   cursor: pointer;
+
+//   img {
+//     width: 14px;
+//     height: 22px;
+//     transform: rotate(-180deg);
+//   }
+// `
+
 const StLeftBtn = styled.button`
   width: 40px;
   height: 40px;
@@ -175,6 +219,10 @@ const StLeftBtn = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
 
   img {
     width: 14px;

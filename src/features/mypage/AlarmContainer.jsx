@@ -18,8 +18,6 @@ function AlarmContainer() {
   const { updateAlramInfo } = usePatchAlramInfo();
   const navigate = useNavigate();
 
-  // console.log(AlramInfo, "info");
-
   const seenTrueHandler = list => {
     const notiId = list.notiId;
     updateAlramInfo(notiId);
@@ -32,12 +30,6 @@ function AlarmContainer() {
     } else if (list.noti_content === "exhibition") {
       navigate(`/exhibition/detail/${list?.noti_content_id}`);
     }
-  };
-
-  //나중에 알림 전체 읽기 기능 구현할떄 사용
-  const seenAllTrueHandler = list => {
-    // console.log(list, "list");
-    list.seen = true;
   };
 
   return (
