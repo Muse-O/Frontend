@@ -6,7 +6,7 @@ import { useGetScrapArtgramInfo } from "../../hooks/mypage/useGetScrapArtgramInf
 import { useOpenModal } from "./../../hooks/artgram/useOpenModal";
 import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
 import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
-import ArtgarmDetailModal from "../artgram/newartgram/ArtgarmDetailModal";
+import ArtgarmDetailModal from "../artgram/detailModal/ArtgarmDetailModal";
 
 function ArtgramContainer() {
   const { modalState, openModalhandle } = useOpenModal(); //아트그램 모달

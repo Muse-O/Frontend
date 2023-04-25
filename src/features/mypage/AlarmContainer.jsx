@@ -5,7 +5,7 @@ import { useGetAlramInfo } from "../../hooks/mypage/useGetAlramInfo";
 import likeIcon from "../../assets/imgs/common/heart_red.png";
 import commentIcon from "../../assets/imgs/mypage/chat_blue.png";
 import { usePatchAlramInfo } from "../../hooks/mypage/usePatchAlramInfo";
-import ArtgarmDetailModal from "./../artgram/newartgram/ArtgarmDetailModal";
+import ArtgarmDetailModal from "./../artgram/detailModal/ArtgarmDetailModal";
 import { useOpenModal } from "./../../hooks/artgram/useOpenModal";
 import { useNavigate } from "react-router-dom";
 
