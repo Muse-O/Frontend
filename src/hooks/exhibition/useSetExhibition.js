@@ -21,12 +21,13 @@ export const useSetExhibition = (
     entranceFee: "",
     openTime: "", //
     closeTime: "", //
+    // significant: "",
     artWorkCnt: "",
     agencyAndSponsor: "",
     location: "",
     contact: "",
     authors: [],
-    exhibitionCategoty: [],
+    exhibitionCategoty: "",
     detailLocation: {
       zonecode: "",
       address: "",
@@ -77,6 +78,9 @@ export const useSetExhibition = (
   //헨들러
   const onchangeHandler = (event) => {
     const { value, name } = event.target;
+    console.log("name", name);
+    console.log("value", value);
+
     //작가
     if (name === "author") {
       setAuthorName(value);
@@ -89,15 +93,6 @@ export const useSetExhibition = (
         return {
           ...old,
           authors: newarr,
-        };
-      });
-    }
-    //카테고리
-    else if (name === "exhibitionCategoty") {
-      setExhibition((old) => {
-        return {
-          ...old,
-          exhibitionCategoty: [value],
         };
       });
     }
@@ -151,6 +146,18 @@ export const useSetExhibition = (
         return {
           ...old,
           [name]: result.filter((val) => val).join("-"),
+        };
+      });
+    }
+    //전시 주최& 분류
+    else if (
+      event.target.dataset.name === "exhibitionCategoty" ||
+      event.target.dataset.name === "exhibitionHost"
+    ) {
+      setExhibition((old) => {
+        return {
+          ...old,
+          [event.target.dataset.name]: event.target.dataset.value,
         };
       });
     }
