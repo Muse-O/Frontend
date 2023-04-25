@@ -41,8 +41,19 @@ function ArtgramContainer() {
       count: MyArtgramInfo?.paginationInfo,
     },
   ];
+
+  //탭 메뉴 클릭시 처음 페이지로 돌아옴
   const selectMenuHandler = id => {
-    clickTab(id);
+    if (id === 0) {
+      clickTab(id);
+      setLikedNum(0);
+    } else if (id === 1) {
+      clickTab(id);
+      setScrapArtgramNum(0);
+    } else if (id === 2) {
+      clickTab(id);
+      setMyArtgramNum(0);
+    }
   };
 
   //이전 데이터 불러오기
