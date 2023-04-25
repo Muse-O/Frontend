@@ -10,14 +10,14 @@ import { useGetimgurl } from "../../../hooks/artgram/useGetimgurl";
 import { HashTagInput, Input, TextArea } from "../../../components/Input";
 import DropImgPreivew from "./form/DropImgPreivew";
 import Notification from "./form/Notification";
+import { useNavigate } from "react-router-dom";
 
 // ArtgramForm 컴포넌트 -------------------------------------------------------------------------------------/
 function ArtgramForm2() {
   // 비동기 통신을 위하 커스텀 훅(리액트 쿼리)  ------------------------------------------------------------------ //
   const [postArtgrams] = usePostartgram();
-  const titleRef = useRef(null)
-  const descRef = useRef(null)
-
+  // Navigate  ------------------------------------------------------------------------------------------ //
+  const navigate = useNavigate()
   // Form의 input state 관리(제목과 내용, 그리고 해시태그)
   const [formState, setFormState, handleInputChange] = useFormInput();
   const [hashtag, setHashTag] = useState([]);
@@ -27,6 +27,9 @@ function ArtgramForm2() {
     // 마운트 해제시, 데이터 url 취소
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);
+  // input의 유효성 검사를 위한 useRef   -------------------------------------------------------------------- //
+  const titleRef = useRef(null)
+  const descRef = useRef(null)
 
   // Drag&Drop state(files)를 AWS S3에 업로드하여 url 받아내고, newImageUrls state에 입력하기   ---------------- //
   const [s3imgurlhandle] = useGetimgurl(files);
@@ -47,6 +50,7 @@ function ArtgramForm2() {
       setFiles([]);
       setFormState({});
       setHashTag([])
+      navigate('/artgram')
     }
   };
  // disabled={files.length === 0 || !formState.artgramTitle || !formState.artgramDesc }
