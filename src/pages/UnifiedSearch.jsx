@@ -1,13 +1,24 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../components/Header'
 import { Article } from '../shared/GlobalStyled'
 import * as US from '../features/unfiedSearch/unfiedSeach'
 import { useNavigate } from 'react-router-dom'
 import * as Artgramparts from '../features/artgram/css/ArtgramCss'
+// import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
+import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
+import { useRecoilValue } from 'recoil'
+import { searchDataArtState, searchDataExState, searchDataState, searchDataUserState, searchWordState } from '../hooks/search/seartStore'
 // import ArtgramBox from '../features/artgram/ArtgramBox'
 
 function UnifiedSearch() {
   const navigate = useNavigate()
+  const { isLoading, isError } = useUnifiedSearch();
+  const searchDataEx = useRecoilValue(searchDataExState)
+  const searchDataArt = useRecoilValue(searchDataArtState)
+  const searchDataUser = useRecoilValue(searchDataUserState)
+  // console.log("searchDataEx", searchDataEx);
+  // console.log("searchDataArt", searchDataArt);
+  // console.log("searchDataUser", searchDataUser);
   return (
     <>
     <Header/>

@@ -5,6 +5,8 @@ import { cookies } from "../shared/cookies";
 import jwtDecode from "jwt-decode";
 import * as Headers from "../shared/GlobalStyled";
 import MobileHeaer from "./MobileHeaer";
+import { useRecoilState } from "recoil";
+import { searchWordState } from "../hooks/search/seartStore";
 
 function Header() {
   const accessToken = cookies.get("access_token");
@@ -23,10 +25,13 @@ function Header() {
     { title: "마이페이지", navigation: isLoggedIn ? "/mypage" : "/login" },
   ];
 
+  const [,setSearchWord] = useRecoilState(searchWordState)
+  const [inputValue, setInputValue] = useState("")
   const searchhanler = (e) => {
     e.preventDefault()
-    alert("기능구현  중")
-    navigate('search')
+    setSearchWord(inputValue.replace(/\s/g, ""))
+    navigate('/search')
+    setInputValue("")
   }
 
   return (
@@ -41,7 +46,10 @@ function Header() {
         </Headers.LoginState>
         <Headers.Nav>
           <Headers.NavSearch as="form" onSubmit={searchhanler}>
-          <Headers.NavSearchInput placeholder="검색"/>
+          <Headers.NavSearchInput 
+            value={inputValue}
+            onChange={(e)=> setInputValue(e.target.value)}
+            placeholder="검색"/>
           </Headers.NavSearch>
           {navList.map(({ title, navigation }) => (
             <Headers.NavIcons

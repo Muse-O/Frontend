@@ -1,4 +1,10 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
+
+export const searchWordState = atom({
+  key: 'searchWordState',
+  default: "",
+});
+
 
 export const searchDataState = atom({
   key: 'searchDataState',
@@ -8,23 +14,23 @@ export const searchDataState = atom({
 export const searchDataExState = selector({
   key: 'searchDataExState',
   get: ({get}) => {
-    const filter = get(searchDataState);
-    return filter.filter((item) => item.type === "Exhibition");
-    }
+    const {exhibitions} = get(searchDataState);
+    return exhibitions;
+  }
 });
 
 export const searchDataArtState = selector({
-  key: 'searchDataArtState',
+  key: 'searchDataArtgramsState',
   get: ({get}) => {
-    const filter = get(searchDataState);
-    return filter.filter((item) => item.type === "Artgram");
-    }
+    const {artgrams} = get(searchDataState);
+    return artgrams;
+  }
 });
 
 export const searchDataUserState = selector({
   key: 'searchDataUserState',
   get: ({get}) => {
-    const filter = get(searchDataState);
-    return filter.filter((item) => item.type === "User");
-    }
+    const {users} = get(searchDataState);
+    return users;
+  }
 });
