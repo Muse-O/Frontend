@@ -16,9 +16,10 @@ function UnifiedSearch() {
   const searchDataEx = useRecoilValue(searchDataExState)
   const searchDataArt = useRecoilValue(searchDataArtState)
   const searchDataUser = useRecoilValue(searchDataUserState)
-  // console.log("searchDataEx", searchDataEx);
-  // console.log("searchDataArt", searchDataArt);
-  // console.log("searchDataUser", searchDataUser);
+  console.log("searchDataEx", searchDataEx);
+  console.log("searchDataArt", searchDataArt);
+  console.log("searchDataUser", searchDataUser);
+
   return (
     <>
     <Header/>
@@ -31,17 +32,14 @@ function UnifiedSearch() {
           <US.SearchNavOther onClick={()=>navigate('/search/art')} children="아트그램"/>
           <US.SearchNavOther onClick={()=>navigate('/search/users')} children="유저"/>
         </US.SearchNav>
-        <US.H2 children={(<>전시<span>247</span></>)}/>
+        <US.H2 children={(<>전시<span>{searchDataEx ? searchDataEx.length : 0}개</span></>)}/>
         <US.SearchBoxEx style={{padding:"23px"}}>
-        {Array(8).fill(null).map((el,index) => (<div key={index} style={{backgroundColor:"white"}}>{index} 아이템</div>))}
+          {searchDataEx && searchDataEx.map(exhibitrion => (<div key={exhibitrion.exhibitionId} style={{backgroundColor:"white"}}>{exhibitrion.exhibitionTitle}</div>))}
         </US.SearchBoxEx>
-        <US.H2 children={(<>아트그램<span>247</span></>)}/>
-           <Artgramparts.Wrap style={{minHeight:"426px", backgroundColor:"lightcoral", padding:"23px"}}>
-            {Array(8).fill(null).map((el,index) => (<div key={index} style={{backgroundColor:"white"}}>{index} 아이템</div>))}
-          
-           {/* {merged.map(artgrams => 
-                <div key={artgrams.artgramId} children={ <ArtgramBox info={artgrams}/>}/>)} */}
-           </Artgramparts.Wrap>
+        <US.H2 children={(<>아트그램<span>{searchDataArt ? searchDataArt.length : 0}개</span></>)}/>
+        <Artgramparts.Wrap style={{minHeight:"426px", backgroundColor:"lightcoral", padding:"23px"}}>
+          {searchDataArt && searchDataArt.map(artgram => (<div key={artgram.artgramId} style={{backgroundColor:"white"}}>{artgram.artgramTitle}</div>))}
+        </Artgramparts.Wrap>
       </US.Layout>  
     </Article>
     </>

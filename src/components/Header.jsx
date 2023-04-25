@@ -29,9 +29,13 @@ function Header() {
   const [inputValue, setInputValue] = useState("")
   const searchhanler = (e) => {
     e.preventDefault()
-    setSearchWord(inputValue.replace(/\s/g, ""))
-    navigate('/search')
-    setInputValue("")
+    if(inputValue==="") {
+      return
+    } else {
+      setSearchWord(inputValue.replace(/\s/g, ""))
+      navigate('/search')
+      setInputValue("")
+    }
   }
 
   return (

@@ -4,9 +4,12 @@ import { Article } from '../shared/GlobalStyled'
 import * as US from '../features/unfiedSearch/unfiedSeach'
 import { useNavigate } from 'react-router-dom'
 import * as Artgramparts from '../features/artgram/css/ArtgramCss'
+import { useRecoilValue } from 'recoil'
+import { searchDataArtState } from '../hooks/search/seartStore'
 
 function UnifiedSearchArt() {
   const navigate = useNavigate()
+  const searchDataArt = useRecoilValue(searchDataArtState)
   return (
     <>
     <Header/>
@@ -19,13 +22,10 @@ function UnifiedSearchArt() {
           <US.SearchNavSection onClick={()=>navigate('/search/art')} children="아트그램"/>
           <US.SearchNavOther onClick={()=>navigate('/search/users')} children="유저"/>
         </US.SearchNav>
-        <US.H2 children={(<>아트그램<span>247</span></>)}/>
+        <US.H2 children={(<>아트그램<span>{searchDataArt ? searchDataArt.length : 0}개</span></>)}/>
         <Artgramparts.Wrap style={{minHeight:"426px", backgroundColor:"lightcoral", padding:"23px"}}>
-            {Array(8).fill(null).map((el,index) => (<div key={index} style={{backgroundColor:"white"}}>{index} 아이템</div>))}
-          
-           {/* {merged.map(artgrams => 
-                <div key={artgrams.artgramId} children={ <ArtgramBox info={artgrams}/>}/>)} */}
-           </Artgramparts.Wrap>
+          {searchDataArt && searchDataArt.map(artgram => (<div key={artgram.artgramId} style={{backgroundColor:"white"}}>{artgram.artgramTitle}</div>))}
+        </Artgramparts.Wrap>
       </US.Layout>  
     </Article>
     </>
