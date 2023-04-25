@@ -162,20 +162,35 @@ function ArtgramContainer() {
                     !MyArtgramInfo?.paginationInfo?.hasNextPage)
                 }
                 onClick={getNextDataHandler}
-                onMouseOver={() => {
-                  setRightSrc(rightHoverImg);
+                onMouseOver={disabled => {
+                  if (!disabled) {
+                    setRightSrc(rightHoverImg);
+                  } else if (disabled) {
+                    setRightSrc(rightHoverImg);
+                  }
                 }}
-                onMouseOut={() => {
-                  setRightSrc(rightBtnSrc);
-                  setRightSrc(rightBtn);
+                onMouseOut={disabled => {
+                  if (!disabled) {
+                    setRightSrc(rightBtnSrc);
+                    setRightSrc(rightBtn);
+                  }
                 }}
               >
-                {(LikedArtgramInfo?.paginationInfo?.hasNextPage && (
+                {/* {(LikedArtgramInfo?.paginationInfo?.hasNextPage && (
                   <StRightImg src={rightBtnSrc} alt="rightBtn" />
                 )) ||
                   (!LikedArtgramInfo?.paginationInfo?.hasNextPage && (
                     <StRightImg src={whiteBtn} alt="whiteBtn" />
-                  ))}
+                  ))} */}
+                {LikedArtgramInfo?.paginationInfo?.hasNextPage ? (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                ) : ScrapArtgramInfo?.paginationInfo?.hasNextPage ? (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                ) : MyArtgramInfo?.paginationInfo?.hasNextPage ? (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                ) : (
+                  <StRightImg src={whiteBtn} alt="whiteBtn" />
+                )}
               </StRightBtn>
             </StImgBtnBox>
           </StWrap>

@@ -18,7 +18,7 @@ function ExhibitionContainer() {
   const { ScrapExhibitionInfo, scrapExhibitionNum, setScrapExhibitionNum } =
     useGetScrapExhibitionInfo();
 
-  // console.log(LikedExhibitionInfo?.paginationInfo?.hasBackPage, "boolean");
+  // console.log(LikedExhibitionInfo?.paginationInfo, "boolean");
 
   const [currentTab, clickTab] = useState(0);
 
@@ -128,7 +128,6 @@ function ExhibitionContainer() {
                 setLeftSrc(leftHoverImg);
               }}
               onMouseOut={() => {
-                setLeftSrc(leftBtnSrc);
                 setLeftSrc(leftBtn);
               }}
             >
@@ -167,20 +166,70 @@ function ExhibitionContainer() {
                   !MyExhibitionInfo?.paginationInfo?.hasNextPage)
               }
               onClick={getNextDataHandler}
+              // onMouseOver={disabled => {
+              //   !disabled ? setRightSrc(rightBtn) : setRightSrc(rightHoverImg);
+              // }}
+              // onMouseOut={disabled => {
+              //   if (disabled) {
+              //     setRightSrc(whiteBtn);
+              //   } else if (!disabled) {
+              //     setRightSrc(rightBtn);
+              //   } else {
+              //     setRightSrc(rightBtn);
+              //   }
+              // }}
               onMouseOver={() => {
                 setRightSrc(rightHoverImg);
               }}
               onMouseOut={() => {
-                setRightSrc(rightBtnSrc);
                 setRightSrc(rightBtn);
               }}
             >
               {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
-                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                <StRightImg src={rightBtnSrc} alt="rightBtnSrc" />
               )) ||
                 (!LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
-                  <StRightImg src={whiteBtn} alt="whiteBtn" />
+                  <StRightImg src={whiteBtn} alt="whiteRightBtn" />
+                )) ||
+                (ScrapExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={rightBtnSrc} alt="rightBtnSrc" />
+                )) ||
+                (!ScrapExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={whiteBtn} alt="whiteRightBtn" />
+                )) ||
+                (MyExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={rightBtnSrc} alt="rightBtnSrc" />
+                )) ||
+                (!MyExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={whiteBtn} alt="whiteRightBtn" />
                 ))}
+              {/* {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+              )) ||
+                (ScrapExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                )) ||
+                (MyExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                )) ||
+                (!LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={whiteBtn} alt="whiteBtn" />
+                ))} */}
+              {/* {LikedExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+              ) : (
+                <StRightImg src={whiteBtn} alt="whiteBtn" />
+              )} */}
+
+              {/* {LikedExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+              ) : ScrapExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+              ) : MyExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+              ) : (
+                <StRightImg src={whiteBtn} alt="whiteBtn" />
+              )} */}
             </StRightBtn>
           </StImgBtnBox>
         </StWrap>
