@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
-import { apis } from "../../api/apis";
-import { useGetExhibitioninfinity } from "../../hooks/exhibition/useGetExhibition";
+import { useGetExhibitioninfinity } from "../../../hooks/exhibition/useGetExhibition";
 import { useNavigate } from "react-router-dom";
 import {
   HeaderCategorySelect,

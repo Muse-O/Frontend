@@ -3,7 +3,7 @@ import Header from "../components/Header";
 import { Article } from "../shared/GlobalStyled";
 import { useParams } from "react-router-dom";
 import { useDetailGetExibition } from "../hooks/exhibition/useDetailGetExibition";
-import ExhibitionForm from "../features/exhibition/ExhibitionForm";
+import ExhibitionForm from "../features/exhibition/exhibitionCreate/ExhibitionForm";
 import { usePatchExhibition } from "../hooks/exhibition/usePatchExhibition";
 import { useDeleteExhibition } from "../hooks/exhibition/useDeleteExhbition";
 

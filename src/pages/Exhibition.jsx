@@ -1,7 +1,6 @@
 import Header from "../components/Header";
 import { Article } from "../shared/GlobalStyled";
-import ExhibitionList from "../features/exhibition/ExhibitionList";
-import { usePostExhibition } from "../hooks/exhibition/usetPostExhibition";
+import ExhibitionList from "../features/exhibition/exhibitoinList/ExhibitionList";
 
 function Exhibition() {
   return (

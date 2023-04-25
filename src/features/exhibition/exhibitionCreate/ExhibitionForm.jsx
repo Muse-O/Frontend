@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import React from "react";
-import { Flex } from "../../components/Flex";
-import { useSetExhibition } from "../../hooks/exhibition/useSetExhibition";
+import { Flex } from "../../../components/Flex";
+import { useSetExhibition } from "../../../hooks/exhibition/useSetExhibition";
 import { useGetImgUrl } from "./CreateURL";
-import { useDropzoneInput } from "../../hooks/exhibition/useDropZone";
+import { useDropzoneInput } from "../../../hooks/exhibition/useDropZone";
 import { PostEX } from "./PostEX";
 import { UpdateEX } from "./UpdateEX";
-import plus_white from "../../assets/imgs/common/plus_white.png";
+import plus_white from "../../../assets/imgs/common/plus_white.png";
 import SelectEX from "./SelectEX";
 import CalendarEX from "./CalendarEX";
 

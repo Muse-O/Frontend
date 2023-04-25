@@ -1,9 +1,9 @@
 import React from "react";
-import { usePostReview } from "../../hooks/exhibition/usePostReview";
+import { usePostReview } from "../../../hooks/exhibition/usePostReview";
 import styled from "styled-components";
-import cancel_WGray from "../../assets/imgs/common/cancel_WGray.png";
-import sparkle from "../../assets/imgs/exhibition/sparkle.png";
-import sparkle_full_gradient from "../../assets/imgs/exhibition/sparkle_full_gradient.png";
+import cancel_WGray from "../../../assets/imgs/common/cancel_WGray.png";
+import sparkle from "../../../assets/imgs/exhibition/sparkle.png";
+import sparkle_full_gradient from "../../../assets/imgs/exhibition/sparkle_full_gradient.png";
 import { PostEXReview, ReviewHashTag, ReviewRating } from "./PostEXReview";
 
 function ExhibitionReviewForm({ exhibitionID }) {
