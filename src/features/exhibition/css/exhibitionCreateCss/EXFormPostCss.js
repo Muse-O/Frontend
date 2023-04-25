@@ -23,31 +23,31 @@ const PageTitle = styled.h1`
 const SelectOnOff = styled.div`
   margin-top: 30px;
 `;
-const Offline = styled.button`
+const commonStyle = `
   font-family: "S-Core Dream";
   font-style: normal;
   font-weight: 500;
   font-size: 32px;
   line-height: 38px;
-  margin-right: 60px;
-  background-color: #ffffff;
+  background-color: transparent;
   :hover {
-    background-color: #fff0f0;
+    color: #242424;
   }
-  color: ${(props) => (props.exhibitionKind === "EK0001" ? "red" : "black")};
+  color: #7e7e7e;
+`;
+
+const Offline = styled.button`
+  ${commonStyle}
+  margin-right: 60px;
+  color: ${(props) =>
+    props.exhibitionKind === "EK0001" ? "#242424" : "#7e7e7e"};
 `;
 
 const OnLine = styled.button`
-  font-family: "S-Core Dream";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 32px;
-  line-height: 38px;
-  background-color: #ffffff;
-  :hover {
-    background-color: #fff0f0;
-  }
-  color: ${(props) => (props.exhibitionKind === "EK0002" ? "red" : "black")};
+  ${commonStyle}
+  cursor: pointer;
+  color: ${(props) =>
+    props.exhibitionKind === "EK0002" ? "#242424" : "#7e7e7e"};
 `;
 
 const PostImgArea = styled.div`
