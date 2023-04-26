@@ -6,22 +6,28 @@ import { useNavigate } from 'react-router-dom'
 import * as Artgramparts from '../features/artgram/css/ArtgramCss'
 // import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
 import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { searchDataArtState, searchDataExState, searchDataState, searchDataUserState, searchWordState } from '../hooks/search/seartStore'
 import TopButton from '../components/TopButton'
 import { useEditTime } from '../hooks/main/useEditTime'
+import { headerStatedefalut } from '../components/headerStore'
 // import ArtgramBox from '../features/artgram/ArtgramBox'
 
 function UnifiedSearch() {
   const navigate = useNavigate()
   const {editTimehandle} = useEditTime()
   const { isLoading, isError } = useUnifiedSearch();
+  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
   const searchDataEx = useRecoilValue(searchDataExState)
   const searchDataArt = useRecoilValue(searchDataArtState)
   const searchDataUser = useRecoilValue(searchDataUserState)
-  console.log("searchDataEx", searchDataEx);
-  console.log("searchDataArt", searchDataArt);
-  console.log("searchDataUser", searchDataUser);
+  // console.log("searchDataEx", searchDataEx);
+  // console.log("searchDataArt", searchDataArt);
+  // console.log("searchDataUser", searchDataUser);
+  const navigateEx = (detailRouter)=>{
+    setHeaderState({...headerState, home:false, exhibition:true, artgram:false, mypages:false})
+    navigate(detailRouter)
+  }
 
   return (
     <>
@@ -53,12 +59,12 @@ function UnifiedSearch() {
           {searchDataEx && searchDataEx?.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
             : (<US.SearchBoxEx>
-              {searchDataEx?.map(({exhibitionId,postImage,exhibitionTitle,startDate}) => (
-              <US.SearchEx key={exhibitionId}>
+              {searchDataEx?.map(({exhibitionId,detailRouter,postImage,exhibitionTitle,startDate,location}) => (
+              <US.SearchEx key={exhibitionId} onClick={()=>navigateEx(detailRouter)}>
               <US.SearchBoxExImg src={postImage} alt=''/>
               <US.SearchBoxExTitle children={exhibitionTitle}/>
               <US.SearchBoxExDate children={editTimehandle(startDate)}/>
-              <US.SearchBoxExlocation children="위치"/>
+              <US.SearchBoxExlocation children={location.split(" ").slice(0,3).join(" ")}/>
             </US.SearchEx>))}
             </US.SearchBoxEx>
               )}

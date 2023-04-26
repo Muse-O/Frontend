@@ -29,7 +29,7 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(accessToken); //로그인/로그아웃 상태관리
   const navigate = useNavigate();
   const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
-  console.log(headerState);
+
 
   const navList = [
     { id: "home" , title: "홈", img: `${headerState.home ? home_gradient : home_gray}`, navigation: "/", state:headerState.home},

@@ -126,10 +126,10 @@ const SearchBoxExImg = styled.img`
 const SearchBoxExTitle = styled.div`
   font-size: 20px;
   color: #242424;
-  width: 235px;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
   margin-bottom: 12px;
   
   @media (max-width: 1440px) {

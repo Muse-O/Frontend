@@ -1,16 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../components/Header'
 import { Article } from '../shared/GlobalStyled'
 import * as US from '../features/unfiedSearch/unfiedSearch'
 import { useNavigate } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { searchDataExState } from '../hooks/search/seartStore'
 import { useEditTime } from '../hooks/main/useEditTime'
+import { headerStatedefalut } from '../components/headerStore'
 
 function UnifiedSearchEx() {
   const navigate = useNavigate()
   const {editTimehandle} = useEditTime()
   const searchDataEx = useRecoilValue(searchDataExState)
+  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
+  const navigateEx = (detailRouter)=>{
+    setHeaderState({...headerState, home:false, exhibition:true, artgram:false, mypages:false})
+    navigate(detailRouter)
+  }
+
+  useEffect(()=> {
+    setHeaderState({...headerState, 
+      home:false, 
+      exhibition:false,
+      artgram:false,
+      mypages:false})
+  },[])
+
   return (
     <>
     <Header/>
@@ -35,12 +50,12 @@ function UnifiedSearchEx() {
         {searchDataEx.length === 0
             ? (<US.SearchBoxNoone>검색된 결과가 없습니다.</US.SearchBoxNoone>)
             : (<US.SearchBoxEx>
-              {searchDataEx?.map(({exhibitionId,postImage,exhibitionTitle,startDate}) => (
-              <US.SearchEx key={exhibitionId}>
+              {searchDataEx?.map(({exhibitionId,detailRouter,postImage,exhibitionTitle,startDate,location}) => (
+              <US.SearchEx key={exhibitionId} onClick={()=>navigateEx(detailRouter)}>
               <US.SearchBoxExImg src={postImage} alt=''/>
               <US.SearchBoxExTitle children={exhibitionTitle}/>
               <US.SearchBoxExDate children={editTimehandle(startDate)}/>
-              <US.SearchBoxExlocation children="위치"/>
+              <US.SearchBoxExlocation children={location}/>
             </US.SearchEx>))}
             </US.SearchBoxEx>
               )}
