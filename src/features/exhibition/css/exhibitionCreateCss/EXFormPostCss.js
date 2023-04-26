@@ -1,4 +1,19 @@
 import styled from "styled-components";
+const PreviewBoxDelete = styled.div`
+  position: absolute;
+  text-align: center;
+  right: 8px;
+  top: 8px;
+  width: fit-content;
+  line-height: 20px;
+  border-radius: 4px;
+  padding: 2px 4px;
+  background-color: #242424;
+  color: #fff;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 
 const PostWrap = styled.div`
   position: relative;
@@ -27,8 +42,8 @@ const commonStyle = `
   font-family: "S-Core Dream";
   font-style: normal;
   font-weight: 500;
-  font-size: 32px;
-  line-height: 38px;
+  font-size: 24px;
+  line-height: 25px;
   background-color: transparent;
   :hover {
     color: #242424;
@@ -64,12 +79,6 @@ const DragIcon = styled.img`
   width: 3em;
   height: 3em;
 `;
-const Postimg = styled.img`
-  display: block;
-  width: 365px;
-  max-height: 520px;
-  margin-top: 40px;
-`;
 
 const UpDateButtons = styled.div`
   display: flex;
@@ -91,8 +100,23 @@ const Caution = styled.div`
   margin-top: 20px;
 `;
 
+const PreviewBox = styled.div`
+  position: relative;
+  width: 365px;
+  max-height: 520px;
+  margin-top: 40px;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+`;
+
 export {
-  Postimg,
+  PreviewBoxDelete,
+  PreviewBox,
   DragIcon,
   SelectOnOff,
   PostWrap,

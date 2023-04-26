@@ -1,5 +1,23 @@
 import styled from "styled-components";
+const TBOX = styled.div`
+  position: relative;
+`;
 
+const PreviewBoxDelete = styled.div`
+  position: absolute;
+  text-align: center;
+  right: 8px;
+  top: 8px;
+  width: fit-content;
+  line-height: 20px;
+  border-radius: 4px;
+  padding: 2px 4px;
+  background: #3c3c3c;
+  color: #fff;
+  &:hover {
+    cursor: pointer;
+  }
+`;
 const SectionSpan = styled.span`
   color: #ffffff;
   font-style: normal;
@@ -113,6 +131,7 @@ const Section = styled.section`
 `;
 
 const Thumb = styled.div`
+  position: relative;
   display: inline-flex;
   border-radius: 2;
   border: 4px solid #eaeaea;
@@ -169,6 +188,8 @@ const TumbsWrap = styled.div`
 `;
 
 export {
+  TBOX,
+  PreviewBoxDelete,
   SectionSpan,
   Count,
   ButtonsAddress,
