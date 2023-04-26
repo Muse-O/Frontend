@@ -131,12 +131,52 @@ function ExhibitionContainer() {
                 setLeftSrc(leftBtn);
               }}
             >
-              {(LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
+              {(menuArr[currentTab].id === 0 &&
+              LikedExhibitionInfo?.paginationInfo?.hasBackPage ? (
+                <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+              ) : (
+                <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+              )) ||
+                (menuArr[currentTab].id === 1 &&
+                ScrapExhibitionInfo?.paginationInfo?.hasBackPage ? (
+                  <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                ) : (
+                  <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                )) ||
+                (menuArr[currentTab].id === 2 &&
+                MyExhibitionInfo?.paginationInfo?.hasBackPage ? (
+                  <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                ) : (
+                  <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                ))}
+              {/* {(menuArr[currentTab].id === 0 &&
+                ((LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
+                  <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                )) ||
+                  (!LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
+                    <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                  )))) ||
+                (menuArr[currentTab].id === 1 &&
+                  ((ScrapExhibitionInfo?.paginationInfo?.hasBackPage && (
+                    <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                  )) ||
+                    (!ScrapExhibitionInfo?.paginationInfo?.hasBackPage && (
+                      <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                    )))) ||
+                (menuArr[currentTab].id === 2 &&
+                  ((MyExhibitionInfo?.paginationInfo?.hasBackPage && (
+                    <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                  )) ||
+                    (!MyExhibitionInfo?.paginationInfo?.hasBackPage && (
+                      <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                    ))))} */}
+
+              {/* {(LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
                 <StLeftImg src={leftBtnSrc} alt="leftBtn" />
               )) ||
                 (!LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
                   <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
-                ))}
+                ))} */}
             </StLeftBtn>
 
             <StImgBox>
@@ -185,7 +225,25 @@ function ExhibitionContainer() {
                 setRightSrc(rightBtn);
               }}
             >
-              {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
+              {(menuArr[currentTab].id === 0 &&
+              LikedExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+              ) : (
+                <StRightImg src={whiteBtn} alt="whiteLeftBtn" />
+              )) ||
+                (menuArr[currentTab].id === 1 &&
+                ScrapExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                ) : (
+                  <StRightImg src={whiteBtn} alt="whiteLeftBtn" />
+                )) ||
+                (menuArr[currentTab].id === 2 &&
+                MyExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                ) : (
+                  <StRightImg src={whiteBtn} alt="whiteLeftBtn" />
+                ))}
+              {/* {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
                 <StRightImg src={rightBtnSrc} alt="rightBtnSrc" />
               )) ||
                 (!LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
@@ -202,7 +260,7 @@ function ExhibitionContainer() {
                 )) ||
                 (!MyExhibitionInfo?.paginationInfo?.hasNextPage && (
                   <StRightImg src={whiteBtn} alt="whiteRightBtn" />
-                ))}
+                ))} */}
               {/* {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
                 <StRightImg src={rightBtnSrc} alt="rightBtn" />
               )) ||
