@@ -71,7 +71,7 @@ const SearchBoxEx = styled.div`
   gap: 23px;
   margin-top: 42px;
   width: 100%;
-  min-height: 356px;
+  min-height: 144px;
   background-color: aliceblue;
 
   @media (max-width: 1440px) {

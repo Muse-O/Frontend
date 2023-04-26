@@ -9,6 +9,7 @@ import { useGetartgraminfinity } from "../hooks/artgram/useGetartgraminfinity";
 import Header from "../components/Header";
 import ArtgramBox from "../features/artgram/ArtgramBox";
 import ArtgramWrite from "../features/artgram/ArtgramWrite";
+import TopButton from "../components/TopButton";
 // Artgram 컴포넌트 ----------------------------------------------------------------------------------------/
 function Artgram() {
   const { data, isLoading, isError, fetchNextPage, hasNextPage } = useGetartgraminfinity(); // 비동기통신 GET
@@ -29,6 +30,7 @@ function Artgram() {
           />
           <ArtgramWrite /> {/* 아트그램 생성으로 이동하는 버튼 */}
           <Artgramparts.HiddenRef ref={ref} children={hasNextPage ? "fetchNextPage요청" : "마지막페이지"} />
+          <TopButton/>
         </Artgramparts.Layout>
       </Article>
     </>

@@ -188,7 +188,7 @@ const ModalBackground = styled.div`
   top: 0;
   left: 0;
   padding: 20px;
-  background-color: rgba(35, 35, 35, 0.7);
+  background-color: rgba(36, 36, 36, 0.7);
   z-index: 10200;
   
   img {

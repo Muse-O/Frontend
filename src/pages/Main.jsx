@@ -7,6 +7,7 @@ import MainSecond from '../features/main/MainSecond'
 import MainThird from '../features/main/MainThird'
 import MainFourth from '../features/main/MainFourth'
 import MainFifith from '../features/main/MainFifith'
+import TopButton from "../components/TopButton";
 
 function Main() {
   return (
@@ -19,6 +20,7 @@ function Main() {
           <MainThird />
           <MainFourth />
           <MainFifith />
+          <TopButton/>
         </MainLayout>
       </Article>
     </>

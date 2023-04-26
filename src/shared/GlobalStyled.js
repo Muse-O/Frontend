@@ -20,6 +20,12 @@ export const GlobalStyle = createGlobalStyle`
       font-weight: normal;
       font-style: normal;
      }
+     @font-face {
+      font-family: 'S-CoreDream-5Medium';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+     }
 
     @font-face {
       font-family: 'SpoqaHanSansNeo-Regular';
@@ -65,7 +71,7 @@ export const Article = styled.div`
 
 
 const Headerwrap = styled.header`
-  font-family: "S-CoreDream-3Light";
+  font-family: 'S-CoreDream-5Medium';
   position: fixed;
   top: 0;
   bottom: 0;
@@ -156,25 +162,33 @@ const NavSearchInput = styled.input`
 const NavIcons = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 23px;
+  height: 43px;
+  margin-bottom: 8px;
+  padding: 0 12px;
+  border-radius: 5px;
+  background-color: ${props => props.state ? "#F7F7F9" :"transparent"};
   @media (max-width: 390px) {
    display: none;
   }
 `
 
-const Navgate = styled.div`
-  width: 32px;
-  height: 32px;
-  border-radius: 50px;
-  background-color: #D9D9D9;
+const Navgateimg = styled.img`
+  display: block;
+  width: 27px;
+  height: 27px;
   @media (max-width: 390px) {
    display: none;
   }
 `
-const NavgatePath = styled.p`
+const NavgatePath = styled.div`
+  position:relative;
+  top:2px;
   margin-left: 12px;
+  padding: 1px;
   font-size: 24px;
-  color: #FFFFFF;
+  color: ${props => props.state ? "transparent" :"#FFFFFF"};
+  background: ${props => props.state ? "linear-gradient(to bottom, #3360ff 0%, #b960ff 70%);" : null};
+  -webkit-background-clip:  ${props => props.state ? "text" : null};
   @media (max-width: 1440px) {
     font-size: 18px;
   }
@@ -249,7 +263,7 @@ export {
   NavSearch,
   NavSearchInput,
   NavIcons,
-  Navgate,
+  Navgateimg,
   NavgatePath,
   NavBottom,
   NavBottomPath,

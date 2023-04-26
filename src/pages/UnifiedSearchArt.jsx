@@ -22,7 +22,7 @@ function UnifiedSearchArt() {
           <US.SearchNavSection onClick={()=>navigate('/search/art')} children="아트그램"/>
           <US.SearchNavOther onClick={()=>navigate('/search/users')} children="유저"/>
         </US.SearchNav>
-        <US.H2 children={(<>아트그램<span>{searchDataArt ? searchDataArt.length : 0}개</span></>)}/>
+        <US.H2 children={(<>아트그램<span>{searchDataArt?.length > 0 ? searchDataArt.length : null}</span></>)}/>
         <Artgramparts.Wrap style={{minHeight:"426px", backgroundColor:"lightcoral", padding:"23px"}}>
           {searchDataArt && searchDataArt.map(artgram => (<div key={artgram.artgramId} style={{backgroundColor:"white"}}>{artgram.artgramTitle}</div>))}
         </Artgramparts.Wrap>

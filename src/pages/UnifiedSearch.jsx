@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Header from '../components/Header'
 import { Article } from '../shared/GlobalStyled'
 import * as US from '../features/unfiedSearch/unfiedSeach'
@@ -8,6 +8,7 @@ import * as Artgramparts from '../features/artgram/css/ArtgramCss'
 import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
 import { useRecoilValue } from 'recoil'
 import { searchDataArtState, searchDataExState, searchDataState, searchDataUserState, searchWordState } from '../hooks/search/seartStore'
+import TopButton from '../components/TopButton'
 // import ArtgramBox from '../features/artgram/ArtgramBox'
 
 function UnifiedSearch() {
@@ -32,14 +33,17 @@ function UnifiedSearch() {
           <US.SearchNavOther onClick={()=>navigate('/search/art')} children="아트그램"/>
           <US.SearchNavOther onClick={()=>navigate('/search/users')} children="유저"/>
         </US.SearchNav>
-        <US.H2 children={(<>전시<span>{searchDataEx ? searchDataEx.length : 0}개</span></>)}/>
+        <US.H2 children={(<>전시<span>{searchDataEx?.length > 0 ? searchDataEx.length : null}</span></>)}/>
         <US.SearchBoxEx style={{padding:"23px"}}>
-          {searchDataEx && searchDataEx.map(exhibitrion => (<div key={exhibitrion.exhibitionId} style={{backgroundColor:"white"}}>{exhibitrion.exhibitionTitle}</div>))}
+          {!searchDataEx
+            ? (<div>검색된 결과가 없습니다.</div>)
+            : searchDataEx.map(exhibitrion => (<div key={exhibitrion.exhibitionId} style={{backgroundColor:"white", height:"400px"}}>{exhibitrion.exhibitionTitle}</div>))}
         </US.SearchBoxEx>
-        <US.H2 children={(<>아트그램<span>{searchDataArt ? searchDataArt.length : 0}개</span></>)}/>
-        <Artgramparts.Wrap style={{minHeight:"426px", backgroundColor:"lightcoral", padding:"23px"}}>
-          {searchDataArt && searchDataArt.map(artgram => (<div key={artgram.artgramId} style={{backgroundColor:"white"}}>{artgram.artgramTitle}</div>))}
+        <US.H2 children={(<>아트그램<span>{searchDataArt?.length > 0 ? searchDataArt.length : null}</span></>)}/>
+        <Artgramparts.Wrap style={{minHeight:"144px", backgroundColor:"lightcoral", padding:"23px"}}>
+          {searchDataArt && searchDataArt.map(artgram => (<div key={artgram.artgramId} style={{backgroundColor:"white", height:"426px"}}>{artgram.artgramTitle}</div>))}
         </Artgramparts.Wrap>
+        <TopButton/>
       </US.Layout>  
     </Article>
     </>

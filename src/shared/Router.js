@@ -56,7 +56,7 @@ function Router() {
       pathname: "/artgram/create",
       element: <CreateArtgram />,
       isPublic: true,
-      isLogin: false,
+      isLogin: true,
     },
     {
       pathname: "/exhibition/create",

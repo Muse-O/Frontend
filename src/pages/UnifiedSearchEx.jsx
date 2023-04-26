@@ -21,7 +21,7 @@ function UnifiedSearchEx() {
           <US.SearchNavOther onClick={()=>navigate('/search/art')} children="아트그램"/>
           <US.SearchNavOther onClick={()=>navigate('/search/users')} children="유저"/>
         </US.SearchNav>
-        <US.H2 children={(<>전시<span>{searchDataEx ? searchDataEx.length : 0}개</span></>)}/>
+        <US.H2 children={(<>전시<span>{searchDataEx?.length > 0 ? searchDataEx.length : null}</span></>)}/>
         <US.SearchBoxEx style={{padding:"23px"}}>
           {searchDataEx && searchDataEx.map(exhibitrion => (<div key={exhibitrion.exhibitionId} style={{backgroundColor:"white"}}>{exhibitrion.exhibitionTitle}</div>))}
         </US.SearchBoxEx>
