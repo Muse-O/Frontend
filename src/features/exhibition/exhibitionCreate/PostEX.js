@@ -1,3 +1,5 @@
+import { CheckEXValue } from "./CheckEXValue";
+
 //post 버튼
 export const PostEX = (
   s3ImgUrlHandle,
@@ -8,17 +10,11 @@ export const PostEX = (
   exhibitionKind,
   createExhibition
 ) => {
-  // const [createExhibition] = usePostExhibition();
   const PostEXHandler = (event) => {
     event.preventDefault();
     const urls = s3ImgUrlHandle(files);
     const posturl = s3PostImgUrlHandle(postfiles);
-    createExhibition({
-      ...exhibition,
-      postImage: posturl,
-      artImage: urls,
-      exhibitionKind,
-    });
+    CheckEXValue(exhibition, exhibitionKind, posturl, urls, createExhibition);
   };
   return PostEXHandler;
 };

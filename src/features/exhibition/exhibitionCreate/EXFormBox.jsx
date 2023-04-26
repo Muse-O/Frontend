@@ -1,48 +1,15 @@
-import styled from "styled-components";
+import * as FormBox from "../css/exhibitionCreateCss/EXFormBox";
 
 export const EXFormBox = ({ Explan, WiteRule, children }) => {
   return (
-    <Box>
-      <Explanation>{Explan}</Explanation>
-      <DetailExplanation>{children}</DetailExplanation>
+    <FormBox.Box>
+      <FormBox.Explanation>{Explan}</FormBox.Explanation>
+      <FormBox.DetailExplanation>{children}</FormBox.DetailExplanation>
       {WiteRule && (
-        <WriteRule>
+        <FormBox.WriteRule>
           <span>{WiteRule}</span>
-        </WriteRule>
+        </FormBox.WriteRule>
       )}
-    </Box>
+    </FormBox.Box>
   );
 };
-const WriteRule = styled.div`
-  display: flex;
-  flex: 1;
-  max-width: 190px;
-  margin-left: 12px;
-  & > span {
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 20px;
-    color: #5a5a5a;
-  }
-`;
-const Box = styled.div`
-  display: flex;
-  margin: 18px 0px;
-`;
-
-const Explanation = styled.div`
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 25px;
-  flex: 1;
-  max-width: 130px;
-  padding-top: 8px;
-`;
-
-const DetailExplanation = styled.div`
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  flex: 1;
-  max-width: 495px;
-`;
