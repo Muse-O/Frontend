@@ -1,15 +1,15 @@
 import React from "react";
-import { useDetailGetExibition } from "../../hooks/exhibition/useDetailGetExibition";
+import { useDetailGetExibition } from "../../../hooks/exhibition/useDetailGetExibition";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
-import { Flex } from "../../components/Flex";
+import { Flex } from "../../../components/Flex";
 import ExhibitionReview from "./ExhibitionReview";
 import ExhibitionReviewForm from "./ExhibitionReviewForm";
 import ExhibitionLiked from "./ExhibitionLiked";
 import ExhibitionScrap from "./ExhibitionScrap";
 import { AiOutlineLike, AiOutlineLink, AiFillLike } from "react-icons/ai";
 import { BsBookmarkCheck, BsBookmarkCheckFill } from "react-icons/bs";
-import { usetoken } from "../../shared/cookies";
+import { usetoken } from "../../../shared/cookies";
 
 function ExhibitionDetail() {
   const { id } = useParams();

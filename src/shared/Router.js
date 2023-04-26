@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { cookies, usetoken } from "./cookies";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "../pages/Main";
 import { ProtectedRoute } from "./protectedRoute";
 import { ContainerWrap, MainWrap, Wrap } from "./GlobalStyled";
@@ -27,13 +26,13 @@ function Router() {
     {
       pathname: "/artgram/create",
       element: <CreateArtgram />,
-      isPublic: true,
-      isLogin: false,
+      isPublic: false,
+      isLogin: true,
     },
     {
       pathname: "/exhibition/create",
       element: <CreateExhibition />,
-      isPublic: true,
+      isPublic: false,
       isLogin: true,
     },
     {
@@ -45,8 +44,8 @@ function Router() {
     {
       pathname: "/exhibition/update/:id",
       element: <UpdateExhibition />,
-      isPublic: true,
-      isLogin: false,
+      isPublic: false,
+      isLogin: true,
     },
     {
       pathname: "/exhibition",

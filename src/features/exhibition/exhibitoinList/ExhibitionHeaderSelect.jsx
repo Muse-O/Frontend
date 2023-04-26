@@ -106,7 +106,7 @@ export const HeaderWhereSelect = () => {
     });
   };
   const deleteRegion = (e) => {
-    const { name } = e.currentTarget;
+    const name = e.currentTarget.getAttribute("name");
     setSelectRegion((pre) => {
       const filteredArray = pre.filter((region) => region !== name);
       return filteredArray;
@@ -236,7 +236,7 @@ export const HeaderTagSelect = () => {
     });
   };
   const deleteTags = (e) => {
-    const { name } = e.currentTarget;
+    const name = e.currentTarget.getAttribute("name");
     setSelectTags((pre) => {
       const filteredArray = pre.filter((region) => region !== name);
       return filteredArray;
@@ -286,6 +286,7 @@ const RecomendTag = styled.div`
     background-color: #deb9fc;
   }
   padding: 0px 5px;
+  cursor: pointer;
 `;
 const TagRecomendTitle = styled.p`
   font-size: 12px;
@@ -338,6 +339,7 @@ const CheckBoxContainer = styled.div`
 
 const Checkbox = styled.input`
   margin-right: 10px;
+  cursor: pointer;
 `;
 
 const CartegoryBox = styled.div`
@@ -363,13 +365,14 @@ const TagText = styled.div`
   color: #fff; /* 텍스트 색상 설정 */
 `;
 
-const XBox = styled.button`
+const XBox = styled.div`
   margin-right: 2px;
   flex-grow: 1;
   width: 10px;
   height: 10px;
   color: #fff;
   display: flex;
+  cursor: pointer;
   justify-content: center;
   align-items: center;
   background-color: inherit;
@@ -407,6 +410,7 @@ const RegionBOX = styled.div`
   border: 1px solid #cccccc;
   height: 220px;
   overflow-y: scroll;
+  cursor: pointer;
   ::-webkit-scrollbar {
     width: 5px;
     background-color: none; /* 스크롤바의 배경색 */
