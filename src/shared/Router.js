@@ -28,7 +28,7 @@ function Router() {
       pathname: "/artgram/create",
       element: <CreateArtgram />,
       isPublic: true,
-      isLogin: false,
+      isLogin: true,
     },
     {
       pathname: "/exhibition/create",
@@ -73,7 +73,7 @@ function Router() {
         <MainWrap>
           <ContainerWrap>
             <Routes>
-              {pages.map((page) => {
+              {pages.map(page => {
                 return (
                   <Route
                     key={page.pathname}
