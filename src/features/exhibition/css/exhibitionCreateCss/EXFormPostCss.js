@@ -76,8 +76,19 @@ const PostImgArea = styled.div`
   cursor: pointer;
 `;
 const DragIcon = styled.img`
-  width: 3em;
-  height: 3em;
+  display: block;
+  width: 18px;
+  height: 18px;
+`;
+
+const Circle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(180deg, #3360ff 0%, #b960ff 100%);
+  border-radius: 50px;
 `;
 
 const UpDateButtons = styled.div`
@@ -128,4 +139,5 @@ export {
   Caution,
   SubmitButton,
   PostImgArea,
+  Circle,
 };

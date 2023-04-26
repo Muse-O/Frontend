@@ -36,7 +36,9 @@ export const EXFormPost = ({
         </EXPost.SelectOnOff>
         {postfiles.length === 0 ? (
           <EXPost.PostImgArea {...getRootPropsPOST({ className: "dropzone" })}>
-            <EXPost.DragIcon src={plus_white} />
+            <EXPost.Circle>
+              <EXPost.DragIcon src={plus_white} />
+            </EXPost.Circle>
             <input {...getInputPropsPOST()} />
           </EXPost.PostImgArea>
         ) : (
