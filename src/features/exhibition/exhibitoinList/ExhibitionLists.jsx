@@ -9,6 +9,10 @@ import {
   HeaderWhereSelect,
 } from "./ExhibitionHeaderSelect";
 import { useGetExhibitioninfinity } from "../../../hooks/exhibition/useGetExhibitioninfinity";
+import location from "../../../assets/imgs/exhibition/location.png";
+import tickets from "../../../assets/imgs/exhibition/tickets.png";
+import artist from "../../../assets/imgs/exhibition/artist.png";
+import sparkle_gray from "../../../assets/imgs/exhibition/sparkle_gray.png";
 
 function ExhibitionLists() {
   //헤더
@@ -105,48 +109,44 @@ function ExhibitionLists() {
                 <DatailInfo>
                   <InfoBox>
                     <Info>
-                      <span>●</span>
-                      <div>
-                        <div>장소</div>
-                        <div>{item.location}</div>
-                      </div>
+                      <Items>
+                        <EmoticonImg src={location} />
+                        <span>장소</span>
+                      </Items>
+                      <InfoText>{item.location}</InfoText>
                     </Info>
                     <Info>
-                      <span>●</span>
-                      <div>
-                        <div>관람료</div>
-                        <div>{item.entranceFee}</div>
-                      </div>
+                      <Items>
+                        <EmoticonImg src={tickets} />
+                        <span>관람료</span>
+                      </Items>
+                      <InfoText>{item.entranceFee}</InfoText>
                     </Info>
                   </InfoBox>
                   <InfoBox>
                     <Info>
-                      <span>●</span>
-                      <div>
-                        <div>작가</div>
-                        <div>{item.authorNickName}</div>
-                      </div>
+                      <Items>
+                        <EmoticonImg src={artist} />
+                        <span>작가</span>
+                      </Items>
+                      <InfoText>{item.authorNickName}</InfoText>
                     </Info>
                     <Info>
-                      <span>●</span>
-                      <div>
-                        <div>작품수</div>
-                        <div>{item.artWorkCnt}</div>
-                      </div>
+                      <Items>
+                        <EmoticonImg src={sparkle_gray} />
+                        <span>평점</span>
+                      </Items>
+                      <InfoText>{item.reviewAvgRating}</InfoText>
                     </Info>
                   </InfoBox>
-                  {/* {item.location}
-        {item.entranceFee}
-        {item.authorNickName}
-        {item.artWorkCnt} */}
                 </DatailInfo>
                 <ExhibitionHashTag>
-                  {/* {item.tagName?.map((tag) => {
-            return <span>{tag}</span>;
-          })} */}
-                  <span>#tagg</span>
-                  <span>#tag</span>
-                  <span>#tag</span>
+                  {item.tagName
+                    ?.sort(() => Math.random() - 0.5)
+                    .slice(0, 5)
+                    .map((tag) => {
+                      return <span key={tag}>{tag}</span>;
+                    })}
                 </ExhibitionHashTag>
               </ExhibitionDatailInfo>
 
@@ -173,7 +173,22 @@ function ExhibitionLists() {
 }
 
 export default ExhibitionLists;
+const Items = styled.div`
+  display: flex;
+`;
 
+const InfoText = styled.p`
+  margin-left: 25px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 25px;
+  color: #3c3c3c;
+`;
+const EmoticonImg = styled.img`
+  width: 17px;
+  height: 17px;
+`;
 const ExSate = styled.span`
   font-family: "Inter";
   font-style: normal;
@@ -208,20 +223,43 @@ const ExhibitionWrap = styled.div`
 const Info = styled.div`
   width: 160px;
   display: flex;
+  flex-direction: column;
+  gap: 5px;
 `;
 const InfoBox = styled.div`
   display: flex;
+  align-items: center;
+  span {
+    margin-left: 8px;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25px;
+    color: #242424;
+  }
 `;
 const DatailInfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
-  height: 300px;
+  height: 200px;
 `;
 const ExhibitionHashTag = styled.div`
+  padding: 0px 15px;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  span {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 25px;
+    background: linear-gradient(180deg, #3360ff 0%, #b960ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+  }
 `;
 const ExhibitonTitle = styled.span`
   font-family: "S-Core Dream";
