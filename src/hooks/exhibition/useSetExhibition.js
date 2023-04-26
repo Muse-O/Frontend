@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 
 export const useSetExhibition = (
@@ -13,14 +13,14 @@ export const useSetExhibition = (
   const templete = {
     startDate: "",
     endDate: "",
-    exhibitionLink: "", //
+    exhibitionLink: "",
     exhibitionTitle: "",
     exhibitionEngTitle: "",
     exhibitionDesc: "",
     exhibitionHost: "",
     entranceFee: "",
-    openTime: "", //
-    closeTime: "", //
+    openTime: "",
+    closeTime: "",
     significant: "",
     artWorkCnt: "",
     agencyAndSponsor: "",
@@ -78,9 +78,6 @@ export const useSetExhibition = (
   //헨들러
   const onchangeHandler = (event) => {
     const { value, name } = event.target;
-    console.log("name", name);
-    console.log("value", value);
-
     //작가
     if (name === "author") {
       setAuthorName(value);
@@ -184,11 +181,9 @@ export const useSetExhibition = (
     }
   };
   useEffect(() => {
+    console.log("info", info);
     // 서버에서 받아온 데이터가 로딩되면 exhibition state를 업데이트
-    //!나중에 필수값 유효성검사 필요!
-    //!작가,이미지 order없이 받는데 어떻게 해야 하는가?
     if (!DetailLoading && Detaildata) {
-      //!value값 따로??
       setAuthorName(info.ExhibitionAuthors[authorid].author);
       const newarr = [...exhibition.authors];
       newarr.splice(authorid, 1, {
@@ -203,20 +198,22 @@ export const useSetExhibition = (
         ...prevExhibition,
         startDate: info.startDate.slice(0, 10), //
         endDate: info.endDate.slice(0, 10), //
+        exhibitionLink: info.exhibitionLink, //
         exhibitionTitle: info.exhibitionTitle, //
-        exhibitionEngTitle: info.exhibitionEngTitle, //
+        exhibitionEngTitle: info.exhibitionEngTitle,
         exhibitionDesc: info.exhibitionDesc, //
         exhibitionHost: info.exhibitionHost, //
-        // exhibitionCode: info.exhibitionStatus,
         entranceFee: info.entranceFee, //
-        artWorkCnt: info.artWorkCnt, //
+        openTime: info.openTime.slice(0, 5), //
+        closeTime: info.closeTime.slice(0, 5), //
+        significant: info.significant,
+        artWorkCnt: info.artWorkCnt,
         agencyAndSponsor: info.agencyAndSponsor, //
         location: info.location, //
-        contact: info.contact, //
+        contact: info.contact,
         authors: newarr, //
-        exhibitionCategoty: newExCodeArr, //
+        exhibitionCategoty: info.ExhibitionCategories[0].categoryCode, //
         detailLocation: {
-          //
           zonecode: ExAddress.zonecode,
           address: ExAddress.address,
           addressEnglish: ExAddress.addressEnglish,
