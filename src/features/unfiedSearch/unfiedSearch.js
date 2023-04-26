@@ -67,12 +67,13 @@ const SearchNavOther = styled(SearchNavSection)`
 
 const SearchBoxEx = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 23px;
   margin-top: 42px;
   width: 100%;
   min-height: 144px;
-  background-color: aliceblue;
+  
+  // background-color: 
 
   @media (max-width: 1440px) {
     margin-top: 31.5px;
@@ -84,11 +85,75 @@ const SearchBoxEx = styled.div`
 const SearchBoxArt = styled(SearchBoxEx)`
   min-height: 426px;
   background-color: lightcoral;
+  background-color: aliceblue;
 
   @media (max-width: 1440px) {
     min-height: 319.5px;
   }
 `;
+
+const SearchBoxNoone = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 42px;
+  height: 144px;
+  background-color: #F7F7F9;
+  color: #242424;
+`
+
+const SearchEx = styled.div`
+  width: 235px;
+  min-height: 445px;
+
+  @media (max-width: 1440px) {
+    width: 176.25px;
+    height: 333.75px;
+  }
+`
+const SearchBoxExImg = styled.img`
+  display: block;
+  width: 235px;
+  height: 338px;
+  margin-bottom: 20px;
+  background-color: yellow;
+  @media (max-width: 1440px) {
+    width: 176.25px;
+    height: 253.5px;
+    margin-bottom: 15px;
+  }
+`
+const SearchBoxExTitle = styled.div`
+  font-size: 20px;
+  color: #242424;
+  width: 235px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 12px;
+  
+  @media (max-width: 1440px) {
+    font-size: 15px;
+    margin-bottom: 9px;
+  }
+`
+
+const SearchBoxExlocation = styled.div`
+  font-size: 16px;
+  color: #5A5A5A;
+  @media (max-width: 1440px) {
+    font-size: 12px;
+  }
+`
+
+const SearchBoxExDate = styled(SearchBoxExlocation)`
+  font-family: 'Montserrat';
+  margin-bottom: 10px;
+  @media (max-width: 1440px) {
+    margin-bottom: 7.5px;
+  }
+`
+
 
   export {
     Layout,
@@ -96,6 +161,14 @@ const SearchBoxArt = styled(SearchBoxEx)`
     SearchNav,
     SearchNavSection,
     SearchNavOther,
+    SearchBoxNoone,
+    // SearchBoxEx 관련부분
     SearchBoxEx,
+    SearchEx,
+    SearchBoxExImg,
+    SearchBoxExTitle,
+    SearchBoxExDate,
+    SearchBoxExlocation,
+    // SearchBoxArt 관련부분
     SearchBoxArt
   }

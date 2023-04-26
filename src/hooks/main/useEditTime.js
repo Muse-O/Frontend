@@ -1,6 +1,9 @@
+import dayjs from "dayjs";
+
 export const useEditTime = () => {
   const editTimehandle = (times) => {
-    return times.split("T")[0].replace(/-/g, ".");
+
+    return dayjs(times.split("T")[0].replace(/-/g, ".")).format("YY.MM.DD") 
   };
   return {editTimehandle}
 }
