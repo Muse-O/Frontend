@@ -21,10 +21,19 @@ function UnifiedSearchUser() {
           <US.SearchNavOther onClick={()=>navigate('/search/art')} children="아트그램"/>
           <US.SearchNavSection onClick={()=>navigate('/search/users')} children="회원검색"/>
         </US.SearchNav>
-        <US.H2 children={(<>회원검색<span>{searchDataUser?.length > 0 ? searchDataUser.length : null}</span></>)}/>
+        {searchDataUser === undefined
+        ? (
+          <>
+          <US.H2 children={(<>회원검색</>)}/>
+          <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
+          </>
+        )
+        :(<>
+         <US.H2 children={(<>회원검색<span>{searchDataUser?.length > 0 ? searchDataUser.length : null}</span></>)}/>
           {searchDataUser.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
-            : <div>서비스 예정</div>}     
+            : <div>서비스 예정</div>}
+        </>)}
       </US.Layout>  
     </Article>
     </>

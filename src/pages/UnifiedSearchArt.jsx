@@ -22,12 +22,23 @@ function UnifiedSearchArt() {
           <US.SearchNavSection onClick={()=>navigate('/search/art')} children="아트그램"/>
           <US.SearchNavOther onClick={()=>navigate('/search/users')} children="회원검색"/>
         </US.SearchNav>
+       {searchDataArt === undefined
+        ? (
+          <>
+          <US.H2 children={(<>아트그램</>)}/>
+          <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
+          </>
+        )
+        :(<>
         <US.H2 children={(<>아트그램<span>{searchDataArt?.length > 0 ? searchDataArt.length : null}</span></>)}/>
         {searchDataArt.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
             : <Artgramparts.Wrap style={{minHeight:"144px", backgroundColor:"lightcoral", padding:"23px"}}>
               {searchDataArt.map(artgram => (<div key={artgram.artgramId} style={{backgroundColor:"white", height:"426px"}}>{artgram.artgramTitle}</div>))}
-              </Artgramparts.Wrap>}    
+              </Artgramparts.Wrap>}
+        </>)}
+        
+       
       </US.Layout>  
     </Article>
     </>

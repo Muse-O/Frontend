@@ -23,7 +23,15 @@ function UnifiedSearchEx() {
           <US.SearchNavOther onClick={()=>navigate('/search/art')} children="아트그램"/>
           <US.SearchNavOther onClick={()=>navigate('/search/users')} children="회원검색"/>
         </US.SearchNav>
-        <US.H2 children={(<>전시<span>{searchDataEx?.length > 0 ? searchDataEx.length : null}</span></>)}/>
+        {searchDataEx === undefined
+        ? (
+          <>
+          <US.H2 children={(<>전시</>)}/>
+          <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
+          </>
+        )
+        :(<>
+          <US.H2 children={(<>전시<span>{searchDataEx?.length > 0 ? searchDataEx.length : null}</span></>)}/>
         {searchDataEx.length === 0
             ? (<US.SearchBoxNoone>검색된 결과가 없습니다.</US.SearchBoxNoone>)
             : (<US.SearchBoxEx>
@@ -36,6 +44,7 @@ function UnifiedSearchEx() {
             </US.SearchEx>))}
             </US.SearchBoxEx>
               )}
+        </>)}
       </US.Layout>  
     </Article>
     </>
