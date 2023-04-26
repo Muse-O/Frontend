@@ -28,7 +28,6 @@ const NotifiImg = styled.img`
   width: 12px;
   height: 12px;
   margin-right: 5px;
-  background-color: #0088ff;
 `;
 const Notification = styled.div`
   margin-top: 16px;
@@ -40,10 +39,14 @@ const Notification = styled.div`
   gap: 8px;
   border: 1px solid #7e7e7e;
   border-radius: 5px;
-  font-size: 12px;
+  p {
+    font-size: 12px;
+  }
+
   span {
     color: red;
     margin-right: 4px;
+    font-size: 12px;
   }
 
   @media (max-width: 1440px) {
