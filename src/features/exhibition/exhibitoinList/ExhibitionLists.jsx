@@ -91,9 +91,13 @@ function ExhibitionLists() {
                   " - " +
                   item.endDate.slice(2, 10).replace(/-/g, ".")}
               </ExhibitionDate>
+              <ExSate>Now On View</ExSate>
               <ExhibitionTitleWrap>
+                <Excategoryname>{item.categoryCodeName[0]}</Excategoryname>
                 <ExhibitonTitle>{item.exhibitionTitle}</ExhibitonTitle>
-                <ExhibitonSecondTitle>부제목 입니다</ExhibitonSecondTitle>
+                <ExhibitonSecondTitle>
+                  {item.exhibitionEngTitle}
+                </ExhibitonSecondTitle>
               </ExhibitionTitleWrap>
             </ExhibitionInfoBox>
             <ExhibitionInfoDetailBox>
@@ -170,6 +174,24 @@ function ExhibitionLists() {
 
 export default ExhibitionLists;
 
+const ExSate = styled.span`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  background: linear-gradient(180deg, #3360ff 0%, #b960ff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
+const Excategoryname = styled.span`
+  color: #5a5a5a;
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 25px;
+`;
 const HiddenRef = styled.div`
   margin-top: 10px;
   color: transparent;
@@ -303,7 +325,8 @@ const ExhibitionItem = styled.div`
   box-sizing: border-box;
   font-size: 25px;
   height: 380px;
-  background: #d9d9d9;
+  background: #f7f7f9;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
 `;
 
 const ImageBox = styled.img`
@@ -323,12 +346,12 @@ const ExhibitionInfoBox = styled.div`
 `;
 
 const ExhibitionDate = styled.p`
-  font-size: 1em;
+  font-family: "Montserrat";
   font-style: normal;
   font-weight: 500;
-  font-size: 25px;
-  line-height: 25px;
-  color: #5a5a5a;
+  font-size: 24px;
+  line-height: 29px;
+  color: #242424;
 `;
 
 const ExhibitionTitleWrap = styled.div`
@@ -360,6 +383,18 @@ const ExhibitionMore = styled.div`
   align-items: center;
   justify-content: center;
   gap: 3px;
+  span {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+  }
+  transition: background 1s ease, color 1s ease;
+  :hover {
+    cursor: pointer;
+    background: #242424;
+    color: #ffffff;
+  }
 `;
 
 const ExhibitionInfoDetailBox = styled.div`
