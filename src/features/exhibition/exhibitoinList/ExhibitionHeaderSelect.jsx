@@ -292,7 +292,7 @@ export const HeaderCategorySelect = ({
   );
 };
 
-export const HeaderTagSelect = () => {
+export const HeaderTagSelect = ({ setApplyHashTag, setTagVisible }) => {
   //top10tag들
   const [top10TagsData] = useGetTop10Tags();
   const [top10TagLists, setTop10TagLists] = useState([]);
@@ -305,7 +305,7 @@ export const HeaderTagSelect = () => {
       setTop10TagLists(updatedTo10TAGS);
     }
   }, [top10TagsData]);
-  console.log(top10TagLists);
+
   //이거 where카테고리랑 같이쓰임 나중에 리팩토링시 분리 필요
   const filterTags = (e) => {
     const { innerText } = e.target;
@@ -377,7 +377,14 @@ export const HeaderTagSelect = () => {
           })}
         </SelectTagContainer>
       </TagBox>
-      <EXListApplyBox />
+      <EXListApplyBox
+        setApplyHashTag={setApplyHashTag}
+        selectTags={selectTags}
+        setTagVisible={setTagVisible}
+        setSelectTags={setSelectTags}
+        setTop10TagLists={setTop10TagLists}
+        top10TagsData={top10TagsData}
+      />
     </TagContainer>
   );
 };

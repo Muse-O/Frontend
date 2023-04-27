@@ -17,6 +17,7 @@ import sparkle_gray from "../../../assets/imgs/exhibition/sparkle_gray.png";
 function ExhibitionLists() {
   //적용
   const [applycategory, setApplyCategory] = useState("");
+  const [applyHashTag, setApplyHashTag] = useState("");
 
   //헤더
   const navigator = useNavigate();
@@ -49,7 +50,7 @@ function ExhibitionLists() {
     }
   };
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
-    useGetExhibitioninfinity(10, applycategory);
+    useGetExhibitioninfinity(10, applycategory, applyHashTag);
   let merged =
     data?.pages[0].data.exhibitionList.rows.length > 0
       ? [].concat(...data?.pages[0].data.exhibitionList.rows)
@@ -85,7 +86,10 @@ function ExhibitionLists() {
           <FilterSelect name="tag" onClick={selectHandler}>
             Tag
             <SelectBox visible={tagVisible}>
-              <HeaderTagSelect />
+              <HeaderTagSelect
+                setApplyHashTag={setApplyHashTag}
+                setTagVisible={setTagVisible}
+              />
             </SelectBox>
           </FilterSelect>
           <FilterInputWrap>

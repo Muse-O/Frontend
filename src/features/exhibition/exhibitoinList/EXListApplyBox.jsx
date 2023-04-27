@@ -6,21 +6,41 @@ export const EXListApplyBox = ({
   setCategoryVisible,
   setCheckboxes,
   setApplyCategory,
+  setApplyHashTag,
+  selectTags,
+  setTagVisible,
+  setSelectTags,
+  setTop10TagLists,
+  top10TagsData,
 }) => {
   const apply = () => {
-    setApplyCategory(category);
+    category && setApplyCategory(category);
+    selectTags && setApplyHashTag(selectTags);
   };
   const reset = () => {
-    setCategroy("");
-    setCheckboxes((prevState) =>
-      Object.keys(prevState).reduce((acc, curr) => {
-        acc[curr] = false;
-        return acc;
-      }, {})
-    );
+    if (category) {
+      setCategroy("");
+      setCheckboxes((prevState) =>
+        Object.keys(prevState).reduce((acc, curr) => {
+          acc[curr] = false;
+          return acc;
+        }, {})
+      );
+      setApplyCategory("");
+    }
+    if (selectTags) {
+      setApplyHashTag("");
+      setTop10TagLists(
+        top10TagsData.map((tag) => {
+          return { tagName: tag.tagName, checked: false };
+        })
+      );
+      setSelectTags([]);
+    }
   };
   const cancle = () => {
-    setCategoryVisible(false);
+    category && setCategoryVisible(false);
+    selectTags && setTagVisible(false);
   };
   return (
     <ApplyContainer>
