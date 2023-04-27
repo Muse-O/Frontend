@@ -153,7 +153,32 @@ export const HeaderWhereSelect = () => {
   );
 };
 
-export const HeaderCategorySelect = () => {
+export const HeaderCategorySelect = ({
+  setApplyCategory,
+  setCategoryVisible,
+}) => {
+  const [category, setCategroy] = useState("");
+  const categoryHandelr = (e) => {
+    const { name, value } = e.target;
+    setCategroy(value);
+    setCheckboxes((prevState) =>
+      Object.keys(prevState).reduce((acc, curr) => {
+        acc[curr] = curr === name ? true : false;
+        return acc;
+      }, {})
+    );
+  };
+  const [checkboxes, setCheckboxes] = useState({
+    WK0001: false,
+    WK0002: false,
+    WK0003: false,
+    WK0004: false,
+    WK0005: false,
+    WK0006: false,
+    WK0007: false,
+    WK0008: false,
+  });
+  console.log("category", category);
   return (
     <CartegoryBox>
       <PositionBox>
@@ -169,46 +194,100 @@ export const HeaderCategorySelect = () => {
       <CategoryContainer>
         <CategoryBox>
           <CheckBoxContainer>
-            <Checkbox type="checkbox" />
+            <Checkbox
+              type="checkbox"
+              name={"WK0001"}
+              value={"WK0001"}
+              checked={checkboxes.WK0001}
+              onClick={categoryHandelr}
+            />
             <p>아카이브</p>
           </CheckBoxContainer>
           <CheckBoxContainer>
-            <Checkbox type="checkbox" />
+            <Checkbox
+              type="checkbox"
+              name={"WK0002"}
+              value={"WK0002"}
+              checked={checkboxes.WK0002}
+              onClick={categoryHandelr}
+            />
             <p>사진</p>
           </CheckBoxContainer>
         </CategoryBox>
         <CategoryBox>
           <CheckBoxContainer>
-            <Checkbox type="checkbox" />
+            <Checkbox
+              type="checkbox"
+              name={"WK0003"}
+              value={"WK0003"}
+              checked={checkboxes.WK0003}
+              onClick={categoryHandelr}
+            />
             <p>그림</p>
           </CheckBoxContainer>
           <CheckBoxContainer>
-            <Checkbox type="checkbox" />
+            <Checkbox
+              type="checkbox"
+              name={"WK0004"}
+              value={"WK0004"}
+              checked={checkboxes.WK0004}
+              onClick={categoryHandelr}
+            />
             <p>일러스트</p>
           </CheckBoxContainer>
         </CategoryBox>
         <CategoryBox>
           <CheckBoxContainer>
-            <Checkbox type="checkbox" />
+            <Checkbox
+              type="checkbox"
+              name={"WK0005"}
+              value={"WK0005"}
+              checked={checkboxes.WK0005}
+              onClick={categoryHandelr}
+            />
             <p>미디어</p>
           </CheckBoxContainer>
           <CheckBoxContainer>
-            <Checkbox type="checkbox" />
+            <Checkbox
+              type="checkbox"
+              name={"WK0006"}
+              value={"WK0006"}
+              checked={checkboxes.WK0006}
+              onClick={categoryHandelr}
+            />
             <p>공예</p>
           </CheckBoxContainer>
         </CategoryBox>
         <CategoryBox>
           <CheckBoxContainer>
-            <Checkbox type="checkbox" />
+            <Checkbox
+              type="checkbox"
+              name={"WK0007"}
+              value={"WK0007"}
+              checked={checkboxes.WK0007}
+              onClick={categoryHandelr}
+            />
             <p>설치</p>
           </CheckBoxContainer>
           <CheckBoxContainer>
-            <Checkbox type="checkbox" />
+            <Checkbox
+              type="checkbox"
+              name={"WK0008"}
+              value={"WK0008"}
+              checked={checkboxes.WK0008}
+              onClick={categoryHandelr}
+            />
             <p>조각</p>
           </CheckBoxContainer>
         </CategoryBox>
       </CategoryContainer>
-      <EXListApplyBox />
+      <EXListApplyBox
+        category={category}
+        setCategroy={setCategroy}
+        setCategoryVisible={setCategoryVisible}
+        setCheckboxes={setCheckboxes}
+        setApplyCategory={setApplyCategory}
+      />
     </CartegoryBox>
   );
 };

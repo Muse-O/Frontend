@@ -1,12 +1,37 @@
 import styled from "styled-components";
 
-export const EXListApplyBox = () => {
+export const EXListApplyBox = ({
+  category,
+  setCategroy,
+  setCategoryVisible,
+  setCheckboxes,
+  setApplyCategory,
+}) => {
+  const apply = () => {
+    setApplyCategory(category);
+  };
+  const reset = () => {
+    setCategroy("");
+    setCheckboxes((prevState) =>
+      Object.keys(prevState).reduce((acc, curr) => {
+        acc[curr] = false;
+        return acc;
+      }, {})
+    );
+  };
+  const cancle = () => {
+    setCategoryVisible(false);
+  };
   return (
     <ApplyContainer>
-      <ApplyResetBox>초기화</ApplyResetBox>
+      <ApplyResetBox onClick={reset}>초기화</ApplyResetBox>
       <ApllyBox>
-        <span>취소</span>
-        <span>적용하기</span>
+        <div onClick={cancle}>
+          <span>취소</span>
+        </div>
+        <div onClick={apply}>
+          <span>적용하기</span>
+        </div>
       </ApllyBox>
     </ApplyContainer>
   );

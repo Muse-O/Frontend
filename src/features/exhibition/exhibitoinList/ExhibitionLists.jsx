@@ -15,6 +15,8 @@ import artist from "../../../assets/imgs/exhibition/artist.png";
 import sparkle_gray from "../../../assets/imgs/exhibition/sparkle_gray.png";
 
 function ExhibitionLists() {
+  //적용
+  const [applycategory, setApplyCategory] = useState("");
   //헤더
   const navigator = useNavigate();
   const [whenVisible, setWhenVisible] = useState(false);
@@ -46,9 +48,10 @@ function ExhibitionLists() {
     }
   };
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
-    useGetExhibitioninfinity();
+    useGetExhibitioninfinity(10, applycategory);
   let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
   const { ref } = useInterserctionObserver(fetchNextPage);
+
   console.log("merged", merged);
   return (
     <ExhibitionWrap>
@@ -68,7 +71,10 @@ function ExhibitionLists() {
           <FilterSelect name="category" onClick={selectHandler}>
             Category
             <SelectBox visible={categoryVisible}>
-              <HeaderCategorySelect />
+              <HeaderCategorySelect
+                setApplyCategory={setApplyCategory}
+                setCategoryVisible={setCategoryVisible}
+              />
             </SelectBox>
           </FilterSelect>
           <FilterSelect name="tag" onClick={selectHandler}>
@@ -85,7 +91,7 @@ function ExhibitionLists() {
       </ExhibitionHeader>
       {isLoading || isError ? (
         <div>로딩 중...</div>
-      ) : (
+      ) : merged.length !== 0 ? (
         merged.map((item) => (
           <ExhibitionItem key={item.exhibitionId}>
             <ImageBox src={item.postImage} />
@@ -163,6 +169,8 @@ function ExhibitionLists() {
             </ExhibitionInfoDetailBox>
           </ExhibitionItem>
         ))
+      ) : (
+        <NoneData>데이터가 없습니다</NoneData>
       )}
       <HiddenRef
         ref={ref}
@@ -173,6 +181,13 @@ function ExhibitionLists() {
 }
 
 export default ExhibitionLists;
+const NoneData = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  height: 500px;
+`;
 const Items = styled.div`
   display: flex;
 `;
@@ -265,7 +280,7 @@ const ExhibitonTitle = styled.span`
   font-family: "S-Core Dream";
   font-style: normal;
   font-weight: 500;
-  font-size: 32px;
+  font-size: 3em;
   line-height: 38px;
   color: #000000;
 `;
@@ -426,6 +441,7 @@ const ExhibitionMore = styled.div`
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
+    padding: 3px 20px;
   }
   transition: background 1s ease, color 1s ease;
   :hover {
