@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import * as Artgramparts from '../features/artgram/css/ArtgramCss'
 import { useRecoilValue } from 'recoil'
 import { searchDataArtState } from '../hooks/search/seartStore'
+import ArtgramBox from '../features/artgram/ArtgramBox'
 
 function UnifiedSearchArt() {
   const navigate = useNavigate()
@@ -33,9 +34,9 @@ function UnifiedSearchArt() {
         <US.H2 children={(<>아트그램<span>{searchDataArt?.length > 0 ? searchDataArt.length : null}</span></>)}/>
         {searchDataArt.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
-            : <Artgramparts.Wrap style={{minHeight:"144px", backgroundColor:"lightcoral", padding:"23px"}}>
-              {searchDataArt.map(artgram => (<div key={artgram.artgramId} style={{backgroundColor:"white", height:"426px"}}>{artgram.artgramTitle}</div>))}
-              </Artgramparts.Wrap>}
+            : <Artgramparts.Wrap>
+            {searchDataArt.map(artgrams => (<ArtgramBox key={artgrams.artgramId} info={artgrams}/>))}
+            </Artgramparts.Wrap>}
         </>)}
         
        

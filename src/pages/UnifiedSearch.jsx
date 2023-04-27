@@ -6,28 +6,24 @@ import { useNavigate } from 'react-router-dom'
 import * as Artgramparts from '../features/artgram/css/ArtgramCss'
 // import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
 import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { searchDataArtState, searchDataExState, searchDataState, searchDataUserState, searchWordState } from '../hooks/search/seartStore'
+import { useRecoilValue } from 'recoil'
+import { searchDataArtState, searchDataExState, searchDataUserState, searchWordState } from '../hooks/search/seartStore'
 import TopButton from '../components/TopButton'
 import { useEditTime } from '../hooks/main/useEditTime'
 import { headerStatedefalut } from '../components/headerStore'
+import ArtgramBox from '../features/artgram/ArtgramBox'
 // import ArtgramBox from '../features/artgram/ArtgramBox'
 
 function UnifiedSearch() {
   const navigate = useNavigate()
   const {editTimehandle} = useEditTime()
   const { isLoading, isError } = useUnifiedSearch();
-  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
   const searchDataEx = useRecoilValue(searchDataExState)
   const searchDataArt = useRecoilValue(searchDataArtState)
   const searchDataUser = useRecoilValue(searchDataUserState)
   // console.log("searchDataEx", searchDataEx);
   // console.log("searchDataArt", searchDataArt);
   // console.log("searchDataUser", searchDataUser);
-  const navigateEx = (detailRouter)=>{
-    setHeaderState({...headerState, home:false, exhibition:true, artgram:false, mypages:false})
-    navigate(detailRouter)
-  }
 
   return (
     <>
@@ -60,7 +56,7 @@ function UnifiedSearch() {
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
             : (<US.SearchBoxEx>
               {searchDataEx?.map(({exhibitionId,detailRouter,postImage,exhibitionTitle,startDate,location}) => (
-              <US.SearchEx key={exhibitionId} onClick={()=>navigateEx(detailRouter)}>
+              <US.SearchEx key={exhibitionId} onClick={()=>navigate(detailRouter)}>
               <US.SearchBoxExImg src={postImage} alt=''/>
               <US.SearchBoxExTitle children={exhibitionTitle}/>
               <US.SearchBoxExDate children={editTimehandle(startDate)}/>
@@ -71,8 +67,8 @@ function UnifiedSearch() {
           <US.H2 children={(<>아트그램<span>{searchDataArt && searchDataArt?.length === 0 ? null : searchDataArt.length}</span></>)}/>
           {searchDataArt && searchDataArt?.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
-            : <Artgramparts.Wrap style={{minHeight:"144px", backgroundColor:"lightcoral", padding:"23px"}}>
-              {searchDataArt.map(artgram => (<div key={artgram.artgramId} style={{backgroundColor:"white", height:"426px"}}>{artgram.artgramTitle}</div>))}
+            : <Artgramparts.Wrap>
+              {searchDataArt.map(artgrams => (<ArtgramBox key={artgrams.artgramId} info={artgrams}/>))}
               </Artgramparts.Wrap>}
           <US.H2 children={(<>회원검색<span>{searchDataUser && searchDataUser?.length === 0 ? null : searchDataUser.length}</span></>)}/>
           {searchDataUser && searchDataUser?.length === 0

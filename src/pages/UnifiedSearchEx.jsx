@@ -13,10 +13,6 @@ function UnifiedSearchEx() {
   const {editTimehandle} = useEditTime()
   const searchDataEx = useRecoilValue(searchDataExState)
   const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
-  const navigateEx = (detailRouter)=>{
-    setHeaderState({...headerState, home:false, exhibition:true, artgram:false, mypages:false})
-    navigate(detailRouter)
-  }
 
   useEffect(()=> {
     setHeaderState({...headerState, 
@@ -51,7 +47,7 @@ function UnifiedSearchEx() {
             ? (<US.SearchBoxNoone>검색된 결과가 없습니다.</US.SearchBoxNoone>)
             : (<US.SearchBoxEx>
               {searchDataEx?.map(({exhibitionId,detailRouter,postImage,exhibitionTitle,startDate,location}) => (
-              <US.SearchEx key={exhibitionId} onClick={()=>navigateEx(detailRouter)}>
+              <US.SearchEx key={exhibitionId} onClick={()=>navigate(detailRouter)}>
               <US.SearchBoxExImg src={postImage} alt=''/>
               <US.SearchBoxExTitle children={exhibitionTitle}/>
               <US.SearchBoxExDate children={editTimehandle(startDate)}/>
