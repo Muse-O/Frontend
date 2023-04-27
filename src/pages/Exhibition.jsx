@@ -16,11 +16,12 @@ function Exhibition() {
       artgram:false,
       mypages:false})
   },[])
+
   return (
     <>
       <Header />
       <Article>
-        <ExhibitionList createExhibition={createExhibition} />
+        <ExhibitionLists />
       </Article>
     </>
   );

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useGetLikedExhibitionInfo } from "../../hooks/mypage/useGetLikedExhibitionInfo";
 import { useGetMyExhibitionInfo } from "../../hooks/mypage/useGetMyExhibitionInfo";
 import { useGetScrapExhibitionInfo } from "../../hooks/mypage/useGetScrapExhibitionInfo";
 import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
 import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
+import whiteBtn from "../../assets/imgs/common/next_cut_white.png";
 import { useNavigate } from "react-router-dom";
 
 function ExhibitionContainer() {
@@ -17,7 +18,7 @@ function ExhibitionContainer() {
   const { ScrapExhibitionInfo, scrapExhibitionNum, setScrapExhibitionNum } =
     useGetScrapExhibitionInfo();
 
-  // console.log(LikedExhibitionInfo?.paginationInfo?.hasNextPage, "boolean");
+  // console.log(LikedExhibitionInfo?.paginationInfo, "boolean");
 
   const [currentTab, clickTab] = useState(0);
 
@@ -41,8 +42,19 @@ function ExhibitionContainer() {
       count: MyExhibitionInfo?.paginationInfo,
     },
   ];
+
+  //탭 메뉴 클릭시 처음 페이지로 돌아옴
   const selectMenuHandler = id => {
-    clickTab(id);
+    if (id === 0) {
+      clickTab(id);
+      setLikedNum(0);
+    } else if (id === 1) {
+      clickTab(id);
+      setScrapExhibitionNum(0);
+    } else if (id === 2) {
+      clickTab(id);
+      setMyExhibitionNum(0);
+    }
   };
 
   //이전 데이터 불러오기
@@ -70,10 +82,16 @@ function ExhibitionContainer() {
     }
   };
 
+  //전시 상세페이지 이동
   const detailExhibitionPage = info => {
     const exhibitionId = info?.exhibition_id;
     navigate(`/exhibition/detail/${exhibitionId}`);
   };
+
+  const [leftBtnSrc, setLeftSrc] = useState(leftBtn);
+  const [leftHoverImg, setLeftHoverImg] = useState(whiteBtn);
+  const [rightBtnSrc, setRightSrc] = useState(rightBtn);
+  const [rightHoverImg, setRightHoverImg] = useState(whiteBtn);
 
   return (
     <StContainer>
@@ -82,9 +100,13 @@ function ExhibitionContainer() {
         <StWrap>
           <StTabWrap>
             {menuArr.map(el => (
-              <StTab key={el.id} onClick={() => selectMenuHandler(el.id)}>
+              <StTab
+                key={el.id}
+                onClick={() => selectMenuHandler(el?.id)}
+                select={menuArr[currentTab].id === el?.id}
+              >
                 {el.name}
-                <StTabCount>
+                <StTabCount selectCount={menuArr[currentTab].id === el?.id}>
                   {el?.count?.myExhibitionCnt ? el?.count?.myExhibitionCnt : 0}
                 </StTabCount>
               </StTab>
@@ -92,9 +114,31 @@ function ExhibitionContainer() {
           </StTabWrap>
 
           <StImgBtnBox>
-            <StLeftBtn onClick={getBackDataHandler}>
-              <img src={leftBtn} alt="leftBtn" />
+            <StLeftBtn
+              onClick={getBackDataHandler}
+              disabled={
+                (menuArr[currentTab].id === 0 &&
+                  !LikedExhibitionInfo?.paginationInfo?.hasBackPage) ||
+                (menuArr[currentTab].id === 1 &&
+                  !ScrapExhibitionInfo?.paginationInfo?.hasBackPage) ||
+                (menuArr[currentTab].id === 2 &&
+                  !MyExhibitionInfo?.paginationInfo?.hasBackPage)
+              }
+              onMouseOver={() => {
+                setLeftSrc(leftHoverImg);
+              }}
+              onMouseOut={() => {
+                setLeftSrc(leftBtn);
+              }}
+            >
+              {(LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
+                <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+              )) ||
+                (!LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
+                  <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                ))}
             </StLeftBtn>
+
             <StImgBox>
               {menuArr[currentTab].content.map(list => {
                 return list.map(info => {
@@ -122,8 +166,70 @@ function ExhibitionContainer() {
                   !MyExhibitionInfo?.paginationInfo?.hasNextPage)
               }
               onClick={getNextDataHandler}
+              // onMouseOver={disabled => {
+              //   !disabled ? setRightSrc(rightBtn) : setRightSrc(rightHoverImg);
+              // }}
+              // onMouseOut={disabled => {
+              //   if (disabled) {
+              //     setRightSrc(whiteBtn);
+              //   } else if (!disabled) {
+              //     setRightSrc(rightBtn);
+              //   } else {
+              //     setRightSrc(rightBtn);
+              //   }
+              // }}
+              onMouseOver={() => {
+                setRightSrc(rightHoverImg);
+              }}
+              onMouseOut={() => {
+                setRightSrc(rightBtn);
+              }}
             >
-              <img src={rightBtn} alt="leftBtn" />
+              {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
+                <StRightImg src={rightBtnSrc} alt="rightBtnSrc" />
+              )) ||
+                (!LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={whiteBtn} alt="whiteRightBtn" />
+                )) ||
+                (ScrapExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={rightBtnSrc} alt="rightBtnSrc" />
+                )) ||
+                (!ScrapExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={whiteBtn} alt="whiteRightBtn" />
+                )) ||
+                (MyExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={rightBtnSrc} alt="rightBtnSrc" />
+                )) ||
+                (!MyExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={whiteBtn} alt="whiteRightBtn" />
+                ))}
+              {/* {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+              )) ||
+                (ScrapExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                )) ||
+                (MyExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                )) ||
+                (!LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
+                  <StRightImg src={whiteBtn} alt="whiteBtn" />
+                ))} */}
+              {/* {LikedExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+              ) : (
+                <StRightImg src={whiteBtn} alt="whiteBtn" />
+              )} */}
+
+              {/* {LikedExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+              ) : ScrapExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+              ) : MyExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+              ) : (
+                <StRightImg src={whiteBtn} alt="whiteBtn" />
+              )} */}
             </StRightBtn>
           </StImgBtnBox>
         </StWrap>
@@ -166,11 +272,20 @@ const StLeftBtn = styled.button`
   align-items: center;
   cursor: pointer;
 
-  img {
-    width: 14px;
-    height: 22px;
-    transform: rotate(-180deg);
+  &:disabled {
+    cursor: default;
   }
+
+  /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
+  &:not(:disabled):hover {
+    background-color: #242424;
+  }
+`;
+
+const StLeftImg = styled.img`
+  width: 14px;
+  height: 22px;
+  transform: rotate(-180deg);
 `;
 
 const StRightBtn = styled.button`
@@ -183,10 +298,19 @@ const StRightBtn = styled.button`
   align-items: center;
   cursor: pointer;
 
-  img {
-    width: 14px;
-    height: 22px;
+  &:disabled {
+    cursor: default;
   }
+
+  /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
+  &:not(:disabled):hover {
+    background-color: #242424;
+  }
+`;
+
+const StRightImg = styled.img`
+  width: 14px;
+  height: 22px;
 `;
 
 const StExhibitionBox = styled.div`
@@ -222,6 +346,8 @@ const StTab = styled.div`
   font-family: "SpoqaHanSansNeo-Regular";
   font-weight: bold;
   font-size: 16px;
+
+  color: ${({ select }) => (select ? "#242424" : "#7E7E7E")};
 `;
 
 const StTabCount = styled.div`
@@ -235,7 +361,12 @@ const StTabCount = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  color: ${({ selectCount }) => (selectCount ? "#EEEEEE" : "#7E7E7E")};
+  background-color: ${({ selectCount }) =>
+    selectCount ? "#242424" : "#EEEEEE"};
 `;
+
 const StImgBox = styled.div`
   width: 958px;
   height: 261px;

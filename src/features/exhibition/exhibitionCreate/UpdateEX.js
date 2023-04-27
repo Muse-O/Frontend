@@ -1,3 +1,4 @@
+import { CheckEXValue } from "./CheckEXValue";
 import { CheckImgFile } from "./CheckImgFile";
 
 export const UpdateEX = (
@@ -37,13 +38,7 @@ export const UpdateEX = (
     });
 
     const urls = [...currentobjs, ...s3ImgUrlHandle(fileObjs)];
-
-    updateExhibition({
-      ...exhibition,
-      postImage: posturl,
-      artImage: urls,
-      exhibitionKind,
-    });
+    CheckEXValue(exhibition, exhibitionKind, posturl, urls, updateExhibition);
   };
   return UpdateEXHandler;
 };

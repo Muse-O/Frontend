@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../components/Header";
 import { Article } from "../shared/GlobalStyled";
-import ExhibitionDetail from "../features/exhibition/ExhibitionDetail";
+import ExhibitionDetail from "../features/exhibition/exhibitionDetail/ExhibitionDetail";
 
 function DetailExhibition() {
   return (
