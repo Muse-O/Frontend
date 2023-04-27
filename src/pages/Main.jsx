@@ -17,6 +17,7 @@ function Main() {
     setHeaderState({...headerState, 
       home:true, 
       exhibition:false,
+      exhibitionecreate:false,
       artgram:false,
       mypages:false})
   },[])

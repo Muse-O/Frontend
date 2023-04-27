@@ -14,14 +14,6 @@ function UnifiedSearchEx() {
   const searchDataEx = useRecoilValue(searchDataExState)
   const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
 
-  useEffect(()=> {
-    setHeaderState({...headerState, 
-      home:false, 
-      exhibition:false,
-      artgram:false,
-      mypages:false})
-  },[])
-
   return (
     <>
     <Header/>
