@@ -215,6 +215,8 @@ const ContentSettingBoxLayout = styled.div`
   flex-direction: column;
   justify-content: space-between;
   border-radius: 3px;
+  background-color: white;
+  overflow: hidden;
   box-shadow:  0px 4px 4px rgba(0, 0, 0, 0.25);
 `
 
@@ -222,10 +224,19 @@ const SettingBtn = styled.div`
   text-align: center;
   line-height: 32px;
   font-size: 12px;
+  &:hover {
+    background-color: #F0F3FF;
+    border: 1px solid #3360FF;
+  }
 `
 
 const SettingBtnborderline = styled(SettingBtn)`
   border-bottom: 1px solid gray;
+    &:hover {
+    color: red;
+    background-color: #F0F3FF;
+    border: 1px solid #3360FF;
+  }
 `
 
 
