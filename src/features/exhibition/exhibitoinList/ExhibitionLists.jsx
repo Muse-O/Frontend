@@ -18,7 +18,8 @@ function ExhibitionLists() {
   //적용
   const [applycategory, setApplyCategory] = useState("");
   const [applyHashTag, setApplyHashTag] = useState("");
-
+  const [Search, setSearch] = useState("");
+  const [applySearch, setApplySearch] = useState("");
   //헤더
   const navigator = useNavigate();
   const [whenVisible, setWhenVisible] = useState(false);
@@ -50,14 +51,23 @@ function ExhibitionLists() {
     }
   };
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
-    useGetExhibitioninfinity(10, applycategory, applyHashTag);
+    useGetExhibitioninfinity(10, applycategory, applyHashTag, applySearch);
   let merged =
     data?.pages[0].data.exhibitionList.rows.length > 0
       ? [].concat(...data?.pages[0].data.exhibitionList.rows)
       : [];
   const { ref } = useInterserctionObserver(fetchNextPage);
-
+  //검색
+  const onChangeSearch = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+  };
+  const onSearchHandler = () => {
+    setApplySearch(Search);
+    setSearch("");
+  };
   // console.log("data", data?.pages[0]);
+  console.log("적용된것", applycategory, applyHashTag, applySearch);
 
   return (
     <ExhibitionWrap>
@@ -93,8 +103,12 @@ function ExhibitionLists() {
             </SelectBox>
           </FilterSelect>
           <FilterInputWrap>
-            <FilterSearch Placeholder="검색"></FilterSearch>
-            <FilterButton>검색하기</FilterButton>
+            <FilterSearch
+              Placeholder="검색"
+              value={Search}
+              onChange={onChangeSearch}
+            ></FilterSearch>
+            <FilterButton onClick={onSearchHandler}>검색하기</FilterButton>
           </FilterInputWrap>
         </HeaderFilterWrap>
       </ExhibitionHeader>
@@ -380,6 +394,9 @@ const FilterButton = styled.button`
   padding: 0 12px;
   position: absolute;
   right: 0;
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const ExhibitionItem = styled.div`
