@@ -70,7 +70,7 @@ function AlarmContainer() {
                     <StAlramContents>
                       <div style={{ gap: "20px" }}>
                         <StAlramTheme>아트그램</StAlramTheme>
-                        <div>3일전</div>
+                        {/* <div>3일전</div> */}
                       </div>
                       <StAlramContent>
                         {(list.noti_type === "like" &&
@@ -97,7 +97,7 @@ function AlarmContainer() {
                       <StAlramContents>
                         <div style={{ gap: "20px" }}>
                           <StAlramTheme>전시</StAlramTheme>
-                          <div>3일전</div>
+                          {/* <div>3일전</div> */}
                         </div>
                         <StAlramContent>
                           {(list.noti_type === "like" &&
