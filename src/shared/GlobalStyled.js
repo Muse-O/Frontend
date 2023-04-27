@@ -83,7 +83,7 @@ const Headerwrap = styled.header`
   
   @media (max-width: 1440px) {
     width: 183.75px;
-    padding:4px;
+    padding:13.5px 17.25px;
   }
 
   @media (max-width: 390px) {
