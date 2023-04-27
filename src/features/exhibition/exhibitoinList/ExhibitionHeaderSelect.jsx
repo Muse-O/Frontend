@@ -344,6 +344,7 @@ export const HeaderTagSelect = ({ setApplyHashTag, setTagVisible }) => {
       });
     });
   };
+
   return (
     <TagContainer>
       <TagBox>
