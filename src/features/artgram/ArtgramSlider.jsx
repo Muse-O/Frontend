@@ -3,7 +3,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
-import * as Modal from "./ArtgramModal";
+import * as Modal from "./css/ArtgramModal";
 import styled from "styled-components";
 
 

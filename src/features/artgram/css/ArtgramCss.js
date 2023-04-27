@@ -35,6 +35,17 @@ const Wrap = styled.div`
   }
 `;
 
+const ArtgramWriteWrap = styled.div`
+  display:flex;
+  justify-content:end;
+  position:relative;
+  left:37.5px;
+
+  @media (max-width: 1440px) {
+    left:28.125px
+  }
+`
+
 const HiddenRef = styled.div`
   margin-top: 10px;
   color: transparent;
@@ -188,7 +199,7 @@ const ModalBackground = styled.div`
   top: 0;
   left: 0;
   padding: 20px;
-  background-color: rgba(35, 35, 35, 0.7);
+  background-color: rgba(36, 36, 36, 0.7);
   z-index: 10200;
   
   img {
@@ -242,5 +253,9 @@ export {
 
   // 아트그램 상세페이지
   DetailScrap,
-  DetailHeart
+  DetailHeart,
+
+  // 아트그램 생성
+  ArtgramWriteWrap
+  
 }

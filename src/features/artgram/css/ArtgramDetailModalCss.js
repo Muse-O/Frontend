@@ -62,11 +62,12 @@ const ContentInnerText = styled.div`
   .artgarmDetailHashTag {
     margin-top: 28px;
     font-size: 11px;
-
+    // color: blue;
+    color: transparent;
     // 글자에 그라데이션 효과를 주는 방법 가운데 하나로, 배경화면에 색을 주입하고, 이를 글자의 색상에 첨부하는 방식이 활용될 수 있다.
-    /* background: linear-gradient(to bottom, #3360ff 0%, #b960ff 40%);
-    background-clip: text; */
-    color: blue;
+    background: linear-gradient(to bottom, #3360ff 0%, #b960ff 40%);
+    -webkit-background-clip: text;
+
     font-weight: 600;
   }
 `;

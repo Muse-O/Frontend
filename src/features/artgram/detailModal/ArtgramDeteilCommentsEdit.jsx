@@ -36,7 +36,9 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
             : (<div onClick={(e) => onSubmitupdateComments(e)}>수정완료</div>)}
           <div onClick={() => deleteHandle(artgramId, comment.commentId)}>삭제</div>
       </>)}
-        {decodetoken?.email && !replyState 
+        {!decodetoken?.email
+        ? null
+        : decodetoken?.email && !replyState 
         ? <div onClick={()=>setReplyState(pre=>!pre)}>답글달기</div>
         : <form onSubmit={(e)=>replyHandle(e, artgramId, comment.commentId,reply)}>
           <input value={reply} onChange={(e)=>setReply(e.target.value)} placeholder='답글을 입력해주세요.'/>

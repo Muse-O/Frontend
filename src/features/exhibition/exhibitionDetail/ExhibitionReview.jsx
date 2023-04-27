@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useGetReview } from "../../hooks/exhibition/useGetReview";
-import { usetoken } from "../../shared/cookies";
-import { useDeleteReview } from "../../hooks/exhibition/useDeleteReview";
+import { useGetReview } from "../../../hooks/exhibition/useGetReview";
+import { usetoken } from "../../../shared/cookies";
+import { useDeleteReview } from "../../../hooks/exhibition/useDeleteReview";
 import { AiOutlineDelete } from "react-icons/ai";
 function ExhibitionReview({ exhibitionID }) {
   const { decodetoken } = usetoken();
