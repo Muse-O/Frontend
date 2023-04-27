@@ -68,7 +68,10 @@ function AlarmContainer() {
                     </StIconWrap>
 
                     <StAlramContents>
-                      <StAlramTheme>아트그램</StAlramTheme>
+                      <div style={{ gap: "20px" }}>
+                        <StAlramTheme>아트그램</StAlramTheme>
+                        {/* <div>3일전</div> */}
+                      </div>
                       <StAlramContent>
                         {(list.noti_type === "like" &&
                           `${list.noti_sender_nickname} 님이 회원님의 아트그램을 좋아합니다.`) ||
@@ -92,7 +95,10 @@ function AlarmContainer() {
                       </StIconWrap>
 
                       <StAlramContents>
-                        <StAlramTheme>전시</StAlramTheme>
+                        <div style={{ gap: "20px" }}>
+                          <StAlramTheme>전시</StAlramTheme>
+                          {/* <div>3일전</div> */}
+                        </div>
                         <StAlramContent>
                           {(list.noti_type === "like" &&
                             `${list.noti_sender_nickname} 님이 회원님의 글을 좋아합니다.`) ||

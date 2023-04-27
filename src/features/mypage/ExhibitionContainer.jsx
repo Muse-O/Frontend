@@ -19,6 +19,10 @@ function ExhibitionContainer() {
     useGetScrapExhibitionInfo();
 
   // console.log(LikedExhibitionInfo?.paginationInfo, "boolean");
+  /**
+   * 문제: 좋아요를 제외한 나머지 탭 메뉴 버튼
+   * -> hasBackPage, hasNextPage가 true임에도 whiteBtn이 출력됨. (leftBtn 또는 rightBtn이 출력되어야함.)
+   */
 
   const [currentTab, clickTab] = useState(0);
 
@@ -124,19 +128,82 @@ function ExhibitionContainer() {
                 (menuArr[currentTab].id === 2 &&
                   !MyExhibitionInfo?.paginationInfo?.hasBackPage)
               }
-              onMouseOver={() => {
-                setLeftSrc(leftHoverImg);
+              onMouseOver={disabled => {
+                (menuArr[currentTab].id === 0 &&
+                  (disabled ? setLeftSrc(whiteBtn) : setLeftSrc(leftBtn))) ||
+                  (menuArr[currentTab].id === 1 &&
+                    (disabled ? setLeftSrc(whiteBtn) : setLeftSrc(leftBtn))) ||
+                  (menuArr[currentTab].id === 2 &&
+                    (disabled ? setLeftSrc(whiteBtn) : setLeftSrc(leftBtn)));
+
+                // if (disabled) {
+                //   setLeftSrc(whiteBtn);
+                // } else if (!disabled) {
+                //   setLeftSrc(leftBtn);
+                // }
+                // setLeftSrc(leftHoverImg);
               }}
               onMouseOut={() => {
                 setLeftSrc(leftBtn);
               }}
             >
-              {(LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
+              <StLeftImg
+                // src={leftBtnSrc}
+                alt="leftBtn"
+                src={
+                  LikedExhibitionInfo?.paginationInfo?.hasBackPage ||
+                  ScrapExhibitionInfo?.paginationInfo?.hasBackPage ||
+                  MyExhibitionInfo?.paginationInfo?.hasBackPage
+                    ? leftBtnSrc
+                    : whiteBtn
+                }
+              />
+              {/* {(menuArr[currentTab].id === 0 &&
+              LikedExhibitionInfo?.paginationInfo?.hasBackPage ? (
+                <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+              ) : (
+                <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+              )) ||
+                (menuArr[currentTab].id === 1 &&
+                ScrapExhibitionInfo?.paginationInfo?.hasBackPage ? (
+                  <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                ) : (
+                  <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                )) ||
+                (menuArr[currentTab].id === 2 &&
+                MyExhibitionInfo?.paginationInfo?.hasBackPage ? (
+                  <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                ) : (
+                  <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                ))} */}
+              {/* {(menuArr[currentTab].id === 0 &&
+                ((LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
+                  <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                )) ||
+                  (!LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
+                    <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                  )))) ||
+                (menuArr[currentTab].id === 1 &&
+                  ((ScrapExhibitionInfo?.paginationInfo?.hasBackPage && (
+                    <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                  )) ||
+                    (!ScrapExhibitionInfo?.paginationInfo?.hasBackPage && (
+                      <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                    )))) ||
+                (menuArr[currentTab].id === 2 &&
+                  ((MyExhibitionInfo?.paginationInfo?.hasBackPage && (
+                    <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                  )) ||
+                    (!MyExhibitionInfo?.paginationInfo?.hasBackPage && (
+                      <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                    ))))} */}
+
+              {/* {(LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
                 <StLeftImg src={leftBtnSrc} alt="leftBtn" />
               )) ||
                 (!LikedExhibitionInfo?.paginationInfo?.hasBackPage && (
                   <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
-                ))}
+                ))} */}
             </StLeftBtn>
 
             <StImgBox>
@@ -179,13 +246,42 @@ function ExhibitionContainer() {
               //   }
               // }}
               onMouseOver={() => {
-                setRightSrc(rightHoverImg);
+                setRightSrc(whiteBtn);
               }}
               onMouseOut={() => {
                 setRightSrc(rightBtn);
               }}
             >
-              {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
+              <StRightImg
+                // src={rightBtnSrc}
+                alt="rightBtn"
+                src={
+                  LikedExhibitionInfo?.paginationInfo?.hasNextPage ||
+                  ScrapExhibitionInfo?.paginationInfo?.hasNextPage ||
+                  MyExhibitionInfo?.paginationInfo?.hasNextPage
+                    ? rightBtnSrc
+                    : whiteBtn
+                }
+              />
+              {/* {(menuArr[currentTab].id === 0 &&
+              LikedExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                <StRightImg src={rightBtnSrc} alt="rightBtn" />
+              ) : (
+                <StRightImg src={whiteBtn} alt="whiteLeftBtn" />
+              )) ||
+                (menuArr[currentTab].id === 1 &&
+                ScrapExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                ) : (
+                  <StRightImg src={whiteBtn} alt="whiteLeftBtn" />
+                )) ||
+                (menuArr[currentTab].id === 2 &&
+                MyExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                ) : (
+                  <StRightImg src={whiteBtn} alt="whiteLeftBtn" />
+                ))} */}
+              {/* {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
                 <StRightImg src={rightBtnSrc} alt="rightBtnSrc" />
               )) ||
                 (!LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
@@ -202,7 +298,7 @@ function ExhibitionContainer() {
                 )) ||
                 (!MyExhibitionInfo?.paginationInfo?.hasNextPage && (
                   <StRightImg src={whiteBtn} alt="whiteRightBtn" />
-                ))}
+                ))} */}
               {/* {(LikedExhibitionInfo?.paginationInfo?.hasNextPage && (
                 <StRightImg src={rightBtnSrc} alt="rightBtn" />
               )) ||

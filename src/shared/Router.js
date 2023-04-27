@@ -100,7 +100,7 @@ function Router() {
         <MainWrap>
           <ContainerWrap>
             <Routes>
-              {pages.map((page) => {
+              {pages.map(page => {
                 return (
                   <Route
                     key={page.pathname}
