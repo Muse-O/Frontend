@@ -17,6 +17,7 @@ import sparkle_gray from "../../../assets/imgs/exhibition/sparkle_gray.png";
 function ExhibitionLists() {
   //적용
   const [applycategory, setApplyCategory] = useState("");
+
   //헤더
   const navigator = useNavigate();
   const [whenVisible, setWhenVisible] = useState(false);
@@ -49,10 +50,14 @@ function ExhibitionLists() {
   };
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
     useGetExhibitioninfinity(10, applycategory);
-  let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
+  let merged =
+    data?.pages[0].data.exhibitionList.rows.length > 0
+      ? [].concat(...data?.pages[0].data.exhibitionList.rows)
+      : [];
   const { ref } = useInterserctionObserver(fetchNextPage);
 
-  console.log("merged", merged);
+  // console.log("data", data?.pages[0]);
+
   return (
     <ExhibitionWrap>
       <ExhibitionHeader>

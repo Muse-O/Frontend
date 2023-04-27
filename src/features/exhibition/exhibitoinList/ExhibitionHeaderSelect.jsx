@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { EXListApplyBox } from "./EXListApplyBox";
+import { useGetTop10Tags } from "../../../hooks/exhibition/useGetTop10Tags";
 
 export const HeaderWhereSelect = () => {
   const cities = [
@@ -178,7 +179,6 @@ export const HeaderCategorySelect = ({
     WK0007: false,
     WK0008: false,
   });
-  console.log("category", category);
   return (
     <CartegoryBox>
       <PositionBox>
@@ -293,32 +293,55 @@ export const HeaderCategorySelect = ({
 };
 
 export const HeaderTagSelect = () => {
-  const taglist = [
-    "#맛집",
-    "#맛집",
-    "#체험활동체험활동체험활동체험활동체험활동",
-    "# 핫플레이스",
-    "#체험 활동 체험",
-    "#top10",
-    "#꽃구경",
-    "#주차장",
-    "#그냥 긴택스트용 ",
-    "#교통",
-  ];
+  //top10tag들
+  const [top10TagsData] = useGetTop10Tags();
+  const [top10TagLists, setTop10TagLists] = useState([]);
   const [selectTags, setSelectTags] = useState([]);
-
+  useEffect(() => {
+    if (top10TagsData) {
+      const updatedTo10TAGS = top10TagsData.map((tag) => {
+        return { tagName: tag.tagName, checked: false };
+      });
+      setTop10TagLists(updatedTo10TAGS);
+    }
+  }, [top10TagsData]);
+  console.log(top10TagLists);
   //이거 where카테고리랑 같이쓰임 나중에 리팩토링시 분리 필요
   const filterTags = (e) => {
     const { innerText } = e.target;
+
     setSelectTags((pre) => {
-      return [...pre, innerText];
+      if (pre[0] === innerText) {
+        return [];
+      } else {
+        return [innerText];
+      }
     });
+
+    setTop10TagLists((prevTags) =>
+      prevTags.map((tag) => {
+        if (tag.tagName === innerText) {
+          return { ...tag, checked: !tag.checked };
+        } else {
+          return { ...tag, checked: false };
+        }
+      })
+    );
   };
   const deleteTags = (e) => {
     const name = e.currentTarget.getAttribute("name");
     setSelectTags((pre) => {
       const filteredArray = pre.filter((region) => region !== name);
       return filteredArray;
+    });
+    setTop10TagLists((prevTags) => {
+      return prevTags.map((tag) => {
+        if (tag.tagName === name) {
+          return { ...tag, checked: false };
+        } else {
+          return { ...tag };
+        }
+      });
     });
   };
   return (
@@ -329,8 +352,16 @@ export const HeaderTagSelect = () => {
           <TagRecomendTitle>인기태그 추천</TagRecomendTitle>
         </div>
         <RecomendTagContainer>
-          {taglist.map((tag) => {
-            return <RecomendTag onClick={filterTags}>{tag}</RecomendTag>;
+          {top10TagLists?.map((tag) => {
+            return (
+              <RecomendTag
+                key={tag.tagName}
+                onClick={filterTags}
+                checked={tag.checked}
+              >
+                {tag.tagName}
+              </RecomendTag>
+            );
           })}
         </RecomendTagContainer>
         <SelectTagContainer>
@@ -355,14 +386,16 @@ const RecomendTag = styled.div`
   box-sizing: border-box;
   min-width: 67px;
   height: 33px;
-  background: #ffffff;
+  background: ${(props) => (props.checked ? "#242424" : "#ffffff")};
+  color: ${(props) => props.checked && "#ffffff"};
   border: 1px solid #5a5a5a;
   border-radius: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   :hover {
-    background-color: #deb9fc;
+    background-color: #242424;
+    color: #ffffff;
   }
   padding: 0px 5px;
   cursor: pointer;

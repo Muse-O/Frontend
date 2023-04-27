@@ -11,8 +11,7 @@ export const useGetExhibitioninfinity = (pageSize, category) => {
         const res = await apis_token.get(
           `/exhibition?limit=${pageSize}&offset=${pageParam}${searchcategory}`
         );
-        console.log("res", res);
-        return res.data.exhibitionList.rows;
+        return res;
       },
       getNextPageParam: (lastPage, allPages) => {
         if (lastPage.length < pageSize) {
