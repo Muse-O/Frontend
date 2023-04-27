@@ -1,8 +1,8 @@
 import React from "react";
 import { Article } from "../shared/GlobalStyled";
 import Header from "../components/Header";
-import ExhibitionForm from "../features/exhibition/ExhibitionForm";
 import { usePostExhibition } from "../hooks/exhibition/usetPostExhibition";
+import ExhibitionForm from "../features/exhibition/exhibitionCreate/ExhibitionForm";
 
 function CreateExhibition() {
   const [createExhibition] = usePostExhibition();

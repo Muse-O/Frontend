@@ -122,9 +122,11 @@ const StUserInfoIntro = styled.div`
   width: 250px;
   margin-top: 35px;
 `;
+
 const InfoIntro = styled.div`
   font-family: "SpoqaHanSansNeo-Regular";
   font-size: 16px;
+  color: #3c3c3c;
   /* font-weight: 400; */
   line-height: 25px;
   word-break: break-all;
