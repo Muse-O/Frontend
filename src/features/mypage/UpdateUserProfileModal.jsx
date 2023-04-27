@@ -123,6 +123,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
             name="nickname"
             value={editProfile.nickname}
             onChange={changeInputHandler}
+            maxLength="8"
           />
 
           <div>닉네임은 2글자 이상 입력해주세요</div>

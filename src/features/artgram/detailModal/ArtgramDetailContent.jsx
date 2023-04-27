@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ContentInnerText, ContentSetting } from '../css/ArtgramDetailModalCss'
 import dots_gray2 from '../../../assets/imgs/artgram/dots_gray2.png'
 import ContentSettingBox from './ContentSettingBox'

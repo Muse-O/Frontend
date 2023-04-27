@@ -7,7 +7,7 @@ export const useOpenExhibitionByDate = () => {
   const  {isLoading, isError, data} = useQuery({
     queryKey: keys.GET_MAINOPENEXHIBITIONBYDATE,
     queryFn: async () => {
-      const response = await apis.get('/banner/getOpenExhibitionsSortedByDate?reqCnt=6')
+      const response = await apis.get('/banner/getOpenExhibitionsSortedByDate?reqCnt=10')
       return response.data.exhibitionList.rows
     },
     refetchOnWindowFocus: false,

@@ -22,7 +22,6 @@ export default ArtgramWrite;
 const Artgramwrite = styled.div`
   position: fixed;
   bottom: 20px;
-  margin-left: 1487.5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,6 +39,5 @@ const Artgramwrite = styled.div`
     bottom: 15px;
     width: 52.5px;
     height: 52.5px;
-    margin-left: 1120px;
   }
 `;

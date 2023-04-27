@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { DropZoneMsg, DropZonePreview, PreviewBox } from "../createArtgram/ArtgramFormImgparts";
 
 const Layout = styled.div`
   padding: 80px 75px;
@@ -34,6 +35,17 @@ const Wrap = styled.div`
     margin-top: 45px;
   }
 `;
+
+const ArtgramWriteWrap = styled.div`
+  display:flex;
+  justify-content:end;
+  position:relative;
+  left:37.5px;
+
+  @media (max-width: 1440px) {
+    left:28.125px
+  }
+`
 
 const HiddenRef = styled.div`
   margin-top: 10px;
@@ -188,7 +200,7 @@ const ModalBackground = styled.div`
   top: 0;
   left: 0;
   padding: 20px;
-  background-color: rgba(35, 35, 35, 0.7);
+  background-color: rgba(36, 36, 36, 0.7);
   z-index: 10200;
   
   img {
@@ -201,7 +213,7 @@ const ModalBackground = styled.div`
 const ModalWindow = styled.div`
   position: fixed;
   top: 50%;
-  left: 57%;
+  left: 56.38%;
   transform: translate(-50%, -50%);
   display: ${(props) => (props.state ? "grid" : "none")};
   grid-template-columns: repeat(2, 1fr);
@@ -211,13 +223,93 @@ const ModalWindow = styled.div`
   border-radius: 15px;
   z-index: 10200;
   @media (max-width: 1440px) {
-    top: 47%;
     width: 948px;
-    height: 670.5px;
+    height: 726px;
   }
 `;
 
+const UpdateModalWindow = styled(ModalWindow)`
+  gap:108px; // ModalWindow grid 가 적용되어 있음
+  padding-top: 100px;
+  top: 50%;
+  left: 50%;
+  padding: 0 60px;
+  padding-top: 244px;
+  overflow: hidden;
+  @media (max-width: 1440px) {    
+  }
+`
 
+const UpdateModalTitleLayout = styled.div`
+  position: absolute;
+  top: 162px;
+  left: 60px;
+`
+
+const ImgZone = styled.section`
+  width: 526px;
+  height: 405px;
+  border-radius: 10px;
+`
+
+const ImgZoneMsg = styled(DropZoneMsg)`
+  height: 51px;
+`
+
+const ImgZonePreview = styled(DropZonePreview)`
+  height: 354px;
+  padding: 14px;
+  gap: 7px;
+
+`
+
+const PreviewImgBox = styled(PreviewBox)`
+  width: 161px;
+  height: 162px;
+`
+
+const Notification = styled.div`
+  margin-top: 16px;
+  width: 526px;
+  height: 95px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid #7E7E7E;
+  border-radius: 5px;
+  font-size: 12px;
+  span {
+    color:red;
+    margin-right: 4px;
+  }
+
+  @media (max-width: 1440px) {
+  margin-top: 12px;
+  height: 71.25px;
+  padding: 15px;
+  gap: 6px;
+  }
+`
+
+const UpdateForm = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-grow: 1;
+`
+
+const WriteLayout = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: end;
+  left: 37.5px;
+  @media (max-width: 1440px) {
+    left: 28.125px;
+  }
+`
 
 export {
   // 아트그램 Main
@@ -242,5 +334,22 @@ export {
 
   // 아트그램 상세페이지
   DetailScrap,
-  DetailHeart
+  DetailHeart,
+
+  // 아트그램 생성
+  ArtgramWriteWrap,
+  
+  // 아트그램 작성 관련
+  WriteLayout,
+
+  // 아트그램 수정 관련
+  UpdateModalWindow,
+  UpdateModalTitleLayout,
+  ImgZone,
+  ImgZoneMsg,
+  ImgZonePreview, 
+  PreviewImgBox,
+  Notification,
+  UpdateForm
+
 }
