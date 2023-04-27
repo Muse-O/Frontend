@@ -26,7 +26,7 @@ function ContentSettingBox({ detailData, setSettingBox }) {
 
   const updatehandleSubmit = (e) => {
     e.preventDefault()
-    console.log(formState);
+    console.log({...formState,artgramImgs:{...imgState}, hashtag});
     patchArtgram({artgramId:detailData.artgramId, formState})
     setFormState({})
     setUpdateModal(pre=>!pre)

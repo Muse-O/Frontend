@@ -55,12 +55,12 @@ function UnifiedSearch() {
           {searchDataEx && searchDataEx?.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
             : (<US.SearchBoxEx>
-              {searchDataEx?.map(({exhibitionId,detailRouter,postImage,exhibitionTitle,startDate,location}) => (
+              {searchDataEx?.map(({exhibitionId,detailRouter,postImage,exhibitionTitle,startDate,address}) => (
               <US.SearchEx key={exhibitionId} onClick={()=>navigate(detailRouter)}>
               <US.SearchBoxExImg src={postImage} alt=''/>
               <US.SearchBoxExTitle children={exhibitionTitle}/>
               <US.SearchBoxExDate children={editTimehandle(startDate)}/>
-              <US.SearchBoxExlocation children={location.split(" ").slice(0,3).join(" ")}/>
+              <US.SearchBoxExlocation children={address}/>
             </US.SearchEx>))}
             </US.SearchBoxEx>
               )}
