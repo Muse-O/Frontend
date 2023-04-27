@@ -13,7 +13,7 @@ import Notification from "./form/Notification";
 import { useNavigate } from "react-router-dom";
 
 // ArtgramForm 컴포넌트 -------------------------------------------------------------------------------------/
-function ArtgramForm2() {
+function ArtgramForm() {
   // 비동기 통신을 위하 커스텀 훅(리액트 쿼리)  ------------------------------------------------------------------ //
   const [postArtgrams] = usePostartgram();
   // Navigate  ------------------------------------------------------------------------------------------ //
@@ -105,4 +105,4 @@ function ArtgramForm2() {
   );
 }
 
-export default ArtgramForm2;
+export default ArtgramForm;
