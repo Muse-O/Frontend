@@ -7,6 +7,8 @@ import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
 import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
 import whiteBtn from "../../assets/imgs/common/next_cut_white.png";
 import { useNavigate } from "react-router-dom";
+import whiteLeftArrow from "../../assets/imgs/mypage/WhiteLeftArrow.svg";
+import blackLeftArrow from "../../assets/imgs/mypage/blackLeftArrow.svg";
 
 function ExhibitionContainer() {
   const navigate = useNavigate();
@@ -49,16 +51,10 @@ function ExhibitionContainer() {
 
   //탭 메뉴 클릭시 처음 페이지로 돌아옴
   const selectMenuHandler = id => {
-    if (id === 0) {
-      clickTab(id);
-      setLikedNum(0);
-    } else if (id === 1) {
-      clickTab(id);
-      setScrapExhibitionNum(0);
-    } else if (id === 2) {
-      clickTab(id);
-      setMyExhibitionNum(0);
-    }
+    clickTab(id);
+    setLikedNum(0);
+    setScrapExhibitionNum(0);
+    setMyExhibitionNum(0);
   };
 
   //이전 데이터 불러오기
@@ -128,26 +124,30 @@ function ExhibitionContainer() {
                 (menuArr[currentTab].id === 2 &&
                   !MyExhibitionInfo?.paginationInfo?.hasBackPage)
               }
-              onMouseOver={disabled => {
-                (menuArr[currentTab].id === 0 &&
-                  (disabled ? setLeftSrc(whiteBtn) : setLeftSrc(leftBtn))) ||
-                  (menuArr[currentTab].id === 1 &&
-                    (disabled ? setLeftSrc(whiteBtn) : setLeftSrc(leftBtn))) ||
-                  (menuArr[currentTab].id === 2 &&
-                    (disabled ? setLeftSrc(whiteBtn) : setLeftSrc(leftBtn)));
+              // onMouseOver={disabled =>
+              //   disabled ? setLeftSrc(whiteBtn) : setLeftSrc(leftBtn)
+              // }
+              // onMouseOver={disabled => {
+              //   (menuArr[currentTab].id === 0 &&
+              //     (disabled ? setLeftSrc(whiteBtn) : setLeftSrc(leftBtn))) ||
+              //     (menuArr[currentTab].id === 1 &&
+              //       (disabled ? setLeftSrc(whiteBtn) : setLeftSrc(leftBtn))) ||
+              //     (menuArr[currentTab].id === 2 &&
+              //       (disabled ? setLeftSrc(whiteBtn) : setLeftSrc(leftBtn)));
 
-                // if (disabled) {
-                //   setLeftSrc(whiteBtn);
-                // } else if (!disabled) {
-                //   setLeftSrc(leftBtn);
-                // }
-                // setLeftSrc(leftHoverImg);
-              }}
-              onMouseOut={() => {
-                setLeftSrc(leftBtn);
-              }}
+              //   // if (disabled) {
+              //   //   setLeftSrc(whiteBtn);
+              //   // } else if (!disabled) {
+              //   //   setLeftSrc(leftBtn);
+              //   // }
+              //   // setLeftSrc(leftHoverImg);
+              // }}
+              // onMouseOut={disabled => {
+              //   disabled ? setLeftSrc(whiteBtn) : setLeftSrc(leftBtn);
+              // }}
             >
-              <StLeftImg
+              {/* 첫번째 탭의 hasBackPage가 계속 true로 남아있음 */}
+              {/* <StLeftImg
                 // src={leftBtnSrc}
                 alt="leftBtn"
                 src={
@@ -157,7 +157,28 @@ function ExhibitionContainer() {
                     ? leftBtnSrc
                     : whiteBtn
                 }
-              />
+              /> */}
+              {/* {(menuArr[currentTab].id === 0 ? (
+                LikedExhibitionInfo?.paginationInfo?.hasBackPage ? (
+                  <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                ) : (
+                  <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                )
+              ) : null) ||
+                (menuArr[currentTab].id === 1 ? (
+                  ScrapExhibitionInfo?.paginationInfo?.hasBackPage ? (
+                    <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                  ) : (
+                    <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                  )
+                ) : null) ||
+                (menuArr[currentTab].id === 2 ? (
+                  MyExhibitionInfo?.paginationInfo?.hasBackPage ? (
+                    <StLeftImg src={leftBtnSrc} alt="leftBtn" />
+                  ) : (
+                    <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
+                  )
+                ) : null)} */}
               {/* {(menuArr[currentTab].id === 0 &&
               LikedExhibitionInfo?.paginationInfo?.hasBackPage ? (
                 <StLeftImg src={leftBtnSrc} alt="leftBtn" />
@@ -245,14 +266,16 @@ function ExhibitionContainer() {
               //     setRightSrc(rightBtn);
               //   }
               // }}
-              onMouseOver={() => {
-                setRightSrc(whiteBtn);
-              }}
-              onMouseOut={() => {
-                setRightSrc(rightBtn);
-              }}
+              // onMouseOver={() => {
+              //   setRightSrc(whiteBtn);
+              // }}
+              // onMouseOut={() => {
+              //   setRightSrc(rightBtn);
+              // }}
             >
-              <StRightImg
+              {/* 좋아요랑 스크랩은 첫 데이터가 true 내가여는전시는 false
+              이 상태에서 좋아요 페이지를 끝까지 넘겨도 스크랩은 여전히 첫페이지고 hasNextPage가 true니 true로 결과가 떨어짐 */}
+              {/* <StRightImg
                 // src={rightBtnSrc}
                 alt="rightBtn"
                 src={
@@ -262,7 +285,28 @@ function ExhibitionContainer() {
                     ? rightBtnSrc
                     : whiteBtn
                 }
-              />
+              /> */}
+              {/* {(menuArr[currentTab].id === 0 ? (
+                LikedExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                ) : (
+                  <StRightImg src={whiteBtn} alt="whiteLeftBtn" />
+                )
+              ) : null) ||
+                (menuArr[currentTab].id === 1 ? (
+                  ScrapExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                    <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                  ) : (
+                    <StRightImg src={whiteBtn} alt="whiteLeftBtn" />
+                  )
+                ) : null) ||
+                (menuArr[currentTab].id === 2 ? (
+                  MyExhibitionInfo?.paginationInfo?.hasNextPage ? (
+                    <StRightImg src={rightBtnSrc} alt="rightBtn" />
+                  ) : (
+                    <StRightImg src={whiteBtn} alt="whiteLeftBtn" />
+                  )
+                ) : null)} */}
               {/* {(menuArr[currentTab].id === 0 &&
               LikedExhibitionInfo?.paginationInfo?.hasNextPage ? (
                 <StRightImg src={rightBtnSrc} alt="rightBtn" />
@@ -363,6 +407,9 @@ const StLeftBtn = styled.button`
   height: 40px;
   border-radius: 50%;
   background-color: #eeeeee;
+  background-image: url(${blackLeftArrow});
+  background-repeat: no-repeat;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -370,25 +417,35 @@ const StLeftBtn = styled.button`
 
   &:disabled {
     cursor: default;
+    background-image: url(${whiteLeftArrow});
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
   &:not(:disabled):hover {
     background-color: #242424;
+    background-image: url(${whiteLeftArrow});
+    background-repeat: no-repeat;
+    background-position: center;
   }
 `;
 
-const StLeftImg = styled.img`
-  width: 14px;
-  height: 22px;
-  transform: rotate(-180deg);
-`;
+// const StLeftImg = styled.img`
+//   width: 14px;
+//   height: 22px;
+//   transform: rotate(-180deg);
+// `;
 
 const StRightBtn = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
   background-color: #eeeeee;
+  background-image: url(${blackLeftArrow});
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(-180deg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -396,11 +453,19 @@ const StRightBtn = styled.button`
 
   &:disabled {
     cursor: default;
+    background-image: url(${whiteLeftArrow});
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: rotate(-180deg);
   }
 
   /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
   &:not(:disabled):hover {
     background-color: #242424;
+    background-image: url(${whiteLeftArrow});
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: rotate(-180deg);
   }
 `;
 
