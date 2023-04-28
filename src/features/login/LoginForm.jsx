@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import useLogin from "../../hooks/login/useLogin";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import naverLogo from "../../assets/imgs/login/네이버로고.png";
 import googleLogo from "../../assets/imgs/login/google-plus.png";
@@ -16,6 +16,7 @@ import trueVisibleEyes from "../../assets/imgs/login/eye_gray.png";
  */
 
 function LoginForm() {
+  const navigate = useNavigate();
   //react-query
   const { login } = useLogin();
 
@@ -79,6 +80,12 @@ function LoginForm() {
   //소셜로그인 미구현 -> 서비스 제공 예정 alert
   const socialLoginBtn = () => {
     alert("서비스 제공 예정입니다.");
+  };
+
+  //카카오톡
+  const BASE_URL = "http://52.79.236.149";
+  const kakaoLoginBtn = () => {
+    // navigate(`${BASE_URL}/auth/kakao`);
   };
 
   return (
@@ -156,9 +163,9 @@ function LoginForm() {
               style={{ width: "30px", height: "30px" }}
             />
           </GoogleLogoDiv>
-          <div onClick={socialLoginBtn}>
+          <Link to={`${BASE_URL}/auth/kakao`} onClick={kakaoLoginBtn}>
             <img src={kakaoLogo} alt="kakaoLogo" />
-          </div>
+          </Link>
           <div onClick={socialLoginBtn}>
             <img src={naverLogo} alt="naverLogo" />
           </div>

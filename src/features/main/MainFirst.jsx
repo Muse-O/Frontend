@@ -11,7 +11,8 @@ import { usePersonalExhibition } from "../../hooks/main/usePersonalExhibition";
 import { useNavigator } from "../../hooks/main/useNavigator";
 
 function MainFirst() {
-  const { firstSliderSettings, secondSliderSettings, currentSlideIndex } = useAsNavForSliderMainFirst();
+  const { firstSliderSettings, secondSliderSettings, currentSlideIndex } =
+    useAsNavForSliderMainFirst();
   const { editTimehandle } = useEditTime();
   const { navigatehandle } = useNavigator();
   const { isLoading, isError, data } = usePersonalExhibition();
@@ -43,7 +44,7 @@ function MainFirst() {
                 {data.map(exhibition => (
                   <StSlider.MainSliderOutline key={exhibition.exhibitionId}>
                     {/* 이미지 */}
-                    <StSlider.MainSliderImg src={exhibition.postImage} />
+                    <StSlider.MainSliderImg src={exhibition?.postImage} />
 
                     <StSlider.FirstMainSliderTitleDesc>
                       {/* Num & Title */}
@@ -85,15 +86,22 @@ function MainFirst() {
                             {editTimehandle(exhibition.endDate)}
                           </p>
                           <p className="title">위치</p>
-                          <p className="content">{exhibition.sido} {exhibition.location}</p>
+                          <p className="content">
+                            {exhibition.sido} {exhibition.location}
+                          </p>
                           <p className="title">작가</p>
                           <p className="content">
-                            {exhibition.author.length === 1 
+                            {exhibition.author.length === 1
                               ? exhibition.author.map(author => `${author}`)
-                              : exhibition.author.length < 5 
-                              ? exhibition.author.map((author, index) => exhibition.author.length === index+1 ? `${author}` : `${author}, ` )
-                              : `${exhibition.author[0]}외 ${exhibition.author.length -1}명`
-                            }
+                              : exhibition.author.length < 5
+                              ? exhibition.author.map((author, index) =>
+                                  exhibition.author.length === index + 1
+                                    ? `${author}`
+                                    : `${author}, `
+                                )
+                              : `${exhibition.author[0]}외 ${
+                                  exhibition.author.length - 1
+                                }명`}
                           </p>
                         </>
                       }
@@ -109,15 +117,21 @@ function MainFirst() {
                 {editLists.map(exhibition => (
                   <StSlider.SubSliderOutline key={exhibition.exhibitionId}>
                     {/* 이미지 */}
-                    <StSlider.SubSliderImg src={exhibition.postImage} />
+                    <StSlider.SubSliderImg src={exhibition?.postImage} />
                   </StSlider.SubSliderOutline>
                 ))}
               </Slider>
               <StSlider.CurrentSliderIndex>
                 <p>
-                  {data.length < 10 
-                    ? <>0{currentSlideIndex} <span>/ 0{data.length}</span></> 
-                    : <>{currentSlideIndex} <span>/ {data.length}</span></>}
+                  {data.length < 10 ? (
+                    <>
+                      0{currentSlideIndex} <span>/ 0{data.length}</span>
+                    </>
+                  ) : (
+                    <>
+                      {currentSlideIndex} <span>/ {data.length}</span>
+                    </>
+                  )}
                 </p>
               </StSlider.CurrentSliderIndex>
             </Main.FirstSubSliderWrap>
