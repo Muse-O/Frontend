@@ -22,7 +22,6 @@ function Artgram() {
     setHeaderState({...headerState, 
       home:false, 
       exhibition:false,
-      exhibitionecreate:false,
       artgram:true,
       mypages:false})
   },[])

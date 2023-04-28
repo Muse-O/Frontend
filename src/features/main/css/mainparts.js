@@ -21,22 +21,29 @@ const CommenLayout = styled.div`
   max-height: ${(pos) => pos.height}px;
   min-height: ${(pos) => pos.height}px;
   overflow: hidden;
-  margin-bottom: 80px;
+  margin-bottom: 100px;
   @media (max-width: 1440px) {
     width: 1143.75px;
     margin-bottom: 60px;
     max-height: ${(pos) => pos.media1440}px;
     min-height: ${(pos) => pos.media1440}px;
   }
-
 `;
+
 // Main 페이지 세번째(3) TOP 10 (화면의 너미가 줄어들었을 때를 가정)
 const ThirdLayout = styled(CommenLayout)`
   max-height: fit-content;
+  margin-bottom: 0px;
 `;
+
+const FifthLayout = styled(CommenLayout)`
+  margin-bottom: 0px;
+`
 // Main 페이지 - 소제목 absolute 좌상단 고정
 const ArticleTitle = styled.div`
   position: absolute;
+  display: flex;
+  align-items: end;
   top: 5px;
   left: 0;
   z-index: 1;
@@ -44,9 +51,29 @@ const ArticleTitle = styled.div`
 
 //  Main 페이지 - 소제목(2,3,4,5 번째)
 const MainH1 = styled.h4`
-  font-family: "S-CoreDream-3Light";
+  font-family: "S-CoreDream-5Medium";
   font-size: 32px;
+  width: fit-content;
+  @media (max-width: 1440px) {
+    font-size: 24px;
+  }
 `;
+const MainH5 = styled.h4`
+  position: relative;
+  font-family: "S-CoreDream-3Light";
+  bottom: 1px;
+  font-size: 16px;
+  margin-left: 8px;
+  width: fit-content;
+  &:hover {
+    cursor: pointer;
+  }
+  @media (max-width: 1440px) {
+    margin-left: 6px;
+    font-size: 12px;
+  }
+`;
+
 
 //  Main 페이지 - 소제목(1 번째)
 const MainH4 = styled.h4`
@@ -197,8 +224,9 @@ const ThirdImg = styled.div`
   min-height: 124.49px;
   max-height: 124.49px;
   &:hover {
-    z-index: 2;
-  }
+      z-index: 5;
+    }
+  
   @media (max-width: 1440px) {
     min-width: 65.25px;
     max-width: 65.25px;
@@ -212,7 +240,10 @@ const ThirdImg = styled.div`
     max-width: 87px;
     min-height: 124.49px;
     max-height: 124.49px;
-    transition: all 0.5s;
+    transition: all 0.3s;
+    &:hover {
+      z-index: 3;
+    }
 
     @media (max-width: 1440px) {
       min-width: 65.25px;
@@ -223,7 +254,7 @@ const ThirdImg = styled.div`
 
     &:hover {
       transform: scale(2.5);
-      transform-origin: 50% 50%;
+      transform-origin: 50% 45%;
     }
   }
 `;
@@ -286,77 +317,126 @@ const FourthWrap = styled.div`
   padding-right: 12px;
   overflow: scroll;
 
-  .exhibitionimg {
-    position: sticky;
-    top: 0;
-    display: block;
-    min-width: 390px;
-    max-width: 390px;
-    min-height: 558px;
-    max-height: 558px;
-  }
-
-  .exhibitioninfo {
-    display: flex;
-    flex-direction: column;
-    /* justify-content: space-between; */
-    gap: 12px;
-    width: 100%;
-    min-height: 480px;
+  @media (max-width: 1440px) {
+    grid-template-columns: 292.5px 1fr;
+    gap: 60px;
+    min-height: 418.5px;
+    max-height: 418.5px;
+    margin-top: 49.5px;
+    padding-right: 9px;
   }
 `;
 
-// Main 페이지 네번째(4) 예정전시 className:exhibitioninfo의 상세 설정
-const FourthExhibitioninfo = styled.div`
-  display: grid;
-  grid-template-columns: 82px minmax(200px, 1fr) 250px;
-  gap: 112px;
+const FourthImg = styled.img`
+  position: sticky;
+  top: 0;
+  display: block;
+  min-width: 390px;
+  max-width: 390px;
+  min-height: 558px;
+  max-height: 558px;
+  @media (max-width: 1440px) {
+    min-width: 292.5px;
+    max-width: 292.5px;
+    min-height: 418.5px;
+    max-height: 418.5px;
+  }
+`
+const FouthInfoWrap = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    min-height: 480px;
+    @media (max-width: 1440px) {
+      gap: 9px;
+      min-height: 360px;
+    }
+`
+
+const FourthInfo = styled.div`
+  display: flex;
+  align-items: center;
   min-height: 102px;
   max-height: 102px;
   border: 1px solid black;
   border-radius: 8px;
   padding: 25px;
-
-  .date {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    p {
-      font-family: "Montserrat", sans-serif;
-      font-size: 20px;
-    }
+  @media (max-width: 1440px) {
+    min-height: 76.5px;
+    max-height: 76.5px;
+    padding: 18.75px;
   }
-
-  .exhibitininfo {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 10px;
-
-    // 전시회 title
-    p:first-child {
-      font-size: 20px;
-    }
-    p:last-child {
-      font-size: 16px;
-      font-family: "Montserrat", sans-serif;
-    }
-  }
-
-  .exhibitionlocation {
-    text-align: end;
-    padding-right: 57px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   &:hover {
     background-color: #232323;
     color: #e6e6e6;
   }
 `;
+
+const FouthInfoDate = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 48px;
+
+  p {
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+    @media (max-width: 1440px) {
+      font-size: 15px;
+    }
+  }
+`
+
+const FouthInfoTitle = styled.div`
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  margin-left: 100px;
+  @media (max-width: 1440px) {
+    gap: 7.5px;
+    margin-left: 75px;
+  }
+
+  // 전시회 title
+  p:first-child {
+    font-size: 20px;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    @media (max-width: 1440px) {
+      font-size: 15px;
+    }
+  }
+  p:last-child {
+    font-size: 16px;
+    font-family: "Montserrat", sans-serif;
+    @media (max-width: 1440px) {
+      font-size: 12px;
+    }
+  }
+`
+
+const FouthInfoAddress = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 40px;
+  width: fit-content;
+  max-width: 250px;
+  height: 48px;
+  text-align: end;
+  @media (max-width: 1440px) {
+    margin-left: 40px;
+    max-width: 187.5px;
+    height: 36px;
+  }
+`
 
 // ---------------------------------------------------------------------------------- //
 // Main 페이지 다섯번째(5) 아트그램 상세 레이아웃
@@ -450,7 +530,7 @@ const MainSliderProfileNickName = styled.div`
   color:  #7E7E7E;
 
   span {
-    margin: 4px;
+    margin-left: 4px;
     font-weight: 600;
     font-size: 14px;
     color: #242424;
@@ -533,9 +613,9 @@ const SubSliderImg = styled.div`
 `
 
 const SubSliderProfile = styled(MainSliderProfile)`
-  bottom: 12px;
+  bottom: 20px;
   @media (max-width: 1440px) {
-    bottom: 9px;
+    bottom: 15px;
   }
 `
 
@@ -549,25 +629,33 @@ const Icons = styled.div`
   text-align: center;
 `;
 
-const FifthCurrentSliderIndex = styled.div`
+const SliderIndex = styled.div`
   position: absolute;
-  left: 102px;
+  left:614px;
   bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100px;
+  width: 90px;
   height: 63px;
+  transform: translateX(-50%);
+  font-size: 25px;
+  font-weight: 700;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   font-family: "Montserrat", sans-serif;
-
-  p {
-    font-size: 25px;
-    font-weight: 700;
-  }
 
   span {
     font-size: 20px;
     font-weight: 400;
+    color: #7E7E7E;
+  }
+  @media (max-width: 1440px) {
+    left:460.5px;
+    width: 67.5px;
+    height: 47.25px;
+    font-size: 18.75px;
+    span {
+    font-size: 15px;
+  }
   }
 `;
 
@@ -576,9 +664,11 @@ export {
   MainLayout,
   CommenLayout,
   ThirdLayout,
+  FifthLayout,
   ArticleTitle,
   MainH1,
   MainH4,
+  MainH5,
   // Main 페이지(1) 상세관련
   FirstMainSliderWrap,
   FirstSubSliderWrap,
@@ -597,7 +687,12 @@ export {
   ThirdInfo,
   // Main 페이지(4) 상세관련
   FourthWrap,
-  FourthExhibitioninfo,
+  FourthImg,
+  FouthInfoWrap,
+  FourthInfo,
+  FouthInfoDate,
+  FouthInfoTitle,
+  FouthInfoAddress,
   // Main 페이지(5) 상세관련
   FifthWrapGrid,
   // Main 슬라이더
@@ -613,6 +708,7 @@ export {
   SubSliderWrap,
   SubSliderImg,
   SubSliderProfile,
+  SliderIndex,
 
   // Main Slider buttom
   Icons,

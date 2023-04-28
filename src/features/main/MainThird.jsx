@@ -15,9 +15,10 @@ function MainThird() {
 
 
   return (
-    <Main.ThirdLayout height="806" media1440="604.5">
+    <Main.ThirdLayout height="906" media1440="679.5">
       <Main.ArticleTitle>
         <Main.MainH1 children="TOP 10" />
+        <Main.MainH5 children="더보기 >" onClick={()=>navigatehandle('/exhibition')}/>
       </Main.ArticleTitle>
       { isLoading || isError
         ? <div style={{marginTop:"66px"}}>로딩 중...</div>

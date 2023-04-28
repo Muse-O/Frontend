@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import * as Main from "../../features/main/css/mainparts";
-import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
 import next_cut_gray from '../../assets/imgs/common/next_cut_gray.png'
+import next_cut_white from '../../assets/imgs/common/next_cut_white.png'
+import { useState } from "react";
 
 export const useCurrentExhibitonSlider = () => {
   const slidersettings = {
@@ -22,19 +22,33 @@ export const useCurrentExhibitonSlider = () => {
 
 function PrevArrow(props) {
   const { onClick } = props;
+  const [arrow, setArrow] =useState(false)
+  const arrowHandle = () => {
+    setArrow(pre=>!pre)
+  }
   return (
     <PrevArrowST
-      onClick={onClick}
-      children={<img src={next_cut_gray}/>}/>
+    state={arrow}
+    onMouseOver={arrowHandle}
+    onMouseOut={arrowHandle}
+    onClick={onClick}
+    children={<img src={arrow ? next_cut_white : next_cut_gray}/>}/>
   );
 }
 
 function NextArrow(props) {
   const { onClick } = props;
+  const [arrow, setArrow] =useState(false)
+  const arrowHandle = () => {
+    setArrow(pre=>!pre)
+  }
   return (
     <NextArrowST
-    onClick={onClick}
-    children={<img src={next_cut_gray}/>}/>
+      state={arrow}
+      onMouseOver={arrowHandle}
+      onMouseOut={arrowHandle}
+      onClick={onClick}
+      children={<img src={arrow ? next_cut_white : next_cut_gray}/>}/>
   );
 }
 
@@ -47,7 +61,7 @@ const PrevArrowST = styled.div`
   right:64px;
   min-width: 40px;
   min-height: 40px;
-  background-color: lightgray;
+  background-color: ${props => props.state ? "#3C3C3C" : "#EEEEEE"};
   border-radius: 50px;
   z-index:1;
   cursor: pointer;

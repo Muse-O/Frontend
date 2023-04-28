@@ -7,12 +7,13 @@ import { useAsNavForSliderMainFifith } from "../../hooks/main/useAsNavForSliderM
 import { useCurrentArtgram } from "../../hooks/main/useCurrentArtgram";
 import { useOpenModal } from '../../hooks/main/useOpenModal'
 import ArtgarmDetailModal from '../artgram/detailModal/ArtgarmDetailModal'
+import { useNavigate } from "react-router-dom";
 
 function MainFifith() {
   // 서버로 부터 받아 온 배열을 슬라이더의 목적에 따라 가공하는 커스텀 훅
   const { mainSliderSettings, subSliderSettings, currentSlideIndex } =
     useAsNavForSliderMainFifith();
-
+  const navigate = useNavigate()
   // 상세모달 
   const { modalState, openModalhandle } = useOpenModal();
   const [modalArtgramId, setModalArtgramId] = useState(null);
@@ -28,9 +29,10 @@ function MainFifith() {
   console.log(data);
 
   return (
-    <Main.CommenLayout height="640"  media1440="480">
+    <Main.FifthLayout height="640"  media1440="480">
       <Main.ArticleTitle>
         <Main.MainH1 children="아트그램" />
+        <Main.MainH5 children="더보기 >" onClick={()=>navigate('/artgram')}/>
       </Main.ArticleTitle>
       { isLoading || isError
         ? <div style={{marginTop:"66px"}}>로딩 중...</div>
@@ -64,6 +66,9 @@ function MainFifith() {
             ))}
           </Slider>
         </Main.SubSlider>
+        <Main.SliderIndex children={currentSlideIndex < 10 
+            ? <>0{currentSlideIndex}&nbsp;<span>/ 0{editLists.length}</span></> 
+            : <>{currentSlideIndex}&nbsp;<span>/ {editLists.length}</span></>}/>
       </Main.FifthWrapGrid>
         }
       {modalState && (
@@ -76,107 +81,8 @@ function MainFifith() {
             )}
           </>
         )}
-    </Main.CommenLayout>
+    </Main.FifthLayout>
   );
 }
 
 export default MainFifith;
-
-
-
-// <Main.FifithWrap>
-//         {/* Fifth-MainSlider*/}
-//         <div>
-//           {isLoding || isError || !data ? (
-//             "로딩 중 ..."
-//           ) : (
-//             <Slider {...firstSliderSettings}>
-//               {data.map((artgram) => (
-//                 <Main.FifithMainSlider key={artgram.artgramId} onMouseOver={()=>setModalArtgramId(artgram.artgramId)} onClick={() =>openModalhandle(artgram.artgramId)}>
-//                  {/* <Main.FifithMainSlider key={artgram.artgramId}> */}
-//                   <div className="artgramimg">
-//                     <img
-//                       src={artgram.imgUrl}
-//                       alt="인기 아트그램"
-//                       height="404px"
-//                       style={{
-//                         display:"block", 
-//                         margin:"0 auto",
-//                         transform:"t"
-//                       }}
-//                     />
-//                   </div>
-//                   <div className="profile">
-//                     <div className="profileimg">
-//                     <img
-//                       src={artgram.authorProfileImg}
-//                       alt="인가 아트그램"
-//                       height="100%"
-//                       style={{display:"block", margin:"0 auto", borderRadius:"50px"}}
-//                     />
-//                     </div>
-//                     <div className="profileNickname">
-//                       <p>
-//                         <span>by</span> {artgram.authorNickName}
-//                       </p>
-//                     </div>
-//                   </div>
-//                 </Main.FifithMainSlider>
-//               ))}
-//             </Slider>
-//           )}
-//         </div>
-
-//         {/* Fifth-SubSlider*/}
-//         <Main.FifithSubSliderLayout>
-//           {editLists && (
-//             <Slider {...secondSliderSettings}>
-//             {editLists.map((artgram) => (
-//               <Main.FifithSubSliderWrap key={artgram.artgramId}  onMouseOver={()=>setModalArtgramId(artgram.artgramId)} onClick={() => openModalhandle()}>
-//                 <div className="subsliderInner">
-//                   <div className="subsliderimg">
-//                     <img
-//                       src={artgram.imgUrl}
-//                       alt="인가 아트그램"
-//                       height="100%"
-//                       style={{display:"block", margin:"0 auto"}}
-//                     />
-//                   </div>
-//                   <div className="profile">
-//                     <div className="profileimg">
-//                     <img
-//                       src={artgram.authorProfileImg}
-//                       alt="인가 아트그램"
-//                       height="100%"
-//                       style={{display:"block", margin:"0 auto", borderRadius:"50px"}}
-//                     />
-//                     </div>
-//                     <div className="profileNickname">
-//                       <p>
-//                         <span>by</span> {artgram.authorNickName}
-//                       </p>
-//                     </div>
-//                   </div>
-//                 </div>
-//               </Main.FifithSubSliderWrap>
-//             ))}
-//           </Slider>
-//           )}
-//           <Main.FifthCurrentSliderIndex>
-//             <p>
-//               0{currentSlideIndex} <span>/ 0{data?.length}</span>
-//             </p>
-//           </Main.FifthCurrentSliderIndex>
-//         </Main.FifithSubSliderLayout>
-//       </Main.FifithWrap>
-//       {modalState && (
-//           <>
-//             {data.map(   
-//               ({artgramId}) =>
-//                 artgramId === modalArtgramId && (
-                  
-//                   <ArtgarmDetailModal key={artgramId} artgramId={artgramId} modalState={modalState} openModalhandle={openModalhandle}/>
-//                 )
-//             )}
-//           </>
-//         )}

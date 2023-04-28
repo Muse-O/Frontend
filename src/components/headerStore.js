@@ -5,7 +5,6 @@ export const headerStatedefalut = atom({
   default: {
     home:true,
     exhibition:false,
-    exhibitionecreate:false,
     artgram:false,
     mypages:false}
 });

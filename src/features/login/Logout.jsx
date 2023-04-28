@@ -10,14 +10,13 @@ function Logout({ setIsLoggedIn, isLoggedIn }) {
       const cookies = new Cookies();
       cookies.remove("access_token");
       setIsLoggedIn(false);
-
       alert("로그아웃 되었습니다.");
       navigate("/");
     }
   };
 
-  return <>{isLoggedIn && <NavBottomPath
-    onClick={logoutHandler}>로그아웃</NavBottomPath>}</>;
+  return isLoggedIn && (<NavBottomPath onClick={logoutHandler} children="로그아웃"/>)
+    
 }
 
 export default Logout;

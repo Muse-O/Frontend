@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import next_cut_gray from '../../assets/imgs/common/next_cut_gray.png'
+import next_cut_white from '../../assets/imgs/common/next_cut_white.png'
 import styled from "styled-components";
 
 export const useAsNavForSliderMainFifith = () => {
@@ -39,9 +40,9 @@ export const useAsNavForSliderMainFifith = () => {
     autoplaySpeed: 3000,
     infinite: true,
     dots: false,
-    arrows: false,
-    // prevArrow: <PrevArrow />,
-    // nextArrow: <NextArrow />,
+    arrows: true,
+    prevArrow: <PrevArrow/>,
+    nextArrow: <NextArrow/>,
     style: { position: "static"},
     beforeChange: Indexhandler,
   };
@@ -50,19 +51,33 @@ export const useAsNavForSliderMainFifith = () => {
 
 function PrevArrow(props) {
   const { onClick } = props;
+  const [arrow, setArrow] =useState(false)
+  const arrowHandle = () => {
+    setArrow(pre=>!pre)
+  }
   return (
     <PrevArrowST
+      state={arrow}
+      onMouseOver={arrowHandle}
+      onMouseOut={arrowHandle}
       onClick={onClick}
-      children={<img src={next_cut_gray}/>}/>
+      children={<img src={arrow ? next_cut_white : next_cut_gray}/>}/>
   );
 }
 
 function NextArrow(props) {
   const { onClick } = props;
+  const [arrow, setArrow] =useState(false)
+  const arrowHandle = () => {
+    setArrow(pre=>!pre)
+  }
   return (
     <NextArrowST
-    onClick={onClick}
-    children={<img src={next_cut_gray}/>}/>
+      state={arrow}
+      onMouseOver={arrowHandle}
+      onMouseOut={arrowHandle}
+      onClick={onClick}
+      children={<img src={arrow ? next_cut_white : next_cut_gray}/>}/>
   );
 }
 
@@ -73,10 +88,10 @@ const PrevArrowST = styled.div`
   justify-content: center;
   align-items: center;
   bottom: 0;
-  right:64px;
-  min-width: 63px;
-  min-height: 63px;
-  background-color: lightgray;
+  left: 470px;
+  width: 63px;
+  height: 63px;
+  background-color: ${props => props.state ? "#3C3C3C" : "#EEEEEE"};
   border-radius: 50px;
   z-index:1;
   cursor: pointer;
@@ -88,10 +103,9 @@ const PrevArrowST = styled.div`
   }
 
   @media (max-width: 1440px) {
-    bottom: 0;
-    right:48px;
-    min-width: 47.25px;
-    min-height: 47.25px;
+    left: 352.5px;
+    width: 47.25px;
+    height: 47.25px;
     img {
       width: 7.5px;
     }
@@ -100,8 +114,11 @@ const PrevArrowST = styled.div`
 
 const NextArrowST = styled(PrevArrowST)`
   bottom: 0;
-  left: 232px;
+  left: 707px;
   img {
     transform: rotate(0deg);
+  }
+  @media (max-width: 1440px) {
+    left: 530.25px;
   }
 `

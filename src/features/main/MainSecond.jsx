@@ -15,9 +15,10 @@ function MainSecond() {
   const { navigatehandle } = useNavigator();
 
   return (
-    <Main.CommenLayout height="563" media1440="422.25">
+    <Main.CommenLayout height="497" media1440="372.75">
       <Main.ArticleTitle>
         <Main.MainH1 children="최신 전시" />
+        <Main.MainH5 children="더보기 >" onClick={()=>navigatehandle('/exhibition')}/>
       </Main.ArticleTitle>
       { isLoading || isError
         ? <div style={{marginTop:"66px"}}>로딩 중...</div>
