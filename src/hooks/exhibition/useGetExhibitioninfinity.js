@@ -6,8 +6,11 @@ export const useGetExhibitioninfinity = (
   pageSize,
   category,
   HashTag,
-  SearchTitle
+  SearchTitle,
+  where
 ) => {
+  // 위치
+  const serchWhere = where && where !== "" ? `&where=${where}` : "";
   //카테고리
   const searchCategory =
     category && category !== "" ? `&category=${category}` : "";
@@ -22,13 +25,10 @@ export const useGetExhibitioninfinity = (
   //인피니티쿼리
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
-      queryKey: [keys.GET_EXHIBITION, category, HashTag, SearchTitle],
+      queryKey: [keys.GET_EXHIBITION, where, category, HashTag, SearchTitle],
       queryFn: async ({ pageParam = 0 }) => {
-        console.log(
-          `/exhibition?limit=${pageSize}&offset=${pageParam}${searchCategory}${searchHashTag}${searchTitle}`
-        );
         const res = await apis_token.get(
-          `/exhibition?limit=${pageSize}&offset=${pageParam}${searchCategory}${searchHashTag}${searchTitle}`
+          `/exhibition?limit=${pageSize}&offset=${pageParam}${serchWhere}${searchCategory}${searchHashTag}${searchTitle}`
         );
         return res;
       },

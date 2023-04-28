@@ -55,16 +55,21 @@ export const HeaderWhereSelect = ({ setApplyWhere, setWhereVisible }) => {
       };
     });
     setCities(newCities);
+    setSelectRegion(innerText);
   };
   const filteredCities = cities?.filter((city) => city.sidoChecked === true)[0];
-  console.log("cities", cities);
-  // const deleteRegion = (e) => {
-  //   const name = e.currentTarget.getAttribute("name");
-  //   setSelectRegion((pre) => {
-  //     const filteredArray = pre.filter((region) => region !== name);
-  //     return filteredArray;
-  //   });
-  // };
+  const deleteRegion = (e) => {
+    const newCities = cities.map((city) => {
+      return {
+        ...city,
+        sigungu: city.sigungu.map((sigungu) => {
+          return { ...sigungu, sigunguChecked: false };
+        }),
+      };
+    });
+    setCities(newCities);
+    setSelectRegion("");
+  };
   return (
     <WhereBox>
       <PositionBox>
@@ -73,7 +78,11 @@ export const HeaderWhereSelect = ({ setApplyWhere, setWhereVisible }) => {
           <RegionBOX>
             {cities?.map((si) => {
               return (
-                <RegionButton onClick={filterRegion} checked={si.sidoChecked}>
+                <RegionButton
+                  type="button"
+                  onClick={filterRegion}
+                  checked={si.sidoChecked}
+                >
                   <p>{si.sidoname}</p>
                 </RegionButton>
               );
@@ -86,6 +95,7 @@ export const HeaderWhereSelect = ({ setApplyWhere, setWhereVisible }) => {
             <RegionBOX>
               {filteredCities?.sigungu.map((city) => (
                 <RegionButton
+                  type="button"
                   key={city.siGunGuName}
                   onClick={selectDetailRegion}
                   checked={city.sigunguChecked}
@@ -98,21 +108,23 @@ export const HeaderWhereSelect = ({ setApplyWhere, setWhereVisible }) => {
         </LocalBox>
       </PositionBox>
       <SelectRoginBox>
-        {/* {selectRegion && !selectDetailRegion ? (
+        {selectRegion && (
           <TagButton>
             <TagText>{selectRegion}</TagText>
-            <XBox name={selectRegion}>x</XBox>
+            <XBox type="button" onClick={deleteRegion}>
+              x
+            </XBox>
           </TagButton>
-        ) : (
-          selectDetailRegion && (
-            <TagButton>
-              <TagText>{selectDetailRegion}</TagText>
-              <XBox name={selectDetailRegion}>x</XBox>
-            </TagButton>
-          )
-        )} */}
+        )}
       </SelectRoginBox>
-      <EXListApplyBox />
+      <EXListApplyBox
+        selectRegion={selectRegion}
+        setApplyWhere={setApplyWhere}
+        setWhereVisible={setWhereVisible}
+        sido={sido}
+        setCities={setCities}
+        setSelectRegion={setSelectRegion}
+      />
     </WhereBox>
   );
 };

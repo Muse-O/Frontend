@@ -20,6 +20,7 @@ function ExhibitionLists() {
   const [applyHashTag, setApplyHashTag] = useState("");
   const [Search, setSearch] = useState("");
   const [applySearch, setApplySearch] = useState("");
+  const [applyWhere, setApplyWhere] = useState("");
   //헤더
   const navigator = useNavigate();
   const [whenVisible, setWhenVisible] = useState(false);
@@ -51,7 +52,13 @@ function ExhibitionLists() {
     }
   };
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
-    useGetExhibitioninfinity(10, applycategory, applyHashTag, applySearch);
+    useGetExhibitioninfinity(
+      10,
+      applycategory,
+      applyHashTag,
+      applySearch,
+      applyWhere
+    );
   let merged =
     data?.pages[0].data.exhibitionList.rows.length > 0
       ? [].concat(...data?.pages[0].data.exhibitionList.rows)
@@ -67,7 +74,7 @@ function ExhibitionLists() {
     setSearch("");
   };
   // console.log("data", data?.pages[0]);
-  console.log("적용된것", applycategory, applyHashTag, applySearch);
+  // console.log("적용된것", applyWhere, applycategory, applyHashTag, applySearch);
 
   return (
     <ExhibitionWrap>
@@ -81,7 +88,10 @@ function ExhibitionLists() {
           <FilterSelect name="where" onClick={selectHandler}>
             Where
             <SelectBox visible={whereVisible}>
-              <HeaderWhereSelect />
+              <HeaderWhereSelect
+                setApplyWhere={setApplyWhere}
+                setWhereVisible={setWhereVisible}
+              />
             </SelectBox>
           </FilterSelect>
           <FilterSelect name="category" onClick={selectHandler}>
@@ -96,10 +106,10 @@ function ExhibitionLists() {
           <FilterSelect name="tag" onClick={selectHandler}>
             Tag
             <SelectBox visible={tagVisible}>
-              <HeaderTagSelect
+              {/* <HeaderTagSelect
                 setApplyHashTag={setApplyHashTag}
                 setTagVisible={setTagVisible}
-              />
+              /> */}
             </SelectBox>
           </FilterSelect>
           <FilterInputWrap>
@@ -123,6 +133,7 @@ function ExhibitionLists() {
                 {item.startDate.slice(2, 10).replace(/-/g, ".") +
                   " - " +
                   item.endDate.slice(2, 10).replace(/-/g, ".")}
+                {item.address?.split(" ").slice(0, 2).join(" ")}
               </ExhibitionDate>
               <ExSate>Now On View</ExSate>
               <ExhibitionTitleWrap>
