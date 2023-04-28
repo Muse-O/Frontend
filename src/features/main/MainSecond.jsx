@@ -15,37 +15,27 @@ function MainSecond() {
   const { navigatehandle } = useNavigator();
 
   return (
-    <Main.CommenLayout height="459">
+    <Main.CommenLayout height="563" media1440="422.25">
       <Main.ArticleTitle>
         <Main.MainH1 children="최신 전시" />
       </Main.ArticleTitle>
-      <Main.SecondSliderWrap>
-        <Slider {...slidersettings}>
-          {isLoading || isError || !data ? (
-            <div>로딩 중...</div>
-          ) : (
-            data.map((exhibition) => (
-              <Main.SecondSlider
-                key={exhibition.exhibitionId}
-                onClick={() => navigatehandle(exhibition.detailRouter)}
-              >
-                <img
-                  className="sliderImg"
-                  src={exhibition.postImage}
-                  alt="최신전시"
-                />
-                <p className="sliderTitle">{exhibition.exhibitionTitle}</p>
-                <p className="sliderdate">
-                  {editTimehandle(exhibition.startDate)}
-                  {" - "}
-                  {editTimehandle(exhibition.endDate)}
-                </p>
-                <p className="sliderLocation">{exhibition.sido}</p>
-              </Main.SecondSlider>
-            ))
-          )}
-        </Slider>
-      </Main.SecondSliderWrap>
+      { isLoading || isError
+        ? <div style={{marginTop:"66px"}}>로딩 중...</div>
+        : 
+        <Main.SecondSliderWrap>
+            <Slider {...slidersettings}>
+              {data.map(exhibition => (
+                <Main.SecondSlider key={exhibition.exhibitionId} onClick={() => navigatehandle(exhibition.detailRouter)}>
+                  <Main.SecondSliderImg src={exhibition.postImage} alt='최신전시 이미지'/>
+                  <Main.SecondSliderTitle children={exhibition.exhibitionTitle}/>
+                  <Main.SecondSliderDate children={`${editTimehandle(exhibition.startDate)} ${editTimehandle(exhibition.endDate)}`}/>
+                  <Main.SecondSliderlocation children={exhibition.address}/>
+                </Main.SecondSlider>
+              ))}
+            
+            </Slider>
+        </Main.SecondSliderWrap>
+      }
     </Main.CommenLayout>
   );
 }

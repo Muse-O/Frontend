@@ -22,7 +22,7 @@ function MainFourth() {
   }
 
   return (
-    <Main.CommenLayout height="624">
+    <Main.CommenLayout height="624" media1440="468">
       <Main.ArticleTitle>
         <Main.MainH1 children="예정 전시" />
       </Main.ArticleTitle>
