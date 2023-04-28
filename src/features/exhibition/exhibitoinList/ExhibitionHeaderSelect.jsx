@@ -2,125 +2,81 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { EXListApplyBox } from "./EXListApplyBox";
 import { useGetTop10Tags } from "../../../hooks/exhibition/useGetTop10Tags";
+import {
+  useGetSiGunGu,
+  useGetSido,
+} from "../../../hooks/exhibition/useGetSido";
 
-export const HeaderWhereSelect = () => {
-  const cities = [
-    {
-      province: "서울특별시",
-      regions: [
-        "종로구",
-        "중구",
-        "용산구",
-        "성동구",
-        "광진구",
-        "동대문구",
-        "중랑구",
-        "성북구",
-        "강북구",
-        "도봉구",
-        "노원구",
-        "은평구",
-        "서대문구",
-        "마포구",
-        "양천구",
-        "강서구",
-        "구로구",
-        "금천구",
-        "영등포구",
-        "동작구",
-        "관악구",
-        "서초구",
-        "강남구",
-        "송파구",
-        "강동구",
-      ],
-    },
-    {
-      province: "부산광역시",
-      regions: [
-        "중구",
-        "서구",
-        "동구",
-        "영도구",
-        "부산진구",
-        "동래구",
-        "남구",
-        "북구",
-        "해운대구",
-        "사하구",
-        "금정구",
-        "강서구",
-        "연제구",
-        "수영구",
-        "사상구",
-        "기장군",
-      ],
-    },
-    {
-      province: "대구광역시",
-      regions: [
-        "중구",
-        "동구",
-        "서구",
-        "남구",
-        "북구",
-        "수성구",
-        "달서구",
-        "달성군",
-      ],
-    },
-    {
-      province: "인천광역시",
-      regions: [
-        "중구",
-        "동구",
-        "미추홀구",
-        "연수구",
-        "남동구",
-        "부평구",
-        "계양구",
-        "서구",
-        "강화군",
-        "옹진군",
-      ],
-    },
-    {
-      province: "광주광역시",
-      regions: ["동구", "서구", "남구", "북구", "광산구"],
-    },
-    {
-      province: "대전광역시",
-      regions: ["동구", "중구", "서구", "유성구", "대덕구"],
-    },
-    {
-      province: "울산광역시",
-      regions: ["중구", "남구", "동구", "북구"],
-    },
-    // 추가적인 광역시나 도를 여기에 추가할 수 있습니다.
-  ];
-  const [selectRegion, setSelectRegion] = useState(["서울시"]);
+export const HeaderWhereSelect = ({ setApplyWhere, setWhereVisible }) => {
+  const [sido] = useGetSido();
+  const [cities, setCities] = useState();
+  useEffect(() => {
+    if (sido) {
+      setCities(sido);
+    }
+  }, [sido]);
+  const [selectRegion, setSelectRegion] = useState("");
 
   const filterRegion = (e) => {
     const { innerText } = e.target;
-    setSelectRegion((pre) => {
-      return [...pre, innerText];
+    const newCities = cities.map((city) => {
+      if (city.sidoname === innerText) {
+        return {
+          ...city,
+          sidoChecked: !city.sidoChecked,
+        };
+      } else {
+        return {
+          ...city,
+          sidoChecked: false,
+        };
+      }
     });
+    setCities(newCities);
   };
-  const deleteRegion = (e) => {
-    const name = e.currentTarget.getAttribute("name");
-    setSelectRegion((pre) => {
-      const filteredArray = pre.filter((region) => region !== name);
-      return filteredArray;
+  const selectDetailRegion = (e) => {
+    const { innerText } = e.target;
+    const newCities = cities.map((city) => {
+      return {
+        ...city,
+        sigungu: city.sigungu.map((sigungu) => {
+          if (sigungu.siGunGuName === innerText) {
+            return {
+              ...sigungu,
+              sigunguChecked: !sigungu.sigunguChecked,
+            };
+          } else {
+            return {
+              ...sigungu,
+              sigunguChecked: false,
+            };
+          }
+        }),
+      };
     });
+    setCities(newCities);
   };
+  const filteredCities = cities?.filter((city) => city.sidoChecked === true)[0];
+  console.log("cities", cities);
+  // const deleteRegion = (e) => {
+  //   const name = e.currentTarget.getAttribute("name");
+  //   setSelectRegion((pre) => {
+  //     const filteredArray = pre.filter((region) => region !== name);
+  //     return filteredArray;
+  //   });
+  // };
   return (
     <WhereBox>
       <PositionBox>
         <LocalBox>
           <Local>지역</Local>
           <RegionBOX>
-            {cities.map((si) => {
-              return <Region onClick={filterRegion}>{si.province}</Region>;
+            {cities?.map((si) => {
+              return (
+                <RegionButton onClick={filterRegion} checked={si.sidoChecked}>
+                  <p>{si.sidoname}</p>
+                </RegionButton>
+              );
             })}
           </RegionBOX>
         </LocalBox>
@@ -128,26 +84,33 @@ export const HeaderWhereSelect = () => {
           <LocalBox>
             <Local>상세지역</Local>
             <RegionBOX>
-              {cities.map((si) => {
-                return si.regions.map((region) => {
-                  return <Region>{region}</Region>;
-                });
-              })}
+              {filteredCities?.sigungu.map((city) => (
+                <RegionButton
+                  key={city.siGunGuName}
+                  onClick={selectDetailRegion}
+                  checked={city.sigunguChecked}
+                >
+                  {city.siGunGuName}
+                </RegionButton>
+              ))}
             </RegionBOX>
           </LocalBox>
         </LocalBox>
       </PositionBox>
       <SelectRoginBox>
-        {selectRegion.map((item) => {
-          return (
+        {/* {selectRegion && !selectDetailRegion ? (
+          <TagButton>
+            <TagText>{selectRegion}</TagText>
+            <XBox name={selectRegion}>x</XBox>
+          </TagButton>
+        ) : (
+          selectDetailRegion && (
             <TagButton>
-              <TagText>{item}</TagText>
-              <XBox onClick={deleteRegion} name={item}>
-                x
-              </XBox>
+              <TagText>{selectDetailRegion}</TagText>
+              <XBox name={selectDetailRegion}>x</XBox>
             </TagButton>
-          );
-        })}
+          )
+        )} */}
       </SelectRoginBox>
       <EXListApplyBox />
     </WhereBox>
@@ -518,9 +481,17 @@ const SelectRoginBox = styled.div`
     background-color: #555555; /* 스크롤바에 호버(Hover) 시 색상 */
   }
 `;
-const Region = styled.p`
+const RegionButton = styled.button`
   height: 25px;
-  padding: 8px 0px 8px 16px;
+  padding: 8px 0px;
+  p {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  background-color: ${({ checked }) => (checked ? "#3c3c3c" : "transparent")};
+  color: ${({ checked }) => (checked ? "white" : "#000000")};
   :hover {
     background-color: #3c3c3c;
     color: white;
@@ -529,6 +500,8 @@ const Region = styled.p`
 const RegionBOX = styled.div`
   border: 1px solid #cccccc;
   height: 220px;
+  display: flex;
+  flex-direction: column;
   overflow-y: scroll;
   cursor: pointer;
   ::-webkit-scrollbar {
