@@ -90,6 +90,8 @@ function RegisterForm() {
     }
   };
 
+  //이메일 중복검사
+  const [registerEmailConfirm, setRegisterEmailConfirm] = useState(false);
   const emailConfirmHandler = e => {
     e.preventDefault();
     if (registerInfo.email === "") {
@@ -97,6 +99,7 @@ function RegisterForm() {
     } else if (!emailRegExp.test(registerInfo.email)) {
       setEmailMsg("이메일 형식이 맞지 않습니다.");
     } else {
+      setRegisterEmailConfirm(true);
       emailConfirm({ email: registerInfo.email });
     }
   };
@@ -140,6 +143,13 @@ function RegisterForm() {
                 //   emailConfirmHandler(e, registerInfo, emailConfirm)
                 // }
                 onClick={emailConfirmHandler}
+                style={{
+                  backgroundColor:
+                    registerEmailConfirm === false ? "white" : "#CCCCCC",
+                  borderColor:
+                    registerEmailConfirm === false ? "#3C3C3C" : "#CCCCCC",
+                  color: registerEmailConfirm === false ? "#3C3C3C" : "#FFFFFF",
+                }}
               >
                 중복 확인
               </button>
@@ -315,9 +325,9 @@ const StEmailInputBox = styled.div`
   }
 
   button {
-    background-color: white;
-    color: #3c3c3c;
-    border: 1px solid #3c3c3c;
+    /* background-color: white; */
+    /* color: #3c3c3c; */
+    border: 1px solid;
     border-radius: 5px;
     width: 79px;
     height: 44px;
