@@ -229,14 +229,20 @@ const ModalWindow = styled.div`
 `;
 
 const UpdateModalWindow = styled(ModalWindow)`
-  gap:108px; // ModalWindow grid 가 적용되어 있음
+  gap:108px; 
   padding-top: 100px;
   top: 50%;
   left: 50%;
   padding: 0 60px;
   padding-top: 244px;
   overflow: hidden;
-  @media (max-width: 1440px) {    
+  @media (max-width: 1440px) {
+    gap:81px; 
+    padding-top: 75px;
+    top: 50%;
+    left: 50%;
+    padding: 0 45px;
+    padding-top: 183px;
   }
 `
 
@@ -244,28 +250,47 @@ const UpdateModalTitleLayout = styled.div`
   position: absolute;
   top: 162px;
   left: 60px;
+  @media (max-width: 1440px) {
+    top: 121.5px;
+    left: 45px;
+  }
 `
 
 const ImgZone = styled.section`
   width: 526px;
   height: 405px;
   border-radius: 10px;
+  @media (max-width: 1440px) {
+    width: 394.5px;
+    height: 303.75px;
+  }
 `
 
 const ImgZoneMsg = styled(DropZoneMsg)`
   height: 51px;
+  @media (max-width: 1440px) {
+    height: 38.25px;
+  }
 `
 
 const ImgZonePreview = styled(DropZonePreview)`
   height: 354px;
   padding: 14px;
   gap: 7px;
-
+  @media (max-width: 1440px) {
+    height: 265.5px;
+    padding: 10.5px;
+    gap: 5.25px;
+  }
 `
 
 const PreviewImgBox = styled(PreviewBox)`
   width: 161px;
   height: 162px;
+  @media (max-width: 1440px) {
+    width: 120.75px;
+    height: 121.5px;
+  }
 `
 
 const Notification = styled.div`
@@ -280,6 +305,7 @@ const Notification = styled.div`
   border: 1px solid #7E7E7E;
   border-radius: 5px;
   font-size: 12px;
+
   span {
     color:red;
     margin-right: 4px;
@@ -287,9 +313,14 @@ const Notification = styled.div`
 
   @media (max-width: 1440px) {
   margin-top: 12px;
+  width: 394.5px;
   height: 71.25px;
   padding: 15px;
   gap: 6px;
+  font-size: 9px;
+  span {
+    margin-right: 3px;
+  }
   }
 `
 
@@ -299,6 +330,9 @@ const UpdateForm = styled.div`
   flex-direction: column;
   gap: 16px;
   flex-grow: 1;
+  @media (max-width: 1440px) {
+    gap: 12px;
+  }
 `
 
 const WriteLayout = styled.div`

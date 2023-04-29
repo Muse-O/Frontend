@@ -290,7 +290,7 @@ const NavSearchList = styled.div`
   z-index: 15;
   display: grid;
   grid-template-columns: 300px 1fr;
-  gap: 33px;
+  gap: 50px;
   @media (max-width: 1440px) {
     top: ${props=> props.state ? "131.25px" : "100vh"};
     margin-left: 183.75px;
@@ -298,6 +298,7 @@ const NavSearchList = styled.div`
     height: 100vh;
     padding: 30px 56.25px;
     grid-template-columns: 225px 1fr;
+    gap: 37.5px;
   }
 `
 
@@ -317,15 +318,15 @@ const NavSearchListTop10 = styled.div`
     grid-template-columns: 30px 1fr;
     align-items: center;
     height: 60px;
-    padding: 8px 0;
+    padding: 8px 5px;
     border-bottom: 1px solid #7E7E7E;
     @media (max-width: 1440px) {
       grid-template-columns: 22.5px 1fr;
       height: 45px;
-      padding: 6px 0;
+      padding: 6px 3.75px;
     }
     &:hover {
-      background-color: rgba(36, 36, 36, 1);
+      background-color: rgba(70, 70, 70, 0.95);
     }
 
     .rank {
@@ -347,10 +348,27 @@ const NavSearchListRecently = styled.div`
   color: white;
   h2 {
     font-size: 20px;
-    @media (max-width: 1440px) {
-      font-size: 15px;
-    }
+    margin-bottom: 28px;
     color: #FFFFFF;
+    @media (max-width: 1440px) {
+      font-size: 25px;
+      margin-bottom: 21px;
+    }
+  }
+  .searchList {
+    display: flex;
+    align-items: center;
+    height: 60px;
+    padding: 8px 5px;
+    font-size: 16px;
+    @media (max-width: 1440px) {
+      height: 45px;
+      padding: 6px 3.75px;
+      font-size: 12px;
+    }
+    &:hover {
+      background-color: rgba(70, 70, 70, 0.95);
+    }
   }
 `
 

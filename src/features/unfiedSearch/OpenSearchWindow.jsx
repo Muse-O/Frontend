@@ -4,16 +4,24 @@ import { useSearchRank } from '../../hooks/search/useSearchRank';
 import { useRecoilState } from 'recoil';
 import { searchWordState } from '../../hooks/search/seartStore';
 import { useNavigate } from 'react-router-dom';
+import { useSearchRecent } from '../../hooks/search/useSearchRecent';
 
 function OpenSearchWindow({searchWindow, setSearchWindow}) {
-  const {isLoading, isError, data} = useSearchRank(searchWindow)
+  const {isLoading:loadingRank, isError:errorRank, data:rank} = useSearchRank(searchWindow)
+  const {isLoading:loadingRecent, isError:errorRecent, data:recent} = useSearchRecent(searchWindow)
   const [,setSearchWord] = useRecoilState(searchWordState)
   const navigate = useNavigate();
-  console.log(data);
-  const searchwordHandle = (keyWord) => {
+
+  const searchwordRankHandle = (keyWord) => {
     setSearchWord(keyWord.replace(/\s/g, ""))
     navigate('/search')
   }
+
+  const searchwordRecentHandle = (keyWord) => {
+    setSearchWord(keyWord.replace(/\s/g, ""))
+    navigate('/search')
+  }
+
   return (
     <Headers.NavSearchList
       state={searchWindow}
@@ -23,10 +31,10 @@ function OpenSearchWindow({searchWindow, setSearchWindow}) {
       
     <Headers.NavSearchListTop10>
       <h2>인기검색어</h2>
-      {isLoading ||  isError
+      {loadingRank ||  errorRank
         ? <div>로딩 중...</div>
-        : data && data.map((lists, index)=> (
-          <div className="searchList" key={index} onClick={()=>searchwordHandle(lists.keyWord)}>
+        : rank && rank.map((lists, index)=> (
+          <div className="searchList" key={index} onClick={()=>searchwordRankHandle(lists.keyWord)}>
             <div className="rank" children={index+1}/>
             <div className="contents" children={lists.keyWord}/>
           </div>
@@ -34,10 +42,13 @@ function OpenSearchWindow({searchWindow, setSearchWindow}) {
     </Headers.NavSearchListTop10>
     <Headers.NavSearchListRecently>
       <h2>최근검색어</h2>
+      {loadingRecent ||  errorRecent
+        ? <div>로딩 중...</div>
+        : recent && recent.map((lists, index)=> (
+          <div className='searchList' key={index} children={lists.keyWord} onClick={()=>searchwordRecentHandle(lists.keyWord)}/>))}
     </Headers.NavSearchListRecently>
   </Headers.NavSearchList>
   )
 }
 
 export default OpenSearchWindow
-

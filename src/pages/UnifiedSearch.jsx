@@ -74,12 +74,19 @@ function UnifiedSearch() {
           {searchDataArt && searchDataArt?.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
             : <Artgramparts.Wrap>
-              {searchDataArt.map(artgrams => (<ArtgramBox key={artgrams.artgramId} info={artgrams}/>))}
+              {searchDataArt.map(artgrams => (<ArtgramBox key={artgrams.artgramId} info={artgrams} postSearchWords={{type:artgrams.type, title:artgrams.artgramTitle}}/>))}
               </Artgramparts.Wrap>}
           <US.H2 children={(<>회원검색<span>{searchDataUser && searchDataUser?.length === 0 ? null : searchDataUser.length}</span></>)}/>
           {searchDataUser && searchDataUser?.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
-            : <div>서비스 예정</div>}      
+            : <US.SearchBoxUse>
+                {searchDataUser.map(user=>(
+                  <US.SearchUse key={user.profileId} children={<>
+                    <img src={user.profileImg} alt='profileImg'/>
+                    <div children={user.profileNickname}/>
+                  </>}/>
+                ))}
+              </US.SearchBoxUse>}      
           </>)}
         <TopButton/>
       </US.Layout>  
@@ -89,3 +96,19 @@ function UnifiedSearch() {
 }
 
 export default UnifiedSearch
+
+// profileId
+// : 
+// "823f5b49-1c82-4b20-934f-441bea6e5bfc"
+// profileImg
+// : 
+// "https://woog-s3-bucket.s3.amazonaws.com/profile/0ba83a6a-47b9-493f-af30-7b1513b7720b.png"
+// profileNickname
+// : 
+// "edwin01"
+// type
+// : 
+// "user"
+// userEmail
+// : 
+// "gg@g.com"

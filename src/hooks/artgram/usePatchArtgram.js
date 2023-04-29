@@ -6,9 +6,10 @@ import { keys } from "../../shared/queryKeys"
 export  const usePatchArtgram = () => {
   const queryClient = useQueryClient()
   const { mutate:patchArtgram } = useMutation({
-    mutationFn: async({artgramId, formState}) => {
+    mutationFn: async({artgramId, payload}) => {
       const token = cookies.get("access_token");
-      await apis.patch(`/artgram/${artgramId}`, formState, {
+      console.log(payload);
+      await apis.patch(`/artgram/${artgramId}`, payload, {
         headers: {
           Authorization: `Bearer ${token}`
         }
