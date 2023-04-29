@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { EXListApplyBox } from "./EXListApplyBox";
 import { useGetTop10Tags } from "../../../hooks/exhibition/useGetTop10Tags";
 import { useGetSido } from "../../../hooks/exhibition/useGetSido";
-import { ExCategoryCode } from "../../../shared/EXCodes";
+import { ExCategoryCode, ExOnOffCode } from "../../../shared/EXCodes";
 export const HeaderWhereSelect = ({ setApplyWhere, setSelectedFilter }) => {
   const [sido] = useGetSido();
   const [cities, setCities] = useState();
@@ -157,11 +157,11 @@ export const HeaderCategorySelect = ({
       <PositionBox>
         <CheckBoxContainer>
           <Checkbox type="checkbox" />
-          <p>오프라인</p>
+          <p>{ExOnOffCode.EK0001}</p>
         </CheckBoxContainer>
         <CheckBoxContainer>
           <Checkbox type="checkbox" />
-          <p>온라인</p>
+          <p>{ExOnOffCode.EK0002}</p>
         </CheckBoxContainer>
       </PositionBox>
       <CategoryContainer>
