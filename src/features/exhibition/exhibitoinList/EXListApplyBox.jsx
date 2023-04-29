@@ -4,20 +4,17 @@ export const EXListApplyBox = ({
   //카테고리
   category,
   setCategroy,
-
   setCheckboxes,
   setApplyCategory,
   // 해시태그
   setApplyHashTag,
   selectTags,
-
   setSelectTags,
   setTop10TagLists,
   top10TagsData,
   // 장소
   selectRegion,
   setApplyWhere,
-
   sido,
   setCities,
   setSelectRegion,
