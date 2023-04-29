@@ -217,6 +217,7 @@ const NavBottom = styled.div`
   }
 `
 const NavBottomPath = styled.div`
+  font-family: 'SpoqaHanSansNeo-Regular';
   width: 200px;
   height: 40px;
   margin: 0 auto;

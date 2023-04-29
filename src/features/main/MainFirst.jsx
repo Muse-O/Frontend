@@ -45,7 +45,7 @@ function MainFirst() {
                   )}/>
                   <Main.FirstMainSliderImg src={personalEx.postImage}/>
                   <Main.FirstMainSliderDesc children={personalEx.exhibitionDesc}/>
-                  <Main.FirstMainSliderBtn onClick={()=>navigatehandle(personalEx.detailRouter)} children="자세히보러가기"/>
+                  <Main.FirstMainSliderBtn onClick={()=>navigatehandle(personalEx.detailRouter)} children="자세히 보러가기"/>
                   <Main.FirstMainSliderInfo>
                     <Main.FirstMainSliderInfoText children={<>
                       <p className="title" children="기간"/>

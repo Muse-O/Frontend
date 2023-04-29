@@ -164,6 +164,7 @@ const FirstMainSliderBtn = styled.div`
   align-items: center;
   width: 358px;
   height: 70px;
+  font-size: 17px;
   border: 1px solid #242424;
   border-radius: 50px;
   color: #242424;
@@ -176,6 +177,7 @@ const FirstMainSliderBtn = styled.div`
     bottom: 3.75px;
     width: 268.5px;
     height: 59.25px;
+    font-size: 12.75px;
   }
 `
 
