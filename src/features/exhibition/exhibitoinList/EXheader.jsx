@@ -23,7 +23,7 @@ export const EXheader = ({
     }
   };
   const handleClick = (e) => {
-    e.stopPropagation(); // 이벤트 버블링 방지
+    e.stopPropagation();
   };
   const filterItems = [
     {

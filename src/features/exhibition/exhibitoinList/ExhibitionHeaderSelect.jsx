@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { EXListApplyBox } from "./EXListApplyBox";
 import { useGetTop10Tags } from "../../../hooks/exhibition/useGetTop10Tags";
 import { useGetSido } from "../../../hooks/exhibition/useGetSido";
-
+import { ExCategoryCode } from "../../../shared/EXCodes";
 export const HeaderWhereSelect = ({ setApplyWhere, setSelectedFilter }) => {
   const [sido] = useGetSido();
   const [cities, setCities] = useState();
@@ -134,8 +134,8 @@ export const HeaderCategorySelect = ({
   const categoryHandelr = (e) => {
     const { name, value } = e.target;
     setCategroy(value);
-    setCheckboxes((prevState) =>
-      Object.keys(prevState).reduce((acc, curr) => {
+    setCheckboxes((prev) =>
+      Object.keys(prev).reduce((acc, curr) => {
         acc[curr] = curr === name ? true : false;
         return acc;
       }, {})
@@ -151,6 +151,7 @@ export const HeaderCategorySelect = ({
     WK0007: false,
     WK0008: false,
   });
+
   return (
     <CartegoryBox>
       <PositionBox>
@@ -173,7 +174,7 @@ export const HeaderCategorySelect = ({
               checked={checkboxes.WK0001}
               onClick={categoryHandelr}
             />
-            <p>아카이브</p>
+            <p>{ExCategoryCode.WK0001}</p>
           </CheckBoxContainer>
           <CheckBoxContainer>
             <Checkbox
@@ -183,7 +184,7 @@ export const HeaderCategorySelect = ({
               checked={checkboxes.WK0002}
               onClick={categoryHandelr}
             />
-            <p>사진</p>
+            <p>{ExCategoryCode.WK0002}</p>
           </CheckBoxContainer>
         </CategoryBox>
         <CategoryBox>
@@ -195,7 +196,7 @@ export const HeaderCategorySelect = ({
               checked={checkboxes.WK0003}
               onClick={categoryHandelr}
             />
-            <p>그림</p>
+            <p>{ExCategoryCode.WK0003}</p>
           </CheckBoxContainer>
           <CheckBoxContainer>
             <Checkbox
@@ -205,7 +206,7 @@ export const HeaderCategorySelect = ({
               checked={checkboxes.WK0004}
               onClick={categoryHandelr}
             />
-            <p>일러스트</p>
+            <p>{ExCategoryCode.WK0004}</p>
           </CheckBoxContainer>
         </CategoryBox>
         <CategoryBox>
@@ -217,7 +218,7 @@ export const HeaderCategorySelect = ({
               checked={checkboxes.WK0005}
               onClick={categoryHandelr}
             />
-            <p>미디어</p>
+            <p>{ExCategoryCode.WK0005}</p>
           </CheckBoxContainer>
           <CheckBoxContainer>
             <Checkbox
@@ -227,7 +228,7 @@ export const HeaderCategorySelect = ({
               checked={checkboxes.WK0006}
               onClick={categoryHandelr}
             />
-            <p>공예</p>
+            <p>{ExCategoryCode.WK0006}</p>
           </CheckBoxContainer>
         </CategoryBox>
         <CategoryBox>
@@ -239,7 +240,7 @@ export const HeaderCategorySelect = ({
               checked={checkboxes.WK0007}
               onClick={categoryHandelr}
             />
-            <p>설치</p>
+            <p>{ExCategoryCode.WK0007}</p>
           </CheckBoxContainer>
           <CheckBoxContainer>
             <Checkbox
@@ -249,7 +250,7 @@ export const HeaderCategorySelect = ({
               checked={checkboxes.WK0008}
               onClick={categoryHandelr}
             />
-            <p>조각</p>
+            <p>{ExCategoryCode.WK0008}</p>
           </CheckBoxContainer>
         </CategoryBox>
       </CategoryContainer>
@@ -372,14 +373,20 @@ export const HeaderSearch = ({ setApplySearch }) => {
     setApplySearch(Search);
     setSearch("");
   };
+  const onKeyDown = (e) => {
+    if (e.key === "Enter") {
+      onSearchHandler();
+    }
+  };
   return (
     <>
       <FilterInputWrap>
         <FilterSearch
-          Placeholder="검색"
+          placeholder="제목 검색"
           value={Search}
           onChange={onChangeSearch}
-        ></FilterSearch>
+          onKeyDown={onKeyDown}
+        />
         <FilterButton onClick={onSearchHandler}>검색하기</FilterButton>
       </FilterInputWrap>
     </>
@@ -404,7 +411,6 @@ const FilterSearch = styled.input`
 
 const FilterButton = styled.button`
   height: 100%;
-  // background: inherit; //!부모의 속성을 따라가는
   background: transparent;
   font-size: 17px;
   font-weight: bold;

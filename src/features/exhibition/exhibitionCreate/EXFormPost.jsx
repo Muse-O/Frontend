@@ -1,6 +1,7 @@
 import * as EXPost from "../css/exhibitionCreateCss/EXFormPostCss";
 import plus_white from "../../../assets/imgs/common/plus_white.png";
 import NotificationEX from "./NotificationEX";
+import { ExOnOffCode } from "../../../shared/EXCodes";
 
 export const EXFormPost = ({
   Detaildata,
@@ -23,7 +24,7 @@ export const EXFormPost = ({
             onClick={changeOnOff}
             exhibitionKind={exhibitionKind}
           >
-            오프라인
+            {ExOnOffCode.EK0001}
           </EXPost.Offline>
           <EXPost.OnLine
             type="button"
@@ -31,7 +32,7 @@ export const EXFormPost = ({
             onClick={changeOnOff}
             exhibitionKind={exhibitionKind}
           >
-            온라인
+            {ExOnOffCode.EK0002}
           </EXPost.OnLine>
         </EXPost.SelectOnOff>
         {postfiles.length === 0 ? (
