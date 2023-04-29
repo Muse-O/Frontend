@@ -72,6 +72,7 @@ function LoginForm() {
     }
   }, [loginInfo.password]);
 
+  //비밀번호 보임/숨김
   const visibleChangeHandler = () => {
     setPwVisible(visible => !visible); //toggle
   };
@@ -113,11 +114,10 @@ function LoginForm() {
                 onChange={changeInputHandler}
                 style={{
                   borderColor: !pwMsg ? "#dddddd" : "red",
-                  fontFamily: "Verdana",
-                  fontSize: "36px",
+                  fontFamily: "Malgun gothic",
                   color: "#242424",
                   padding: "10px 10px 15px",
-                  letterSpacing: "-0.08em",
+                  letterSpacing: "3px",
                 }}
               />
               <div onClick={visibleChangeHandler}>
@@ -287,11 +287,17 @@ const StLoginBtn = styled.button`
   width: 416px;
   height: 65px;
   border: 1px solid gray;
-  border-radius: 30px;
+  border-radius: 50px;
   font-size: 15px;
   font-weight: bold;
   margin: 44px 0px 72px;
   cursor: pointer;
+
+  &:hover {
+    border: none;
+    background-color: #242424;
+    color: white;
+  }
 `;
 
 const StSnsBox = styled.div`
