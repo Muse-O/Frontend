@@ -37,16 +37,21 @@ function RegisterForm() {
 
   const [emailMsg, setEmailMsg] = useState(""); //이메일 유효성검사
   const [code, setCode] = useState(""); //이메일 인증번호
+  const [emailAuthMsg, setEmailAuthMsg] = useState(""); //이메일 인증코드 검사
+  const [pwMsg, setPwMsg] = useState(""); //비밀번호 유효성검사
   const [checkPassword, setCheckPassword] = useState(""); //비밀번호 확인
+  const [checkPwMsg, setCheckPwMsg] = useState(""); //비밀번호 확인 검사
   const [pwVisible, setPwVisible] = useState(false); //비밀번호 보임/숨김
-  const [emailAuthMsg, setEmailAuthMsg] = useState("");
+  const [nicknameMsg, setNicknameMsg] = useState(""); //닉네임 유효성검사
 
   //react-query
   const { register } = useRegister();
-  const { emailConfirm, warningMsg, emailConfirmMsg } = useEmailConfirm();
+  const { emailConfirm, warningMsg, emailConfirmMsg, checkEmailConfirm } =
+    useEmailConfirm();
   const { emailAuthSend, emailAuthSendMsg } = useEmailAuthSend();
   const { emailAuthConfirm, emailAuthConfirmMsg, emailAuthConfirmWarning } =
     useEmailAuthConfirm();
+
   const changeInputHandler = e => {
     const { value, name } = e.target;
     setRegisterInfo(pre => {
@@ -99,6 +104,10 @@ function RegisterForm() {
     e.preventDefault();
     if (!registerInfo.email) {
       setEmailMsg("이메일을 입력해주세요.");
+    } else if (checkEmailConfirm === false) {
+      setEmailMsg("이메일 중복 확인을 진행해주세요.");
+    } else if (checkEmailConfirm === true) {
+      setEmailMsg("");
     }
   };
 
@@ -127,6 +136,39 @@ function RegisterForm() {
     }
   }, [registerInfo.email]);
 
+  //비밀번호 유효성 - 마운트, 빈 값이 아닐경우, 정규식
+  useEffect(() => {
+    if (registerInfo.password === "") {
+      setPwMsg("");
+    } else if (!pwRegExp.test(registerInfo.password)) {
+      setPwMsg("알파벳, 숫자, 특수문자를 조합하여 6~15자로 입력해주세요.");
+    } else {
+      setPwMsg("");
+    }
+  }, [registerInfo.password]);
+
+  //비밀번호 확인 - 마운트, 빈 값이 아닐경우, 정규식
+  useEffect(() => {
+    if (checkPassword === "") {
+      setCheckPwMsg("");
+    } else if (registerInfo.password !== checkPassword) {
+      setCheckPwMsg("비밀번호와 일치하지 않습니다.");
+    } else {
+      setCheckPwMsg("");
+    }
+  }, [checkPassword]);
+
+  //닉네임 확인 - 마운트, 빈 값이 아닐경우, 글자수
+  useEffect(() => {
+    if (registerInfo.nickname === "") {
+      setNicknameMsg("");
+    } else if (registerInfo.nickname.length < 2) {
+      setNicknameMsg("2글자 이상 입력해주세요.");
+    } else {
+      setNicknameMsg("");
+    }
+  }, [registerInfo.nickname]);
+
   return (
     <StRegister>
       <StRegisterWrap>
@@ -149,11 +191,7 @@ function RegisterForm() {
                   borderColor: emailMsg || warningMsg ? "red" : "#dddddd",
                 }}
               />
-              {/* 추후 '확인 완료' 토글 구현할 것 */}
               <button
-                // onClick={e =>
-                //   emailConfirmHandler(e, registerInfo, emailConfirm)
-                // }
                 onClick={emailConfirmHandler}
                 style={{
                   backgroundColor:
@@ -169,8 +207,6 @@ function RegisterForm() {
 
             <StEmailInputWarning>
               <div>{emailMsg || warningMsg || emailConfirmMsg}</div>
-              {/* <div>{emailMsg}</div> */}
-              {/* <div>{emailValidation(registerInfo.email)}</div> */}
             </StEmailInputWarning>
           </StEmailInputBox>
 
@@ -198,7 +234,7 @@ function RegisterForm() {
         </StEmailWrap>
 
         <StPwWrap>
-          <div>
+          <StPwContainer>
             <label>비밀번호</label>
             {!pwVisible ? (
               <StPwInputImgWrap>
@@ -229,12 +265,10 @@ function RegisterForm() {
                 </div>
               </StPwInputImgWrap>
             )}
-            <StPwInputWarning>
-              {/* {pwValidation(registerInfo.password)} */}
-            </StPwInputWarning>
-          </div>
+            <StPwInputWarning>{pwMsg}</StPwInputWarning>
+          </StPwContainer>
 
-          <div>
+          <StPwConfirmContainer>
             <label>비밀번호 확인</label>
             <div>
               <input
@@ -242,13 +276,17 @@ function RegisterForm() {
                 name="checkPassword"
                 value={checkPassword}
                 onChange={changeCheckPasswordHandler}
+                style={{
+                  fontFamily: "Malgun gothic",
+                  color: "#242424",
+                  padding: "10px 10px 15px",
+                  letterSpacing: "3px",
+                }}
               />
             </div>
 
-            <StPwCheckWarning>
-              {/* {checkUserPassword(checkPassword, registerInfo.password)} */}
-            </StPwCheckWarning>
-          </div>
+            <StPwCheckWarning>{checkPwMsg}</StPwCheckWarning>
+          </StPwConfirmContainer>
         </StPwWrap>
 
         <StNickNameBox>
@@ -256,20 +294,11 @@ function RegisterForm() {
 
           <div>
             <input type="text" name="nickname" onChange={changeInputHandler} />
-            <StNickNameWarning>
-              {/* {nicknameValidation(registerInfo.nickname)} */}
-            </StNickNameWarning>
+            <StNickNameWarning>{nicknameMsg}</StNickNameWarning>
           </div>
         </StNickNameBox>
 
-        <StRegisterBtn
-          // onClick={e =>
-          //   registerHandler(e, registerInfo, checkEmailConfirm, register)
-          // }
-          onClick={registerHandler}
-        >
-          가입하기
-        </StRegisterBtn>
+        <StRegisterBtn onClick={registerHandler}>가입하기</StRegisterBtn>
       </StRegisterWrap>
     </StRegister>
   );
@@ -443,6 +472,39 @@ const StPwWrap = styled.div`
   height: 208px;
   display: flex;
   flex-direction: column;
+`;
+
+const StPwContainer = styled.div`
+  width: 416px;
+  height: 104px;
+  display: flex;
+  flex-direction: column;
+
+  label {
+    height: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 16px;
+  }
+
+  input {
+    font-family: "Montserrat", sans-serif;
+    width: 416px;
+    height: 44px;
+    padding: 10px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    outline: none;
+    font-size: 16px;
+    margin-right: 8px;
+  }
+`;
+
+const StPwConfirmContainer = styled.div`
+  width: 416px;
+  height: 104px;
+  display: flex;
+  flex-direction: column;
 
   label {
     height: 12px;
@@ -465,6 +527,8 @@ const StPwWrap = styled.div`
 `;
 
 const StPwInputImgWrap = styled.div`
+  margin-bottom: 26px;
+
   input {
     font-family: "Montserrat", sans-serif;
     width: 416px;
