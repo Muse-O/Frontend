@@ -119,21 +119,7 @@ function ArtgramContainer() {
                   (menuArr[currentTab].id === 2 &&
                     !MyArtgramInfo?.paginationInfo?.hasBackPage)
                 }
-                // onMouseOver={() => {
-                //   setLeftSrc(leftHoverImg);
-                // }}
-                // onMouseOut={() => {
-                //   setLeftSrc(leftBtn);
-                // }}
-              >
-                {/* {(LikedArtgramInfo?.paginationInfo?.hasBackPage && (
-                  <StLeftImg src={leftBtnSrc} alt="leftBtn" />
-                )) ||
-                  (!LikedArtgramInfo?.paginationInfo?.hasBackPage && (
-                    <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
-                  ))
-                  } */}
-              </StLeftBtn>
+              ></StLeftBtn>
               <StImgBox>
                 {menuArr[currentTab].content.map(list => {
                   return list.map(info => {
@@ -158,29 +144,7 @@ function ArtgramContainer() {
                     !MyArtgramInfo?.paginationInfo?.hasNextPage)
                 }
                 onClick={getNextDataHandler}
-                // onMouseOver={() => {
-                //   setRightSrc(rightHoverImg);
-                // }}
-                // onMouseOut={() => {
-                //   setRightSrc(rightBtn);
-                // }}
-              >
-                {/* {(LikedArtgramInfo?.paginationInfo?.hasNextPage && (
-                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
-                )) ||
-                  (!LikedArtgramInfo?.paginationInfo?.hasNextPage && (
-                    <StRightImg src={whiteBtn} alt="whiteBtn" />
-                  ))} */}
-                {/* {LikedArtgramInfo?.paginationInfo?.hasNextPage ? (
-                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
-                ) : ScrapArtgramInfo?.paginationInfo?.hasNextPage ? (
-                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
-                ) : MyArtgramInfo?.paginationInfo?.hasNextPage ? (
-                  <StRightImg src={rightBtnSrc} alt="rightBtn" />
-                ) : (
-                  <StRightImg src={whiteBtn} alt="whiteBtn" />
-                )} */}
-              </StRightBtn>
+              ></StRightBtn>
             </StImgBtnBox>
           </StWrap>
         </StArtgramBox>
