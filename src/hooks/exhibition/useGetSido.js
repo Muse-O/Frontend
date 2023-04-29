@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { keys } from "../../shared/queryKeys";
 
 export const useGetSido = () => {
   const {
@@ -7,7 +8,7 @@ export const useGetSido = () => {
     isError,
     error, // 에러 객체
   } = useQuery({
-    queryKey: ["GET_SIDO"],
+    queryKey: [keys.GET_SIDO],
     queryFn: async () => {
       let cities;
       const res = await axios.get(
