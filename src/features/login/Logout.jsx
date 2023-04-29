@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import Cookies from "universal-cookie";
+import { NavBottomPath } from "../../shared/GlobalStyled";
 
 function Logout({ setIsLoggedIn, isLoggedIn }) {
   const navigate = useNavigate();
@@ -9,22 +10,13 @@ function Logout({ setIsLoggedIn, isLoggedIn }) {
       const cookies = new Cookies();
       cookies.remove("access_token");
       setIsLoggedIn(false);
-
       alert("로그아웃 되었습니다.");
       navigate("/");
     }
   };
 
-  return <>{isLoggedIn && <div
-    style={{
-      width:"200px",
-      height: "40px",
-      backgroundColor: "#D9D9D9",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-    }}
-    onClick={logoutHandler}>로그아웃</div>}</>;
+  return isLoggedIn && (<NavBottomPath onClick={logoutHandler} children="로그아웃"/>)
+    
 }
 
 export default Logout;

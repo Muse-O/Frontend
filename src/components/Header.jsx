@@ -1,10 +1,24 @@
 import React, { useState } from "react";
-import styled from "styled-components";
-import { Flex } from "./Flex";
 import { useNavigate } from "react-router-dom";
 import Logout from "../features/login/Logout";
 import { cookies } from "../shared/cookies";
 import jwtDecode from "jwt-decode";
+import * as Headers from "../shared/GlobalStyled";
+import MobileHeaer from "./MobileHeaer";
+import { useRecoilState } from "recoil";
+import { searchWordState } from "../hooks/search/seartStore";
+import { headerStatedefalut } from "./headerStore";
+
+// Header 아이콘 ----------------------------------------------------------------------------------------/
+import logo from '../assets/imgs/museoLogo/logo.png'
+import home_gradient from '../assets/imgs/header/home_gradient.png'
+import home_gray from '../assets/imgs/header/home_gray.png'
+import exhibition_gradient from '../assets/imgs/header/exhibition_gradient.png'
+import exhibition_gray from '../assets/imgs/header/exhibition_gray.png'
+import artgram_gradient from '../assets/imgs/header/artgram_gradient.png'
+import artgram_gray from '../assets/imgs/header/artgram_gray.png'
+import user_gradient from '../assets/imgs/header/user_gradient.png'
+import user_gray from '../assets/imgs/header/user_gray.png'
 
 function Header() {
   const accessToken = cookies.get("access_token");
@@ -15,252 +29,81 @@ function Header() {
   }
   const [isLoggedIn, setIsLoggedIn] = useState(accessToken); //로그인/로그아웃 상태관리
   const navigate = useNavigate();
+  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
+
 
   const navList = [
-    { title: "홈", navigation: "/" },
-    { title: "전시", navigation: "/exhibition" },
-    { title: "아트그램", navigation: "/artgram" },
-    { title: "마이페이지", navigation: isLoggedIn ? "/mypage" : "/login" },
+    { id: "home" , title: "홈", img: `${headerState.home ? home_gradient : home_gray}`, navigation: "/", state:headerState.home},
+    { id: "exhibition", title: "전시", img: `${headerState.exhibition ? exhibition_gradient : exhibition_gray}`, navigation: "/exhibition" ,state:headerState.exhibition},
+    { id: "artgram", title: "아트그램", img: `${headerState.artgram ? artgram_gradient : artgram_gray}`, navigation: "/artgram" ,state:headerState.artgram},
+    { id: "mypages", title: "마이페이지", img: `${headerState.mypages ? user_gradient : user_gray}`,navigation: isLoggedIn ? "/mypage" : "/login", state:headerState.mypages},
   ];
 
+  const [,setSearchWord] = useRecoilState(searchWordState)
+  const [inputValue, setInputValue] = useState("")
+  const searchhanler = (e) => {
+    e.preventDefault()
+    if(inputValue==="") {
+      return
+    } else {
+      setSearchWord(inputValue.replace(/\s/g, ""))
+      navigate('/search')
+      setInputValue("")
+    }
+  }
+
   return (
-    <Headerwrap>
-        <div
-          className="logo"
-          style={{
-            height: "40px",
-            backgroundColor: "#D9D9D9",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "2rem",
-          }}
-        >
-          <p>로고</p>
-        </div>
-        <div
-          className="loginState"
-          style={{
-            height: "95px",
-            borderBottom: "1px solid #FFFFFF",
-            display: "flex",
-            alignItems: "center",
-            gap: "16px",
-          }}
-        >
-          <div
-            className="profileimg"
-            style={{
-              width: "50px",
-              height: "50px",
-              borderRadius: "50px",
-              backgroundColor: "#D9D9D9",
-            }}
-          />
-          <p style={{ color: "#EBEBEB" }}> {nickname}</p>
-        </div>
-        <div className="headerNav" style={{ marginTop: "22px" }}>
-          <div
-            className="logo"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: "30px",
-            }}
-          >
-            <input
-              style={{
-                width: "100%",
-                height: "40px",
-                backgroundColor: "#D9D9D9",
-                padding: "12px",
-                borderRadius: "5px",
-              }}
-              placeholder="검색"
-            />
-          </div>
-          {navList.map(({ title, navigation }) => (
-            <div
+    <Headers.Headerwrap>
+        <MobileHeaer/>
+        <Headers.Logo children={<img src={logo} alt="logo"/>}/>
+        <Headers.LoginState>
+          <Headers.LoginStateImg/>
+          <Headers.LoginStateNickname children={nickname}/>
+        </Headers.LoginState>
+        <Headers.Nav>
+          <Headers.NavSearch as="form" onSubmit={searchhanler}>
+          <Headers.NavSearchInput 
+            value={inputValue}
+            onChange={(e)=> setInputValue(e.target.value)}
+            placeholder="검색"/>
+          </Headers.NavSearch>
+          {navList.map(({id, title, img, navigation, state }) => (
+            <Headers.NavLists
               key={title}
-              className="headerNavItem"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                marginBottom: "23px",
-              }}
-              onClick={() => navigate(`${navigation}`)}
-            >
-              <div
-                style={{
-                  width: "32px",
-                  height: "32px",
-                  borderRadius: "50px",
-                  backgroundColor: "#D9D9D9",
-                }}
-              />
-              <p
-                style={{
-                  marginLeft: "12px",
-                  fontSize: "24px",
-                  color: "#FFFFFF",
-                }}
-              >
-                {title}
-              </p>
-            </div>
+              state={state}
+              id={id}
+              onClick={(e) => {
+                setHeaderState({...headerState, 
+                  home:false, 
+                  exhibition:false,
+                  exhibitionecreate:false,
+                  artgram:false,
+                  mypages:false,
+                  [id]:true})
+                navigate(`${navigation}`)
+              }}>
+              <Headers.Navgateimg src={img} alt={`${title}-${img}`}/>
+              <Headers.NavgatePath state={state} children={title}/>
+            </Headers.NavLists>
           ))}
-        </div>
-        <br/>
-        <button
-          onClick={() => {
-            navigate("/");
-          }}
-        >
-          홈으로
-        </button>
-        <br/>
-        <button
-          onClick={() => {
-            navigate("/artgram");
-          }}
-        >
-          아트그램
-        </button>
-        <br/>
-        <button
-          onClick={() => {
-            navigate("/artgram/origin");
-          }}
-        >
-          아트그램원본
-        </button>
-        <br/>
-        <button
-          onClick={() => {
-            navigate("/login");
-          }}
-        >
-          로그인
-        </button>
-        <br/>
-        <button
-          onClick={() => {
-            navigate("/artgram/create");
-          }}
-        >
-          아트그램만들기
-        </button>
-        <br/>
-        <button
-          onClick={() => {
-            navigate("/exhibition/create");
-          }}
-        >
-          전시회 작성페이지
-        </button>
-        <br/>
-        <button
-          onClick={() => {
-            navigate("/exhibition/update");
-          }}
-        >
-          전시회 상세페이지
-        </button>
-        <br/>
-        <button
-          onClick={() => {
-            navigate("/exhibition");
-          }}
-        >
-          전시회 페이지
-        </button>
-
-        {/* 로그인 상태: 마이페이지 접근 가능 / 비로그인 상태: 로그인 페이지로 이동 */}
-        <br/>
-        <button
-          onClick={() => {
-            if (isLoggedIn) {
-              navigate("/mypage");
-            } else if (!isLoggedIn) {
-              navigate("/login");
-            }
-          }}
-        >
-          마이 페이지
-        </button>
-        <br/>
-        <button
-          onClick={() => {
-            navigate("/register");
-          }}
-        >
-          회원가입 페이지
-        </button>
-
-        {/* <FootingArea>푸터 컨탠츠</FootingArea> */}
-      <div className="loginStage" style={{position:"absolute", bottom:"84px", display:"flex", flexDirection:"column", gap:"22px"}}>
+        </Headers.Nav>
+      <Headers.NavBottom>
         {!isLoggedIn
-        ? (<>
-        <div
-          className="logo"
-          style={{
-            width:"200px",
-            height: "40px",
-            backgroundColor: "#D9D9D9",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "2rem",
-          }}
-          onClick={() => {
-            navigate("/register");
-          }}
-        >
-          <p>회원가입</p>
-        </div>
-        <div
-          className="logo"
-          style={{
-            width:"200px",
-            height: "40px",
-            backgroundColor: "#D9D9D9",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "2rem",
-          }}
-          onClick={() => {
-            navigate("/login");
-          }}
-        >
-          <p>로그인</p>
-        </div>
-        </>)
-        : (<Logout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />)}
-      </div>
-    </Headerwrap>
+        ? (<><Headers.NavBottomPath
+                onClick={() => {navigate("/register")}}
+                children="회원가입"/>
+              <Headers.NavBottomPath
+                onClick={() => {navigate("/login")}}
+                children="로그인"/>
+          </>)
+        : (<><Headers.NavBottomPathEx
+                onClick={() => {navigate("/exhibition/create")}}
+                children="전시등록"/>
+              <Logout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+          </>)}
+      </Headers.NavBottom>
+    </Headers.Headerwrap>
   );
 }
 
 export default Header;
-
-const Headerwrap = styled.header`
-  font-family: "S-CoreDream-3Light";
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 245px;
-  z-index: 10100;
-  padding: 18px 23px;
-  /* border: 5px solid red; */
-  background-color: #252525;
-`;
-
-const FootingArea = styled.div`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  color: white;
-`;

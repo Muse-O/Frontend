@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { cookies } from "./cookies";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "../pages/Main";
 import { ProtectedRoute } from "./protectedRoute";
 import { ContainerWrap, MainWrap, Wrap } from "./GlobalStyled";
@@ -13,60 +12,81 @@ import MyPage from "../pages/MyPage";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UpdateExhibition from "../pages/UpdateExhibition";
-import Artgramcopy from "../pages/Artgramcopy";
+import UnifiedSearch from "../pages/UnifiedSearch";
+import UnifiedSearchArt from "../pages/UnifiedSearchArt";
+import UnifiedSearchEx from "../pages/UnifiedSearchEx";
+import UnifiedSearchUser from "../pages/UnifiedSearchUser";
+
 
 function Router() {
-  const token = cookies.get("access_token");
   const pages = [
-    { pathname: "/", element: <Main />, isPublic: true, isLogin: false },
+    { pathname: "/", element: <Main />, isPublic: true, isLogin: true },
     { pathname: "/login", element: <Login />, isPublic: true, isLogin: false },
+    {
+      pathname: "/search",
+      element: <UnifiedSearch />,
+      isPublic: true,
+      isLogin: true,
+    },
+    {
+      pathname: "/search/art",
+      element: <UnifiedSearchArt />,
+      isPublic: true,
+      isLogin: true,
+    },
+    {
+      pathname: "/search/exhibition",
+      element: <UnifiedSearchEx />,
+      isPublic: true,
+      isLogin: true,
+    },
+    {
+      pathname: "/search/users",
+      element: <UnifiedSearchUser />,
+      isPublic: true,
+      isLogin: true,
+    },
     {
       pathname: "/artgram",
       element: <Artgram />,
       isPublic: true,
-      isLogin: false,
-    },
-    {
-      pathname: "/artgram/origin",
-      element: <Artgramcopy />,
-      isPublic: true,
-      isLogin: false,
+      isLogin: true,
     },
     {
       pathname: "/artgram/create",
       element: <CreateArtgram />,
-      isPublic: false,
-      isLogin: false,
+      isPublic: true,
+      isLogin: true,
     },
     {
       pathname: "/exhibition/create",
       element: <CreateExhibition />,
-      isPublic: true,
-      isLogin: false,
+      isPublic: false,
+      isLogin: true,
     },
     {
       pathname: "/exhibition/detail/:id",
       element: <DetailExhibition />,
       isPublic: true,
-      isLogin: false,
+      isLogin: true,
     },
     {
       pathname: "/exhibition/update/:id",
       element: <UpdateExhibition />,
-      isPublic: true,
-      isLogin: false,
+      isPublic: false,
+      isLogin: true,
     },
     {
       pathname: "/exhibition",
       element: <Exhibition />,
       isPublic: true,
-      isLogin: false,
+      isLogin: true,
     },
     {
       pathname: "/mypage",
       element: <MyPage />,
-      isPublic: true,
-      isLogin: false,
+      isPublic: false,
+      isLogin: true,
     },
     {
       pathname: "/register",
@@ -81,18 +101,15 @@ function Router() {
         <MainWrap>
           <ContainerWrap>
             <Routes>
-              {pages.map((page) => {
-                const isAuthenticated = page.isPublic || token;
-                // const isLogined =page.isLogin&&token;
+              {pages.map(page => {
                 return (
                   <Route
                     key={page.pathname}
                     path={page.pathname}
                     element={
                       <ProtectedRoute
-                        token={token}
-                        pathname={page.pathname}
-                        isAuthenticated={isAuthenticated}
+                        isPublic={page.isPublic}
+                        isLogin={page.isLogin}
                       >
                         {page.element}
                       </ProtectedRoute>

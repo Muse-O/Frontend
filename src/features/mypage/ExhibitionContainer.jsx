@@ -1,20 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useGetLikedExhibitionInfo } from "../../hooks/mypage/useGetLikedExhibitionInfo";
 import { useGetMyExhibitionInfo } from "../../hooks/mypage/useGetMyExhibitionInfo";
 import { useGetScrapExhibitionInfo } from "../../hooks/mypage/useGetScrapExhibitionInfo";
 import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
 import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
+import whiteBtn from "../../assets/imgs/common/next_cut_white.png";
+import { useNavigate } from "react-router-dom";
+import whiteLeftArrow from "../../assets/imgs/mypage/WhiteLeftArrow.svg";
+import blackLeftArrow from "../../assets/imgs/mypage/blackLeftArrow.svg";
 
 function ExhibitionContainer() {
+  const navigate = useNavigate();
+
   const { LikedExhibitionInfo, likedNum, setLikedNum } =
     useGetLikedExhibitionInfo();
   const { MyExhibitionInfo, myExhibitionNum, setMyExhibitionNum } =
     useGetMyExhibitionInfo();
   const { ScrapExhibitionInfo, scrapExhibitionNum, setScrapExhibitionNum } =
     useGetScrapExhibitionInfo();
-
-  // console.log(LikedExhibitionInfo?.paginationInfo?.hasNextPage, "boolean");
 
   const [currentTab, clickTab] = useState(0);
 
@@ -38,8 +42,13 @@ function ExhibitionContainer() {
       count: MyExhibitionInfo?.paginationInfo,
     },
   ];
+
+  //탭 메뉴 클릭시 처음 페이지로 돌아옴
   const selectMenuHandler = id => {
     clickTab(id);
+    setLikedNum(0);
+    setScrapExhibitionNum(0);
+    setMyExhibitionNum(0);
   };
 
   //이전 데이터 불러오기
@@ -67,6 +76,17 @@ function ExhibitionContainer() {
     }
   };
 
+  //전시 상세페이지 이동
+  const detailExhibitionPage = info => {
+    const exhibitionId = info?.exhibition_id;
+    navigate(`/exhibition/detail/${exhibitionId}`);
+  };
+
+  const [leftBtnSrc, setLeftSrc] = useState(leftBtn);
+  const [leftHoverImg, setLeftHoverImg] = useState(whiteBtn);
+  const [rightBtnSrc, setRightSrc] = useState(rightBtn);
+  const [rightHoverImg, setRightHoverImg] = useState(whiteBtn);
+
   return (
     <StContainer>
       <StExhibition>전시</StExhibition>
@@ -74,9 +94,13 @@ function ExhibitionContainer() {
         <StWrap>
           <StTabWrap>
             {menuArr.map(el => (
-              <StTab key={el.id} onClick={() => selectMenuHandler(el.id)}>
+              <StTab
+                key={el.id}
+                onClick={() => selectMenuHandler(el?.id)}
+                select={menuArr[currentTab].id === el?.id}
+              >
                 {el.name}
-                <StTabCount>
+                <StTabCount selectCount={menuArr[currentTab].id === el?.id}>
                   {el?.count?.myExhibitionCnt ? el?.count?.myExhibitionCnt : 0}
                 </StTabCount>
               </StTab>
@@ -84,14 +108,26 @@ function ExhibitionContainer() {
           </StTabWrap>
 
           <StImgBtnBox>
-            <StLeftBtn onClick={getBackDataHandler}>
-              <img src={leftBtn} alt="leftBtn" />
-            </StLeftBtn>
+            <StLeftBtn
+              onClick={getBackDataHandler}
+              disabled={
+                (menuArr[currentTab].id === 0 &&
+                  !LikedExhibitionInfo?.paginationInfo?.hasBackPage) ||
+                (menuArr[currentTab].id === 1 &&
+                  !ScrapExhibitionInfo?.paginationInfo?.hasBackPage) ||
+                (menuArr[currentTab].id === 2 &&
+                  !MyExhibitionInfo?.paginationInfo?.hasBackPage)
+              }
+            ></StLeftBtn>
+
             <StImgBox>
               {menuArr[currentTab].content.map(list => {
                 return list.map(info => {
                   return (
-                    <StImgWrap key={info.exhibition_id}>
+                    <StImgWrap
+                      key={info.exhibition_id}
+                      onClick={() => detailExhibitionPage(info)}
+                    >
                       <StImg
                         src={info.post_image}
                         alt={info.exhibition_title}
@@ -111,9 +147,7 @@ function ExhibitionContainer() {
                   !MyExhibitionInfo?.paginationInfo?.hasNextPage)
               }
               onClick={getNextDataHandler}
-            >
-              <img src={rightBtn} alt="leftBtn" />
-            </StRightBtn>
+            ></StRightBtn>
           </StImgBtnBox>
         </StWrap>
       </StExhibitionBox>
@@ -150,32 +184,71 @@ const StLeftBtn = styled.button`
   height: 40px;
   border-radius: 50%;
   background-color: #eeeeee;
+  background-image: url(${blackLeftArrow});
+  background-repeat: no-repeat;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 
-  img {
-    width: 14px;
-    height: 22px;
-    transform: rotate(-180deg);
+  &:disabled {
+    cursor: default;
+    background-image: url(${whiteLeftArrow});
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
+  &:not(:disabled):hover {
+    background-color: #242424;
+    background-image: url(${whiteLeftArrow});
+    background-repeat: no-repeat;
+    background-position: center;
   }
 `;
+
+// const StLeftImg = styled.img`
+//   width: 14px;
+//   height: 22px;
+//   transform: rotate(-180deg);
+// `;
 
 const StRightBtn = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 50%;
   background-color: #eeeeee;
+  background-image: url(${blackLeftArrow});
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(-180deg);
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
 
-  img {
-    width: 14px;
-    height: 22px;
+  &:disabled {
+    cursor: default;
+    background-image: url(${whiteLeftArrow});
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: rotate(-180deg);
   }
+
+  /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
+  &:not(:disabled):hover {
+    background-color: #242424;
+    background-image: url(${whiteLeftArrow});
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: rotate(-180deg);
+  }
+`;
+
+const StRightImg = styled.img`
+  width: 14px;
+  height: 22px;
 `;
 
 const StExhibitionBox = styled.div`
@@ -211,6 +284,8 @@ const StTab = styled.div`
   font-family: "SpoqaHanSansNeo-Regular";
   font-weight: bold;
   font-size: 16px;
+
+  color: ${({ select }) => (select ? "#242424" : "#7E7E7E")};
 `;
 
 const StTabCount = styled.div`
@@ -224,7 +299,12 @@ const StTabCount = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  color: ${({ selectCount }) => (selectCount ? "#EEEEEE" : "#7E7E7E")};
+  background-color: ${({ selectCount }) =>
+    selectCount ? "#242424" : "#EEEEEE"};
 `;
+
 const StImgBox = styled.div`
   width: 958px;
   height: 261px;

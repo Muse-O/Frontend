@@ -1,9 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as Main from "./css/mainparts";
-import { fourthDataList } from "./mainpageexample/fourthDataList";
 import { useGetDate } from "../../hooks/main/useGetDate";
 import { useNearestExhibition } from "../../hooks/main/useNearestExhibition";
-import { useNavigate } from "react-router-dom";
 import { useNavigator } from "../../hooks/main/useNavigator";
 
 function MainFourth() {
@@ -19,40 +17,35 @@ function MainFourth() {
     }
   }, [data]);
 
-  if (isLoading || isError) {
-    return <div>로딩 중... </div>;
-  }
 
   return (
-    <Main.CommenLayout height="624">
+    <Main.CommenLayout height="624" media1440="468">
       <Main.ArticleTitle>
-        <Main.MainH1 children="예정 전시" />
+        <Main.MainH1 children="예정 전시"/>
+        <Main.MainH5 children="더보기 >" onClick={()=>navigatehandle('/exhibition')}/>
       </Main.ArticleTitle>
       <Main.FourthWrap>
-        <img className="exhibitionimg" src={imgState} alt="예정전시 이미지" />
-        <div className="exhibitioninfo">
-          {data.map(exhibition => {
-            return (
-              <Main.FourthExhibitioninfo
-                key={exhibition.exhibitionId}
-                onMouseOver={() => setImgState(exhibition.postImage)}
-                onClick={()=> navigatehandle(exhibition.detailRouter)}
-              >
-                <div className="date">
-                  <p>{getday(exhibition.startDate)}</p>
-                  <p>{getMonth(exhibition.startDate)}</p>
-                </div>
-                <div className="exhibitininfo">
-                  <p>{exhibition.exhibitionTitle}</p>
-                  <p>{exhibition.exhibitionEngTitle}</p>
-                </div>
-                <div className="exhibitionlocation">
-                  <p>{exhibition.location}</p>
-                </div>
-              </Main.FourthExhibitioninfo>
-            )
-          })}
-        </div>
+        <Main.FourthImg src={imgState} alt="예정전시 이미지" />
+        {isLoading || isError 
+          ? <div>로딩 중... </div> 
+          : (<Main.FouthInfoWrap>
+            {data && data.map(exhibition => (
+                <Main.FourthInfo key={exhibition.exhibitionId} onMouseOver={()=>setImgState(exhibition.postImage)}>
+                  <Main.FouthInfoDate children={<>
+                    <p>{getday(exhibition.startDate)}</p>
+                    <p>{getMonth(exhibition.startDate)}</p>
+                  </>}/>
+                  <Main.FouthInfoTitle children={<>
+                    <p>{exhibition.exhibitionTitle}</p>
+                    <p>{exhibition.exhibitionEngTitle}</p>
+                  </>}/>
+                  <Main.FouthInfoAddress children={
+                    <p>{exhibition.address}</p>
+                  }/>
+                </Main.FourthInfo>
+              ))}
+          </Main.FouthInfoWrap>)}
+        
       </Main.FourthWrap>
     </Main.CommenLayout>
   );

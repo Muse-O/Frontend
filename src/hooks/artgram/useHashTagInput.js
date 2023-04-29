@@ -5,7 +5,6 @@ export const useHashTagInput = (inputValue,setInputValue,hashTag, setHashTag) =>
     if (event.key === "Enter") {
       event.preventDefault();
       const newHashTag = inputValue.trim();
-      console.log("newHashTag 중복확인 검사이전", newHashTag);
       if(newHashTag && !hashTag.includes(newHashTag)) {
         setHashTag([...hashTag, newHashTag]);
         setInputValue('')

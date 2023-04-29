@@ -4,7 +4,7 @@ import UpdateUserProfileModal from "./UpdateUserProfileModal";
 import UpdateModalBlackBg from "./UpdateModalBlackBg";
 import styled from "styled-components";
 import AlarmContainer from "./AlarmContainer";
-import palette from "../../assets/imgs/paint-palette.png";
+import palette from "../../assets/imgs/mypage/palette_gradient.png";
 import setting from "../../assets/imgs/mypage/gear_gray.png";
 
 function UserProfile() {
@@ -86,7 +86,7 @@ const UpdateBtn = styled.button`
 `;
 
 const StUserNameWrap = styled.div`
-  width: 300px;
+  width: 400px;
   height: 28px;
   display: flex;
   justify-content: center;
@@ -102,7 +102,7 @@ const StInfoUserName = styled.div`
 `;
 
 const StArtistMark = styled.div`
-  background-color: #808080bd;
+  /* background-color: #808080bd; */
   width: 28px;
   height: 28px;
   border-radius: 50%;
@@ -111,8 +111,8 @@ const StArtistMark = styled.div`
   align-items: center;
 
   img {
-    width: 23px;
-    height: 23px;
+    width: 25px;
+    height: 25px;
   }
 `;
 
@@ -122,12 +122,15 @@ const StUserInfoIntro = styled.div`
   width: 250px;
   margin-top: 35px;
 `;
+
 const InfoIntro = styled.div`
   font-family: "SpoqaHanSansNeo-Regular";
   font-size: 16px;
+  color: #3c3c3c;
   /* font-weight: 400; */
   line-height: 25px;
   word-break: break-all;
+  text-align: center;
 `;
 
 const ProfileImg = styled.img`
@@ -141,5 +144,5 @@ const ProfileImg = styled.img`
 const Line = styled.div`
   border-top: 1px solid #cccccc;
   width: 392px;
-  height: 20px;
+  height: 32px;
 `;
