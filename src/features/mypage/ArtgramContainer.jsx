@@ -8,6 +8,8 @@ import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
 import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
 import whiteBtn from "../../assets/imgs/common/next_cut_white.png";
 import ArtgarmDetailModal from "../artgram/detailModal/ArtgarmDetailModal";
+import whiteLeftArrow from "../../assets/imgs/mypage/WhiteLeftArrow.svg";
+import blackLeftArrow from "../../assets/imgs/mypage/blackLeftArrow.svg";
 
 function ArtgramContainer() {
   const { modalState, openModalhandle } = useOpenModal(); //아트그램 모달
@@ -44,16 +46,10 @@ function ArtgramContainer() {
 
   //탭 메뉴 클릭시 처음 페이지로 돌아옴
   const selectMenuHandler = id => {
-    if (id === 0) {
-      clickTab(id);
-      setLikedNum(0);
-    } else if (id === 1) {
-      clickTab(id);
-      setScrapArtgramNum(0);
-    } else if (id === 2) {
-      clickTab(id);
-      setMyArtgramNum(0);
-    }
+    clickTab(id);
+    setLikedNum(0);
+    setScrapArtgramNum(0);
+    setMyArtgramNum(0);
   };
 
   //이전 데이터 불러오기
@@ -123,19 +119,20 @@ function ArtgramContainer() {
                   (menuArr[currentTab].id === 2 &&
                     !MyArtgramInfo?.paginationInfo?.hasBackPage)
                 }
-                onMouseOver={() => {
-                  setLeftSrc(leftHoverImg);
-                }}
-                onMouseOut={() => {
-                  setLeftSrc(leftBtn);
-                }}
+                // onMouseOver={() => {
+                //   setLeftSrc(leftHoverImg);
+                // }}
+                // onMouseOut={() => {
+                //   setLeftSrc(leftBtn);
+                // }}
               >
-                {(LikedArtgramInfo?.paginationInfo?.hasBackPage && (
+                {/* {(LikedArtgramInfo?.paginationInfo?.hasBackPage && (
                   <StLeftImg src={leftBtnSrc} alt="leftBtn" />
                 )) ||
                   (!LikedArtgramInfo?.paginationInfo?.hasBackPage && (
                     <StLeftImg src={whiteBtn} alt="whiteLeftBtn" />
-                  ))}
+                  ))
+                  } */}
               </StLeftBtn>
               <StImgBox>
                 {menuArr[currentTab].content.map(list => {
@@ -161,19 +158,19 @@ function ArtgramContainer() {
                     !MyArtgramInfo?.paginationInfo?.hasNextPage)
                 }
                 onClick={getNextDataHandler}
-                onMouseOver={() => {
-                  setRightSrc(rightHoverImg);
-                }}
-                onMouseOut={() => {
-                  setRightSrc(rightBtn);
-                }}
+                // onMouseOver={() => {
+                //   setRightSrc(rightHoverImg);
+                // }}
+                // onMouseOut={() => {
+                //   setRightSrc(rightBtn);
+                // }}
               >
-                {(LikedArtgramInfo?.paginationInfo?.hasNextPage && (
+                {/* {(LikedArtgramInfo?.paginationInfo?.hasNextPage && (
                   <StRightImg src={rightBtnSrc} alt="rightBtn" />
                 )) ||
                   (!LikedArtgramInfo?.paginationInfo?.hasNextPage && (
                     <StRightImg src={whiteBtn} alt="whiteBtn" />
-                  ))}
+                  ))} */}
                 {/* {LikedArtgramInfo?.paginationInfo?.hasNextPage ? (
                   <StRightImg src={rightBtnSrc} alt="rightBtn" />
                 ) : ScrapArtgramInfo?.paginationInfo?.hasNextPage ? (
@@ -240,6 +237,9 @@ const StLeftBtn = styled.button`
   height: 40px;
   border-radius: 50%;
   background-color: #eeeeee;
+  background-image: url(${blackLeftArrow});
+  background-repeat: no-repeat;
+  background-position: center;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -247,11 +247,17 @@ const StLeftBtn = styled.button`
 
   &:disabled {
     cursor: default;
+    background-image: url(${whiteLeftArrow});
+    background-repeat: no-repeat;
+    background-position: center;
   }
 
   /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
   &:not(:disabled):hover {
     background-color: #242424;
+    background-image: url(${whiteLeftArrow});
+    background-repeat: no-repeat;
+    background-position: center;
   }
 `;
 
@@ -266,6 +272,10 @@ const StRightBtn = styled.button`
   height: 40px;
   border-radius: 50%;
   background-color: #eeeeee;
+  background-image: url(${blackLeftArrow});
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(-180deg);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -273,11 +283,19 @@ const StRightBtn = styled.button`
 
   &:disabled {
     cursor: default;
+    background-image: url(${whiteLeftArrow});
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: rotate(-180deg);
   }
 
   /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
   &:not(:disabled):hover {
     background-color: #242424;
+    background-image: url(${whiteLeftArrow});
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: rotate(-180deg);
   }
 `;
 
