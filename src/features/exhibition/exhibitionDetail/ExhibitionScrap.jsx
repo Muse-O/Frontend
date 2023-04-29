@@ -1,7 +1,7 @@
 import React from "react";
-import { useScrapExhibition } from "../../hooks/exhibition/useScrapExhibition";
+import { useScrapExhibition } from "../../../hooks/exhibition/useScrapExhibition";
 import styled from "styled-components";
-import { usetoken } from "../../shared/cookies";
+import { usetoken } from "../../../shared/cookies";
 
 //!좋아요랑 버튼 로직이 비슷한데 리팩토링때 합치기.
 function ExhibitionScrap({ exhibitionId, children }) {

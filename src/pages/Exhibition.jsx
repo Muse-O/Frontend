@@ -1,15 +1,28 @@
 import Header from "../components/Header";
 import { Article } from "../shared/GlobalStyled";
-import ExhibitionList from "../features/exhibition/ExhibitionList";
+import ExhibitionLists from "../features/exhibition/exhibitoinList/ExhibitionLists";
 import { usePostExhibition } from "../hooks/exhibition/usetPostExhibition";
+import { useRecoilState } from "recoil";
+import { headerStatedefalut } from "../components/headerStore";
+import { useEffect } from "react";
 
 function Exhibition() {
   const [createExhibition] = usePostExhibition();
+  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
+  useEffect(()=> {
+    setHeaderState({...headerState, 
+      home:false, 
+      exhibition:true,
+      exhibitionecreate:false,
+      artgram:false,
+      mypages:false})
+  },[])
+
   return (
     <>
       <Header />
       <Article>
-        <ExhibitionList createExhibition={createExhibition} />
+        <ExhibitionLists />
       </Article>
     </>
   );

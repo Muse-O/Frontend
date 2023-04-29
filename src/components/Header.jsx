@@ -5,6 +5,19 @@ import { cookies } from "../shared/cookies";
 import jwtDecode from "jwt-decode";
 import * as Headers from "../shared/GlobalStyled";
 import MobileHeaer from "./MobileHeaer";
+import { useRecoilState } from "recoil";
+import { searchWordState } from "../hooks/search/seartStore";
+import { headerStatedefalut } from "./headerStore";
+
+// Header 아이콘 ----------------------------------------------------------------------------------------/
+import home_gradient from '../assets/imgs/header/home_gradient.png'
+import home_gray from '../assets/imgs/header/home_gray.png'
+import exhibition_gradient from '../assets/imgs/header/exhibition_gradient.png'
+import exhibition_gray from '../assets/imgs/header/exhibition_gray.png'
+import artgram_gradient from '../assets/imgs/header/artgram_gradient.png'
+import artgram_gray from '../assets/imgs/header/artgram_gray.png'
+import user_gradient from '../assets/imgs/header/user_gradient.png'
+import user_gray from '../assets/imgs/header/user_gray.png'
 
 function Header() {
   const accessToken = cookies.get("access_token");
@@ -15,13 +28,29 @@ function Header() {
   }
   const [isLoggedIn, setIsLoggedIn] = useState(accessToken); //로그인/로그아웃 상태관리
   const navigate = useNavigate();
+  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
+
 
   const navList = [
-    { title: "홈", navigation: "/" },
-    { title: "전시", navigation: "/exhibition" },
-    { title: "아트그램", navigation: "/artgram" },
-    { title: "마이페이지", navigation: isLoggedIn ? "/mypage" : "/login" },
+    { id: "home" , title: "홈", img: `${headerState.home ? home_gradient : home_gray}`, navigation: "/", state:headerState.home},
+    { id: "exhibition", title: "전시", img: `${headerState.exhibition ? exhibition_gradient : exhibition_gray}`, navigation: "/exhibition" ,state:headerState.exhibition},
+    { id: "exhibitionecreate", title: "전시등록", img: `${headerState.exhibitionecreate ? exhibition_gradient : exhibition_gray}`, navigation: "/exhibition/create" ,state:headerState.exhibitionecreate},
+    { id: "artgram", title: "아트그램", img: `${headerState.artgram ? artgram_gradient : artgram_gray}`, navigation: "/artgram" ,state:headerState.artgram},
+    { id: "mypages", title: "마이페이지", img: `${headerState.mypages ? user_gradient : user_gray}`,navigation: isLoggedIn ? "/mypage" : "/login", state:headerState.mypages},
   ];
+
+  const [,setSearchWord] = useRecoilState(searchWordState)
+  const [inputValue, setInputValue] = useState("")
+  const searchhanler = (e) => {
+    e.preventDefault()
+    if(inputValue==="") {
+      return
+    } else {
+      setSearchWord(inputValue.replace(/\s/g, ""))
+      navigate('/search')
+      setInputValue("")
+    }
+  }
 
   return (
     <Headers.Headerwrap>
@@ -34,15 +63,29 @@ function Header() {
           <Headers.LoginStateNickname children={nickname}/>
         </Headers.LoginState>
         <Headers.Nav>
-          <Headers.NavSearch>
-          <Headers.NavSearchInput placeholder="검색"/>
+          <Headers.NavSearch as="form" onSubmit={searchhanler}>
+          <Headers.NavSearchInput 
+            value={inputValue}
+            onChange={(e)=> setInputValue(e.target.value)}
+            placeholder="검색"/>
           </Headers.NavSearch>
-          {navList.map(({ title, navigation }) => (
+          {navList.map(({id, title, img, navigation, state }) => (
             <Headers.NavIcons
               key={title}
-              onClick={() => navigate(`${navigation}`)}>
-              <Headers.Navgate/>
-              <Headers.NavgatePath children={title}/>
+              state={state}
+              id={id}
+              onClick={(e) => {
+                setHeaderState({...headerState, 
+                  home:false, 
+                  exhibition:false,
+                  exhibitionecreate:false,
+                  artgram:false,
+                  mypages:false,
+                  [id]:true})
+                navigate(`${navigation}`)
+              }}>
+              <Headers.Navgateimg src={img} alt={`${title}-${img}`}/>
+              <Headers.NavgatePath state={state} children={title}/>
             </Headers.NavIcons>
           ))}
         </Headers.Nav>

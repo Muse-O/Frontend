@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { cookies, usetoken } from "./cookies";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Main from "../pages/Main";
 import { ProtectedRoute } from "./protectedRoute";
 import { ContainerWrap, MainWrap, Wrap } from "./GlobalStyled";
@@ -13,11 +12,40 @@ import MyPage from "../pages/MyPage";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UpdateExhibition from "../pages/UpdateExhibition";
+import UnifiedSearch from "../pages/UnifiedSearch";
+import UnifiedSearchArt from "../pages/UnifiedSearchArt";
+import UnifiedSearchEx from "../pages/UnifiedSearchEx";
+import UnifiedSearchUser from "../pages/UnifiedSearchUser";
+
 
 function Router() {
   const pages = [
     { pathname: "/", element: <Main />, isPublic: true, isLogin: true },
     { pathname: "/login", element: <Login />, isPublic: true, isLogin: false },
+    {
+      pathname: "/search",
+      element: <UnifiedSearch />,
+      isPublic: true,
+      isLogin: true,
+    },
+    {
+      pathname: "/search/art",
+      element: <UnifiedSearchArt />,
+      isPublic: true,
+      isLogin: true,
+    },
+    {
+      pathname: "/search/exhibition",
+      element: <UnifiedSearchEx />,
+      isPublic: true,
+      isLogin: true,
+    },
+    {
+      pathname: "/search/users",
+      element: <UnifiedSearchUser />,
+      isPublic: true,
+      isLogin: true,
+    },
     {
       pathname: "/artgram",
       element: <Artgram />,
@@ -33,7 +61,7 @@ function Router() {
     {
       pathname: "/exhibition/create",
       element: <CreateExhibition />,
-      isPublic: true,
+      isPublic: false,
       isLogin: true,
     },
     {
@@ -45,8 +73,8 @@ function Router() {
     {
       pathname: "/exhibition/update/:id",
       element: <UpdateExhibition />,
-      isPublic: true,
-      isLogin: false,
+      isPublic: false,
+      isLogin: true,
     },
     {
       pathname: "/exhibition",

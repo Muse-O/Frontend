@@ -1,7 +1,7 @@
 import React from "react";
-import { useLikeExhibition } from "../../hooks/exhibition/useLikeExhibition";
+import { useLikeExhibition } from "../../../hooks/exhibition/useLikeExhibition";
 import styled from "styled-components";
-import { usetoken } from "../../shared/cookies";
+import { usetoken } from "../../../shared/cookies";
 
 function ExhibitionLiked({ exhibitionId, children }) {
   const { access_token } = usetoken();
