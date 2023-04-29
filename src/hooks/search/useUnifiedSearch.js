@@ -21,21 +21,18 @@ export const useUnifiedSearch = () => {
   },[])
 
   useEffect(() => {
-    console.log("1 실행순서 - useEffect");
     queryClient.invalidateQueries([keys.GET_UNIFIEDSEARCH, searchWord]);
   }, [searchWord]);
 
   const { isLoading, isError } = useQuery({
     queryKey: [keys.GET_UNIFIEDSEARCH, searchWord],
     queryFn: async () => {
-      console.log("2 실행순서 - useQuery");
       // console.log(`/search?searchText=${searchWord}`);
       const response = await apis.get(`/search?searchText=${searchWord}`, {
         headers: {
           Authorization: `Bearer`,
         },
       });
-      console.log("useQuery 결과 =========", response.data.search);
       return response.data.search;
     },
     refetchOnWindowFocus: false,

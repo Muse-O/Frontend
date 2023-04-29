@@ -8,11 +8,6 @@ function MainThird() {
   const { isLoading, isError, data } = useMostLike();
   const { editTimehandle } = useEditTime();
   const {navigatehandle} = useNavigator()
-  if(data) {
-    console.log(data.row1);
-   console.log(data.row2);
-  }
-
 
   return (
     <Main.ThirdLayout height="906" media1440="679.5">

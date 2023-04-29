@@ -23,14 +23,31 @@ function ContentSettingBox({ detailData, setSettingBox }) {
   }
   const [hashtag, setHashTag] = useState(detailData.hashtag);
   const {patchArtgram} = usePatchArtgram()
-
+  console.log(imgState);
   const updatehandleSubmit = (e) => {
     e.preventDefault()
-    console.log({...formState,artgramImgs:{...imgState}, hashtag});
-    patchArtgram({artgramId:detailData.artgramId, formState})
-    setFormState({})
-    setUpdateModal(pre=>!pre)
-    setSettingBox(pre=>!pre)
+    if(!formState.artgramTitle && !formState.artgramDesc) {
+      patchArtgram({artgramId:detailData.artgramId, payload:{artgramTitle:detailData.artgramTitle,artgramDesc:detailData.artgramDesc, artgramImgs:imgState, hashtag}})
+      setFormState({})
+      setUpdateModal(pre=>!pre)
+      setSettingBox(pre=>!pre)
+    } else if(!formState.artgramTitle && formState.artgramDesc) {
+      patchArtgram({artgramId:detailData.artgramId, payload:{artgramTitle:detailData.artgramTitle,artgramDesc:formState.artgramDesc, artgramImgs:imgState, hashtag}})
+      setFormState({})
+      setUpdateModal(pre=>!pre)
+      setSettingBox(pre=>!pre)
+    } else if(formState.artgramTitle && !formState.artgramDesc) {
+      patchArtgram({artgramId:detailData.artgramId, payload:{artgramTitle:formState.artgramTitle,artgramDesc:detailData.artgramDesc, artgramImgs:imgState, hashtag}})
+      setFormState({})
+      setUpdateModal(pre=>!pre)
+      setSettingBox(pre=>!pre)
+    } else {
+      patchArtgram({artgramId:detailData.artgramId, payload:{...formState, artgramImgs:imgState, hashtag}})
+      setFormState({})
+      setUpdateModal(pre=>!pre)
+      setSettingBox(pre=>!pre)
+    }
+    
   }
 
   return (

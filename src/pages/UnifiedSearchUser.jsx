@@ -30,9 +30,16 @@ function UnifiedSearchUser() {
         )
         :(<>
          <US.H2 children={(<>회원검색<span>{searchDataUser?.length > 0 ? searchDataUser.length : null}</span></>)}/>
-          {searchDataUser.length === 0
+          {searchDataUser && searchDataUser?.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
-            : <div>서비스 예정</div>}
+            : <US.SearchBoxUse>
+                {searchDataUser.map(user=>(
+                  <US.SearchUse key={user.profileId} children={<>
+                    <img src={user.profileImg} alt='profileImg'/>
+                    <div children={user.profileNickname}/>
+                  </>}/>
+                ))}
+              </US.SearchBoxUse>}     
         </>)}
       </US.Layout>  
     </Article>

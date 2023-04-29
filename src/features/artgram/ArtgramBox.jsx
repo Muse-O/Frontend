@@ -11,16 +11,28 @@ import { useScrap } from "../../hooks/artgram/useScrap";
 import { useOpenModal } from "../../hooks/artgram/useOpenModal";
 // import 컴포넌트 -----------------------------------------------------------------------------------------/
 import ArtgarmDetailModal from "./detailModal/ArtgarmDetailModal";
+import { usePostSearchWord } from "../../hooks/search/usePoseSearchWord";
 // ArtgramBox 컴포넌트 -------------------------------------------------------------------------------------/
-function ArtgramBox({ info }) {
+function ArtgramBox({ info, postSearchWords }) {
   const { artgramId, imgUrl, imgCount, profileImg,nickname, scrapCount, scrap, likeCount, liked,} 
   = info; // props로 전달받은 useGetartgraminfinity의 개별데이터의내용 
   const { patchScrap } = useScrap(); // 스크랩관련 비동기통신 PATCH
   const { patchLikes } = useLikes(); // 좋아요관련 비동기통신 PATCH
   const {modalState, openModalhandle} = useOpenModal(); // 개별데이터 상세페이지를 열 모달관련 커스컴 훅 
+  const {postSearchWord} = usePostSearchWord()
+
+  const artgramEvent = () => {
+    if(postSearchWords?.type) {
+      const {type, title} = postSearchWords
+      postSearchWord({type, title})
+      openModalhandle()
+    } else {
+      openModalhandle()
+    }
+  }
 
   return (
-    <Artgramparts.BoxWrap onClick={() => openModalhandle()}>
+    <Artgramparts.BoxWrap onClick={() => artgramEvent()}>
       <Artgramparts.BoxImg children={<img className="artgramimg" src={imgUrl} alt="아트그램 이미지" />}/>
       <Artgramparts.BoxProfile>
         <Artgramparts.BoxProfileimg
