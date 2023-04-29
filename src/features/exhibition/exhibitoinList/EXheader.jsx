@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import {
   HeaderCategorySelect,
+  HeaderSearch,
   HeaderTagSelect,
   HeaderWhereSelect,
 } from "./ExhibitionHeaderSelect";
@@ -12,7 +13,6 @@ export const EXheader = ({
   setApplyCategory,
   setApplyHashTag,
 }) => {
-  const [Search, setSearch] = useState("");
   const [whenVisible, setWhenVisible] = useState(false);
   const [whereVisible, setWhereVisible] = useState(false);
   const [categoryVisible, setCategoryVisible] = useState(false);
@@ -42,14 +42,14 @@ export const EXheader = ({
     }
   };
   //검색
-  const onChangeSearch = (e) => {
-    const value = e.target.value;
-    setSearch(value);
-  };
-  const onSearchHandler = () => {
-    setApplySearch(Search);
-    setSearch("");
-  };
+  // const onChangeSearch = (e) => {
+  //   const value = e.target.value;
+  //   setSearch(value);
+  // };
+  // const onSearchHandler = () => {
+  //   setApplySearch(Search);
+  //   setSearch("");
+  // };
   return (
     <ExhibitionHeader>
       <HeaderTitle>전시</HeaderTitle>
@@ -85,15 +85,7 @@ export const EXheader = ({
             />
           </SelectBox>
         </FilterSelect>
-        <FilterInputWrap>
-          {/* //따로 만들기 */}
-          <FilterSearch
-            Placeholder="검색"
-            value={Search}
-            onChange={onChangeSearch}
-          ></FilterSearch>
-          <FilterButton onClick={onSearchHandler}>검색하기</FilterButton>
-        </FilterInputWrap>
+        <HeaderSearch setApplySearch={setApplySearch} />
       </HeaderFilterWrap>
     </ExhibitionHeader>
   );
@@ -152,32 +144,32 @@ const FilterSelect = styled.button`
   }
   /* cursor: pointer; */
 `;
-const FilterInputWrap = styled.div`
-  flex: 1;
-  background: #ffffff;
-  border: 1px solid #dedede;
-  border-radius: 4px;
-  margin-left: 24px;
-  position: relative;
-`;
+// const FilterInputWrap = styled.div`
+//   flex: 1;
+//   background: #ffffff;
+//   border: 1px solid #dedede;
+//   border-radius: 4px;
+//   margin-left: 24px;
+//   position: relative;
+// `;
 
-const FilterSearch = styled.input`
-  width: 100%;
-  height: 100%;
-  padding: 0 12px;
-  border-radius: 4px;
-`;
+// const FilterSearch = styled.input`
+//   width: 100%;
+//   height: 100%;
+//   padding: 0 12px;
+//   border-radius: 4px;
+// `;
 
-const FilterButton = styled.button`
-  height: 100%;
-  // background: inherit; //!부모의 속성을 따라가는
-  background: transparent;
-  font-size: 17px;
-  font-weight: bold;
-  padding: 0 12px;
-  position: absolute;
-  right: 0;
-  :hover {
-    cursor: pointer;
-  }
-`;
+// const FilterButton = styled.button`
+//   height: 100%;
+//   // background: inherit; //!부모의 속성을 따라가는
+//   background: transparent;
+//   font-size: 17px;
+//   font-weight: bold;
+//   padding: 0 12px;
+//   position: absolute;
+//   right: 0;
+//   :hover {
+//     cursor: pointer;
+//   }
+// `;
