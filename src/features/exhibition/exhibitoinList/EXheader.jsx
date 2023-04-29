@@ -25,60 +25,60 @@ export const EXheader = ({
   const handleClick = (e) => {
     e.stopPropagation(); // 이벤트 버블링 방지
   };
+  const filterItems = [
+    {
+      name: "when",
+      label: "When",
+      component: <div>진행중</div>,
+    },
+    {
+      name: "where",
+      label: "Where",
+      component: (
+        <HeaderWhereSelect
+          setApplyWhere={setApplyWhere}
+          setSelectedFilter={setSelectedFilter}
+        />
+      ),
+    },
+    {
+      name: "category",
+      label: "Category",
+      component: (
+        <HeaderCategorySelect
+          setApplyCategory={setApplyCategory}
+          setSelectedFilter={setSelectedFilter}
+        />
+      ),
+    },
+    {
+      name: "tag",
+      label: "Tag",
+      component: (
+        <HeaderTagSelect
+          setApplyHashTag={setApplyHashTag}
+          setSelectedFilter={setSelectedFilter}
+        />
+      ),
+    },
+  ];
   return (
     <ExhibitionHeader>
       <HeaderTitle>전시</HeaderTitle>
       <HeaderFilterWrap>
-        <FilterSelect name="when" onClick={selectHandler}>
-          When
-          <SelectBox visible={selectedFilter === "when"} onClick={handleClick}>
-            진행중
-          </SelectBox>
-        </FilterSelect>
-
-        <FilterSelect name="where" onClick={selectHandler}>
-          Where
-          <SelectBox visible={selectedFilter === "where"} onClick={handleClick}>
-            <HeaderWhereSelect
-              setApplyWhere={setApplyWhere}
-              setSelectedFilter={setSelectedFilter}
-            />
-          </SelectBox>
-        </FilterSelect>
-
-        <FilterSelect name="category" onClick={selectHandler}>
-          Category
-          <SelectBox
-            visible={selectedFilter === "category"}
-            onClick={handleClick}
-          >
-            <HeaderCategorySelect
-              setApplyCategory={setApplyCategory}
-              setSelectedFilter={setSelectedFilter}
-            />
-          </SelectBox>
-        </FilterSelect>
-
-        <FilterSelect name="tag" onClick={selectHandler}>
-          Tag
-          <SelectBox visible={selectedFilter === "tag"} onClick={handleClick}>
-            <HeaderTagSelect
-              setApplyHashTag={setApplyHashTag}
-              setSelectedFilter={setSelectedFilter}
-            />
-          </SelectBox>
-        </FilterSelect>
+        {filterItems.map(({ name, label, component }) => (
+          <FilterSelect key={name} name={name} onClick={selectHandler}>
+            {label}
+            <SelectBox visible={selectedFilter === name} onClick={handleClick}>
+              {component}
+            </SelectBox>
+          </FilterSelect>
+        ))}
         <HeaderSearch setApplySearch={setApplySearch} />
       </HeaderFilterWrap>
     </ExhibitionHeader>
   );
 };
-
-const Div = styled.div`
-  background-color: #a6d6a6;
-  font-size: 40px;
-  height: 380px;
-`;
 
 const SelectBox = styled.div`
   z-index: 2;
@@ -89,8 +89,7 @@ const SelectBox = styled.div`
   position: absolute;
   left: 0;
   top: 49px;
-  display: ${({ visible }) =>
-    visible ? "block" : "none"}; //버튼식으로 hidden,block 으로 껏키가능 select
+  display: ${({ visible }) => (visible ? "block" : "none")};
 `;
 
 const ExhibitionHeader = styled.div`
@@ -113,7 +112,7 @@ const HeaderFilterWrap = styled.div`
 `;
 
 const FilterSelect = styled.button`
-  all: unset; // 모든 기본 스타일 초기화
+  all: unset;
   box-sizing: border-box;
   width: 200px;
   height: 49px;
@@ -125,34 +124,5 @@ const FilterSelect = styled.button`
   :hover {
     background-color: #f3f3f3;
   }
-  /* cursor: pointer; */
+  cursor: pointer;
 `;
-// const FilterInputWrap = styled.div`
-//   flex: 1;
-//   background: #ffffff;
-//   border: 1px solid #dedede;
-//   border-radius: 4px;
-//   margin-left: 24px;
-//   position: relative;
-// `;
-
-// const FilterSearch = styled.input`
-//   width: 100%;
-//   height: 100%;
-//   padding: 0 12px;
-//   border-radius: 4px;
-// `;
-
-// const FilterButton = styled.button`
-//   height: 100%;
-//   // background: inherit; //!부모의 속성을 따라가는
-//   background: transparent;
-//   font-size: 17px;
-//   font-weight: bold;
-//   padding: 0 12px;
-//   position: absolute;
-//   right: 0;
-//   :hover {
-//     cursor: pointer;
-//   }
-// `;
