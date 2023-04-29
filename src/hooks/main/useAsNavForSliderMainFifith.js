@@ -10,12 +10,11 @@ export const useAsNavForSliderMainFifith = () => {
   const subSliderRef = useRef(null);
 
   useEffect(() => {
-    // 서버 연결 후, 연동이 사라지는 문제에 있어서, setInterval 매서드를 통해서 에러를 제어
     setInterval(()=> {
       setMainSlider(mainSliderRef.current);
       setSudSilder(subSliderRef.current);
      }, 3000)
-  }, []);
+  }, [subSliderRef]);
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(1);
   const Indexhandler = (oldIndex, newIndex) => {

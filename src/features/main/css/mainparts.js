@@ -77,27 +77,203 @@ const MainH5 = styled.h4`
 
 //  Main 페이지 - 소제목(1 번째)
 const MainH4 = styled.h4`
-  font-family: "S-CoreDream-3Light";
+  font-family: "S-CoreDream-5Medium";
   font-size: 20px;
+  @media (max-width: 1440px) {
+    font-size: 15px;
+  }
 `;
 
 // Main 개별 태그들에 대한 상세설정 //////////////////////////////////////////////////////////////////////
 // ---------------------------------------------------------------------------------- //
 // Main 페이지 첫번째(1) 슬라이더 레이아웃
-const FirstMainSliderWrap = styled.div`
-  position: relative;
+const FirstWrapGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 269px;
+  @media (max-width: 1440px) {
+    grid-template-columns: 1fr 201.75px;
+  }
+`
+const FirstMainSlider = styled.div`
   max-width: 1256px;
-  width: 1256px;
-  height: 704px;
-`;
-// Main 페이지 첫번째(1) 슬라이더 스타일설정
-const FirstSubSliderWrap = styled.div`
-  position: relative;
-  max-width: 269px;
-  width: 269px;
-  height: 704px;
-`;
+  min-width: 1256px;
+  min-height: 709px;
+  max-height: 709px;
 
+  @media (max-width: 1440px) {
+    max-width: 942px;
+    min-width: 942px;
+    min-height: 531.75px;
+    max-height: 531.75px;
+  }
+`
+const FirstMainSliderWrap = styled(FirstMainSlider)`
+  position: relative;
+`
+const FirstMainSliderTitle = styled.div`
+  position: absolute;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  align-items: center;
+  top: 143px;
+  width: fit-content;
+  max-width: 526px;
+  @media (max-width: 1440px) {
+    grid-template-columns: 42px 1fr;
+    top: 107.25px;
+    max-width: 394.5px;
+  }
+  .titleNum {
+    font-size: 24px;
+    @media (max-width: 1440px) {
+      font-size: 18px;
+    }
+  }
+  .title {
+    padding: 12px;
+    font-size: 48px;
+    background-color: rgba(37, 37, 37, 0.7);
+    color: #FFF;
+    @media (max-width: 1440px) {
+      padding: 9px;
+      font-size: 36px;
+    }
+  }
+`
+
+const FirstMainSliderDesc = styled.div`
+  position: absolute;
+  top: 354px;
+  width: 364px;
+  font-size: 17px;
+  line-height: 28px;
+  color: #3C3C3C;
+  @media (max-width: 1440px) {
+    top: 265.5px;
+    width: 273px;
+    font-size: 12.75px;
+    line-height: 21px;
+  }
+`
+
+const FirstMainSliderBtn = styled.div`
+  position: absolute;
+  bottom: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 358px;
+  height: 70px;
+  border: 1px solid #242424;
+  border-radius: 50px;
+  color: #242424;
+  &:hover {
+    background-color: #242424;
+    color: #ffffff;
+    cursor: pointer;
+  }
+  @media (max-width: 1440px) {
+    bottom: 3.75px;
+    width: 268.5px;
+    height: 59.25px;
+  }
+`
+
+const FirstMainSliderImg = styled.img`
+  margin: 0 auto;
+  display: block;
+  width: 492px;
+  height: 704px;
+  @media (max-width: 1440px) {
+    width: 369px;
+    height: 528px;
+  }
+`
+const FirstMainSliderInfo = styled.div`
+  position: absolute;
+  left: 926px;
+  top: 317px;
+  width: 376px;
+  @media (max-width: 1440px) {
+    left: 694.5px;
+    top: 237.75px;
+    width: 282px;
+  }
+`
+
+const FirstMainSliderInfoText = styled.div`
+  .title {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #242424;
+    @media (max-width: 1440px) {
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+  }
+  .content {
+    font-size: 16px;
+    color: #5A5A5A;
+    margin-bottom: 45px;
+    @media (max-width: 1440px) {
+      font-size: 12px;
+      margin-bottom: 33.75px;
+    }
+  }
+  .contentdate {
+    font-family: 'Montserrat';
+  }
+`
+
+const FirstSubSlider = styled.div`
+  height:704px;
+  @media (max-width: 1440px) {
+    height: 528px;
+  }
+`
+
+const FirstSubSliderWrap = styled(FirstSubSlider)`
+  position: relative;
+`
+
+const FirstSubSliderImg = styled.img`
+  display: block;
+  width: 269px;
+  height: 384.91px;
+  @media (max-width: 1440px) {
+    width: 201.75px;
+    height: 288.6825px;
+  }
+`
+const FirstSliderIndex = styled.div`
+  position: absolute;
+  right: 134.5px;
+  transform: translateX(50%);
+  bottom: 5px;
+  width: 90px;
+  height: 63px;
+  font-size: 25px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-family: "Montserrat", sans-serif;
+
+  span {
+    font-size: 20px;
+    color: #7E7E7E;
+  }
+
+  @media (max-width: 1440px) {
+    right: 100.875px;
+    width: 67.5px;
+    height: 47.25px;
+    font-size: 18.75px;
+    bottom: 0;
+    span {
+    font-size: 15px;
+    }
+  }
+`
 // ---------------------------------------------------------------------------------- //
 // Main 페이지 두번째(2) 슬라이더 스타일설정
 const SecondSliderWrap = styled(FirstMainSliderWrap)`
@@ -619,16 +795,6 @@ const SubSliderProfile = styled(MainSliderProfile)`
   }
 `
 
-const Icons = styled.div`
-  position: absolute;
-  top: 53%;
-  left: 50%;
-  transform: translate(-${(pos) => pos.transform}%, -50%);
-  font-size: 2.8rem;
-  /* color: red; */
-  text-align: center;
-`;
-
 const SliderIndex = styled.div`
   position: absolute;
   left:614px;
@@ -670,8 +836,20 @@ export {
   MainH4,
   MainH5,
   // Main 페이지(1) 상세관련
+  FirstWrapGrid,
+  FirstMainSlider, 
   FirstMainSliderWrap,
+  FirstMainSliderTitle,
+  FirstMainSliderImg,
+  FirstMainSliderDesc,
+  FirstMainSliderBtn,
+  FirstMainSliderInfo,
+  FirstMainSliderInfoText,
+  FirstSubSlider,
   FirstSubSliderWrap,
+  FirstSubSliderImg,
+  FirstSliderIndex,
+
   // Main 페이지(2) 상세관련
   SecondSliderWrap,
   SecondSlider,
@@ -709,7 +887,4 @@ export {
   SubSliderImg,
   SubSliderProfile,
   SliderIndex,
-
-  // Main Slider buttom
-  Icons,
 };
