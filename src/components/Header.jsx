@@ -34,6 +34,7 @@ function Header() {
   const navList = [
     { id: "home" , title: "홈", img: `${headerState.home ? home_gradient : home_gray}`, navigation: "/", state:headerState.home},
     { id: "exhibition", title: "전시", img: `${headerState.exhibition ? exhibition_gradient : exhibition_gray}`, navigation: "/exhibition" ,state:headerState.exhibition},
+    { id: "exhibitionecreate", title: "전시등록", img: `${headerState.exhibitionecreate ? exhibition_gradient : exhibition_gray}`, navigation: "/exhibition/create" ,state:headerState.exhibitionecreate},
     { id: "artgram", title: "아트그램", img: `${headerState.artgram ? artgram_gradient : artgram_gray}`, navigation: "/artgram" ,state:headerState.artgram},
     { id: "mypages", title: "마이페이지", img: `${headerState.mypages ? user_gradient : user_gray}`,navigation: isLoggedIn ? "/mypage" : "/login", state:headerState.mypages},
   ];
@@ -77,6 +78,7 @@ function Header() {
                 setHeaderState({...headerState, 
                   home:false, 
                   exhibition:false,
+                  exhibitionecreate:false,
                   artgram:false,
                   mypages:false,
                   [id]:true})

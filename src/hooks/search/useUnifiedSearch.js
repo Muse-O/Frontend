@@ -16,6 +16,7 @@ export const useUnifiedSearch = () => {
     setHeaderState({...headerState, 
       home:false, 
       exhibition:false,
+      exhibitionecreate:false,
       artgram:false,
       mypages:false})
   },[])

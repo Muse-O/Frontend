@@ -13,6 +13,7 @@ function Exhibition() {
     setHeaderState({...headerState, 
       home:false, 
       exhibition:true,
+      exhibitionecreate:false,
       artgram:false,
       mypages:false})
   },[])

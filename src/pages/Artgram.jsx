@@ -22,6 +22,7 @@ function Artgram() {
     setHeaderState({...headerState, 
       home:false, 
       exhibition:false,
+      exhibitionecreate:false,
       artgram:true,
       mypages:false})
   },[])
@@ -38,7 +39,7 @@ function Artgram() {
               : merged.map(artgrams => 
                 <ArtgramBox key={artgrams.artgramId} info={artgrams}/>)}
           />
-          <ArtgramWrite /> {/* 아트그램 생성으로 이동하는 버튼 */}
+          <Artgramparts.WriteLayout children={<ArtgramWrite />} /> {/* 아트그램 생성으로 이동하는 버튼 */}
           <Artgramparts.HiddenRef ref={ref} children={hasNextPage ? "fetchNextPage요청" : "마지막페이지"} />
           <TopButton/>
         </Artgramparts.Layout>

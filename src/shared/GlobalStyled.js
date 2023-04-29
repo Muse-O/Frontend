@@ -190,7 +190,7 @@ const NavgatePath = styled.div`
   background: ${props => props.state ? "linear-gradient(to bottom, #3360ff 0%, #b960ff 70%);" : null};
   -webkit-background-clip:  ${props => props.state ? "text" : null};
   @media (max-width: 1440px) {
-    font-size: 18px;
+    font-size: 17px;
   }
   @media (max-width: 390px) {
    display: none;
