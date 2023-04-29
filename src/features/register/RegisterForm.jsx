@@ -39,14 +39,14 @@ function RegisterForm() {
   const [code, setCode] = useState(""); //이메일 인증번호
   const [checkPassword, setCheckPassword] = useState(""); //비밀번호 확인
   const [pwVisible, setPwVisible] = useState(false); //비밀번호 보임/숨김
+  const [emailAuthMsg, setEmailAuthMsg] = useState("");
 
   //react-query
   const { register } = useRegister();
-  const { emailConfirm, checkEmailConfirm, warningMsg, emailConfirmMsg } =
-    useEmailConfirm();
-  const { emailAuthSend } = useEmailAuthSend();
-  const { emailAuthConfirm } = useEmailAuthConfirm();
-
+  const { emailConfirm, warningMsg, emailConfirmMsg } = useEmailConfirm();
+  const { emailAuthSend, emailAuthSendMsg } = useEmailAuthSend();
+  const { emailAuthConfirm, emailAuthConfirmMsg, emailAuthConfirmWarning } =
+    useEmailAuthConfirm();
   const changeInputHandler = e => {
     const { value, name } = e.target;
     setRegisterInfo(pre => {
@@ -67,6 +67,18 @@ function RegisterForm() {
   const emailAuthSendHandler = () => {
     emailAuthSend({ email: registerInfo.email });
   };
+
+  useEffect(() => {
+    if (emailAuthSendMsg) {
+      setEmailAuthMsg(emailAuthSendMsg);
+    }
+    if (emailAuthConfirmMsg) {
+      setEmailAuthMsg(emailAuthConfirmMsg);
+    }
+    if (emailAuthConfirmWarning) {
+      setEmailAuthMsg(emailAuthConfirmWarning);
+    }
+  }, [emailAuthSendMsg, emailAuthConfirmMsg, emailAuthConfirmWarning]);
 
   //이메일 인증번호 onChange
   const changeEmailAuthConfirmHandler = e => {
@@ -172,15 +184,16 @@ function RegisterForm() {
                 type="text"
                 value={code}
                 onChange={changeEmailAuthConfirmHandler}
+                placeholder="인증 코드를 입력해주세요"
               />
               <button onClick={emailAuthSendHandler}>인증번호 발송</button>
             </StEmailAuthBox>
             <StEmailAuthBtn onClick={emailAuthConfirmHandler}>
               확인
             </StEmailAuthBtn>
-            {/* <div>
-              <div>이메일인증번호 틀렸을 시 들어가는 경고메시지</div>
-            </div> */}
+            <StEmailAuthWarning>
+              <div>{emailAuthMsg}</div>
+            </StEmailAuthWarning>
           </StEmailValidationBox>
         </StEmailWrap>
 
@@ -409,6 +422,20 @@ const StEmailAuthBtn = styled.button`
   font-size: 12px;
   font-family: "SpoqaHanSansNeo-Regular";
   cursor: pointer;
+  margin-bottom: 8px;
+`;
+
+const StEmailAuthWarning = styled.div`
+  width: 416px;
+  height: 9px;
+  display: flex;
+  align-items: center;
+  color: #f65959;
+  margin-bottom: 15px;
+
+  div {
+    font-size: 12px;
+  }
 `;
 
 const StPwWrap = styled.div`
