@@ -2,16 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRegister } from "../../hooks/register/useRegister";
 import { useEmailConfirm } from "../../hooks/register/useEmailConfirm";
-import {
-  // emailConfirmHandler,
-  emailRegExp,
-  pwRegExp,
-  emailValidation,
-  pwValidation,
-  nicknameValidation,
-  registerHandler,
-  checkUserPassword,
-} from "./registerValidate";
 import styled from "styled-components";
 import { useEmailAuthSend } from "../../hooks/register/useEmailAuthSend";
 import { useEmailAuthConfirm } from "../../hooks/register/useEmailAuthComfirm";
@@ -22,9 +12,6 @@ import trueVisibleEyes from "../../assets/imgs/login/eye_gray.png";
 /**
  * 할일
  * 1) input 빈 값인경우 input outline 적용
- * 2) 비밀번호 보기/숨기기
- * 3) 메일확인 -> 확인완료 토글
- * 4) 메일인증 -> 인증번호 재발송 토글
  * 5) 인증코드 유효시간
  */
 function RegisterForm() {
@@ -80,10 +67,39 @@ function RegisterForm() {
     if (checkEmailConfirm === true) {
       emailAuthSend({ email: registerInfo.email });
       setCheckCodeStyle(true);
+      setShowTimer(true);
+      setMinutes(3);
+      setSeconds(0);
     } else {
       setEmailAuthMsg("이메일 중복 확인을 진행해주세요.");
     }
   };
+
+  //타이머
+  const [showTimer, setShowTimer] = useState(false);
+  const [minutes, setMinutes] = useState(3);
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    let interval;
+    if (showTimer) {
+      interval = setInterval(() => {
+        if (parseInt(seconds) > 0) {
+          setSeconds(parseInt(seconds) - 1);
+        }
+        if (parseInt(seconds) === 0) {
+          if (parseInt(minutes) === 0) {
+            clearInterval(interval);
+            setShowTimer(false); // 타이머 종료 후 showTimer를 false로 변경
+          } else {
+            setMinutes(parseInt(minutes) - 1);
+            setSeconds(59);
+          }
+        }
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [showTimer, minutes, seconds]);
 
   useEffect(() => {
     if (emailAuthSendMsg) {
@@ -189,11 +205,13 @@ function RegisterForm() {
     } else if (checkEmailConfirm === false) {
       setEmailMsg("이메일 중복 확인을 진행해주세요.");
     } else if (checkEmailConfirm === true) {
-      setEmailMsg(null);
+      setEmailMsg("");
     } else if (!pwRegExp.test(registerInfo.password)) {
       setPwMsg("알파벳, 숫자, 특수문자를 조합하여 6~15자로 입력해주세요.");
     } else if (registerInfo.password !== checkPassword) {
       setCheckPwMsg("비밀번호와 일치하지 않습니다.");
+    } else if (registerInfo.nickname === "") {
+      setNicknameMsg("닉네임을 입력해주세요.");
     } else if (
       registerInfo.nickname.length < 2 ||
       registerInfo.nickname.length > 8
@@ -245,8 +263,6 @@ function RegisterForm() {
 
           <StEmailValidationBox>
             <label>이메일 인증</label>
-            {/* 추후 남은시간 보여줄 것 */}
-            {/* <div>인증코드 유효시간은 3분입니다.</div> */}
 
             <StEmailAuthBox>
               <input
@@ -255,6 +271,12 @@ function RegisterForm() {
                 onChange={changeEmailAuthConfirmHandler}
                 placeholder="인증 코드 입력"
               />
+
+              {showTimer && (
+                <StCount>
+                  {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+                </StCount>
+              )}
               <button
                 onClick={emailAuthSendHandler}
                 style={{
@@ -291,6 +313,7 @@ function RegisterForm() {
                     color: "#242424",
                     padding: "10px 10px 15px",
                     letterSpacing: "3px",
+                    borderColor: pwMsg ? "red" : "#dddddd",
                   }}
                 />
                 <div onClick={visibleChangeHandler}>
@@ -304,6 +327,7 @@ function RegisterForm() {
                   name="password"
                   onChange={changeInputHandler}
                   placeholder="알파벳, 숫자, 특수문자 조합 6-15자"
+                  style={{ borderColor: pwMsg ? "red" : "#dddddd" }}
                 />
                 <div onClick={visibleChangeHandler}>
                   <img src={trueVisibleEyes} alt="trueVisibleEyes" />
@@ -326,6 +350,7 @@ function RegisterForm() {
                   color: "#242424",
                   padding: "10px 10px 15px",
                   letterSpacing: "3px",
+                  borderColor: checkPwMsg ? "red" : "#dddddd",
                 }}
               />
             </div>
@@ -343,6 +368,7 @@ function RegisterForm() {
               name="nickname"
               onChange={changeInputHandler}
               placeholder="2글자 이상 8글자 이하 입력"
+              style={{ borderColor: nicknameMsg ? "red" : "#dddddd" }}
             />
             <StNickNameWarning>{nicknameMsg}</StNickNameWarning>
           </div>
@@ -463,6 +489,7 @@ const StEmailValidationBox = styled.div`
 `;
 
 const StEmailAuthBox = styled.div`
+  width: 436px;
   display: flex;
 
   input {
@@ -475,6 +502,7 @@ const StEmailAuthBox = styled.div`
     outline: none;
     font-size: 16px;
     margin-right: 8px;
+    position: relative;
 
     &::placeholder {
       color: #cccccc;
@@ -495,6 +523,16 @@ const StEmailAuthBox = styled.div`
     cursor: pointer;
     margin-bottom: 8px;
   }
+`;
+
+const StCount = styled.div`
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  color: #f65959;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  transform: translate(260px, 15px);
 `;
 
 const StEmailAuthBtn = styled.button`
