@@ -7,11 +7,11 @@ import * as Artgramparts from '../features/artgram/css/ArtgramCss'
 // import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
 import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
 import { useRecoilValue } from 'recoil'
-import { searchDataArtState, searchDataExState, searchDataUserState, searchWordState } from '../hooks/search/seartStore'
+import { searchDataArtState, searchDataExState, searchDataUserState } from '../hooks/search/seartStore'
 import TopButton from '../components/TopButton'
 import { useEditTime } from '../hooks/main/useEditTime'
-import { headerStatedefalut } from '../components/headerStore'
 import ArtgramBox from '../features/artgram/ArtgramBox'
+import { usePostSearchWord } from '../hooks/search/usePoseSearchWord'
 // import ArtgramBox from '../features/artgram/ArtgramBox'
 
 function UnifiedSearch() {
@@ -21,9 +21,15 @@ function UnifiedSearch() {
   const searchDataEx = useRecoilValue(searchDataExState)
   const searchDataArt = useRecoilValue(searchDataArtState)
   const searchDataUser = useRecoilValue(searchDataUserState)
+  const {postSearchWord} = usePostSearchWord()
   // console.log("searchDataEx", searchDataEx);
   // console.log("searchDataArt", searchDataArt);
   // console.log("searchDataUser", searchDataUser);
+  const searchDateEx = (detailRoute,type,exhibitionTitle) => {
+    navigate(detailRoute)
+    postSearchWord({type, title:exhibitionTitle})
+  }
+
 
   return (
     <>
@@ -55,8 +61,8 @@ function UnifiedSearch() {
           {searchDataEx && searchDataEx?.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
             : (<US.SearchBoxEx>
-              {searchDataEx?.map(({exhibitionId,detailRouter,postImage,exhibitionTitle,startDate,address}) => (
-              <US.SearchEx key={exhibitionId} onClick={()=>navigate(detailRouter)}>
+              {searchDataEx?.map(({exhibitionId,detailRouter,postImage,exhibitionTitle,startDate,address,type}) => (
+              <US.SearchEx key={exhibitionId} onClick={()=>searchDateEx(detailRouter,type,exhibitionTitle)}>
               <US.SearchBoxExImg src={postImage} alt=''/>
               <US.SearchBoxExTitle children={exhibitionTitle}/>
               <US.SearchBoxExDate children={editTimehandle(startDate)}/>

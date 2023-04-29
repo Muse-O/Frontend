@@ -98,9 +98,13 @@ const Logo = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 32px;
   img {
     width: 100%;
+  }
+  @media (max-width: 1440px) {
+    height: 30px;
+    font-size: 24px;
   }
   @media (max-width: 390px) {
     display: none;
@@ -112,6 +116,11 @@ const LoginState = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
+  @media (max-width: 1440px) {
+    height:  71.25px;
+    gap: 12px;
+  }
+
   @media (max-width: 390px) {
    display: none;
   }
@@ -122,6 +131,10 @@ const LoginStateImg = styled.div`
   height: 50px;
   border-radius: 50px;
   background-color: #D9D9D9;
+  @media (max-width: 1440px) {
+    width: 37.5px;
+    height: 37.5px;
+  }
   @media (max-width: 390px) {
    display: none;
   }
@@ -135,6 +148,9 @@ const LoginStateNickname = styled.p`
 
 const Nav = styled.div`
   margin-top: 22px;
+  @media (max-width: 1440px) {
+    margin-top: 16.5px;
+  }
   @media (max-width: 390px) {
    display: none;
   }
@@ -145,6 +161,9 @@ const NavSearch = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 30px;
+  @media (max-width: 1440px) {
+    margin-bottom: 22.5px;
+  }
   @media (max-width: 390px) {
    display: none;
   }
@@ -156,6 +175,10 @@ const NavSearchInput = styled.input`
   background-color: #D9D9D9;
   padding: 12px;
   border-radius: 5px;
+  @media (max-width: 1440px) {
+    height: 30px;
+    padding: 9px;
+  }
   @media (max-width: 390px) {
    display: none;
   }
@@ -255,6 +278,81 @@ const NavBottomPathEx = styled(NavBottomPath)`
   }
 `
 
+const NavSearchList = styled.div`
+  position: fixed;
+  top: ${props=> props.state ? "175px" : "100vh"};
+  margin-left: 245px;
+  width: 1675px;
+  height: 100vh;
+  padding: 40px 75px;
+  transition: all 0.5s;
+  background-color: rgba(36, 36, 36, 0.97);
+  z-index: 15;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 33px;
+  @media (max-width: 1440px) {
+    top: ${props=> props.state ? "131.25px" : "100vh"};
+    margin-left: 183.75px;
+    width: 1256.25px;
+    height: 100vh;
+    padding: 30px 56.25px;
+    grid-template-columns: 225px 1fr;
+  }
+`
+
+const NavSearchListTop10 = styled.div`
+  color: white;
+  h2 {
+    font-size: 20px;
+    margin-bottom: 28px;
+    color: #FFFFFF;
+    @media (max-width: 1440px) {
+      font-size: 25px;
+      margin-bottom: 21px;
+    }
+  }
+  .searchList {
+    display: grid;
+    grid-template-columns: 30px 1fr;
+    align-items: center;
+    height: 60px;
+    padding: 8px 0;
+    border-bottom: 1px solid #7E7E7E;
+    @media (max-width: 1440px) {
+      grid-template-columns: 22.5px 1fr;
+      height: 45px;
+      padding: 6px 0;
+    }
+    &:hover {
+      background-color: rgba(36, 36, 36, 1);
+    }
+
+    .rank {
+      font-family: 'Montserrat';
+      font-size: 16px;
+      @media (max-width: 1440px) {
+        font-size: 12px;
+      }
+    }
+    .contents {
+      font-size: 16px;
+      @media (max-width: 1440px) {
+        font-size: 12px;
+      }
+    }
+  }
+`
+const NavSearchListRecently = styled.div`
+  color: white;
+  h2 {
+    font-size: 20px;
+    @media (max-width: 1440px) {
+      font-size: 15px;
+    }
+    color: #FFFFFF;
+  }
+`
 
 const MobileHeaerLayout = styled.div`
   display: none;
@@ -312,6 +410,9 @@ export {
   MobileHeaerLayout,
   MobileHeaerLogo,
   MobileSettings,
+  NavSearchList,
+  NavSearchListTop10,
+  NavSearchListRecently,
   TopButtunWrap,
   TopButtun
 }

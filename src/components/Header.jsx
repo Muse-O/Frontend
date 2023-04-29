@@ -19,6 +19,7 @@ import artgram_gradient from '../assets/imgs/header/artgram_gradient.png'
 import artgram_gray from '../assets/imgs/header/artgram_gray.png'
 import user_gradient from '../assets/imgs/header/user_gradient.png'
 import user_gray from '../assets/imgs/header/user_gray.png'
+import OpenSearchWindow from "../features/unfiedSearch/OpenSearchWindow";
 
 function Header() {
   const accessToken = cookies.get("access_token");
@@ -27,9 +28,12 @@ function Header() {
     const { email } = jwtDecode(accessToken);
     nickname = email;
   }
-  const [isLoggedIn, setIsLoggedIn] = useState(accessToken); //로그인/로그아웃 상태관리
+  const [isLoggedIn, setIsLoggedIn] = useState(accessToken); 
   const navigate = useNavigate();
   const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
+  const [,setSearchWord] = useRecoilState(searchWordState)
+  const [inputValue, setInputValue] = useState("")
+  const [searchWindow, setSearchWindow] = useState(false)
 
 
   const navList = [
@@ -39,20 +43,20 @@ function Header() {
     { id: "mypages", title: "마이페이지", img: `${headerState.mypages ? user_gradient : user_gray}`,navigation: isLoggedIn ? "/mypage" : "/login", state:headerState.mypages},
   ];
 
-  const [,setSearchWord] = useRecoilState(searchWordState)
-  const [inputValue, setInputValue] = useState("")
   const searchhanler = (e) => {
     e.preventDefault()
     if(inputValue==="") {
       return
     } else {
       setSearchWord(inputValue.replace(/\s/g, ""))
+      setSearchWindow(false)
       navigate('/search')
       setInputValue("")
     }
   }
 
   return (
+    <>
     <Headers.Headerwrap>
         <MobileHeaer/>
         <Headers.Logo children={<img src={logo} alt="logo"/>}/>
@@ -61,9 +65,11 @@ function Header() {
           <Headers.LoginStateNickname children={nickname}/>
         </Headers.LoginState>
         <Headers.Nav>
-          <Headers.NavSearch as="form" onSubmit={searchhanler}>
+          <Headers.NavSearch as="form" 
+            onSubmit={searchhanler}>
           <Headers.NavSearchInput 
             value={inputValue}
+            onMouseDown={()=>setSearchWindow(true)}
             onChange={(e)=> setInputValue(e.target.value)}
             placeholder="검색"/>
           </Headers.NavSearch>
@@ -103,6 +109,8 @@ function Header() {
           </>)}
       </Headers.NavBottom>
     </Headers.Headerwrap>
+    <OpenSearchWindow searchWindow={searchWindow} setSearchWindow={setSearchWindow}/>
+    </>
   );
 }
 

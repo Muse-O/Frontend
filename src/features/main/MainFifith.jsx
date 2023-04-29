@@ -26,7 +26,6 @@ function MainFifith() {
     editList.push(editshiftitem)
     editLists = editList
   }
-  console.log(data);
 
   return (
     <Main.FifthLayout height="640"  media1440="480">
