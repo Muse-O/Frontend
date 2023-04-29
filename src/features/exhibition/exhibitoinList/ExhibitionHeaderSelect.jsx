@@ -4,7 +4,7 @@ import { EXListApplyBox } from "./EXListApplyBox";
 import { useGetTop10Tags } from "../../../hooks/exhibition/useGetTop10Tags";
 import { useGetSido } from "../../../hooks/exhibition/useGetSido";
 
-export const HeaderWhereSelect = ({ setApplyWhere, setWhereVisible }) => {
+export const HeaderWhereSelect = ({ setApplyWhere, setSelectedFilter }) => {
   const [sido] = useGetSido();
   const [cities, setCities] = useState();
   useEffect(() => {
@@ -117,7 +117,7 @@ export const HeaderWhereSelect = ({ setApplyWhere, setWhereVisible }) => {
       <EXListApplyBox
         selectRegion={selectRegion}
         setApplyWhere={setApplyWhere}
-        setWhereVisible={setWhereVisible}
+        setSelectedFilter={setSelectedFilter}
         sido={sido}
         setCities={setCities}
         setSelectRegion={setSelectRegion}
@@ -128,7 +128,7 @@ export const HeaderWhereSelect = ({ setApplyWhere, setWhereVisible }) => {
 
 export const HeaderCategorySelect = ({
   setApplyCategory,
-  setCategoryVisible,
+  setSelectedFilter,
 }) => {
   const [category, setCategroy] = useState("");
   const categoryHandelr = (e) => {
@@ -256,7 +256,7 @@ export const HeaderCategorySelect = ({
       <EXListApplyBox
         category={category}
         setCategroy={setCategroy}
-        setCategoryVisible={setCategoryVisible}
+        setSelectedFilter={setSelectedFilter}
         setCheckboxes={setCheckboxes}
         setApplyCategory={setApplyCategory}
       />
@@ -264,7 +264,7 @@ export const HeaderCategorySelect = ({
   );
 };
 
-export const HeaderTagSelect = ({ setApplyHashTag, setTagVisible }) => {
+export const HeaderTagSelect = ({ setApplyHashTag, setSelectedFilter }) => {
   //top10tag들
   const [top10TagsData] = useGetTop10Tags();
   const [top10TagLists, setTop10TagLists] = useState([]);
@@ -353,7 +353,7 @@ export const HeaderTagSelect = ({ setApplyHashTag, setTagVisible }) => {
       <EXListApplyBox
         setApplyHashTag={setApplyHashTag}
         selectTags={selectTags}
-        setTagVisible={setTagVisible}
+        setSelectedFilter={setSelectedFilter}
         setSelectTags={setSelectTags}
         setTop10TagLists={setTop10TagLists}
         top10TagsData={top10TagsData}

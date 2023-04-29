@@ -13,75 +13,58 @@ export const EXheader = ({
   setApplyCategory,
   setApplyHashTag,
 }) => {
-  const [whenVisible, setWhenVisible] = useState(false);
-  const [whereVisible, setWhereVisible] = useState(false);
-  const [categoryVisible, setCategoryVisible] = useState(false);
-  const [tagVisible, setTagVisible] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState("");
   const selectHandler = (e) => {
     const { name } = e.target;
-    if (name === "when") {
-      setWhenVisible(!whenVisible);
-      setWhereVisible(false);
-      setCategoryVisible(false);
-      setTagVisible(false);
-    } else if (name === "where") {
-      setWhereVisible(!whereVisible);
-      setWhenVisible(false);
-      setCategoryVisible(false);
-      setTagVisible(false);
-    } else if (name === "category") {
-      setCategoryVisible(!categoryVisible);
-      setWhereVisible(false);
-      setWhenVisible(false);
-      setTagVisible(false);
-    } else if (name === "tag") {
-      setTagVisible(!tagVisible);
-      setCategoryVisible(false);
-      setWhereVisible(false);
-      setWhenVisible(false);
+    if (selectedFilter === name) {
+      setSelectedFilter("");
+    } else {
+      setSelectedFilter(name);
     }
   };
-  //검색
-  // const onChangeSearch = (e) => {
-  //   const value = e.target.value;
-  //   setSearch(value);
-  // };
-  // const onSearchHandler = () => {
-  //   setApplySearch(Search);
-  //   setSearch("");
-  // };
+  const handleClick = (e) => {
+    e.stopPropagation(); // 이벤트 버블링 방지
+  };
   return (
     <ExhibitionHeader>
       <HeaderTitle>전시</HeaderTitle>
       <HeaderFilterWrap>
         <FilterSelect name="when" onClick={selectHandler}>
           When
-          <SelectBox visible={whenVisible}>진행중</SelectBox>
+          <SelectBox visible={selectedFilter === "when"} onClick={handleClick}>
+            진행중
+          </SelectBox>
         </FilterSelect>
+
         <FilterSelect name="where" onClick={selectHandler}>
           Where
-          <SelectBox visible={whereVisible}>
+          <SelectBox visible={selectedFilter === "where"} onClick={handleClick}>
             <HeaderWhereSelect
               setApplyWhere={setApplyWhere}
-              setWhereVisible={setWhereVisible}
+              setSelectedFilter={setSelectedFilter}
             />
           </SelectBox>
         </FilterSelect>
+
         <FilterSelect name="category" onClick={selectHandler}>
           Category
-          <SelectBox visible={categoryVisible}>
+          <SelectBox
+            visible={selectedFilter === "category"}
+            onClick={handleClick}
+          >
             <HeaderCategorySelect
               setApplyCategory={setApplyCategory}
-              setCategoryVisible={setCategoryVisible}
+              setSelectedFilter={setSelectedFilter}
             />
           </SelectBox>
         </FilterSelect>
+
         <FilterSelect name="tag" onClick={selectHandler}>
           Tag
-          <SelectBox visible={tagVisible}>
+          <SelectBox visible={selectedFilter === "tag"} onClick={handleClick}>
             <HeaderTagSelect
               setApplyHashTag={setApplyHashTag}
-              setTagVisible={setTagVisible}
+              setSelectedFilter={setSelectedFilter}
             />
           </SelectBox>
         </FilterSelect>

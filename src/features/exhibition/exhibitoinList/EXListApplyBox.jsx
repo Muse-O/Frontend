@@ -4,23 +4,25 @@ export const EXListApplyBox = ({
   //카테고리
   category,
   setCategroy,
-  setCategoryVisible,
+
   setCheckboxes,
   setApplyCategory,
   // 해시태그
   setApplyHashTag,
   selectTags,
-  setTagVisible,
+
   setSelectTags,
   setTop10TagLists,
   top10TagsData,
   // 장소
   selectRegion,
   setApplyWhere,
-  setWhereVisible,
+
   sido,
   setCities,
   setSelectRegion,
+  //취소버튼
+  setSelectedFilter,
 }) => {
   const apply = () => {
     category && setApplyCategory(category);
@@ -85,9 +87,9 @@ export const EXListApplyBox = ({
     }
   };
   const cancle = () => {
-    setCategroy && setCategoryVisible(false);
-    setSelectTags && setTagVisible(false);
-    setSelectRegion && setWhereVisible(false);
+    setCategroy && setSelectedFilter("");
+    setSelectTags && setSelectedFilter("");
+    setSelectRegion && setSelectedFilter("");
   };
   return (
     <ApplyContainer>
