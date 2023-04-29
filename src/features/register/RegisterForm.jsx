@@ -413,6 +413,7 @@ const StLinkBox = styled.div`
 `;
 
 const StEmailWrap = styled.div`
+  width: 416px;
   height: 260px;
   display: flex;
   flex-direction: column;
