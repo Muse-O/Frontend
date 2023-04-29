@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { EXListApplyBox } from "./EXListApplyBox";
 import { useGetTop10Tags } from "../../../hooks/exhibition/useGetTop10Tags";
-import {
-  useGetSiGunGu,
-  useGetSido,
-} from "../../../hooks/exhibition/useGetSido";
+import { useGetSido } from "../../../hooks/exhibition/useGetSido";
 
 export const HeaderWhereSelect = ({ setApplyWhere, setWhereVisible }) => {
   const [sido] = useGetSido();
