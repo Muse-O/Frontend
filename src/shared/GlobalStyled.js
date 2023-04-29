@@ -95,11 +95,13 @@ const Headerwrap = styled.header`
 
 const Logo = styled.div`
   height: 40px;
-  background-color: #D9D9D9;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 2rem;
+  img {
+    width: 100%;
+  }
   @media (max-width: 390px) {
     display: none;
   }
@@ -159,7 +161,7 @@ const NavSearchInput = styled.input`
   }
 `;
 
-const NavIcons = styled.div`
+const NavLists = styled.div`
   display: flex;
   align-items: center;
   height: 43px;
@@ -167,6 +169,9 @@ const NavIcons = styled.div`
   padding: 0 12px;
   border-radius: 5px;
   background-color: ${props => props.state ? "#F7F7F9" :"transparent"};
+  &:hover{
+    cursor: pointer;
+  }
   @media (max-width: 390px) {
    display: none;
   }
@@ -206,7 +211,7 @@ const NavBottom = styled.div`
   box-shadow: 0px -15px 9px -2px rgba(37,37,37,0.9);
   flex-direction:column;
   background-color: #252525;
-  gap:22px;
+  gap:12px;
   @media (max-width: 390px) {
    display: none;
   }
@@ -219,16 +224,36 @@ const NavBottomPath = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: 16px;
+  background: #242424;
+  border: 1px solid #CCCCCC;
+  border-radius: 5px;
+  color: #fff;
+  &:hover {
+    cursor: pointer;
+  }
 
   @media (max-width: 1440px) {
     width: 137.75px;
-    font-size: 1.5rem;
+    font-size: 12px;
   }
   @media (max-width: 390px) {
    display: none;
   }
 `
+
+const NavBottomPathEx = styled(NavBottomPath)`
+  border: 1px solid transparent;
+  background-image: linear-gradient(#242424, #242424), 
+  linear-gradient(to bottom, #3360FF 0%,  #C984FF 100%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  &:hover{
+    background-image: linear-gradient(#3360FF, #C984FF), 
+    linear-gradient(to bottom, #3360FF 0%,  #C984FF 100%);
+  }
+`
+
 
 const MobileHeaerLayout = styled.div`
   display: none;
@@ -252,6 +277,21 @@ const MobileSettings = styled.div`
   height: 34px;
   background-color: red;
 `
+const TopButtunWrap = styled.div`
+  position: relative;
+  height: 50px;
+  margin: 50px 0;
+`
+
+const TopButtun = styled.div`
+  position: absolute;
+  right: 40px;
+  width: 50px;
+  height: 50px;
+  img {
+    width: 100%;
+  }
+`
 
 export {
   Headerwrap,
@@ -262,12 +302,15 @@ export {
   Nav,
   NavSearch,
   NavSearchInput,
-  NavIcons,
+  NavLists,
   Navgateimg,
   NavgatePath,
   NavBottom,
   NavBottomPath,
+  NavBottomPathEx,
   MobileHeaerLayout,
   MobileHeaerLogo,
-  MobileSettings
+  MobileSettings,
+  TopButtunWrap,
+  TopButtun
 }

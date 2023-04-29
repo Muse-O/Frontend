@@ -8,44 +8,59 @@ function MainThird() {
   const { isLoading, isError, data } = useMostLike();
   const { editTimehandle } = useEditTime();
   const {navigatehandle} = useNavigator()
+  if(data) {
+    console.log(data.row1);
+   console.log(data.row2);
+  }
+
 
   return (
-    <Main.ThirdLayout height="782">
+    <Main.ThirdLayout height="906" media1440="679.5">
       <Main.ArticleTitle>
         <Main.MainH1 children="TOP 10" />
+        <Main.MainH5 children="더보기 >" onClick={()=>navigatehandle('/exhibition')}/>
       </Main.ArticleTitle>
-      <Main.ThirdWrap gap="23" fw="wrap">
-        {isLoading || isError ? (
-          <div> 로딩 중 ...</div>
-        ) : !data ? (
-          <div>로딩 중 ...</div>
-        ) : (
-          data.map((mostlikeExhibition) => (
-            <Main.ThirdInner key={mostlikeExhibition.exhibitionId} onClick={()=>navigatehandle(mostlikeExhibition.detailRouter)}>
-              <div className="number">
-                <p>{mostlikeExhibition.index}</p>
-              </div>
-              <div className="exhibitionimg">
-                <img
-                  className="exhibitionimg"
-                  src={mostlikeExhibition.postImage}
-                  alt="인기순 전시"
-                />
-              </div>
-              <div className="innerText">
-                <p className="titleKo">{mostlikeExhibition.exhibitionTitle}</p>
-                <p className="titleEn">
-                  {mostlikeExhibition.exhibitionEngTitle}
-                </p>
-                <p className="location">
-                  {editTimehandle(mostlikeExhibition.startDate)}{" - "}
-                  {editTimehandle(mostlikeExhibition.endDate)}
-                </p>
-              </div>
+      { isLoading || isError
+        ? <div style={{marginTop:"66px"}}>로딩 중...</div>
+        : 
+        <Main.ThirdWrapGrid>
+        <div>
+          {data && data.row1.map(list1 => (
+            <Main.ThirdInner key={list1.exhibitionId} onClick={()=>navigatehandle(list1.detailRouter)}>
+              <Main.ThirdNum>{list1.index}</Main.ThirdNum>
+              <Main.ThirdImg children={<img src={list1.postImage} alt="인기순 전시"/>}/>
+              <Main.ThirdInfo>
+              <p className="titleKo">{list1.exhibitionTitle}</p>
+        <p className="titleEn">
+          {list1.exhibitionEngTitle}
+        </p>
+        <p className="location">
+          {editTimehandle(list1.startDate)}{" - "}
+          {editTimehandle(list1.endDate)}
+        </p>
+              </Main.ThirdInfo>
             </Main.ThirdInner>
-          ))
-        )}
-      </Main.ThirdWrap>
+          ))}
+        </div>
+        <div>
+        {data && data.row2.map(list2 => (
+            <Main.ThirdInner key={list2.exhibitionId} onClick={()=>navigatehandle(list2.detailRouter)}>
+              <Main.ThirdNum>{list2.index}</Main.ThirdNum>
+              <Main.ThirdImg children={<img src={list2.postImage} alt="인기순 전시"/>}/>
+              <Main.ThirdInfo>
+              <p className="titleKo">{list2.exhibitionTitle}</p>
+        <p className="titleEn">
+          {list2.exhibitionEngTitle}
+        </p>
+        <p className="location">
+          {editTimehandle(list2.startDate)}{" - "}
+          {editTimehandle(list2.endDate)}
+        </p>
+              </Main.ThirdInfo>
+            </Main.ThirdInner>
+          ))}
+        </div>
+      </Main.ThirdWrapGrid>}
     </Main.ThirdLayout>
   );
 }
