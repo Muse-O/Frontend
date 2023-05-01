@@ -9,6 +9,7 @@ import setting from "../../assets/imgs/mypage/gear_gray.png";
 
 function UserProfile() {
   const { userProfile } = useGetUserProfile();
+  console.log(userProfile);
   //모달 open 관리
   const [openModal, setOpenModal] = useState(false);
 
@@ -29,9 +30,11 @@ function UserProfile() {
 
         <StUserNameWrap>
           <StInfoUserName>{userProfile?.nickname}</StInfoUserName>
-          <StArtistMark>
-            <img src={palette} alt="palette" />
-          </StArtistMark>
+          {userProfile?.role === "UR02" ? (
+            <StArtistMark>
+              <img src={palette} alt="palette" />
+            </StArtistMark>
+          ) : null}
         </StUserNameWrap>
 
         <StUserInfoIntro>
