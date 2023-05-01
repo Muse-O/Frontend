@@ -47,6 +47,7 @@ function OpenSearchWindow({searchWindow, setSearchWindow}) {
         : recent && recent.map((lists, index)=> (
           <div className='searchList' key={index} children={lists.keyWord} onClick={()=>searchwordRecentHandle(lists.keyWord)}/>))}
     </Headers.NavSearchListRecently>
+    <Headers.NavSearchMsg children="** 크롬에서 검색창이 사라지지 않으면, 마우스를 검색창 밖으로 이동해 주세요."/>
   </Headers.NavSearchList>
   )
 }

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logout from "../features/login/Logout";
 import { cookies } from "../shared/cookies";
 import jwtDecode from "jwt-decode";
 import * as Headers from "../shared/GlobalStyled";
 import MobileHeaer from "./MobileHeaer";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { searchWordState } from "../hooks/search/seartStore";
 import { headerStatedefalut } from "./headerStore";
 
@@ -20,14 +20,14 @@ import artgram_gray from '../assets/imgs/header/artgram_gray.png'
 import user_gradient from '../assets/imgs/header/user_gradient.png'
 import user_gray from '../assets/imgs/header/user_gray.png'
 import OpenSearchWindow from "../features/unfiedSearch/OpenSearchWindow";
+import { decodeAccessToken, decodeNickname, decodeProfileImg, decodeUserRole } from "../features/login/loginTokenStore";
 
 function Header() {
   const accessToken = cookies.get("access_token");
-  let nickname = "로그인 해주세요.";
-  if (accessToken) {
-    const { email } = jwtDecode(accessToken);
-    nickname = email;
-  }
+  const [,setDecodeAccessToken] = useRecoilState(decodeAccessToken)
+  const nickname = useRecoilValue(decodeNickname)
+  const profileImg = useRecoilValue(decodeProfileImg)
+  const userRole = useRecoilValue(decodeUserRole)
   const [isLoggedIn, setIsLoggedIn] = useState(accessToken); 
   const navigate = useNavigate();
   const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
@@ -55,14 +55,21 @@ function Header() {
     }
   }
 
+  useEffect(()=>{
+    const accessToken = cookies.get("access_token");
+    if(accessToken){
+      setDecodeAccessToken(jwtDecode(accessToken))
+    }
+  },[])
+
   return (
     <>
     <Headers.Headerwrap>
         <MobileHeaer/>
         <Headers.Logo children={<img src={logo} alt="logo"/>}/>
         <Headers.LoginState>
-          <Headers.LoginStateImg/>
-          <Headers.LoginStateNickname children={nickname}/>
+          <Headers.LoginStateImg children={profileImg ? <img src={profileImg} alt={profileImg}/> : null}/>
+          <Headers.LoginStateNickname children={nickname || "로그인 해주세요."}/>
         </Headers.LoginState>
         <Headers.Nav>
           <Headers.NavSearch as="form" 
