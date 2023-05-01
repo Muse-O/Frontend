@@ -2,14 +2,14 @@ import styled from "styled-components";
 import { DropZoneMsg, DropZonePreview, PreviewBox } from "../createArtgram/ArtgramFormImgparts";
 
 const Layout = styled.div`
-  padding: 80px 75px;
+  margin: 80px 75px;
   @media (max-width: 1440px) {
-    padding: 60px 56.25px;
+    margin: 60px 56.25px;
   }
 `
 const H1 = styled.h1`
   font-size: 48px;
-  font-family: 'S-CoreDream-3Light';
+  font-family: 'S-CoreDream-5Medium';
 
   span {
     font-family: 'Montserrat';
@@ -339,9 +339,9 @@ const WriteLayout = styled.div`
   position: relative;
   display: flex;
   justify-content: end;
-  left: 37.5px;
+  height: 50px;
   @media (max-width: 1440px) {
-    left: 28.125px;
+    height: 50.625px;
   }
 `
 

@@ -10,14 +10,16 @@ import Header from "../components/Header";
 import ArtgramBox from "../features/artgram/ArtgramBox";
 import ArtgramWrite from "../features/artgram/ArtgramWrite";
 import TopButton from "../components/TopButton";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { headerStatedefalut } from "../components/headerStore";
+import { decodeUserRole } from "../features/login/loginTokenStore";
 // Artgram 컴포넌트 ----------------------------------------------------------------------------------------/
 function Artgram() {
   const { data, isLoading, isError, fetchNextPage, hasNextPage } = useGetartgraminfinity(); // 비동기통신 GET
   let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : []; // 무한스크롤에 따른, data-merge
   const { ref } = useInterserctionObserver(fetchNextPage); // useRef를 통해서, 무한스크롤 감지를 위한 커스컴 훅
   const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
+  const userRole = useRecoilValue(decodeUserRole)
   useEffect(()=> {
     setHeaderState({...headerState, 
       home:false, 
@@ -38,9 +40,10 @@ function Artgram() {
               : merged.map(artgrams => 
                 <ArtgramBox key={artgrams.artgramId} info={artgrams}/>)}
           />
-          <Artgramparts.WriteLayout children={<ArtgramWrite />} /> {/* 아트그램 생성으로 이동하는 버튼 */}
+          
           <Artgramparts.HiddenRef ref={ref} children={hasNextPage ? "fetchNextPage요청" : "마지막페이지"} />
           <TopButton/>
+          {userRole && <Artgramparts.WriteLayout children={<ArtgramWrite />}/>}
         </Artgramparts.Layout>
       </Article>
     </>

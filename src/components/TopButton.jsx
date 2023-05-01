@@ -1,5 +1,5 @@
 import React from 'react'
-import topbtn from '../assets/imgs/common/topbtn.png'
+import topButton from '../assets/imgs/common/topButton.png'
 import { TopButtun, TopButtunWrap } from '../shared/GlobalStyled'
 
 function TopButton() {
@@ -11,7 +11,7 @@ function TopButton() {
   }
 
   return (
-    <TopButtunWrap children={<TopButtun onClick={topbutton} children={<img src={topbtn}/>}/>}/>
+    <TopButtunWrap children={<TopButtun onClick={topbutton} children={<img src={topButton}/>}/>}/>
     
   )
 }
