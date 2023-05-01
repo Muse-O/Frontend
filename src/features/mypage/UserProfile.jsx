@@ -6,10 +6,16 @@ import styled from "styled-components";
 import AlarmContainer from "./AlarmContainer";
 import palette from "../../assets/imgs/mypage/palette_gradient.png";
 import setting from "../../assets/imgs/mypage/gear_gray.png";
+import { usePatchRole } from "../../hooks/mypage/usePatchRole";
+import { useRecoilValue } from "recoil";
+import { decodeEmail } from "../login/loginTokenStore";
 
 function UserProfile() {
   const { userProfile } = useGetUserProfile();
   console.log(userProfile);
+  const { patchRole } = usePatchRole();
+  const email = useRecoilValue(decodeEmail);
+  console.log(email);
   //모달 open 관리
   const [openModal, setOpenModal] = useState(false);
 
@@ -29,6 +35,8 @@ function UserProfile() {
   const changeRoleHandler = () => {
     const confirmResult = window.confirm("작가 신청을 하시겠습니까?");
     if (confirmResult) {
+      //작가신청 PATCH
+      patchRole(email);
       window.alert("작가 신청이 완료되었습니다!");
     }
   };

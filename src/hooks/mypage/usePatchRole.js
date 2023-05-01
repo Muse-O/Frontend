@@ -14,7 +14,6 @@ export const usePatchRole = () => {
       return data;
     },
     onSuccess: () => {
-      //state확인 후 true 상태 내보내기 -> 승인처리 알럿 띄우기
       queryClient.invalidateQueries(keys.GET_USERPROFILE);
     },
   });
