@@ -5,54 +5,48 @@ import { useGetExhibitioninfinity } from "../../../hooks/exhibition/useGetExhibi
 import { EXheader } from "./EXheader";
 import { EXListBody } from "./EXListBody";
 import { ExCategoryCode } from "../../../shared/EXCodes";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsStore";
 
 function ExhibitionLists() {
   //적용
-  const [applycategory, setApplyCategory] = useState("");
-  const [applyHashTag, setApplyHashTag] = useState("");
-  const [applySearch, setApplySearch] = useState("");
-  const [applyWhere, setApplyWhere] = useState("");
-  //헤더
+
+  //?리코일 적용
+  const [applyTags, setApplyTags] = useRecoilState(EXApplyTagsStore);
+  const resetApplyTags = useResetRecoilState(EXApplyTagsStore);
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
-    useGetExhibitioninfinity(
-      10,
-      applycategory,
-      applyHashTag,
-      applySearch,
-      applyWhere
-    );
+    useGetExhibitioninfinity(10, applyTags);
+  console.log("리코일 적용", applyTags);
+  //헤더
+
   let merged =
     data?.pages[0].data.exhibitionList.rows.length > 0
       ? [].concat(...data?.pages[0].data.exhibitionList.rows)
       : [];
   const { ref } = useInterserctionObserver(fetchNextPage);
-  let tag = [applyWhere, applycategory, applyHashTag, applySearch];
+  //리코일
   let applys = [
-    { id: "Where", value: applyWhere },
-    { id: "Category", value: ExCategoryCode[applycategory] },
-    { id: "HashTag", value: applyHashTag },
-    { id: "Search", value: applySearch },
+    { id: "Where", value: applyTags.Where },
+    { id: "category", value: ExCategoryCode[applyTags.category] },
+    { id: "HashTag", value: applyTags.HashTag },
+    { id: "Search", value: applyTags.Search },
   ];
+  //리코일
   const resetTag = () => {
-    setApplyCategory("");
-    setApplyHashTag("");
-    setApplySearch("");
-    setApplyWhere("");
+    resetApplyTags();
   };
+  //리코일
   const deleteTag = (id) => {
-    id === "Category" && setApplyCategory("");
-    id === "HashTag" && setApplyHashTag("");
-    id === "Search" && setApplySearch("");
-    id === "Where" && setApplyWhere("");
+    setApplyTags((pre) => {
+      return {
+        ...pre,
+        [id]: "",
+      };
+    });
   };
   return (
     <ExhibitionWrap>
-      <EXheader
-        setApplySearch={setApplySearch}
-        setApplyWhere={setApplyWhere}
-        setApplyCategory={setApplyCategory}
-        setApplyHashTag={setApplyHashTag}
-      />
+      <EXheader />
       <EXTag>
         {applys.filter(
           (apply) => apply.value !== undefined && apply.value !== ""

@@ -1,29 +1,52 @@
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import styled from "styled-components";
+import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsStore";
+import {
+  EXCategory,
+  EXSelectCategoryStore,
+} from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
 
 export const EXListApplyBox = ({
   //카테고리
   category,
   setCategroy,
   setCheckboxes,
-  setApplyCategory,
+  // setApplyCategory,
   // 해시태그
-  setApplyHashTag,
+  // setApplyHashTag,
   selectTags,
   setSelectTags,
   setTop10TagLists,
   top10TagsData,
   // 장소
   selectRegion,
-  setApplyWhere,
+  // setApplyWhere,
   sido,
   setCities,
   setSelectRegion,
   //취소버튼
   setSelectedFilter,
+  classification,
 }) => {
+  const [_, setApplyTags] = useRecoilState(EXApplyTagsStore);
+
+  const resetCategory = useResetRecoilState(EXSelectCategoryStore);
+  const Category = useRecoilValue(EXCategory);
   const apply = () => {
-    category && setApplyCategory(category);
-    selectTags && setApplyHashTag(selectTags);
+    classification === "Category" &&
+      setApplyTags((pre) => {
+        return {
+          ...pre,
+          category: Category,
+        };
+      });
+    selectTags &&
+      setApplyTags((pre) => {
+        return {
+          ...pre,
+          HashTag: selectTags,
+        };
+      });
     if (selectRegion) {
       const replaceCityName = (addressString) => {
         const cities = [
@@ -54,22 +77,32 @@ export const EXListApplyBox = ({
         return replacedString;
       };
       const where = replaceCityName(selectRegion);
-      setApplyWhere(where);
+      setApplyTags((pre) => {
+        return {
+          ...pre,
+          Where: where,
+        };
+      });
     }
   };
   const reset = () => {
-    if (category) {
-      setCategroy("");
-      setCheckboxes((prevState) =>
-        Object.keys(prevState).reduce((acc, curr) => {
-          acc[curr] = false;
-          return acc;
-        }, {})
-      );
-      setApplyCategory("");
+    if (classification === "Category") {
+      resetCategory();
+
+      setApplyTags((pre) => {
+        return {
+          ...pre,
+          category: "",
+        };
+      });
     }
     if (selectTags) {
-      setApplyHashTag("");
+      setApplyTags((pre) => {
+        return {
+          ...pre,
+          HashTag: "",
+        };
+      });
       setTop10TagLists(
         top10TagsData.map((tag) => {
           return { tagName: tag.tagName, checked: false };
@@ -79,7 +112,12 @@ export const EXListApplyBox = ({
     }
     if (sido) {
       setCities(sido);
-      setApplyWhere("");
+      setApplyTags((pre) => {
+        return {
+          ...pre,
+          Where: "",
+        };
+      });
       setSelectRegion("");
     }
   };
