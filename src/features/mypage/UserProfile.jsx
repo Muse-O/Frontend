@@ -7,15 +7,11 @@ import AlarmContainer from "./AlarmContainer";
 import palette from "../../assets/imgs/mypage/palette_gradient.png";
 import setting from "../../assets/imgs/mypage/gear_gray.png";
 import { usePatchRole } from "../../hooks/mypage/usePatchRole";
-import { useRecoilValue } from "recoil";
-import { decodeEmail } from "../login/loginTokenStore";
 
 function UserProfile() {
   //react-query
   const { userProfile } = useGetUserProfile();
   const { patchRole } = usePatchRole();
-  //recoil
-  const email = useRecoilValue(decodeEmail);
 
   //모달 open 관리
   const [openModal, setOpenModal] = useState(false);
