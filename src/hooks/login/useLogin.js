@@ -2,13 +2,16 @@ import { useMutation } from "@tanstack/react-query";
 import { apis } from "../../api/apis";
 import { cookies } from "../../shared/cookies";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { decodeAccessToken } from "../../features/login/loginTokenStore";
 import jwtDecode from "jwt-decode";
+import { headerStateSearch, headerStatedefalut } from "../../components/headerStore";
 
 function useLogin() {
   const navigate = useNavigate();
   const [,setDecodeAccessToken] = useRecoilState(decodeAccessToken)
+  const headerStateSearchs = useRecoilValue(headerStateSearch)
+  const [, setHeaderState] = useRecoilState(headerStatedefalut)
   const { mutate } = useMutation({
     mutationFn: async payload => {
       const response = await apis.post("/auth/login", payload);
@@ -21,7 +24,7 @@ function useLogin() {
     onSuccess: () => {
       alert("로그인 완료하였습니다!");
       const accessToken = cookies.get("access_token")
-      console.log(jwtDecode(accessToken));
+      setHeaderState({...headerStateSearchs})
       setDecodeAccessToken(jwtDecode(accessToken))
       navigate("/");
     },

@@ -14,11 +14,7 @@ import { headerStatedefalut } from "../components/headerStore";
 function Main() {
   const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
   useEffect(()=> {
-    setHeaderState({...headerState, 
-      home:true, 
-      exhibition:false,
-      artgram:false,
-      mypages:false})
+    setHeaderState({...headerState, home:true})
   },[])
   return (
     <>

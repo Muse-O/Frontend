@@ -12,6 +12,9 @@ import { useOpenModal } from "../../hooks/artgram/useOpenModal";
 // import 컴포넌트 -----------------------------------------------------------------------------------------/
 import ArtgarmDetailModal from "./detailModal/ArtgarmDetailModal";
 import { usePostSearchWord } from "../../hooks/search/usePoseSearchWord";
+import { useRecoilValue } from "recoil";
+import { decodeUserRole } from "../login/loginTokenStore";
+import { useNavigate } from "react-router-dom";
 // ArtgramBox 컴포넌트 -------------------------------------------------------------------------------------/
 function ArtgramBox({ info, postSearchWords }) {
   const { artgramId, imgUrl, imgCount, profileImg,nickname, scrapCount, scrap, likeCount, liked,} 
@@ -19,8 +22,9 @@ function ArtgramBox({ info, postSearchWords }) {
   const { patchScrap } = useScrap(); // 스크랩관련 비동기통신 PATCH
   const { patchLikes } = useLikes(); // 좋아요관련 비동기통신 PATCH
   const {modalState, openModalhandle} = useOpenModal(); // 개별데이터 상세페이지를 열 모달관련 커스컴 훅 
+  const userRole = useRecoilValue(decodeUserRole)
   const {postSearchWord} = usePostSearchWord()
-
+  const navigate = useNavigate()
   const artgramEvent = () => {
     if(postSearchWords?.type) {
       const {type, title} = postSearchWords
@@ -43,7 +47,8 @@ function ArtgramBox({ info, postSearchWords }) {
           state={scrap}
           onClick={(event) => {
             event.stopPropagation();
-            patchScrap(artgramId);}}
+            !userRole && window.confirm("회원만 가능합니다. 로그인 하시겠습니까?") && navigate('/login')
+            userRole && patchScrap(artgramId)}}
           children={
             <>
               <p children={<RiBookmarkFill />} />
@@ -53,7 +58,10 @@ function ArtgramBox({ info, postSearchWords }) {
           state={liked}
           onClick={(event) => {
             event.stopPropagation();
-            patchLikes(artgramId);}}
+            !userRole && window.confirm("회원만 가능합니다. 로그인 하시겠습니까?") && navigate('/login')
+            userRole && patchLikes(artgramId)
+            
+          }}
           children={
             <>
               <p children={<AiFillHeart />} />

@@ -17,6 +17,14 @@ export const TextArea = ({ label, inputProps }) => (
   </DivFlex>
 );
 
+export const TextAreaUpdate = ({ label, inputProps }) => (
+  <DivFlex>
+    {label && <Label>{label}</Label>}
+    <StyledTextArea2 {...inputProps} />
+    <CountValue length={inputProps.value.length}>{inputProps.value && inputProps.value.length || 0}/600</CountValue>
+  </DivFlex>
+);
+
 export const HashTagInput = ({ label, hashTag, setHashTag }) => {
   const [inputValue, setInputValue] = useState("");
   const handleInputChange = (event) => {
@@ -97,6 +105,29 @@ const StyledTextArea = styled.textarea`
   }
   @media (max-width: 1440px) {
     height: 273.75px;
+    font-size: 12px;
+    ::placeholder{
+    font-size: 8px;
+  }
+  }
+`;
+
+const StyledTextArea2 = styled.textarea`
+  display: flex;
+  flex-grow: 1;
+  height: 322px;
+  padding: 8px 10px;
+  border-radius: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  resize: none;
+  box-sizing: border-box;
+
+  ::placeholder{
+    font-size: 12px;
+  }
+  @media (max-width: 1440px) {
+    height: 232px;
     font-size: 12px;
     ::placeholder{
     font-size: 8px;

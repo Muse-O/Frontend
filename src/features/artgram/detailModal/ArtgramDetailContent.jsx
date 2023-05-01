@@ -8,7 +8,7 @@ function ArtgramDetailContent({ detailData }) {
 
   return (
     <ContentInnerText>
-    <div className="profileimg" />
+    <div className="profileimg" children={<img src={detailData.profileImg} alt='프로필이미지'/>} />
     <div>
       <div>
         <p className="profileNickname">{detailData.nickname}</p>

@@ -2,14 +2,14 @@ import styled from "styled-components";
 import { DropZoneMsg, DropZonePreview, PreviewBox } from "../createArtgram/ArtgramFormImgparts";
 
 const Layout = styled.div`
-  padding: 80px 75px;
+  margin: 80px 75px;
   @media (max-width: 1440px) {
-    padding: 60px 56.25px;
+    margin: 60px 56.25px;
   }
 `
 const H1 = styled.h1`
   font-size: 48px;
-  font-family: 'S-CoreDream-3Light';
+  font-family: 'S-CoreDream-5Medium';
 
   span {
     font-family: 'Montserrat';
@@ -138,10 +138,12 @@ const BoxProfileNickname = styled.div`
 
 const Scrap = styled.div`
   font-family: "Montserrat";
+  height: 15px;
   font-size: 12px;
   display: flex;
   gap: 8px;
   align-items: center;
+  cursor: pointer;
   
   p:first-child {
     font-size: 16px;
@@ -158,14 +160,21 @@ const Heart = styled(Scrap)`
   `;
 
 const DetailScrap = styled(Scrap)`
-  flex-direction: column;
+  min-width: 40px;
   gap: 8px;
+  @media (max-width: 1440px) {
+    min-width: 30px;
+    gap: 6px;
+  }
 `
 const DetailHeart = styled(Heart)`
-  flex-direction: column;
+  min-width: 40px;
   gap: 8px;
+  @media (max-width: 1440px) {
+    min-width: 30px;
+    gap: 6px;
+  }
 `
-
 
 const PluralImgs = styled.div`
   position: absolute;
@@ -202,11 +211,17 @@ const ModalBackground = styled.div`
   padding: 20px;
   background-color: rgba(36, 36, 36, 0.7);
   z-index: 10200;
+  @media (max-width: 1440px) {
+    padding: 15px;
+  }
   
   img {
     display: block;
     width: 2rem;
     margin-left: auto;
+    @media (max-width: 1440px) {
+      width: 1.5rem;
+    }
   }
 `
 
@@ -224,7 +239,7 @@ const ModalWindow = styled.div`
   z-index: 10200;
   @media (max-width: 1440px) {
     width: 948px;
-    height: 726px;
+    height: 670.5px;
   }
 `;
 
@@ -306,6 +321,13 @@ const Notification = styled.div`
   border-radius: 5px;
   font-size: 12px;
 
+  img {
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    width: 12px;
+  }
+
   span {
     color:red;
     margin-right: 4px;
@@ -315,9 +337,12 @@ const Notification = styled.div`
   margin-top: 12px;
   width: 394.5px;
   height: 71.25px;
-  padding: 15px;
+  padding: 10px;
   gap: 6px;
   font-size: 9px;
+  img {
+    width: 9px;
+  }
   span {
     margin-right: 3px;
   }
@@ -339,9 +364,9 @@ const WriteLayout = styled.div`
   position: relative;
   display: flex;
   justify-content: end;
-  left: 37.5px;
+  height: 50px;
   @media (max-width: 1440px) {
-    left: 28.125px;
+    height: 50.625px;
   }
 `
 

@@ -116,10 +116,10 @@ const LoginState = styled.div`
   border-bottom: 1px solid #FFFFFF;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 4px;
   @media (max-width: 1440px) {
     height:  71.25px;
-    gap: 12px;
+    gap: 3px;
   }
 
   @media (max-width: 390px) {
@@ -128,26 +128,47 @@ const LoginState = styled.div`
 `
 
 const LoginStateImg = styled.div`
-  width: 50px;
-  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
   border-radius: 50px;
-  overflow: auto;
-  background-color: #D9D9D9;
+  overflow: hidden;
 
   img {
     width: 100%;
   }
 
   @media (max-width: 1440px) {
-    width: 37.5px;
-    height: 37.5px;
+    min-width: 37.5px;
+    max-width: 37.5px;
+    min-height: 37.5px;
+    max-height: 37.5px;
   }
   @media (max-width: 390px) {
    display: none;
   }
 `
+const LoginStateAuthor = styled.img`
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  @media (max-width: 1440px) {
+    width: 9px;
+    height: 9px;
+  }
+`
+
+
 const LoginStateNickname = styled.p`
   color: #EBEBEB;
+  font-size: 16px;
+  margin-left: 8px;
+  font-family: 'SpoqaHanSansNeo-Regular';
+  @media (max-width: 1440px) {
+    margin-left: 6px;
+    font-size: 12px;
+  }
   @media (max-width: 390px) {
    display: none;
   }
@@ -272,6 +293,14 @@ const NavBottomPath = styled.div`
    display: none;
   }
 `
+const NavBottomPathLogin = styled(NavBottomPath)`
+  &:hover {
+    background: #fff;
+    color: #242424;
+  }
+`
+
+
 
 const NavBottomPathEx = styled(NavBottomPath)`
   border: 1px solid transparent;
@@ -287,7 +316,7 @@ const NavBottomPathEx = styled(NavBottomPath)`
 
 const NavSearchList = styled.div`
   position: fixed;
-  top: ${props=> props.state ? "175px" : "100vh"};
+  top: ${props=> props.state ? "175px" : "110vh"};
   margin-left: 245px;
   width: 1675px;
   height: 100vh;
@@ -299,7 +328,7 @@ const NavSearchList = styled.div`
   grid-template-columns: 300px 1fr;
   gap: 50px;
   @media (max-width: 1440px) {
-    top: ${props=> props.state ? "131.25px" : "100vh"};
+    top: ${props=> props.state ? "131.25px" : "110vh"};
     margin-left: 183.75px;
     width: 1256.25px;
     height: 100vh;
@@ -403,15 +432,26 @@ const MobileSettings = styled.div`
 `
 const TopButtunWrap = styled.div`
   position: relative;
+  display: flex;
+  justify-content: end;
+  left: 67.5px;
   height: 50px;
-  margin: 50px 0;
+  @media (max-width: 1440px) {
+    left: 50.625px;
+    height: 50.625px;
+  }
 `
 
 const TopButtun = styled.div`
-  position: absolute;
-  right: 40px;
-  width: 50px;
-  height: 50px;
+  position: fixed;
+  bottom: 60px;
+  width: 60px;
+  height: 60px;
+  @media (max-width: 1440px) {
+    width: 40px;
+    height: 40px;
+    bottom: 40px;
+  }
   img {
     width: 100%;
   }
@@ -428,8 +468,20 @@ const NavSearchMsg = styled.div`
     bottom: 30px;
     font-size: 12px;
   }
-
 `
+const AlertWindow = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: ${(props) => (props.state ? "block" : "none")};
+  width: 300px;
+  height: 100px;
+  background-color: yellow;
+  @media (max-width: 1440px) {
+  }
+`;
+
 
 export {
   Headerwrap,
@@ -437,6 +489,7 @@ export {
   LoginState,
   LoginStateImg,
   LoginStateNickname,
+  LoginStateAuthor,
   Nav,
   NavSearch,
   NavSearchInput,
@@ -445,6 +498,7 @@ export {
   NavgatePath,
   NavBottom,
   NavBottomPath,
+  NavBottomPathLogin,
   NavBottomPathEx,
   MobileHeaerLayout,
   MobileHeaerLogo,
@@ -454,5 +508,6 @@ export {
   NavSearchListRecently,
   TopButtunWrap,
   TopButtun,
-  NavSearchMsg
+  NavSearchMsg,
+  AlertWindow
 }
