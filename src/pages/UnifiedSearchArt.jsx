@@ -5,12 +5,16 @@ import * as US from '../features/unfiedSearch/unfiedSearch'
 import { useNavigate } from 'react-router-dom'
 import * as Artgramparts from '../features/artgram/css/ArtgramCss'
 import { useRecoilValue } from 'recoil'
-import { searchDataArtState } from '../hooks/search/seartStore'
+import { searchDataArtState, searchWordState } from '../hooks/search/seartStore'
 import ArtgramBox from '../features/artgram/ArtgramBox'
+import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
 
 function UnifiedSearchArt() {
   const navigate = useNavigate()
   const searchDataArt = useRecoilValue(searchDataArtState)
+  const searchWord = useRecoilValue(searchWordState);
+  const { isLoading, isError } = useUnifiedSearch();
+
   return (
     <>
     <Header/>
@@ -30,12 +34,14 @@ function UnifiedSearchArt() {
           <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
           </>
         )
-        :(<>
+        : isLoading || isError 
+        ? (<div>로딩 중 ...</div>)
+        : (<>
         <US.H2 children={(<>아트그램<span>{searchDataArt?.length > 0 ? searchDataArt.length : null}</span></>)}/>
         {searchDataArt.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
             : <Artgramparts.Wrap>
-            {searchDataArt.map(artgrams => (<ArtgramBox key={artgrams.artgramId} info={artgrams}/>))}
+            {searchDataArt.map(artgrams => (<ArtgramBox key={artgrams.artgramId} info={artgrams} searchWord={searchWord}/> ))}
             </Artgramparts.Wrap>}
         </>)}
         

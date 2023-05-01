@@ -6,6 +6,83 @@ import {
   useGetSiGunGu,
   useGetSido,
 } from "../../../hooks/exhibition/useGetSido";
+import dayjs from "dayjs";
+import 'dayjs/locale/ko'
+dayjs.locale('ko')
+
+export const HeaderWhenSelect = () => {
+  const currentday = dayjs().format("YYYY-MM")
+  const [today, setToday] = useState(dayjs())
+  const daysInMonth = today.daysInMonth();
+  const firstDayOfMonth = dayjs(today).startOf('month').locale('ko'); // 해당 달의 철날에 대한 정보가 감겨있다.
+  const emptyDates = new Array(firstDayOfMonth.day()).fill(null);
+  const dates = Array.from({length:daysInMonth}, (_, index) =>
+  dayjs(firstDayOfMonth).add(index, 'day'));
+  const calendarLists = [...emptyDates, ...dates]
+  const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+  const preMonth = () => {
+    setToday(dayjs(today).subtract(1,"month"))
+    setInputValue('')
+  }
+  const nextMonth = () => {
+    setToday(dayjs(today).add(1,"month"))
+    setInputValue('')
+  }
+
+  const presentMonth = () => {
+    setToday(dayjs())
+    setInputValue('')
+  }
+  const [inputValue, setInputValue] = useState('')
+  useEffect(()=> {
+    if(inputValue) {
+      setToday(dayjs(inputValue))
+    }
+  }, [inputValue])
+
+  return <div style={{width:"462px", height:"502px", padding:"32px"}} children={<>
+    <div style={{display:"grid", gridTemplateColumns:"1fr 150px", alignItems:"center"}}>
+      <h1 style={{color:"#171717", fontSize:"20px", fontFamily: 'Montserrat'}}>{today.format('YYYY.MM')}</h1>
+      <div style={{display:"grid", gridTemplateColumns:"repeat(3, 1fr)", width:"150px", textAlign:"end"}}>
+        <div onClick={preMonth}>이전달</div>
+        <div onClick={presentMonth}>현재</div>  
+        <div onClick={nextMonth}>다음달</div>
+      </div>
+    </div>
+    <div style={{display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "35px",
+          maxWidth: "398px", minWidth: "398px", maxHeight: "20px", minHeight: "20px", marginTop:"40px",
+          fontFamily: 'Montserrat', fontSize:"13px", textAlign:"center"}}>
+    {days.map((day, index) => {
+      if(day === "Sun") {
+        return <div key={index} style={{color:"red", display:"flex", justifyContent:"center", alignItems:"center"}}>{day}</div>
+      } else if(day === "Sat") {
+        return <div key={index} style={{color:"blue", display:"flex", justifyContent:"center", alignItems:"center"}}>{day}</div>
+      } else {
+        return <div key={index} style={{color:"black", display:"flex", justifyContent:"center", alignItems:"center"}}>{day}</div>
+      }
+    })}
+    {calendarLists && calendarLists.map((date, index) => {
+        if(date === null) {
+          return <div key={index}></div>
+        } else if (date.format("YYYY-MM") != currentday) {
+          return <div style={{color:"black", width:"25px", lineHeight:"25px"}} key={index} onClick={()=>alert(date.format())}>{date.format("DD")}</div>
+        } else if (date.format("YYYY-MM-DD") < today.format("YYYY-MM-DD")) {
+        } else if (date.format("YYYY-MM-DD") < "10") {
+          return <div style={{color:"gray", width:"25px", lineHeight:"25px"}} key={index} onClick={()=>alert(date.format())}>{date.format("DD")}</div>
+        } else if (date.format("YYYY-MM-DD") === today.format("YYYY-MM-DD")) {
+          return <div style={{backgroundColor:"black", color:"white", borderRadius:"50px", width:"25px", lineHeight:"25px"}} key={index} onClick={()=>alert(date.format())}>{date.format("DD")}</div>  
+        } else {
+          return <div style={{color:"black", width:"25px", lineHeight:"25px"}} key={index} onClick={()=>alert(date.format())}>{date.format("DD")}</div>
+        }
+      })}
+
+  </div>
+    
+  
+  </>}/>
+
+}
+
 
 export const HeaderWhereSelect = ({ setApplyWhere, setWhereVisible }) => {
   const [sido] = useGetSido();
