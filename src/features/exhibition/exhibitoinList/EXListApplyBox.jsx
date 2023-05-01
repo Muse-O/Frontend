@@ -14,11 +14,6 @@ import {
 } from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
 
 export const EXListApplyBox = ({
-  //카테고리
-  category,
-  setCategroy,
-  setCheckboxes,
-  // setApplyCategory,
   // 해시태그
   setHashTagStore,
   top10TagsData,
@@ -115,12 +110,6 @@ export const EXListApplyBox = ({
           HashTag: "",
         };
       });
-      // setTop10TagLists(
-      //   top10TagsData.map((tag) => {
-      //     return { tagName: tag.tagName, checked: false };
-      //   })
-      // );
-      // setSelectTags([]);
     }
     if (classification === "Where") {
       setWhereStore((pre) => {

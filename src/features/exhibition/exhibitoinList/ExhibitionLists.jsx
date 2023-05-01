@@ -7,6 +7,13 @@ import { EXListBody } from "./EXListBody";
 import { ExCategoryCode } from "../../../shared/EXCodes";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsStore";
+import {
+  EXSelectCategoryStore,
+  EXSelectHashTagStore,
+  EXSelectWhereStore,
+} from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
+import { useGetTop10Tags } from "../../../hooks/exhibition/useGetTop10Tags";
+import { useGetSido } from "../../../hooks/exhibition/useGetSido";
 
 function ExhibitionLists() {
   //적용
@@ -27,13 +34,55 @@ function ExhibitionLists() {
   //리코일
   let applys = [
     { id: "Where", value: applyTags.Where },
-    { id: "category", value: ExCategoryCode[applyTags.category] },
+    { id: "Category", value: ExCategoryCode[applyTags.category] },
     { id: "HashTag", value: applyTags.HashTag },
     { id: "Search", value: applyTags.Search },
   ];
   //리코일
+  //카테고리
+  const resetCategory = useResetRecoilState(EXSelectCategoryStore);
+  const [top10TagsData] = useGetTop10Tags();
+  const [hashTagStore, setHashTagStore] = useRecoilState(EXSelectHashTagStore);
+  const [WhereStore, setWhereStore] = useRecoilState(EXSelectWhereStore);
+  const [sido] = useGetSido();
   const resetTag = () => {
     resetApplyTags();
+    //카테고리
+
+    resetCategory();
+    setApplyTags((pre) => {
+      return {
+        ...pre,
+        category: "",
+      };
+    });
+    //헤시태그
+    const updatedTo10TAGS = top10TagsData.map((tag) => {
+      return { tagName: tag.tagName, checked: false };
+    });
+    // setTop10TagLists(updatedTo10TAGS);
+    setHashTagStore((pre) => {
+      return {
+        SelectHashTags: [],
+        Top10HashTagLists: updatedTo10TAGS,
+      };
+    });
+    setApplyTags((pre) => {
+      return {
+        ...pre,
+        HashTag: "",
+      };
+    });
+    //장소
+    setWhereStore((pre) => {
+      return { ...pre, SelectRegion: "", Cities: sido };
+    });
+    setApplyTags((pre) => {
+      return {
+        ...pre,
+        Where: "",
+      };
+    });
   };
   //리코일
   const deleteTag = (id) => {
@@ -43,6 +92,43 @@ function ExhibitionLists() {
         [id]: "",
       };
     });
+    if (id === "Category") {
+      resetCategory();
+      setApplyTags((pre) => {
+        return {
+          ...pre,
+          category: "",
+        };
+      });
+    }
+    if (id === "HashTag") {
+      const updatedTo10TAGS = top10TagsData.map((tag) => {
+        return { tagName: tag.tagName, checked: false };
+      });
+      setHashTagStore((pre) => {
+        return {
+          SelectHashTags: [],
+          Top10HashTagLists: updatedTo10TAGS,
+        };
+      });
+      setApplyTags((pre) => {
+        return {
+          ...pre,
+          HashTag: "",
+        };
+      });
+    }
+    if (id === "Where") {
+      setWhereStore((pre) => {
+        return { ...pre, SelectRegion: "", Cities: sido };
+      });
+      setApplyTags((pre) => {
+        return {
+          ...pre,
+          Where: "",
+        };
+      });
+    }
   };
   return (
     <ExhibitionWrap>
