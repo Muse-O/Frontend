@@ -1,6 +1,8 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apis_token } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const useUpdateUserProfile = () => {
   const queryClient = useQueryClient();
@@ -12,7 +14,7 @@ export const useUpdateUserProfile = () => {
       return data.data;
     },
     onSuccess: () => {
-      alert("수정 완료되었습니다!");
+      toast.success("수정 완료되었습니다!");
       //성공시 유저프로필 불러오기
       queryClient.invalidateQueries(keys.GET_USERPROFILE);
     },

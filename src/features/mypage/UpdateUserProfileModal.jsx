@@ -5,12 +5,9 @@ import { useUpdateUserProfile } from "../../hooks/mypage/useUpdateUserProfile";
 import { useGetimgurl } from "../../hooks/mypage/useGetImgUrl";
 import upload from "../../assets/imgs/upload_gray.png";
 import cancel from "../../assets/imgs/common/cancel.png";
+import { ToastContainer } from "react-toastify"; //react-toastify
+import "react-toastify/dist/ReactToastify.css"; //react-toastify
 
-/*
- * 할 일
- * 1) 모달 크기 디테일 및 폰트
- * 2) 탭메뉴 클릭시 스타일 변경
- */
 function UpdateUserProfileModal({ setOpenModal }) {
   /**
    * 모달 open 관리
@@ -79,67 +76,78 @@ function UpdateUserProfileModal({ setOpenModal }) {
   };
 
   return (
-    <StUserProfileModal>
-      <StCloseBtn onClick={updateModalCloseHandler}>
-        <img src={cancel} alt="cancel" />
-      </StCloseBtn>
+    <>
+      <ToastContainer
+        position="top-center"
+        limit={1}
+        closeButton={true}
+        autoClose={2000}
+        hideProgressBar={true}
+        theme="light"
+      />
 
-      <StImgContainer>
-        <StImgBox>
-          <div>
-            <ProfileImg
-              name="profileImg"
-              src={image === "" ? editProfile.profileImg : image}
-              alt="userProfileImg"
+      <StUserProfileModal>
+        <StCloseBtn onClick={updateModalCloseHandler}>
+          <img src={cancel} alt="cancel" />
+        </StCloseBtn>
+
+        <StImgContainer>
+          <StImgBox>
+            <div>
+              <ProfileImg
+                name="profileImg"
+                src={image === "" ? editProfile.profileImg : image}
+                alt="userProfileImg"
+              />
+            </div>
+
+            <StImgEditWrap>
+              {/* input 숨기기 */}
+              <StInput
+                type="file"
+                ref={fileRef}
+                accept="image/*"
+                onChange={changeImageHandler}
+              />
+              <UpdateIcon onClick={imgUpdateHandler}>
+                <img src={upload} alt="upload" />
+                프로필 사진 변경
+              </UpdateIcon>
+              <div>10MB 이내의 이미지 파일을 업로드해주세요</div>
+            </StImgEditWrap>
+          </StImgBox>
+        </StImgContainer>
+
+        <StTextBox>
+          <StEditInputNameWrap>
+            <div>닉네임 </div>
+            <div>소개 </div>
+          </StEditInputNameWrap>
+
+          <StEditInputWrap>
+            <NameInput
+              label="닉네임"
+              name="nickname"
+              value={editProfile.nickname}
+              onChange={changeInputHandler}
+              maxLength="8"
             />
-          </div>
 
-          <StImgEditWrap>
-            {/* input 숨기기 */}
-            <StInput
-              type="file"
-              ref={fileRef}
-              accept="image/*"
-              onChange={changeImageHandler}
+            <div>닉네임은 2글자 이상 입력해주세요</div>
+
+            <IntroInput
+              label="소개"
+              name="introduction"
+              value={editProfile.introduction}
+              onChange={changeInputHandler}
+              maxLength="55"
             />
-            <UpdateIcon onClick={imgUpdateHandler}>
-              <img src={upload} alt="upload" />
-              프로필 사진 변경
-            </UpdateIcon>
-            <div>10MB 이내의 이미지 파일을 업로드해주세요</div>
-          </StImgEditWrap>
-        </StImgBox>
-      </StImgContainer>
+          </StEditInputWrap>
+        </StTextBox>
 
-      <StTextBox>
-        <StEditInputNameWrap>
-          <div>닉네임 </div>
-          <div>소개 </div>
-        </StEditInputNameWrap>
-
-        <StEditInputWrap>
-          <NameInput
-            label="닉네임"
-            name="nickname"
-            value={editProfile.nickname}
-            onChange={changeInputHandler}
-            maxLength="8"
-          />
-
-          <div>닉네임은 2글자 이상 입력해주세요</div>
-
-          <IntroInput
-            label="소개"
-            name="introduction"
-            value={editProfile.introduction}
-            onChange={changeInputHandler}
-            maxLength="55"
-          />
-        </StEditInputWrap>
-      </StTextBox>
-
-      <StUpdateBtn onClick={updateUserProfileHandler}>수정하기</StUpdateBtn>
-    </StUserProfileModal>
+        <StUpdateBtn onClick={updateUserProfileHandler}>수정하기</StUpdateBtn>
+      </StUserProfileModal>
+    </>
   );
 }
 

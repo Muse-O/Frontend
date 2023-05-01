@@ -1,6 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
 import { apis } from "../../api/apis";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify"; //react-toastify
+import "react-toastify/dist/ReactToastify.css"; //react-toastify
 
 export function useRegister() {
   const navigate = useNavigate();
@@ -10,11 +12,11 @@ export function useRegister() {
       return data;
     },
     onSuccess: () => {
-      alert("회원 가입이 완료되었습니다!");
+      toast.success("회원 가입이 완료되었습니다!");
       navigate("/");
     },
     onError: error => {
-      alert(error.response.data.errorMessage);
+      toast.error(error.response.data.errorMessage);
     },
   });
   //밖에서 register라는 이름으로 해당 mutate 사용

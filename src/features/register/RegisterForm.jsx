@@ -8,12 +8,9 @@ import { useEmailAuthConfirm } from "../../hooks/register/useEmailAuthComfirm";
 import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
 import falseVisibleEyes from "../../assets/imgs/login/invisible_gray.png";
 import trueVisibleEyes from "../../assets/imgs/login/eye_gray.png";
+import { ToastContainer, toast } from "react-toastify"; //react-toastify
+import "react-toastify/dist/ReactToastify.css"; //react-toastify
 
-/**
- * 할일
- * 1) input 빈 값인경우 input outline 적용
- * 5) 인증코드 유효시간
- */
 function RegisterForm() {
   //회원가입시 register에 보낼 정보
   const [registerInfo, setRegisterInfo] = useState({
@@ -221,162 +218,175 @@ function RegisterForm() {
   };
 
   return (
-    <StRegister>
-      <StRegisterWrap>
-        <StLinkBox>
-          <Link to="/">
-            <img src={museoLogo} alt="museoLogo" />
-          </Link>
-        </StLinkBox>
+    <>
+      <ToastContainer
+        position="top-center"
+        limit={1}
+        closeButton={true}
+        autoClose={4000}
+        hideProgressBar={true}
+        theme="light"
+      />
 
-        <StEmailWrap>
-          <StEmailInputBox>
-            <label>이메일</label>
+      <StRegister>
+        <StRegisterWrap>
+          <StLinkBox>
+            <Link to="/">
+              <img src={museoLogo} alt="museoLogo" />
+            </Link>
+          </StLinkBox>
 
-            <StEmailInputBtn>
-              <input
-                type="email"
-                name="email"
-                onChange={changeInputHandler}
-                style={{
-                  borderColor: emailMsg || warningMsg ? "red" : "#dddddd",
-                }}
-              />
-              <button
-                onClick={emailConfirmHandler}
-                style={{
-                  backgroundColor:
-                    registerEmailConfirm === false ? "white" : "#CCCCCC",
-                  borderColor:
-                    registerEmailConfirm === false ? "#3C3C3C" : "#CCCCCC",
-                  color: registerEmailConfirm === false ? "#3C3C3C" : "#FFFFFF",
-                }}
-              >
-                중복 확인
-              </button>
-            </StEmailInputBtn>
+          <StEmailWrap>
+            <StEmailInputBox>
+              <label>이메일</label>
 
-            <StEmailInputWarning>
-              <div>{emailMsg || warningMsg || emailConfirmMsg}</div>
-            </StEmailInputWarning>
-          </StEmailInputBox>
+              <StEmailInputBtn>
+                <input
+                  type="email"
+                  name="email"
+                  onChange={changeInputHandler}
+                  style={{
+                    borderColor: emailMsg || warningMsg ? "red" : "#dddddd",
+                  }}
+                />
+                <button
+                  onClick={emailConfirmHandler}
+                  style={{
+                    backgroundColor:
+                      registerEmailConfirm === false ? "white" : "#CCCCCC",
+                    borderColor:
+                      registerEmailConfirm === false ? "#3C3C3C" : "#CCCCCC",
+                    color:
+                      registerEmailConfirm === false ? "#3C3C3C" : "#FFFFFF",
+                  }}
+                >
+                  중복 확인
+                </button>
+              </StEmailInputBtn>
 
-          <StEmailValidationBox>
-            <label>이메일 인증</label>
+              <StEmailInputWarning>
+                <div>{emailMsg || warningMsg || emailConfirmMsg}</div>
+              </StEmailInputWarning>
+            </StEmailInputBox>
 
-            <StEmailAuthBox>
-              <input
-                type="text"
-                value={code}
-                onChange={changeEmailAuthConfirmHandler}
-                placeholder="인증 코드 입력"
-              />
+            <StEmailValidationBox>
+              <label>이메일 인증</label>
 
-              {showTimer && (
-                <StCount>
-                  {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-                </StCount>
+              <StEmailAuthBox>
+                <input
+                  type="text"
+                  value={code}
+                  onChange={changeEmailAuthConfirmHandler}
+                  placeholder="인증 코드 입력"
+                />
+
+                {showTimer && (
+                  <StCount>
+                    {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+                  </StCount>
+                )}
+                <button
+                  onClick={emailAuthSendHandler}
+                  style={{
+                    backgroundColor:
+                      checkCodeStyle === false ? "white" : "#CCCCCC",
+                    borderColor:
+                      checkCodeStyle === false ? "#3C3C3C" : "#CCCCCC",
+                    color: checkCodeStyle === false ? "#3C3C3C" : "#FFFFFF",
+                  }}
+                >
+                  인증번호 발송
+                </button>
+              </StEmailAuthBox>
+              <StEmailAuthBtn onClick={emailAuthConfirmHandler}>
+                확인
+              </StEmailAuthBtn>
+              <StEmailAuthWarning>
+                <div>{emailAuthMsg}</div>
+              </StEmailAuthWarning>
+            </StEmailValidationBox>
+          </StEmailWrap>
+
+          <StPwWrap>
+            <StPwContainer>
+              <label>비밀번호</label>
+              {!pwVisible ? (
+                <StPwInputImgWrap>
+                  <input
+                    type="password"
+                    name="password"
+                    onChange={changeInputHandler}
+                    placeholder="알파벳, 숫자, 특수문자 조합 6-15자"
+                    style={{
+                      fontFamily: "Malgun gothic",
+                      color: "#242424",
+                      padding: "10px 10px 15px",
+                      letterSpacing: "3px",
+                      borderColor: pwMsg ? "red" : "#dddddd",
+                    }}
+                  />
+                  <div onClick={visibleChangeHandler}>
+                    <img src={falseVisibleEyes} alt="invisibleEyes" />
+                  </div>
+                </StPwInputImgWrap>
+              ) : (
+                <StPwInputImgWrap>
+                  <input
+                    type="text"
+                    name="password"
+                    onChange={changeInputHandler}
+                    placeholder="알파벳, 숫자, 특수문자 조합 6-15자"
+                    style={{ borderColor: pwMsg ? "red" : "#dddddd" }}
+                  />
+                  <div onClick={visibleChangeHandler}>
+                    <img src={trueVisibleEyes} alt="trueVisibleEyes" />
+                  </div>
+                </StPwInputImgWrap>
               )}
-              <button
-                onClick={emailAuthSendHandler}
-                style={{
-                  backgroundColor:
-                    checkCodeStyle === false ? "white" : "#CCCCCC",
-                  borderColor: checkCodeStyle === false ? "#3C3C3C" : "#CCCCCC",
-                  color: checkCodeStyle === false ? "#3C3C3C" : "#FFFFFF",
-                }}
-              >
-                인증번호 발송
-              </button>
-            </StEmailAuthBox>
-            <StEmailAuthBtn onClick={emailAuthConfirmHandler}>
-              확인
-            </StEmailAuthBtn>
-            <StEmailAuthWarning>
-              <div>{emailAuthMsg}</div>
-            </StEmailAuthWarning>
-          </StEmailValidationBox>
-        </StEmailWrap>
+              <StPwInputWarning>{pwMsg}</StPwInputWarning>
+            </StPwContainer>
 
-        <StPwWrap>
-          <StPwContainer>
-            <label>비밀번호</label>
-            {!pwVisible ? (
-              <StPwInputImgWrap>
+            <StPwConfirmContainer>
+              <label>비밀번호 확인</label>
+              <div>
                 <input
                   type="password"
-                  name="password"
-                  onChange={changeInputHandler}
-                  placeholder="알파벳, 숫자, 특수문자 조합 6-15자"
+                  name="checkPassword"
+                  value={checkPassword}
+                  onChange={changeCheckPasswordHandler}
                   style={{
                     fontFamily: "Malgun gothic",
                     color: "#242424",
                     padding: "10px 10px 15px",
                     letterSpacing: "3px",
-                    borderColor: pwMsg ? "red" : "#dddddd",
+                    borderColor: checkPwMsg ? "red" : "#dddddd",
                   }}
                 />
-                <div onClick={visibleChangeHandler}>
-                  <img src={falseVisibleEyes} alt="invisibleEyes" />
-                </div>
-              </StPwInputImgWrap>
-            ) : (
-              <StPwInputImgWrap>
-                <input
-                  type="text"
-                  name="password"
-                  onChange={changeInputHandler}
-                  placeholder="알파벳, 숫자, 특수문자 조합 6-15자"
-                  style={{ borderColor: pwMsg ? "red" : "#dddddd" }}
-                />
-                <div onClick={visibleChangeHandler}>
-                  <img src={trueVisibleEyes} alt="trueVisibleEyes" />
-                </div>
-              </StPwInputImgWrap>
-            )}
-            <StPwInputWarning>{pwMsg}</StPwInputWarning>
-          </StPwContainer>
+              </div>
 
-          <StPwConfirmContainer>
-            <label>비밀번호 확인</label>
+              <StPwCheckWarning>{checkPwMsg}</StPwCheckWarning>
+            </StPwConfirmContainer>
+          </StPwWrap>
+
+          <StNickNameBox>
+            <label>닉네임</label>
+
             <div>
               <input
-                type="password"
-                name="checkPassword"
-                value={checkPassword}
-                onChange={changeCheckPasswordHandler}
-                style={{
-                  fontFamily: "Malgun gothic",
-                  color: "#242424",
-                  padding: "10px 10px 15px",
-                  letterSpacing: "3px",
-                  borderColor: checkPwMsg ? "red" : "#dddddd",
-                }}
+                type="text"
+                name="nickname"
+                onChange={changeInputHandler}
+                placeholder="2글자 이상 8글자 이하 입력"
+                style={{ borderColor: nicknameMsg ? "red" : "#dddddd" }}
               />
+              <StNickNameWarning>{nicknameMsg}</StNickNameWarning>
             </div>
+          </StNickNameBox>
 
-            <StPwCheckWarning>{checkPwMsg}</StPwCheckWarning>
-          </StPwConfirmContainer>
-        </StPwWrap>
-
-        <StNickNameBox>
-          <label>닉네임</label>
-
-          <div>
-            <input
-              type="text"
-              name="nickname"
-              onChange={changeInputHandler}
-              placeholder="2글자 이상 8글자 이하 입력"
-              style={{ borderColor: nicknameMsg ? "red" : "#dddddd" }}
-            />
-            <StNickNameWarning>{nicknameMsg}</StNickNameWarning>
-          </div>
-        </StNickNameBox>
-
-        <StRegisterBtn onClick={registerHandler}>가입하기</StRegisterBtn>
-      </StRegisterWrap>
-    </StRegister>
+          <StRegisterBtn onClick={registerHandler}>가입하기</StRegisterBtn>
+        </StRegisterWrap>
+      </StRegister>
+    </>
   );
 }
 

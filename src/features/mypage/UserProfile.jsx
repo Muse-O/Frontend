@@ -7,20 +7,16 @@ import AlarmContainer from "./AlarmContainer";
 import palette from "../../assets/imgs/mypage/palette_gradient.png";
 import setting from "../../assets/imgs/mypage/gear_gray.png";
 import { usePatchRole } from "../../hooks/mypage/usePatchRole";
-//react-toastify
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify"; //react-toastify
+import "react-toastify/dist/ReactToastify.css"; //react-toastify
 
 function UserProfile() {
   //react-query
   const { userProfile } = useGetUserProfile();
   const { patchRole } = usePatchRole();
 
-  //모달 open 관리
-  const [openModal, setOpenModal] = useState(false);
-
-  //수정, 작가신청 setting div
-  const [openSet, setOpenSet] = useState(false);
+  const [openModal, setOpenModal] = useState(false); //모달 open 관리
+  const [openSet, setOpenSet] = useState(false); //수정, 작가신청 setting div
 
   const openSettingHandler = () => {
     setOpenSet(prevOpenSet => !prevOpenSet);
@@ -36,8 +32,10 @@ function UserProfile() {
   const changeRoleHandler = () => {
     if (userProfile?.role === "UR04") {
       toast.error("이미 신청 완료하였습니다.");
+      return;
     } else if (userProfile?.role === "UR02") {
       toast.error("이미 작가 인증이 완료되었습니다.");
+      return;
     } else {
       const confirmResult = window.confirm("작가 신청을 하시겠습니까?");
       if (confirmResult) {
@@ -69,15 +67,6 @@ function UserProfile() {
 
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        limit={1}
-        closeButton={true}
-        autoClose={2000}
-        hideProgressBar={true}
-        theme="light"
-      />
-
       <StUserProfileBox>
         <ProfileImg src={userProfile?.profileImg} alt="userProfileImg" />
 
