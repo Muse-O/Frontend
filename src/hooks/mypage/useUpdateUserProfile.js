@@ -8,7 +8,6 @@ export const useUpdateUserProfile = () => {
 
   const { mutate } = useMutation({
     mutationFn: async editProfile => {
-      // console.log(editProfile, "editProfile");
       const data = await apis_token.patch("/mypage", editProfile);
       return data.data;
     },
