@@ -14,6 +14,7 @@ const FilterSearch = styled.input`
   height: 100%;
   padding: 0 12px;
   border-radius: 4px;
+  font-size: 16px;
 `;
 
 const FilterButton = styled.button`
