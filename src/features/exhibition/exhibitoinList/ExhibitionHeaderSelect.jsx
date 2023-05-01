@@ -4,12 +4,27 @@ import { EXListApplyBox } from "./EXListApplyBox";
 import { useGetTop10Tags } from "../../../hooks/exhibition/useGetTop10Tags";
 import { useGetSido } from "../../../hooks/exhibition/useGetSido";
 import { ExCategoryCode, ExOnOffCode } from "../../../shared/EXCodes";
-export const HeaderWhereSelect = ({ setApplyWhere, setSelectedFilter }) => {
+import { useRecoilState, useRecoilValue } from "recoil";
+import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsStore";
+import {
+  EXCategoryStoreCheckBox,
+  EXSelectCategoryStore,
+  EXSelectWhereStore,
+} from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
+export const HeaderWhereSelect = ({ setSelectedFilter }) => {
+  const [whereStore, setWhereStore] = useRecoilState(EXSelectWhereStore);
+  console.log("whereSotre", whereStore);
   const [sido] = useGetSido();
   const [cities, setCities] = useState();
   useEffect(() => {
     if (sido) {
       setCities(sido);
+      setWhereStore((pre) => {
+        return {
+          ...pre,
+          Cities: sido,
+        };
+      });
     }
   }, [sido]);
   const [selectRegion, setSelectRegion] = useState("");
@@ -116,7 +131,6 @@ export const HeaderWhereSelect = ({ setApplyWhere, setSelectedFilter }) => {
       </SelectRoginBox>
       <EXListApplyBox
         selectRegion={selectRegion}
-        setApplyWhere={setApplyWhere}
         setSelectedFilter={setSelectedFilter}
         sido={sido}
         setCities={setCities}
@@ -126,31 +140,21 @@ export const HeaderWhereSelect = ({ setApplyWhere, setSelectedFilter }) => {
   );
 };
 
-export const HeaderCategorySelect = ({
-  setApplyCategory,
-  setSelectedFilter,
-}) => {
-  const [category, setCategroy] = useState("");
-  const categoryHandelr = (e) => {
+export const HeaderCategorySelect = ({ setSelectedFilter }) => {
+  const [categoryStore, setCategoryStore] = useRecoilState(
+    EXSelectCategoryStore
+  );
+  const checkboxes = useRecoilValue(EXCategoryStoreCheckBox);
+  const categoryHandler = (e) => {
     const { name, value } = e.target;
-    setCategroy(value);
-    setCheckboxes((prev) =>
-      Object.keys(prev).reduce((acc, curr) => {
-        acc[curr] = curr === name ? true : false;
+    setCategoryStore({
+      Category: value,
+      Checkbox: Object.keys(categoryStore.Checkbox).reduce((acc, curr) => {
+        acc[curr] = curr === name;
         return acc;
-      }, {})
-    );
+      }, {}),
+    });
   };
-  const [checkboxes, setCheckboxes] = useState({
-    WK0001: false,
-    WK0002: false,
-    WK0003: false,
-    WK0004: false,
-    WK0005: false,
-    WK0006: false,
-    WK0007: false,
-    WK0008: false,
-  });
 
   return (
     <CartegoryBox>
@@ -172,7 +176,7 @@ export const HeaderCategorySelect = ({
               name={"WK0001"}
               value={"WK0001"}
               checked={checkboxes.WK0001}
-              onClick={categoryHandelr}
+              onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0001}</p>
           </CheckBoxContainer>
@@ -182,7 +186,7 @@ export const HeaderCategorySelect = ({
               name={"WK0002"}
               value={"WK0002"}
               checked={checkboxes.WK0002}
-              onClick={categoryHandelr}
+              onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0002}</p>
           </CheckBoxContainer>
@@ -194,7 +198,7 @@ export const HeaderCategorySelect = ({
               name={"WK0003"}
               value={"WK0003"}
               checked={checkboxes.WK0003}
-              onClick={categoryHandelr}
+              onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0003}</p>
           </CheckBoxContainer>
@@ -204,7 +208,7 @@ export const HeaderCategorySelect = ({
               name={"WK0004"}
               value={"WK0004"}
               checked={checkboxes.WK0004}
-              onClick={categoryHandelr}
+              onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0004}</p>
           </CheckBoxContainer>
@@ -216,7 +220,7 @@ export const HeaderCategorySelect = ({
               name={"WK0005"}
               value={"WK0005"}
               checked={checkboxes.WK0005}
-              onClick={categoryHandelr}
+              onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0005}</p>
           </CheckBoxContainer>
@@ -226,7 +230,7 @@ export const HeaderCategorySelect = ({
               name={"WK0006"}
               value={"WK0006"}
               checked={checkboxes.WK0006}
-              onClick={categoryHandelr}
+              onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0006}</p>
           </CheckBoxContainer>
@@ -238,7 +242,7 @@ export const HeaderCategorySelect = ({
               name={"WK0007"}
               value={"WK0007"}
               checked={checkboxes.WK0007}
-              onClick={categoryHandelr}
+              onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0007}</p>
           </CheckBoxContainer>
@@ -248,24 +252,24 @@ export const HeaderCategorySelect = ({
               name={"WK0008"}
               value={"WK0008"}
               checked={checkboxes.WK0008}
-              onClick={categoryHandelr}
+              onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0008}</p>
           </CheckBoxContainer>
         </CategoryBox>
       </CategoryContainer>
       <EXListApplyBox
-        category={category}
-        setCategroy={setCategroy}
+        classification={"Category"}
+        // category={category}
+        // setCategroy={setCategroy}
         setSelectedFilter={setSelectedFilter}
-        setCheckboxes={setCheckboxes}
-        setApplyCategory={setApplyCategory}
+        // setCheckboxes={setCheckboxes}
       />
     </CartegoryBox>
   );
 };
 
-export const HeaderTagSelect = ({ setApplyHashTag, setSelectedFilter }) => {
+export const HeaderTagSelect = ({ setSelectedFilter }) => {
   //top10tag들
   const [top10TagsData] = useGetTop10Tags();
   const [top10TagLists, setTop10TagLists] = useState([]);
@@ -352,7 +356,6 @@ export const HeaderTagSelect = ({ setApplyHashTag, setSelectedFilter }) => {
         </SelectTagContainer>
       </TagBox>
       <EXListApplyBox
-        setApplyHashTag={setApplyHashTag}
         selectTags={selectTags}
         setSelectedFilter={setSelectedFilter}
         setSelectTags={setSelectTags}
@@ -363,14 +366,20 @@ export const HeaderTagSelect = ({ setApplyHashTag, setSelectedFilter }) => {
   );
 };
 
-export const HeaderSearch = ({ setApplySearch }) => {
+export const HeaderSearch = () => {
+  const [applyTags, setApplyTags] = useRecoilState(EXApplyTagsStore);
   const [Search, setSearch] = useState("");
   const onChangeSearch = (e) => {
     const value = e.target.value;
     setSearch(value);
   };
   const onSearchHandler = () => {
-    setApplySearch(Search);
+    setApplyTags((pre) => {
+      return {
+        ...pre,
+        Search: Search,
+      };
+    });
     setSearch("");
   };
   const onKeyDown = (e) => {
@@ -382,7 +391,7 @@ export const HeaderSearch = ({ setApplySearch }) => {
     <>
       <FilterInputWrap>
         <FilterSearch
-          placeholder="제목 검색"
+          placeholder={applyTags.Search || "제목 검색"}
           value={Search}
           onChange={onChangeSearch}
           onKeyDown={onKeyDown}

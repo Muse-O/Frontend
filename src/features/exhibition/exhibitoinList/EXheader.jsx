@@ -7,12 +7,7 @@ import {
   HeaderWhereSelect,
 } from "./ExhibitionHeaderSelect";
 
-export const EXheader = ({
-  setApplySearch,
-  setApplyWhere,
-  setApplyCategory,
-  setApplyHashTag,
-}) => {
+export const EXheader = () => {
   const [selectedFilter, setSelectedFilter] = useState("");
   const selectHandler = (e) => {
     const { name } = e.target;
@@ -34,32 +29,17 @@ export const EXheader = ({
     {
       name: "where",
       label: "Where",
-      component: (
-        <HeaderWhereSelect
-          setApplyWhere={setApplyWhere}
-          setSelectedFilter={setSelectedFilter}
-        />
-      ),
+      component: <HeaderWhereSelect setSelectedFilter={setSelectedFilter} />,
     },
     {
       name: "category",
       label: "Category",
-      component: (
-        <HeaderCategorySelect
-          setApplyCategory={setApplyCategory}
-          setSelectedFilter={setSelectedFilter}
-        />
-      ),
+      component: <HeaderCategorySelect setSelectedFilter={setSelectedFilter} />,
     },
     {
       name: "tag",
       label: "Tag",
-      component: (
-        <HeaderTagSelect
-          setApplyHashTag={setApplyHashTag}
-          setSelectedFilter={setSelectedFilter}
-        />
-      ),
+      component: <HeaderTagSelect setSelectedFilter={setSelectedFilter} />,
     },
   ];
   return (
@@ -74,7 +54,7 @@ export const EXheader = ({
             </SelectBox>
           </FilterSelect>
         ))}
-        <HeaderSearch setApplySearch={setApplySearch} />
+        <HeaderSearch />
       </HeaderFilterWrap>
     </ExhibitionHeader>
   );
