@@ -16,9 +16,21 @@ function UserProfile() {
   //수정 또는 작가신청 버튼
   const [openSet, setOpenSet] = useState(false);
 
-  const updateUserProfileHandler = () => {
+  const openSettingHandler = () => {
     setOpenSet(prevOpenSet => !prevOpenSet);
-    // setOpenModal(true);
+  };
+
+  //프로필 수정 클릭
+  const updateUserProfileHandler = () => {
+    setOpenModal(true);
+  };
+
+  //작가 신청 클릭
+  const changeRoleHandler = () => {
+    const confirmResult = window.confirm("작가 신청을 하시겠습니까?");
+    if (confirmResult) {
+      window.alert("작가 신청이 완료되었습니다!");
+    }
   };
 
   return (
@@ -27,13 +39,13 @@ function UserProfile() {
         <ProfileImg src={userProfile?.profileImg} alt="userProfileImg" />
 
         <StEditBtnWrap>
-          <UpdateBtn onClick={updateUserProfileHandler}>
+          <UpdateBtn onClick={openSettingHandler}>
             <img src={setting} alt="setting" />
           </UpdateBtn>
           {openSet && (
             <StSettingBtn>
-              <div>프로필 수정</div>
-              <div>작가 신청</div>
+              <div onClick={updateUserProfileHandler}>프로필 수정</div>
+              <div onClick={changeRoleHandler}>작가 신청</div>
             </StSettingBtn>
           )}
         </StEditBtnWrap>
@@ -126,6 +138,13 @@ const StSettingBtn = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    border-radius: 3px;
+
+    &:hover {
+      background-color: #3c3c3c;
+      color: #f65959;
+    }
   }
 `;
 
