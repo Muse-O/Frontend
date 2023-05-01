@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import Cookies from "universal-cookie";
-import { NavBottomPath } from "../../shared/GlobalStyled";
+import { NavBottomPathLogin } from "../../shared/GlobalStyled";
 import { useRecoilState } from "recoil";
 import { decodeAccessToken } from "./loginTokenStore";
 
@@ -19,7 +19,7 @@ function Logout({ setIsLoggedIn, isLoggedIn }) {
     }
   };
 
-  return isLoggedIn && (<NavBottomPath onClick={logoutHandler} children="로그아웃"/>)
+  return isLoggedIn && (<NavBottomPathLogin onClick={logoutHandler} children="로그아웃"/>)
     
 }
 

@@ -138,6 +138,7 @@ const BoxProfileNickname = styled.div`
 
 const Scrap = styled.div`
   font-family: "Montserrat";
+  height: 15px;
   font-size: 12px;
   display: flex;
   gap: 8px;
@@ -158,14 +159,11 @@ const Heart = styled(Scrap)`
   `;
 
 const DetailScrap = styled(Scrap)`
-  flex-direction: column;
   gap: 8px;
 `
 const DetailHeart = styled(Heart)`
-  flex-direction: column;
   gap: 8px;
 `
-
 
 const PluralImgs = styled.div`
   position: absolute;
@@ -202,11 +200,17 @@ const ModalBackground = styled.div`
   padding: 20px;
   background-color: rgba(36, 36, 36, 0.7);
   z-index: 10200;
+  @media (max-width: 1440px) {
+    padding: 15px;
+  }
   
   img {
     display: block;
     width: 2rem;
     margin-left: auto;
+    @media (max-width: 1440px) {
+      width: 1.5rem;
+    }
   }
 `
 
@@ -224,7 +228,7 @@ const ModalWindow = styled.div`
   z-index: 10200;
   @media (max-width: 1440px) {
     width: 948px;
-    height: 726px;
+    height: 670.5px;
   }
 `;
 
@@ -315,7 +319,7 @@ const Notification = styled.div`
   margin-top: 12px;
   width: 394.5px;
   height: 71.25px;
-  padding: 15px;
+  padding: 10px;
   gap: 6px;
   font-size: 9px;
   span {

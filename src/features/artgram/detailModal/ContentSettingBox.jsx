@@ -6,7 +6,7 @@ import * as Artgramparts from "../css/ArtgramCss";
 import { Flex } from "../../../components/Flex";
 import Notification from '../updateArtgram/Notification'
 import { Formbtn, PreviewBoxDelete } from "../createArtgram/ArtgramFormImgparts";
-import { HashTagInput, Input, TextArea } from "../../../components/Input";
+import { HashTagInput, Input, TextAreaUpdate } from "../../../components/Input";
 import { useFormInput } from "../../../hooks/useFormInput";
 import { usePatchArtgram } from "../../../hooks/artgram/usePatchArtgram";
 import cancel from '../../../assets/imgs/common/cancel.png'
@@ -99,7 +99,7 @@ function ContentSettingBox({ detailData, setSettingBox }) {
             hashTag={hashtag}
             setHashTag={setHashTag}
           />
-          <TextArea
+          <TextAreaUpdate
               label="설명"
               inputProps={{
                 type: "text", 

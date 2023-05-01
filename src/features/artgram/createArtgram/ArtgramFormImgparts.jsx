@@ -36,6 +36,10 @@ margin-left: 100px;
 border: 1px solid #242424;
 border-radius: 50px;
 height: 78px;
+@media (max-width: 1440px) {
+  font-size: 0.75rem;
+  height: 58.5px;
+}
 `
 
 const DropZone = styled.section`

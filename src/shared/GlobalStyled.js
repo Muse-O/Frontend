@@ -293,6 +293,14 @@ const NavBottomPath = styled.div`
    display: none;
   }
 `
+const NavBottomPathLogin = styled(NavBottomPath)`
+  &:hover {
+    background: #fff;
+    color: #242424;
+  }
+`
+
+
 
 const NavBottomPathEx = styled(NavBottomPath)`
   border: 1px solid transparent;
@@ -308,7 +316,7 @@ const NavBottomPathEx = styled(NavBottomPath)`
 
 const NavSearchList = styled.div`
   position: fixed;
-  top: ${props=> props.state ? "175px" : "100vh"};
+  top: ${props=> props.state ? "175px" : "110vh"};
   margin-left: 245px;
   width: 1675px;
   height: 100vh;
@@ -320,7 +328,7 @@ const NavSearchList = styled.div`
   grid-template-columns: 300px 1fr;
   gap: 50px;
   @media (max-width: 1440px) {
-    top: ${props=> props.state ? "131.25px" : "100vh"};
+    top: ${props=> props.state ? "131.25px" : "110vh"};
     margin-left: 183.75px;
     width: 1256.25px;
     height: 100vh;
@@ -478,6 +486,7 @@ export {
   NavgatePath,
   NavBottom,
   NavBottomPath,
+  NavBottomPathLogin,
   NavBottomPathEx,
   MobileHeaerLayout,
   MobileHeaerLogo,
