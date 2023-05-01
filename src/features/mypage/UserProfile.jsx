@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
 import UpdateUserProfileModal from "./UpdateUserProfileModal";
 import UpdateModalBlackBg from "./UpdateModalBlackBg";
@@ -11,15 +11,16 @@ import { useRecoilValue } from "recoil";
 import { decodeEmail } from "../login/loginTokenStore";
 
 function UserProfile() {
+  //react-query
   const { userProfile } = useGetUserProfile();
-  console.log(userProfile);
   const { patchRole } = usePatchRole();
+  //recoil
   const email = useRecoilValue(decodeEmail);
-  console.log(email);
+
   //모달 open 관리
   const [openModal, setOpenModal] = useState(false);
 
-  //수정 또는 작가신청 버튼
+  //수정, 작가신청 setting div
   const [openSet, setOpenSet] = useState(false);
 
   const openSettingHandler = () => {
@@ -32,14 +33,40 @@ function UserProfile() {
   };
 
   //작가 신청 클릭
+  const [roleApplied, setRoleApplied] = useState(false);
   const changeRoleHandler = () => {
-    const confirmResult = window.confirm("작가 신청을 하시겠습니까?");
-    if (confirmResult) {
-      //작가신청 PATCH
-      patchRole(email);
-      window.alert("작가 신청이 완료되었습니다!");
+    if (userProfile?.role === "UR04") {
+      alert("이미 신청 완료하였습니다.");
+    } else if (userProfile?.role === "UR02") {
+      alert("이미 작가 인증이 완료되었습니다.");
+    } else {
+      const confirmResult = window.confirm("작가 신청을 하시겠습니까?");
+      if (confirmResult) {
+        //작가신청 PATCH
+        patchRole();
+        setRoleApplied(true);
+        alert("작가 신청이 완료되었습니다!");
+      }
     }
   };
+
+  //setting div 닫기
+  const ref = useRef(null);
+  const closeSettingHandler = () => {
+    setOpenSet(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        closeSettingHandler();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
 
   return (
     <>
@@ -51,9 +78,14 @@ function UserProfile() {
             <img src={setting} alt="setting" />
           </UpdateBtn>
           {openSet && (
-            <StSettingBtn>
+            <StSettingBtn ref={ref} onMouseDown={e => e.stopPropagation()}>
               <div onClick={updateUserProfileHandler}>프로필 수정</div>
-              <div onClick={changeRoleHandler}>작가 신청</div>
+              <button
+                onClick={changeRoleHandler}
+                disabled={roleApplied && userProfile?.role === "UR04"}
+              >
+                작가 신청
+              </button>
             </StSettingBtn>
           )}
         </StEditBtnWrap>
@@ -133,10 +165,6 @@ const StSettingBtn = styled.div`
   justify-content: center;
   align-items: center;
 
-  div:first-child {
-    border-bottom: 1px solid #dddddd;
-  }
-
   div {
     font-family: "SpoqaHanSansNeo-Regular";
     font-size: 12px;
@@ -148,8 +176,35 @@ const StSettingBtn = styled.div`
     align-items: center;
     cursor: pointer;
     border-radius: 3px;
+    border-bottom: 1px solid #dddddd;
 
     &:hover {
+      background-color: #3c3c3c;
+      color: #f65959;
+    }
+  }
+
+  button {
+    border: none;
+    background-color: inherit;
+    font-family: "SpoqaHanSansNeo-Regular";
+    font-size: 12px;
+    color: #3c3c3c;
+    width: 135px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 3px;
+
+    button:disabled {
+      cursor: default;
+      background-color: "#EEEEEE";
+      color: "#7E7E7E";
+    }
+
+    &:hover:not(:disabled) {
       background-color: #3c3c3c;
       color: #f65959;
     }
