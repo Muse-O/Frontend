@@ -315,7 +315,6 @@ const SecondSliderImg = styled.img`
   width: 235px;
   height: 338px;
   margin-bottom: 20px;
-  background-color: yellow;
   @media (max-width: 1440px) {
     width: 176.25px;
     height: 253.5px;

@@ -468,8 +468,20 @@ const NavSearchMsg = styled.div`
     bottom: 30px;
     font-size: 12px;
   }
-
 `
+const AlertWindow = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: ${(props) => (props.state ? "block" : "none")};
+  width: 300px;
+  height: 100px;
+  background-color: yellow;
+  @media (max-width: 1440px) {
+  }
+`;
+
 
 export {
   Headerwrap,
@@ -496,5 +508,6 @@ export {
   NavSearchListRecently,
   TopButtunWrap,
   TopButtun,
-  NavSearchMsg
+  NavSearchMsg,
+  AlertWindow
 }

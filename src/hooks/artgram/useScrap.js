@@ -20,7 +20,6 @@ export const useScrap = () => {
       queryClient.invalidateQueries(keys.GET_ARTGRAM);
     },
     onError: e => {
-      console.log("스크랩이 등록되지 않았습니다.", e.message);
     }
   })
   return {patchScrap}

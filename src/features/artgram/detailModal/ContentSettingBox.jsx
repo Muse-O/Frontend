@@ -23,7 +23,6 @@ function ContentSettingBox({ detailData, setSettingBox }) {
   }
   const [hashtag, setHashTag] = useState(detailData.hashtag);
   const {patchArtgram} = usePatchArtgram()
-  console.log(imgState);
   const updatehandleSubmit = (e) => {
     e.preventDefault()
     if(!formState.artgramTitle && !formState.artgramDesc) {

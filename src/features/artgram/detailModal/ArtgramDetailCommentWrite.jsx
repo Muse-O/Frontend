@@ -10,16 +10,22 @@ import {AiFillHeart} from "react-icons/ai"
 import { Flex } from "../../../components/Flex";
 import * as Artgramparts from "../css/ArtgramCss";
 import { Input } from "../../../components/Input";
+import { useRecoilValue } from "recoil";
+import { decodeUserRole } from "../../login/loginTokenStore";
+import { useNavigate } from "react-router-dom";
 // import { BsBookmarkFill, BsFillHeartFill } from "react-icons/bs";
 
 function ArtgramDetailCommentWrite({artgramId, detailData}) {
   const { patchScrap } = useScrap(); // 스크랩관련 비동기통신 PATCH
   const { patchLikes } = useLikes(); // 좋아요관련 비동기통신 PATCH
+  const navigate = useNavigate()
   const [formState, setFormState, handleInputChange] = useFormInput(); // 커스컴훅-Form태그 관련 
   const [commentHandle] = usePostcomments(setFormState); // 아트그램상세, 댓글입력 비동기통신 POST
+  const userRole = useRecoilValue(decodeUserRole)
   const onSubmitcomment = (e) => {
     e.preventDefault();
-    commentHandle(e, artgramId, formState.comment);}; // 아트그램상세, 댓글입력 Form태그의 onSubmit
+    !userRole && window.confirm("회원만 가능합니다. 로그인 하시겠습니까?") && navigate('/login')
+    userRole && commentHandle(e, artgramId, formState.comment);}; // 아트그램상세, 댓글입력 Form태그의 onSubmit
   return (
     <CommentWriteLayout>
       <div className="scrapLiked">
@@ -28,7 +34,8 @@ function ArtgramDetailCommentWrite({artgramId, detailData}) {
             state={detailData.scrap}
             onClick={(event) => {
               event.stopPropagation();
-              patchScrap(artgramId);
+              !userRole && window.confirm("회원만 가능합니다. 로그인 하시겠습니까?") && navigate('/login')
+              userRole && patchScrap(artgramId);
             }}
           >
             <p>
@@ -40,7 +47,8 @@ function ArtgramDetailCommentWrite({artgramId, detailData}) {
             state={detailData.liked}
             onClick={(event) => {
               event.stopPropagation();
-              patchLikes(artgramId);
+              !userRole && window.confirm("회원만 가능합니다. 로그인 하시겠습니까?") && navigate('/login')
+              userRole && patchLikes(artgramId);
             }}
           >
             <p>

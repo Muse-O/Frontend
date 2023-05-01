@@ -143,6 +143,7 @@ const Scrap = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
+  cursor: pointer;
   
   p:first-child {
     font-size: 16px;
@@ -159,10 +160,20 @@ const Heart = styled(Scrap)`
   `;
 
 const DetailScrap = styled(Scrap)`
+  min-width: 40px;
   gap: 8px;
+  @media (max-width: 1440px) {
+    min-width: 30px;
+    gap: 6px;
+  }
 `
 const DetailHeart = styled(Heart)`
+  min-width: 40px;
   gap: 8px;
+  @media (max-width: 1440px) {
+    min-width: 30px;
+    gap: 6px;
+  }
 `
 
 const PluralImgs = styled.div`

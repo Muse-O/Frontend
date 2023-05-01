@@ -18,14 +18,10 @@ function Artgram() {
   const { data, isLoading, isError, fetchNextPage, hasNextPage } = useGetartgraminfinity(); // 비동기통신 GET
   let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : []; // 무한스크롤에 따른, data-merge
   const { ref } = useInterserctionObserver(fetchNextPage); // useRef를 통해서, 무한스크롤 감지를 위한 커스컴 훅
-  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
   const userRole = useRecoilValue(decodeUserRole)
+  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
   useEffect(()=> {
-    setHeaderState({...headerState, 
-      home:false, 
-      exhibition:false,
-      artgram:true,
-      mypages:false})
+    setHeaderState({...headerState, artgram:true})
   },[])
 
   return (

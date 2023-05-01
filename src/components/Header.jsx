@@ -36,7 +36,7 @@ function Header() {
   const [,setSearchWord] = useRecoilState(searchWordState)
   const [inputValue, setInputValue] = useState("")
   const [searchWindow, setSearchWindow] = useState(false)
-  console.log(userRole);
+
 
   const navList = [
     { id: "home" , title: "홈", img: `${headerState.home ? home_gradient : home_gray}`, navigation: "/", state:headerState.home},
@@ -68,7 +68,7 @@ function Header() {
     <>
     <Headers.Headerwrap>
         <MobileHeaer/>
-        <Headers.Logo children={<img src={logo} alt="logo"/>}/>
+        <Headers.Logo onClick={()=>navigate('/')} children={<img src={logo} alt="logo"/>}/>
         <Headers.LoginState>
           <Headers.LoginStateImg children={profileImg ? <img src={profileImg} alt={profileImg}/> : <img src={profileimage1} alt="비로그인시, 프로필이미지"/>}/>
           <Headers.LoginStateNickname children={nickname || "로그인 해주세요."}/>

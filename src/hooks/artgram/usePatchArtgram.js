@@ -8,7 +8,6 @@ export  const usePatchArtgram = () => {
   const { mutate:patchArtgram } = useMutation({
     mutationFn: async({artgramId, payload}) => {
       const token = cookies.get("access_token");
-      console.log(payload);
       await apis.patch(`/artgram/${artgramId}`, payload, {
         headers: {
           Authorization: `Bearer ${token}`
@@ -16,7 +15,7 @@ export  const usePatchArtgram = () => {
       })
     },
     onSuccess: () => {
-      console.log("아트그램 수정이 완료되었습니다.");
+      // console.log("아트그램 수정이 완료되었습니다.");
       queryClient.invalidateQueries(keys.GET_ARTGRAMDETAIL)
     },
     onError:(e)=> {

@@ -32,7 +32,7 @@ function MainFifith() {
         <Main.MainH1 children="아트그램" />
         <Main.MainH5 children="더보기 >" onClick={()=>navigate('/artgram')}/>
       </Main.ArticleTitle>
-      { isLoading || isError
+      { isLoading || isError 
         ? <div style={{marginTop:"66px"}}>로딩 중...</div>
         : 
         <Main.FifthWrapGrid>

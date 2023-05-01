@@ -10,11 +10,7 @@ function Exhibition() {
   const [createExhibition] = usePostExhibition();
   const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
   useEffect(()=> {
-    setHeaderState({...headerState, 
-      home:false, 
-      exhibition:true,
-      artgram:false,
-      mypages:false})
+    setHeaderState({...headerState, exhibition:true})
   },[])
 
   return (
