@@ -10,7 +10,7 @@ import { useGetSido } from "../../../hooks/exhibition/useGetSido";
 import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsStore";
 import { ExCategoryCode } from "../../../shared/EXCodes";
 import * as Tags from "./css/exhibitionTagCss/EXTagCss";
-
+import refresh from "../../../assets/imgs/refresh.png";
 export const EXTags = ({ applyTags, setApplyTags }) => {
   const resetCategory = useResetRecoilState(EXSelectCategoryStore);
   const [top10TagsData] = useGetTop10Tags();
@@ -125,7 +125,10 @@ export const EXTags = ({ applyTags, setApplyTags }) => {
                 </Tags.XBox>
               </Tags.TagButton>
             ))}
-          <button onClick={resetTag}>초기화</button>
+          <Tags.ApplyResetBox onClick={resetTag}>
+            <span>초기화</span>
+            <Tags.ResetImg src={refresh} />
+          </Tags.ApplyResetBox>
         </>
       )}
     </Tags.EXTag>

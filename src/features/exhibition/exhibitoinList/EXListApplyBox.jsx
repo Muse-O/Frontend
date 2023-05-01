@@ -12,7 +12,8 @@ import {
   EXSelectCategoryStore,
   EXSelectRegion,
 } from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
-
+import refresh from "../../../assets/imgs/refresh.png";
+import { Apply, ResetImg } from "./css/exhibitionTagCss/EXTagCss";
 export const EXListApplyBox = ({
   // 해시태그
   setHashTagStore,
@@ -130,13 +131,16 @@ export const EXListApplyBox = ({
   };
   return (
     <ApplyContainer>
-      <ApplyResetBox onClick={reset}>초기화</ApplyResetBox>
+      <ApplyResetBox onClick={reset}>
+        <Apply>초기화</Apply>
+        <ResetImg src={refresh} />
+      </ApplyResetBox>
       <ApllyBox>
         <div onClick={cancle}>
-          <span>취소</span>
+          <Apply>취소</Apply>
         </div>
         <div onClick={apply}>
-          <span>적용하기</span>
+          <Apply>적용하기</Apply>
         </div>
       </ApllyBox>
     </ApplyContainer>
@@ -146,7 +150,14 @@ export const EXListApplyBox = ({
 const ApplyResetBox = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 36px;
+  gap: 8px;
+  :hover {
+    background: linear-gradient(180deg, #3360ff 0%, #b960ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+  }
 `;
 const ApllyBox = styled.div`
   display: flex;
@@ -158,4 +169,9 @@ const ApplyContainer = styled.div`
   justify-content: space-between;
   padding: 20px 24px 20px 24px;
   border-top: 1px solid #eeeeee;
+  span {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+  }
 `;
