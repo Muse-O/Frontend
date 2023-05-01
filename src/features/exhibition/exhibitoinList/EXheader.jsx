@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import {
-  HeaderCategorySelect,
-  HeaderSearch,
-  HeaderTagSelect,
-  HeaderWhereSelect,
-} from "./ExhibitionHeaderSelect";
+import { HeaderWhereSelect } from "./HeaderWhereSelect";
+import { HeaderCategorySelect } from "./HeaderCategorySelect";
+import { HeaderTagSelect } from "./HeaderTagSelect";
+import { HeaderSearch } from "./HeaderSearch";
 
 export const EXheader = () => {
   const [selectedFilter, setSelectedFilter] = useState("");
