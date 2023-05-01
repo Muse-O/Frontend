@@ -13,8 +13,12 @@ function UserProfile() {
   //모달 open 관리
   const [openModal, setOpenModal] = useState(false);
 
-  const updateUserProfileModalHandler = () => {
-    setOpenModal(true);
+  //수정 또는 작가신청 버튼
+  const [openSet, setOpenSet] = useState(false);
+
+  const updateUserProfileHandler = () => {
+    setOpenSet(prevOpenSet => !prevOpenSet);
+    // setOpenModal(true);
   };
 
   return (
@@ -23,9 +27,15 @@ function UserProfile() {
         <ProfileImg src={userProfile?.profileImg} alt="userProfileImg" />
 
         <StEditBtnWrap>
-          <UpdateBtn onClick={updateUserProfileModalHandler}>
+          <UpdateBtn onClick={updateUserProfileHandler}>
             <img src={setting} alt="setting" />
           </UpdateBtn>
+          {openSet && (
+            <StSettingBtn>
+              <div>프로필 수정</div>
+              <div>작가 신청</div>
+            </StSettingBtn>
+          )}
         </StEditBtnWrap>
 
         <StUserNameWrap>
@@ -71,8 +81,10 @@ const StUserProfileBox = styled.div`
 const StEditBtnWrap = styled.div`
   width: 450px;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
   padding: 10px 20px 0px;
+  position: relative;
 `;
 
 const UpdateBtn = styled.button`
@@ -85,6 +97,35 @@ const UpdateBtn = styled.button`
   img {
     width: 25px;
     height: 25px;
+  }
+`;
+
+const StSettingBtn = styled.div`
+  margin-top: 40px;
+  position: absolute;
+  width: 135px;
+  height: 64px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  div:first-child {
+    border-bottom: 1px solid #dddddd;
+  }
+
+  div {
+    font-family: "SpoqaHanSansNeo-Regular";
+    font-size: 12px;
+    color: #3c3c3c;
+    width: 135px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 
