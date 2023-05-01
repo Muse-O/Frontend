@@ -56,6 +56,7 @@ export const ContainerWrap = styled.div`
 `;
 
 export const Article = styled.div`
+  position: relative;
   margin-left: 245px;
   min-height: 100vh;
   /* border: 5px solid blue; */
@@ -130,7 +131,13 @@ const LoginStateImg = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 50px;
+  overflow: auto;
   background-color: #D9D9D9;
+
+  img {
+    width: 100%;
+  }
+
   @media (max-width: 1440px) {
     width: 37.5px;
     height: 37.5px;
@@ -375,12 +382,12 @@ const NavSearchListRecently = styled.div`
 const MobileHeaerLayout = styled.div`
   display: none;
   @media (max-width: 390px) {
-   display: grid;
-   grid-template-columns: 1fr 2fr;
-   align-items: center;
-   color: white;
-   width: 100%;
-   height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    align-items: center;
+    color: white;
+    width: 100%;
+    height: 100%;
   }
 `
 const MobileHeaerLogo = styled.img`
@@ -410,6 +417,20 @@ const TopButtun = styled.div`
   }
 `
 
+const NavSearchMsg = styled.div`
+  position: relative;
+  width: 600px;
+  bottom: 40px;
+  font-size: 16px;
+  color: #fff;
+  @media (max-width: 1440px) {
+    width: 450px;
+    bottom: 30px;
+    font-size: 12px;
+  }
+
+`
+
 export {
   Headerwrap,
   Logo,
@@ -432,5 +453,6 @@ export {
   NavSearchListTop10,
   NavSearchListRecently,
   TopButtunWrap,
-  TopButtun
+  TopButtun,
+  NavSearchMsg
 }
