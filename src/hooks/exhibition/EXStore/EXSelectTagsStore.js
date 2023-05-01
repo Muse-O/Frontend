@@ -1,12 +1,25 @@
 import { atom, selector } from "recoil";
-import { useGetSido } from "../useGetSido";
-//장소
 
+//장소
 export const EXSelectWhereStore = atom({
   key: "EXSelectWhereStore",
   default: {
-    Cities: "",
     SelectRegion: "",
+    Cities: [],
+  },
+});
+export const EXCities = selector({
+  key: "EXCities",
+  get: ({ get }) => {
+    const { Cities } = get(EXSelectWhereStore);
+    return Cities;
+  },
+});
+export const EXSelectRegion = selector({
+  key: "EXSelectRegion",
+  get: ({ get }) => {
+    const { SelectRegion } = get(EXSelectWhereStore);
+    return SelectRegion;
   },
 });
 

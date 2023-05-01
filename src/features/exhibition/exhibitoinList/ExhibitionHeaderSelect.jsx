@@ -8,30 +8,27 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsStore";
 import {
   EXCategoryStoreCheckBox,
+  EXCities,
   EXSelectCategoryStore,
   EXSelectWhereStore,
 } from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
 export const HeaderWhereSelect = ({ setSelectedFilter }) => {
-  const [whereStore, setWhereStore] = useRecoilState(EXSelectWhereStore);
-  console.log("whereSotre", whereStore);
+  const [WhereStore, setWhereStore] = useRecoilState(EXSelectWhereStore);
+  const Cities = useRecoilValue(EXCities);
+  // const SelectRegion = useRecoilValue(EXSelectRegion);
   const [sido] = useGetSido();
-  const [cities, setCities] = useState();
+
   useEffect(() => {
     if (sido) {
-      setCities(sido);
       setWhereStore((pre) => {
-        return {
-          ...pre,
-          Cities: sido,
-        };
+        return { ...pre, Cities: sido };
       });
     }
   }, [sido]);
-  const [selectRegion, setSelectRegion] = useState("");
 
   const filterRegion = (e) => {
     const { innerText } = e.target;
-    const newCities = cities.map((city) => {
+    const newCities = Cities.map((city) => {
       if (city.sidoname === innerText) {
         return {
           ...city,
@@ -44,11 +41,17 @@ export const HeaderWhereSelect = ({ setSelectedFilter }) => {
         };
       }
     });
-    setCities(newCities);
+
+    setWhereStore((pre) => {
+      return {
+        ...pre,
+        Cities: newCities,
+      };
+    });
   };
   const selectDetailRegion = (e) => {
     const { innerText } = e.target;
-    const newCities = cities.map((city) => {
+    const newCities = Cities.map((city) => {
       return {
         ...city,
         sigungu: city.sigungu.map((sigungu) => {
@@ -66,12 +69,17 @@ export const HeaderWhereSelect = ({ setSelectedFilter }) => {
         }),
       };
     });
-    setCities(newCities);
-    setSelectRegion(innerText);
+    setWhereStore((pre) => {
+      return {
+        ...pre,
+        SelectRegion: innerText,
+        Cities: newCities,
+      };
+    });
   };
-  const filteredCities = cities?.filter((city) => city.sidoChecked === true)[0];
+  const filteredCities = Cities?.filter((city) => city.sidoChecked === true)[0];
   const deleteRegion = (e) => {
-    const newCities = cities.map((city) => {
+    const newCities = Cities.map((city) => {
       return {
         ...city,
         sigungu: city.sigungu.map((sigungu) => {
@@ -79,8 +87,13 @@ export const HeaderWhereSelect = ({ setSelectedFilter }) => {
         }),
       };
     });
-    setCities(newCities);
-    setSelectRegion("");
+    setWhereStore((pre) => {
+      return {
+        ...pre,
+        SelectRegion: "",
+        Cities: newCities,
+      };
+    });
   };
   return (
     <WhereBox>
@@ -88,7 +101,7 @@ export const HeaderWhereSelect = ({ setSelectedFilter }) => {
         <LocalBox>
           <Local>지역</Local>
           <RegionBOX>
-            {cities?.map((si) => {
+            {Cities?.map((si) => {
               return (
                 <RegionButton
                   type="button"
@@ -120,9 +133,9 @@ export const HeaderWhereSelect = ({ setSelectedFilter }) => {
         </LocalBox>
       </PositionBox>
       <SelectRoginBox>
-        {selectRegion && (
+        {WhereStore?.SelectRegion && (
           <TagButton>
-            <TagText>{selectRegion}</TagText>
+            <TagText>{WhereStore.SelectRegion}</TagText>
             <XBox type="button" onClick={deleteRegion}>
               x
             </XBox>
@@ -130,11 +143,11 @@ export const HeaderWhereSelect = ({ setSelectedFilter }) => {
         )}
       </SelectRoginBox>
       <EXListApplyBox
-        selectRegion={selectRegion}
+        classification={"Where"}
+        // SelectRegion={SelectRegion}
         setSelectedFilter={setSelectedFilter}
+        setWhereStore={setWhereStore}
         sido={sido}
-        setCities={setCities}
-        setSelectRegion={setSelectRegion}
       />
     </WhereBox>
   );
@@ -260,10 +273,7 @@ export const HeaderCategorySelect = ({ setSelectedFilter }) => {
       </CategoryContainer>
       <EXListApplyBox
         classification={"Category"}
-        // category={category}
-        // setCategroy={setCategroy}
         setSelectedFilter={setSelectedFilter}
-        // setCheckboxes={setCheckboxes}
       />
     </CartegoryBox>
   );
@@ -286,7 +296,6 @@ export const HeaderTagSelect = ({ setSelectedFilter }) => {
   //이거 where카테고리랑 같이쓰임 나중에 리팩토링시 분리 필요
   const filterTags = (e) => {
     const { innerText } = e.target;
-
     setSelectTags((pre) => {
       if (pre[0] === innerText) {
         return [];
@@ -294,7 +303,6 @@ export const HeaderTagSelect = ({ setSelectedFilter }) => {
         return [innerText];
       }
     });
-
     setTop10TagLists((prevTags) =>
       prevTags.map((tag) => {
         if (tag.tagName === innerText) {

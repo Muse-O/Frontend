@@ -4,6 +4,7 @@ import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsS
 import {
   EXCategory,
   EXSelectCategoryStore,
+  EXSelectRegion,
 } from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
 
 export const EXListApplyBox = ({
@@ -19,19 +20,17 @@ export const EXListApplyBox = ({
   setTop10TagLists,
   top10TagsData,
   // 장소
-  selectRegion,
-  // setApplyWhere,
+  setWhereStore,
   sido,
-  setCities,
-  setSelectRegion,
   //취소버튼
   setSelectedFilter,
+  //종류 확인
   classification,
 }) => {
   const [_, setApplyTags] = useRecoilState(EXApplyTagsStore);
-
   const resetCategory = useResetRecoilState(EXSelectCategoryStore);
   const Category = useRecoilValue(EXCategory);
+  const SelectRegion = useRecoilValue(EXSelectRegion);
   const apply = () => {
     classification === "Category" &&
       setApplyTags((pre) => {
@@ -47,7 +46,7 @@ export const EXListApplyBox = ({
           HashTag: selectTags,
         };
       });
-    if (selectRegion) {
+    if (classification === "Where") {
       const replaceCityName = (addressString) => {
         const cities = [
           ["서울특별시", "서울"],
@@ -68,7 +67,6 @@ export const EXListApplyBox = ({
           ["경상남도", "경남"],
           ["제주특별자치도", "제주"],
         ];
-
         let replacedString = addressString;
         for (let city of cities) {
           const regex = new RegExp(city[0], "g");
@@ -76,7 +74,7 @@ export const EXListApplyBox = ({
         }
         return replacedString;
       };
-      const where = replaceCityName(selectRegion);
+      const where = replaceCityName(SelectRegion);
       setApplyTags((pre) => {
         return {
           ...pre,
@@ -88,7 +86,6 @@ export const EXListApplyBox = ({
   const reset = () => {
     if (classification === "Category") {
       resetCategory();
-
       setApplyTags((pre) => {
         return {
           ...pre,
@@ -110,21 +107,22 @@ export const EXListApplyBox = ({
       );
       setSelectTags([]);
     }
-    if (sido) {
-      setCities(sido);
+    if (classification === "Where") {
+      setWhereStore((pre) => {
+        return { ...pre, SelectRegion: "", Cities: sido };
+      });
       setApplyTags((pre) => {
         return {
           ...pre,
           Where: "",
         };
       });
-      setSelectRegion("");
     }
   };
   const cancle = () => {
-    setCategroy && setSelectedFilter("");
+    classification === "Category" && setSelectedFilter("");
     setSelectTags && setSelectedFilter("");
-    setSelectRegion && setSelectedFilter("");
+    classification === "Where" && setSelectedFilter("");
   };
   return (
     <ApplyContainer>
