@@ -1,8 +1,14 @@
-import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
 import styled from "styled-components";
 import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsStore";
 import {
   EXCategory,
+  EXHashTags,
   EXSelectCategoryStore,
   EXSelectRegion,
 } from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
@@ -14,10 +20,7 @@ export const EXListApplyBox = ({
   setCheckboxes,
   // setApplyCategory,
   // 해시태그
-  // setApplyHashTag,
-  selectTags,
-  setSelectTags,
-  setTop10TagLists,
+  setHashTagStore,
   top10TagsData,
   // 장소
   setWhereStore,
@@ -27,10 +30,12 @@ export const EXListApplyBox = ({
   //종류 확인
   classification,
 }) => {
-  const [_, setApplyTags] = useRecoilState(EXApplyTagsStore);
+  // const [_, setApplyTags] = useRecoilState(EXApplyTagsStore);
+  const setApplyTags = useSetRecoilState(EXApplyTagsStore);
   const resetCategory = useResetRecoilState(EXSelectCategoryStore);
   const Category = useRecoilValue(EXCategory);
   const SelectRegion = useRecoilValue(EXSelectRegion);
+  const HashTags = useRecoilValue(EXHashTags);
   const apply = () => {
     classification === "Category" &&
       setApplyTags((pre) => {
@@ -39,11 +44,11 @@ export const EXListApplyBox = ({
           category: Category,
         };
       });
-    selectTags &&
+    classification === "HashTag" &&
       setApplyTags((pre) => {
         return {
           ...pre,
-          HashTag: selectTags,
+          HashTag: HashTags,
         };
       });
     if (classification === "Where") {
@@ -93,19 +98,29 @@ export const EXListApplyBox = ({
         };
       });
     }
-    if (selectTags) {
+    if (classification === "HashTag") {
+      const updatedTo10TAGS = top10TagsData.map((tag) => {
+        return { tagName: tag.tagName, checked: false };
+      });
+      // setTop10TagLists(updatedTo10TAGS);
+      setHashTagStore((pre) => {
+        return {
+          SelectHashTags: [],
+          Top10HashTagLists: updatedTo10TAGS,
+        };
+      });
       setApplyTags((pre) => {
         return {
           ...pre,
           HashTag: "",
         };
       });
-      setTop10TagLists(
-        top10TagsData.map((tag) => {
-          return { tagName: tag.tagName, checked: false };
-        })
-      );
-      setSelectTags([]);
+      // setTop10TagLists(
+      //   top10TagsData.map((tag) => {
+      //     return { tagName: tag.tagName, checked: false };
+      //   })
+      // );
+      // setSelectTags([]);
     }
     if (classification === "Where") {
       setWhereStore((pre) => {
@@ -121,7 +136,7 @@ export const EXListApplyBox = ({
   };
   const cancle = () => {
     classification === "Category" && setSelectedFilter("");
-    setSelectTags && setSelectedFilter("");
+    classification === "HashTag" && setSelectedFilter("");
     classification === "Where" && setSelectedFilter("");
   };
   return (

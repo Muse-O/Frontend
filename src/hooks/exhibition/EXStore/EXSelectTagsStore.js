@@ -54,3 +54,25 @@ export const EXCategory = selector({
     return Category;
   },
 });
+//태그
+export const EXSelectHashTagStore = atom({
+  key: "EXSelectHashTagStore",
+  default: {
+    SelectHashTags: [],
+    Top10HashTagLists: [],
+  },
+});
+export const EXHashTags = selector({
+  key: "EXHashTags",
+  get: ({ get }) => {
+    const { SelectHashTags } = get(EXSelectHashTagStore);
+    return SelectHashTags;
+  },
+});
+// export const EXCategory = selector({
+//   key: "EXCategory",
+//   get: ({ get }) => {
+//     const { Category } = get(EXSelectCategoryStore);
+//     return Category;
+//   },
+// });

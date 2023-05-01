@@ -10,6 +10,7 @@ import {
   EXCategoryStoreCheckBox,
   EXCities,
   EXSelectCategoryStore,
+  EXSelectHashTagStore,
   EXSelectWhereStore,
 } from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
 export const HeaderWhereSelect = ({ setSelectedFilter }) => {
@@ -280,53 +281,64 @@ export const HeaderCategorySelect = ({ setSelectedFilter }) => {
 };
 
 export const HeaderTagSelect = ({ setSelectedFilter }) => {
-  //top10tag들
   const [top10TagsData] = useGetTop10Tags();
-  const [top10TagLists, setTop10TagLists] = useState([]);
-  const [selectTags, setSelectTags] = useState([]);
+  const [hashTagStore, setHashTagStore] = useRecoilState(EXSelectHashTagStore);
+  console.log("hashTagStore", hashTagStore);
   useEffect(() => {
     if (top10TagsData) {
       const updatedTo10TAGS = top10TagsData.map((tag) => {
         return { tagName: tag.tagName, checked: false };
       });
-      setTop10TagLists(updatedTo10TAGS);
+
+      setHashTagStore((pre) => {
+        return {
+          ...pre,
+          Top10HashTagLists: updatedTo10TAGS,
+        };
+      });
     }
   }, [top10TagsData]);
 
   //이거 where카테고리랑 같이쓰임 나중에 리팩토링시 분리 필요
   const filterTags = (e) => {
     const { innerText } = e.target;
-    setSelectTags((pre) => {
-      if (pre[0] === innerText) {
-        return [];
-      } else {
-        return [innerText];
-      }
-    });
-    setTop10TagLists((prevTags) =>
-      prevTags.map((tag) => {
+    setHashTagStore((pre) => {
+      const newTop10HashTagLists = pre.Top10HashTagLists.map((tag) => {
         if (tag.tagName === innerText) {
           return { ...tag, checked: !tag.checked };
         } else {
           return { ...tag, checked: false };
         }
-      })
-    );
+      });
+
+      const newSelectHashTags =
+        pre.SelectHashTags[0] === innerText ? [] : [innerText];
+
+      return {
+        ...pre,
+        SelectHashTags: newSelectHashTags,
+        Top10HashTagLists: newTop10HashTagLists,
+      };
+    });
   };
   const deleteTags = (e) => {
     const name = e.currentTarget.getAttribute("name");
-    setSelectTags((pre) => {
-      const filteredArray = pre.filter((region) => region !== name);
-      return filteredArray;
-    });
-    setTop10TagLists((prevTags) => {
-      return prevTags.map((tag) => {
+    setHashTagStore((pre) => {
+      const newSelectHashTags = pre.SelectHashTags.filter(
+        (tag) => tag !== name
+      );
+      const newTop10HashTagLists = pre.Top10HashTagLists.map((tag) => {
         if (tag.tagName === name) {
           return { ...tag, checked: false };
         } else {
           return { ...tag };
         }
       });
+      return {
+        ...pre,
+        SelectHashTags: newSelectHashTags,
+        Top10HashTagLists: newTop10HashTagLists,
+      };
     });
   };
 
@@ -338,7 +350,7 @@ export const HeaderTagSelect = ({ setSelectedFilter }) => {
           <TagRecomendTitle>인기태그 추천</TagRecomendTitle>
         </div>
         <RecomendTagContainer>
-          {top10TagLists?.map((tag) => {
+          {hashTagStore.Top10HashTagLists?.map((tag) => {
             return (
               <RecomendTag
                 key={tag.tagName}
@@ -351,7 +363,7 @@ export const HeaderTagSelect = ({ setSelectedFilter }) => {
           })}
         </RecomendTagContainer>
         <SelectTagContainer>
-          {selectTags.map((tag) => {
+          {hashTagStore.SelectHashTags.map((tag) => {
             return (
               <TagButton>
                 <TagText>{tag}</TagText>
@@ -364,10 +376,9 @@ export const HeaderTagSelect = ({ setSelectedFilter }) => {
         </SelectTagContainer>
       </TagBox>
       <EXListApplyBox
-        selectTags={selectTags}
+        classification={"HashTag"}
+        setHashTagStore={setHashTagStore}
         setSelectedFilter={setSelectedFilter}
-        setSelectTags={setSelectTags}
-        setTop10TagLists={setTop10TagLists}
         top10TagsData={top10TagsData}
       />
     </TagContainer>
