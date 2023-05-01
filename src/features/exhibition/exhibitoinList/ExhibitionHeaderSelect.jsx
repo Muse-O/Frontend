@@ -8,9 +8,12 @@ import {
 } from "../../../hooks/exhibition/useGetSido";
 import dayjs from "dayjs";
 import 'dayjs/locale/ko'
+import next_cut_gray from '../../../assets/imgs/common/next_cut_gray.png'
+import next_cut_white from '../../../assets/imgs/common/next_cut_white.png'
+import refresh from '../../../assets/imgs/refresh.png'
 dayjs.locale('ko')
 
-export const HeaderWhenSelect = () => {
+export const HeaderWhenSelect = ({setApplyWhen, setWhenVisible}) => {
   const currentday = dayjs().format("YYYY-MM")
   const [today, setToday] = useState(dayjs())
   const daysInMonth = today.daysInMonth();
@@ -40,47 +43,61 @@ export const HeaderWhenSelect = () => {
     }
   }, [inputValue])
 
-  return <div style={{width:"462px", height:"502px", padding:"32px"}} children={<>
-    <div style={{display:"grid", gridTemplateColumns:"1fr 150px", alignItems:"center"}}>
-      <h1 style={{color:"#171717", fontSize:"20px", fontFamily: 'Montserrat'}}>{today.format('YYYY.MM')}</h1>
-      <div style={{display:"grid", gridTemplateColumns:"repeat(3, 1fr)", width:"150px", textAlign:"end"}}>
-        <div onClick={preMonth}>이전달</div>
-        <div onClick={presentMonth}>현재</div>  
-        <div onClick={nextMonth}>다음달</div>
+  const setApplyWhenFn = (date) => {
+    const selectdate = date.format("YYYY-MM-DD")
+    // console.log(selectdate);
+    setApplyWhen(selectdate)
+  }
+
+  return (
+  <div  children={<>
+    <div style={{width:"462px", minHeight:"544px", padding:"32px"}}>
+      <div style={{display:"grid", gridTemplateColumns:"297px 1fr", alignItems:"center"}}>
+        {/* 달력 YYYY-MM 표시 */}
+        <h1 style={{color:"#171717", fontSize:"20px", fontFamily: 'Montserrat'}}>{today.format('YYYY.MM')}</h1>
+        {/* 달력 설정 */}
+        <div style={{display:"flex", justifyContent:"center", alignItems:"center",gap:"8px"}}>
+          <div style={{width:"24px", height:"24px", backgroundColor:"#EEEEEE", borderRadius:"50px", display:"flex", justifyContent:"center", alignItems:"center", cursor:"pointer"}} onClick={preMonth} children={<img src={next_cut_gray} alt="화살표" style={{width:"7px", display:"block", transform: "rotate(-180deg)"}}/>}/>
+          <div onClick={presentMonth} style={{width:"39px", lineHeight:"22px", borderRadius:"50px", border:"1px solid #5A5A5A", textAlign:"center", cursor:"pointer", padding:"0"}} children="현재"/>
+          <div style={{width:"24px", height:"24px", backgroundColor:"#EEEEEE", borderRadius:"50px", display:"flex", justifyContent:"center", alignItems:"center", cursor:"pointer"}} onClick={nextMonth} children={<img src={next_cut_gray} alt="화살표" style={{width:"7px", display:"block"}}/>}/>
+        </div>
       </div>
-    </div>
-    <div style={{display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "35px",
-          maxWidth: "398px", minWidth: "398px", maxHeight: "20px", minHeight: "20px", marginTop:"40px",
-          fontFamily: 'Montserrat', fontSize:"13px", textAlign:"center"}}>
-    {days.map((day, index) => {
-      if(day === "Sun") {
-        return <div key={index} style={{color:"red", display:"flex", justifyContent:"center", alignItems:"center"}}>{day}</div>
-      } else if(day === "Sat") {
-        return <div key={index} style={{color:"blue", display:"flex", justifyContent:"center", alignItems:"center"}}>{day}</div>
-      } else {
-        return <div key={index} style={{color:"black", display:"flex", justifyContent:"center", alignItems:"center"}}>{day}</div>
-      }
-    })}
-    {calendarLists && calendarLists.map((date, index) => {
-        if(date === null) {
-          return <div key={index}></div>
-        } else if (date.format("YYYY-MM") != currentday) {
-          return <div style={{color:"black", width:"25px", lineHeight:"25px"}} key={index} onClick={()=>alert(date.format())}>{date.format("DD")}</div>
-        } else if (date.format("YYYY-MM-DD") < today.format("YYYY-MM-DD")) {
-        } else if (date.format("YYYY-MM-DD") < "10") {
-          return <div style={{color:"gray", width:"25px", lineHeight:"25px"}} key={index} onClick={()=>alert(date.format())}>{date.format("DD")}</div>
-        } else if (date.format("YYYY-MM-DD") === today.format("YYYY-MM-DD")) {
-          return <div style={{backgroundColor:"black", color:"white", borderRadius:"50px", width:"25px", lineHeight:"25px"}} key={index} onClick={()=>alert(date.format())}>{date.format("DD")}</div>  
+      {/* 달력내용 */}
+      <div style={{display: "grid", gridTemplateColumns: "repeat(7, 1fr)", rowGap: "45px", columnGap:"35px",
+            maxWidth: "398px", minWidth: "398px", maxHeight: "16px", minHeight: "16px", marginTop:"40px",
+            fontFamily: 'Montserrat', fontSize:"13px", textAlign:"center"}}>
+      {days.map((day, index) => {
+        if(day === "Sun") {
+          return <div key={index} style={{color:"#F65959", display:"flex", justifyContent:"center", alignItems:"center", fontSize: "13px"}}>{day}</div>
+        } else if(day === "Sat") {
+          return <div key={index} style={{color:"#3360FF", display:"flex", justifyContent:"center", alignItems:"center", fontSize: "13px"}}>{day}</div>
         } else {
-          return <div style={{color:"black", width:"25px", lineHeight:"25px"}} key={index} onClick={()=>alert(date.format())}>{date.format("DD")}</div>
+          return <div key={index} style={{color:"#242424", display:"flex", justifyContent:"center", alignItems:"center", fontSize: "13px"}}>{day}</div>
         }
       })}
-
+      {calendarLists && calendarLists.map((date, index) => {
+          if(date === null) {
+            return <div key={index}></div>
+          } else if (date.format("YYYY-MM") != currentday) {
+            return <div style={{color:"black", width:"25px", lineHeight:"25px", fontSize: "16px"}} key={index} onClick={()=>setApplyWhenFn(date)}>{date.format("DD")}</div>
+          } else if (date.format("YYYY-MM-DD") < today.format("YYYY-MM-DD")) {
+            return <div style={{color:"gray", width:"25px", lineHeight:"25px", fontSize: "16px"}} key={index} onClick={()=>setApplyWhenFn(date)}>{date.format("DD")}</div>
+          } else if (date.format("YYYY-MM-DD") === today.format("YYYY-MM-DD")) {
+            return <div style={{backgroundColor:"black", color:"white", borderRadius:"50px", width:"25px", lineHeight:"25px", fontSize: "16px"}} key={index} onClick={()=>setApplyWhenFn(date)}>{date.format("DD")}</div>
+          } else {
+            return <div style={{color:"black", width:"25px", lineHeight:"25x", fontSize: "16px"}} key={index} onClick={()=>setApplyWhenFn(date)}>{date.format("DD")}</div>
+          }
+        })}
+        </div>
+    </div>    
+  {/* 하단 설정 버튼 */}
+  <div style={{height:"47px", padding:"0 24px", border: "1px solid #EEEEEE", display:"grid", gridTemplateColumns:"320px 39px 53px", gap:"2", alignItems:"center"}}>
+    <div style={{fontSize: "12px", lineHeight:"15px", color: "#3C3C3C", display:"flex", alignItems:"center", cursor:"pointer"}} onClick={()=>setApplyWhen("")}>초기화 <img style={{height:"15px", marginLeft:"2px"}} src={refresh} alt="초기화"/></div>
+    <div style={{fontSize: "12px", lineHeight:"15px", color: "#3C3C3C", display:"flex", alignItems:"center", cursor:"pointer"}} onClick={()=>setWhenVisible(pre=>!pre)}>취소</div>
+    <div style={{fontSize: "12px", lineHeight:"15px", color: "#3C3C3C", display:"flex", alignItems:"center", cursor:"pointer"}}>적용하기</div>
   </div>
-    
-  
   </>}/>
-
+  )
 }
 
 

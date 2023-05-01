@@ -76,6 +76,7 @@ function ExhibitionLists() {
   };
   // console.log("data", data?.pages[0]);
   // console.log("적용된것", applyWhere, applycategory, applyHashTag, applySearch);
+  console.log(applyWhen);  
 
   return (
     <ExhibitionWrap>
