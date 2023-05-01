@@ -7,8 +7,6 @@ import styled from "styled-components";
 import ExhibitionContainer from "../features/mypage/ExhibitionContainer";
 import { useRecoilState } from "recoil";
 import { headerStatedefalut } from "../components/headerStore";
-import { ToastContainer } from "react-toastify"; //react-toastify
-import "react-toastify/dist/ReactToastify.css"; //react-toastify
 
 function MyPage() {
   const [headerState, setHeaderState] = useRecoilState(headerStatedefalut);
@@ -18,14 +16,6 @@ function MyPage() {
 
   return (
     <>
-      <ToastContainer
-        position="top-center"
-        limit={1}
-        closeButton={true}
-        autoClose={4000}
-        hideProgressBar={true}
-        theme="light"
-      />
       <Header />
       <Article>
         <StContainer>
@@ -64,5 +54,3 @@ const RightContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
-//height: 937px

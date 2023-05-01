@@ -9,8 +9,7 @@ import {
   headerStateSearch,
   headerStatedefalut,
 } from "../../components/headerStore";
-import { toast } from "react-toastify"; //react-toastify
-import "react-toastify/dist/ReactToastify.css"; //react-toastify
+import Swal from "sweetalert2";
 
 function useLogin() {
   const navigate = useNavigate();
@@ -21,8 +20,6 @@ function useLogin() {
     mutationFn: async payload => {
       const response = await apis.post("/auth/login", payload);
       const token = response.headers.authorization;
-      //"access_token"이라고 한 이유
-      //-> 나중에 refresh token 구현해야할수도 있어서 구분용으로 지음.
       cookies.set("access_token", token);
       return response;
     },
@@ -30,14 +27,21 @@ function useLogin() {
       const accessToken = cookies.get("access_token");
       setHeaderState({ ...headerStateSearchs });
       setDecodeAccessToken(jwtDecode(accessToken));
+      Swal.fire({
+        title: "\n로그인 완료하였습니다.",
+        focusConfirm: false,
+      });
       navigate("/");
     },
     onError: () => {
-      toast.error("이메일 또는 비밀번호를 확인해주세요.");
+      Swal.fire({
+        title: "이메일 또는 비밀번호를 \n확인해주세요.",
+        icon: "warning",
+        focusConfirm: false,
+      });
     },
   });
 
-  //밖에서 login이라는 이름으로 해당 mutate 사용
   return {
     login: mutate,
   };

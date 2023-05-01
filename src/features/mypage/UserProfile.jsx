@@ -7,8 +7,7 @@ import AlarmContainer from "./AlarmContainer";
 import palette from "../../assets/imgs/mypage/palette_gradient.png";
 import setting from "../../assets/imgs/mypage/gear_gray.png";
 import { usePatchRole } from "../../hooks/mypage/usePatchRole";
-import { toast } from "react-toastify"; //react-toastify
-import "react-toastify/dist/ReactToastify.css"; //react-toastify
+import Swal from "sweetalert2";
 
 function UserProfile() {
   //react-query
@@ -31,10 +30,17 @@ function UserProfile() {
   const [roleApplied, setRoleApplied] = useState(false);
   const changeRoleHandler = () => {
     if (userProfile?.role === "UR04") {
-      toast.error("이미 신청 완료하였습니다.");
+      Swal.fire({
+        title: "\n이미 신청 완료하였습니다.",
+        focusConfirm: false,
+      });
+
       return;
     } else if (userProfile?.role === "UR02") {
-      toast.error("이미 작가 인증이 완료되었습니다.");
+      Swal.fire({
+        title: "\n이미 작가 인증이 완료되었습니다.",
+        focusConfirm: false,
+      });
       return;
     } else {
       const confirmResult = window.confirm("작가 신청을 하시겠습니까?");
@@ -42,7 +48,10 @@ function UserProfile() {
         //작가신청 PATCH
         patchRole();
         setRoleApplied(true);
-        toast.success("작가 신청이 완료되었습니다!");
+        Swal.fire({
+          title: "\n작가 신청이 완료되었습니다!",
+          focusConfirm: false,
+        });
       }
     }
   };

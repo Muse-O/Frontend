@@ -8,8 +8,7 @@ import kakaoLogo from "../../assets/imgs/login/kakao-talk.png";
 import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
 import falseVisibleEyes from "../../assets/imgs/login/invisible_gray.png";
 import trueVisibleEyes from "../../assets/imgs/login/eye_gray.png";
-import { ToastContainer, toast } from "react-toastify"; //react-toastify
-import "react-toastify/dist/ReactToastify.css"; //react-toastify
+import Swal from "sweetalert2";
 
 function LoginForm() {
   //react-query
@@ -75,107 +74,101 @@ function LoginForm() {
 
   //소셜로그인 미구현 -> 서비스 제공 예정 alert
   const socialLoginBtn = () => {
-    toast.success("서비스 제공 예정입니다.");
+    Swal.fire({
+      title: "서비스 제공 예정입니다.",
+      icon: "info",
+      focusConfirm: false,
+    });
   };
 
   return (
-    <>
-      <ToastContainer
-        position="top-center"
-        limit={1}
-        closeButton={true}
-        autoClose={2000}
-        hideProgressBar={true}
-        theme="light"
-      />
-      <StLogin>
-        <StLinkBox>
-          <Link to="/">
-            <img src={museoLogo} alt="museoLogo" />
-          </Link>
-        </StLinkBox>
+    <StLogin>
+      <StLinkBox>
+        <Link to="/">
+          <img src={museoLogo} alt="museoLogo" />
+        </Link>
+      </StLinkBox>
 
-        <StEmailInputBox>
-          <label>이메일</label>
-          <StEmailInputWrap>
-            <input
-              type="email"
-              name="email"
-              onChange={changeInputHandler}
-              style={{ borderColor: !emailMsg ? "#dddddd" : "red" }}
-            />
-            <div>{emailMsg}</div>
-          </StEmailInputWrap>
-        </StEmailInputBox>
+      <StEmailInputBox>
+        <label>이메일</label>
+        <StEmailInputWrap>
+          <input
+            type="email"
+            name="email"
+            onChange={changeInputHandler}
+            style={{ borderColor: !emailMsg ? "#dddddd" : "red" }}
+          />
+          <div>{emailMsg}</div>
+        </StEmailInputWrap>
+      </StEmailInputBox>
 
-        <StPwInputBox>
-          <label>비밀번호</label>
-          <StPwInputWrap>
-            {!pwVisible ? (
-              <StPwInputImgWrap>
-                <input
-                  type="password"
-                  name="password"
-                  onChange={changeInputHandler}
-                  style={{
-                    borderColor: !pwMsg ? "#dddddd" : "red",
-                    fontFamily: "Malgun gothic",
-                    color: "#242424",
-                    padding: "10px 10px 15px",
-                    letterSpacing: "3px",
-                  }}
-                />
-                <div onClick={visibleChangeHandler}>
-                  <img src={falseVisibleEyes} alt="invisibleEyes" />
-                </div>
-              </StPwInputImgWrap>
-            ) : (
-              <StPwInputImgWrap>
-                <input
-                  type="text"
-                  name="password"
-                  onChange={changeInputHandler}
-                  style={{
-                    borderColor: !pwMsg ? "#dddddd" : "red",
-                  }}
-                />
-                <div onClick={visibleChangeHandler}>
-                  <img src={trueVisibleEyes} alt="trueVisibleEyes" />
-                </div>
-              </StPwInputImgWrap>
-            )}
-          </StPwInputWrap>
-          <StPwWarning>{pwMsg}</StPwWarning>
-        </StPwInputBox>
-
-        <StLoginBtn onClick={loginHandler}>로그인</StLoginBtn>
-
-        <StSnsBox>
-          <div>SNS로 간편하게 시작하기</div>
-
-          <StSnsBtnWrap>
-            <GoogleLogoDiv onClick={socialLoginBtn}>
-              <img
-                src={googleLogo}
-                alt="googleLogo"
-                style={{ width: "30px", height: "30px" }}
+      <StPwInputBox>
+        <label>비밀번호</label>
+        <StPwInputWrap>
+          {!pwVisible ? (
+            <StPwInputImgWrap>
+              <input
+                type="password"
+                name="password"
+                onChange={changeInputHandler}
+                style={{
+                  borderColor: !pwMsg ? "#dddddd" : "red",
+                  fontFamily: "Malgun gothic",
+                  color: "#242424",
+                  padding: "10px 10px 15px",
+                  letterSpacing: "3px",
+                }}
               />
-            </GoogleLogoDiv>
-            <div onClick={socialLoginBtn}>
-              <img src={kakaoLogo} alt="kakaoLogo" />
-            </div>
-            <div onClick={socialLoginBtn}>
-              <img src={naverLogo} alt="naverLogo" />
-            </div>
-          </StSnsBtnWrap>
-        </StSnsBox>
+              <div onClick={visibleChangeHandler}>
+                <img src={falseVisibleEyes} alt="invisibleEyes" />
+              </div>
+            </StPwInputImgWrap>
+          ) : (
+            <StPwInputImgWrap>
+              <input
+                type="text"
+                name="password"
+                onChange={changeInputHandler}
+                style={{
+                  borderColor: !pwMsg ? "#dddddd" : "red",
+                }}
+              />
+              <div onClick={visibleChangeHandler}>
+                <img src={trueVisibleEyes} alt="trueVisibleEyes" />
+              </div>
+            </StPwInputImgWrap>
+          )}
+        </StPwInputWrap>
+        <StPwWarning>{pwMsg}</StPwWarning>
+      </StPwInputBox>
 
-        <StRegisterLink>
-          <div>아직 회원이 아니시라면</div>
-          <StLink to="/register">회원가입</StLink>
-        </StRegisterLink>
-      </StLogin>
-    </>
+      <StLoginBtn onClick={loginHandler}>로그인</StLoginBtn>
+
+      <StSnsBox>
+        <div>SNS로 간편하게 시작하기</div>
+
+        <StSnsBtnWrap>
+          <GoogleLogoDiv onClick={socialLoginBtn}>
+            <img
+              src={googleLogo}
+              alt="googleLogo"
+              style={{ width: "30px", height: "30px" }}
+            />
+          </GoogleLogoDiv>
+          <div onClick={socialLoginBtn}>
+            <img src={kakaoLogo} alt="kakaoLogo" />
+          </div>
+          <div onClick={socialLoginBtn}>
+            <img src={naverLogo} alt="naverLogo" />
+          </div>
+        </StSnsBtnWrap>
+      </StSnsBox>
+
+      <StRegisterLink>
+        <div>아직 회원이 아니시라면</div>
+        <StLink to="/register">회원가입</StLink>
+      </StRegisterLink>
+    </StLogin>
   );
 }
 

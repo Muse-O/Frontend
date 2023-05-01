@@ -8,9 +8,7 @@ import {
   headerStateSearch,
   headerStatedefalut,
 } from "../../components/headerStore";
-//react-toastify
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 
 function Logout({ setIsLoggedIn, isLoggedIn }) {
   const [, setDecodeAccessToken] = useRecoilState(decodeAccessToken);
@@ -24,25 +22,18 @@ function Logout({ setIsLoggedIn, isLoggedIn }) {
       setDecodeAccessToken({});
       setIsLoggedIn(false);
       setHeaderState({ ...headerStateSearchs });
-      toast.success("로그아웃 되었습니다.");
+      Swal.fire({
+        title: "\n로그아웃 되었습니다.",
+        focusConfirm: false,
+      });
       navigate("/");
     }
   };
 
   return (
-    <>
-      <ToastContainer
-        position="top"
-        limit={1}
-        closeButton={true}
-        autoClose={5000}
-        hideProgressBar={true}
-        theme="light"
-      />
-      {isLoggedIn && (
-        <NavBottomPathLogin onClick={logoutHandler} children="로그아웃" />
-      )}
-    </>
+    isLoggedIn && (
+      <NavBottomPathLogin onClick={logoutHandler} children="로그아웃" />
+    )
   );
 }
 

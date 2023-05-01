@@ -2,20 +2,10 @@ import React from "react";
 import LoginForm from "../features/login/LoginForm";
 import styled from "styled-components";
 import { MainWrap } from "../shared/GlobalStyled";
-import { ToastContainer } from "react-toastify"; //react-toastify
-import "react-toastify/dist/ReactToastify.css"; //react-toastify
 
 function Login() {
   return (
     <StMainWrap>
-      <ToastContainer
-        position="top-center"
-        limit={1}
-        closeButton={true}
-        autoClose={2000}
-        hideProgressBar={true}
-        theme="light"
-      />
       <LoginForm />
     </StMainWrap>
   );
