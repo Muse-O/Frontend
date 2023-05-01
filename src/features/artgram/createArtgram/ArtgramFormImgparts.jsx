@@ -134,6 +134,14 @@ const Notification = styled.div`
   border: 1px solid #7E7E7E;
   border-radius: 5px;
   font-size: 12px;
+  img {
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    width: 12px;
+
+  }
+
   span {
     color:red;
     margin-right: 4px;
@@ -144,6 +152,9 @@ const Notification = styled.div`
   height: 71.25px;
   padding: 15px;
   gap: 6px;
+  img {
+    width: 9px;
+  }
   }
 `
 

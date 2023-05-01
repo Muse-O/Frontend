@@ -310,6 +310,13 @@ const Notification = styled.div`
   border-radius: 5px;
   font-size: 12px;
 
+  img {
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    width: 12px;
+  }
+
   span {
     color:red;
     margin-right: 4px;
@@ -322,6 +329,9 @@ const Notification = styled.div`
   padding: 10px;
   gap: 6px;
   font-size: 9px;
+  img {
+    width: 9px;
+  }
   span {
     margin-right: 3px;
   }

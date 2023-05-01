@@ -1,6 +1,6 @@
 import React from 'react'
-import { RiErrorWarningLine } from "react-icons/ri";
 import * as Artgramparts from "../css/ArtgramCss";
+import exclamationMark from '../../../assets/imgs/artgram/exclamationMark.png'
 
 function Notification() {
   return (
@@ -9,7 +9,7 @@ function Notification() {
       <span
         children={
           <>
-            <RiErrorWarningLine /> 필수입력
+            <img src={exclamationMark} alt='경고이미지'/> 필수입력
           </>
         }
       />
