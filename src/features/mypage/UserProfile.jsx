@@ -7,6 +7,9 @@ import AlarmContainer from "./AlarmContainer";
 import palette from "../../assets/imgs/mypage/palette_gradient.png";
 import setting from "../../assets/imgs/mypage/gear_gray.png";
 import { usePatchRole } from "../../hooks/mypage/usePatchRole";
+//react-toastify
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function UserProfile() {
   //react-query
@@ -32,16 +35,16 @@ function UserProfile() {
   const [roleApplied, setRoleApplied] = useState(false);
   const changeRoleHandler = () => {
     if (userProfile?.role === "UR04") {
-      alert("이미 신청 완료하였습니다.");
+      toast.error("이미 신청 완료하였습니다.");
     } else if (userProfile?.role === "UR02") {
-      alert("이미 작가 인증이 완료되었습니다.");
+      toast.error("이미 작가 인증이 완료되었습니다.");
     } else {
       const confirmResult = window.confirm("작가 신청을 하시겠습니까?");
       if (confirmResult) {
         //작가신청 PATCH
         patchRole();
         setRoleApplied(true);
-        alert("작가 신청이 완료되었습니다!");
+        toast.success("작가 신청이 완료되었습니다!");
       }
     }
   };
@@ -66,6 +69,15 @@ function UserProfile() {
 
   return (
     <>
+      <ToastContainer
+        position="top-center"
+        limit={1}
+        closeButton={true}
+        autoClose={2000}
+        hideProgressBar={true}
+        theme="light"
+      />
+
       <StUserProfileBox>
         <ProfileImg src={userProfile?.profileImg} alt="userProfileImg" />
 
