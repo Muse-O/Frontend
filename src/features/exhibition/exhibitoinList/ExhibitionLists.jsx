@@ -87,6 +87,7 @@ function ExhibitionLists() {
             When
             <SelectBox visible={whenVisible}>
               <HeaderWhenSelect 
+                whenVisible={whenVisible}
                 setApplyWhen={setApplyWhen}
                 setWhenVisible={setWhenVisible}/>
             </SelectBox>

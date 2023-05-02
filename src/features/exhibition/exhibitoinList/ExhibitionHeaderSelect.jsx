@@ -7,98 +7,77 @@ import {
   useGetSido,
 } from "../../../hooks/exhibition/useGetSido";
 import dayjs from "dayjs";
-import 'dayjs/locale/ko'
 import next_cut_gray from '../../../assets/imgs/common/next_cut_gray.png'
 import next_cut_white from '../../../assets/imgs/common/next_cut_white.png'
 import refresh from '../../../assets/imgs/refresh.png'
-dayjs.locale('ko')
+import { useCalender } from "../../../hooks/exhibition/useCalender";
 
-export const HeaderWhenSelect = ({setApplyWhen, setWhenVisible}) => {
-  const currentday = dayjs().format("YYYY-MM")
-  const [today, setToday] = useState(dayjs())
-  const daysInMonth = today.daysInMonth();
-  const firstDayOfMonth = dayjs(today).startOf('month').locale('ko'); // 해당 달의 철날에 대한 정보가 감겨있다.
-  const emptyDates = new Array(firstDayOfMonth.day()).fill(null);
-  const dates = Array.from({length:daysInMonth}, (_, index) =>
-  dayjs(firstDayOfMonth).add(index, 'day'));
-  const calendarLists = [...emptyDates, ...dates]
-  const days = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
-  const preMonth = () => {
-    setToday(dayjs(today).subtract(1,"month"))
-    setInputValue('')
-  }
-  const nextMonth = () => {
-    setToday(dayjs(today).add(1,"month"))
-    setInputValue('')
-  }
-
-  const presentMonth = () => {
-    setToday(dayjs())
-    setInputValue('')
-  }
+export const HeaderWhenSelect = ({whenVisible,setApplyWhen, setWhenVisible}) => {
+  // setApplyWhenFn : 날짜를 클릭하면, 해당 날짜의 정보가 setApplyWhen에 설정되도록 했습니다.  
   const [inputValue, setInputValue] = useState('')
+  const [prevArrow, setPrevarrowArrow] =useState(false)
+  const [nextArrow, setNextarrowArrow] =useState(false)
   useEffect(()=> {
     if(inputValue) {
       setToday(dayjs(inputValue))
     }
   }, [inputValue])
-
+  const {currentday, today, setToday, calendarLists, days, preMonth, nextMonth, presentMonth} = useCalender(whenVisible, setInputValue)
   const setApplyWhenFn = (date) => {
-    const selectdate = date.format("YYYY-MM-DD")
-    // console.log(selectdate);
-    setApplyWhen(selectdate)
+    setApplyWhen(date.format("YYYY-MM-DD"))
   }
+  
 
   return (
-  <div  children={<>
-    <div style={{width:"462px", minHeight:"544px", padding:"32px"}}>
-      <div style={{display:"grid", gridTemplateColumns:"297px 1fr", alignItems:"center"}}>
-        {/* 달력 YYYY-MM 표시 */}
-        <h1 style={{color:"#171717", fontSize:"20px", fontFamily: 'Montserrat'}}>{today.format('YYYY.MM')}</h1>
-        {/* 달력 설정 */}
-        <div style={{display:"flex", justifyContent:"center", alignItems:"center",gap:"8px"}}>
-          <div style={{width:"24px", height:"24px", backgroundColor:"#EEEEEE", borderRadius:"50px", display:"flex", justifyContent:"center", alignItems:"center", cursor:"pointer"}} onClick={preMonth} children={<img src={next_cut_gray} alt="화살표" style={{width:"7px", display:"block", transform: "rotate(-180deg)"}}/>}/>
-          <div onClick={presentMonth} style={{width:"39px", lineHeight:"22px", borderRadius:"50px", border:"1px solid #5A5A5A", textAlign:"center", cursor:"pointer", padding:"0"}} children="현재"/>
-          <div style={{width:"24px", height:"24px", backgroundColor:"#EEEEEE", borderRadius:"50px", display:"flex", justifyContent:"center", alignItems:"center", cursor:"pointer"}} onClick={nextMonth} children={<img src={next_cut_gray} alt="화살표" style={{width:"7px", display:"block"}}/>}/>
+  <>
+    <CalendarLayout>
+      <CalendarHeader>
+        <h1 children={today.format('YYYY.MM')}/>
+        <div className="settingbtn">
+          <div className="button" 
+            onClick={preMonth}  
+            onMouseOver={()=>setPrevarrowArrow(pre=>!pre)} 
+            onMouseOut={()=>setPrevarrowArrow(pre=>!pre)} 
+            children={<img className="prevbtn" src={prevArrow ? next_cut_white : next_cut_gray} alt="화살표"/>}/>
+          <div className="currentbtn" onClick={presentMonth} children="현재"/>
+          <div className="button" 
+            onClick={nextMonth}
+            onMouseOver={()=>setNextarrowArrow(pre=>!pre)} 
+            onMouseOut={()=>setNextarrowArrow(pre=>!pre)} 
+            children={<img className="nextbtn" src={nextArrow ? next_cut_white : next_cut_gray} alt="화살표"/>}/>
         </div>
-      </div>
+      </CalendarHeader>
       {/* 달력내용 */}
-      <div style={{display: "grid", gridTemplateColumns: "repeat(7, 1fr)", rowGap: "45px", columnGap:"35px",
-            maxWidth: "398px", minWidth: "398px", maxHeight: "16px", minHeight: "16px", marginTop:"40px",
-            fontFamily: 'Montserrat', fontSize:"13px", textAlign:"center"}}>
-      {days.map((day, index) => {
-        if(day === "Sun") {
-          return <div key={index} style={{color:"#F65959", display:"flex", justifyContent:"center", alignItems:"center", fontSize: "13px"}}>{day}</div>
-        } else if(day === "Sat") {
-          return <div key={index} style={{color:"#3360FF", display:"flex", justifyContent:"center", alignItems:"center", fontSize: "13px"}}>{day}</div>
-        } else {
-          return <div key={index} style={{color:"#242424", display:"flex", justifyContent:"center", alignItems:"center", fontSize: "13px"}}>{day}</div>
-        }
-      })}
-      {calendarLists && calendarLists.map((date, index) => {
-          if(date === null) {
-            return <div key={index}></div>
-          } else if (date.format("YYYY-MM") != currentday) {
-            return <div style={{color:"black", width:"25px", lineHeight:"25px", fontSize: "16px"}} key={index} onClick={()=>setApplyWhenFn(date)}>{date.format("DD")}</div>
-          } else if (date.format("YYYY-MM-DD") < today.format("YYYY-MM-DD")) {
-            return <div style={{color:"gray", width:"25px", lineHeight:"25px", fontSize: "16px"}} key={index} onClick={()=>setApplyWhenFn(date)}>{date.format("DD")}</div>
-          } else if (date.format("YYYY-MM-DD") === today.format("YYYY-MM-DD")) {
-            return <div style={{backgroundColor:"black", color:"white", borderRadius:"50px", width:"25px", lineHeight:"25px", fontSize: "16px"}} key={index} onClick={()=>setApplyWhenFn(date)}>{date.format("DD")}</div>
-          } else {
-            return <div style={{color:"black", width:"25px", lineHeight:"25x", fontSize: "16px"}} key={index} onClick={()=>setApplyWhenFn(date)}>{date.format("DD")}</div>
-          }
-        })}
-        </div>
-    </div>    
+      <CalendarBody>
+        {days.map(day => 
+          day === "Sun" 
+            ? <DayBox key={day} color="#F65959" children={day}/>
+            : day === "Sat"
+              ? <DayBox key={day} color="#3360FF" children={day}/>
+              : <DayBox key={day} color="#242424" children={day}/>)}
+
+        {calendarLists && calendarLists.map((date, index) => 
+          date === null
+            ? <DateBox key={index} />
+            : date.format("YYYY-MM") != currentday
+              ? <DateBox color="black" key={index} onClick={()=>setApplyWhenFn(date)} children={date.format("DD")}/>
+              : date.format("YYYY-MM-DD") < today.format("YYYY-MM-DD")
+                ? <DateBox color="gray" key={index} onClick={()=>setApplyWhenFn(date)} children={date.format("DD")}/>
+                : date.format("YYYY-MM-DD") === today.format("YYYY-MM-DD")
+                  ? <TodayBox color="white" key={index} onClick={()=>setApplyWhenFn(date)} children={date.format("DD")}/>
+                  : <DateBox key={index} onClick={()=>setApplyWhenFn(date)} children={date.format("DD")}/>)}      
+        </CalendarBody>
+    </CalendarLayout>    
   {/* 하단 설정 버튼 */}
-  <div style={{height:"47px", padding:"0 24px", border: "1px solid #EEEEEE", display:"grid", gridTemplateColumns:"320px 39px 53px", gap:"2", alignItems:"center"}}>
-    <div style={{fontSize: "12px", lineHeight:"15px", color: "#3C3C3C", display:"flex", alignItems:"center", cursor:"pointer"}} onClick={()=>setApplyWhen("")}>초기화 <img style={{height:"15px", marginLeft:"2px"}} src={refresh} alt="초기화"/></div>
-    <div style={{fontSize: "12px", lineHeight:"15px", color: "#3C3C3C", display:"flex", alignItems:"center", cursor:"pointer"}} onClick={()=>setWhenVisible(pre=>!pre)}>취소</div>
-    <div style={{fontSize: "12px", lineHeight:"15px", color: "#3C3C3C", display:"flex", alignItems:"center", cursor:"pointer"}}>적용하기</div>
-  </div>
-  </>}/>
+  <SettingWrap>
+    <SettingBox onClick={()=>setApplyWhen("")} children={<>초기화 <img className="refreshbtn" src={refresh} alt="초기화"/></>}/>
+    <SettingBox onClick={()=>setWhenVisible(pre=>!pre)} children="취소"/>
+    <SettingBox children="적용하기"/>
+  </SettingWrap>
+  </>
   )
 }
+
 
 
 export const HeaderWhereSelect = ({ setApplyWhere, setWhereVisible }) => {
@@ -650,3 +629,125 @@ const WhereBox = styled.div`
 //   return
 
 // }
+
+
+// Calender 관련 CSS in JS
+const CalendarLayout = styled.div`
+  width: 462px;
+  min-height: 544px;
+  padding: 32px;
+`
+const CalendarHeader = styled.div`
+  display: grid;
+  grid-template-columns: 297px 1fr;
+  align-items: center;
+  h1 {
+    color: #171717;
+    font-size: 20px;
+    font-family: 'Montserrat';
+  }
+  .settingbtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    .button {
+      width:24px;
+      height:24px;
+      background-color:#EEEEEE;
+      border-radius:50px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      
+      &:hover {
+        cursor:pointer;
+        background-color: #3C3C3C;
+      }
+    }
+    .currentbtn {
+      width:39px;
+      line-height:22px;
+      border-radius:50px;
+      border:1px solid #5A5A5A;
+      text-align:center;
+      cursor:pointer;
+      padding:0;
+    }
+    .prevbtn {
+      transform: rotate(-180deg);
+      width:7px;
+      display:block;
+    }
+    .nextbtn {
+      width:7px;
+      display:block;
+    }
+  }
+`
+
+const CalendarBody = styled.div`
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap:  45px;
+  column-gap: 35px;
+  max-width:  398px;
+  min-width:  398px;
+  max-height:  16px;
+  min-height:  16px;
+  margin-top: 40px;
+  font-family:  Montserrat;
+  font-size: 13px;
+  text-align: center;
+`
+
+const DayBox = styled.div`
+  color: ${props => props.color};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 13px;
+
+`
+
+const DateBox = styled.div`
+  color: ${props => props.color};
+  width: 25px;
+  line-height: 25px;
+  font-size:  16px;
+  &:hover {
+    cursor: pointer;
+  }
+`
+
+const TodayBox = styled(DateBox)`
+  background-color:black;
+  border-radius:50px;
+`
+
+const SettingWrap = styled.div`
+  height: 47px;
+  padding: 0 24px;
+  border: 1px solid #EEEEEE;
+  display: grid;
+  grid-template-columns:320px 39px 53px;
+  gap:2;
+  align-items:center;
+`
+
+const SettingBox = styled.div`
+  font-size: 12px;
+  line-height: 15px;
+  color: #3C3C3C;
+  display: flex;
+  align-items: center;
+  &:hover {
+    cursor: pointer;
+  }
+  .refreshbtn {
+    height:15px; 
+    margin-left:2px;
+  }
+  
+`
