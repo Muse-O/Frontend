@@ -2,8 +2,12 @@ import { EXFormBox } from "./EXFormBox";
 import SelectEX from "./SelectEX";
 import * as EXContents from "../css/exhibitionCreateCss/EXFormContentsCss";
 import { Flex } from "../../../components/Flex";
-
+import { ExCategoryCode, ExHostCode } from "../../../shared/EXCodes";
+import styled from "styled-components";
+import { SubmitBtn } from "../../../components/Buttons";
 export const EXFormContents = ({
+  Detaildata,
+  deleteHandler,
   files,
   onchangeHandler,
   exhibition,
@@ -162,11 +166,7 @@ export const EXFormContents = ({
           EXvalue={exhibition.exhibitionHost}
           onChange={onchangeHandler}
           EXname={"exhibitionHost"}
-          options={[
-            { EH0001: "개인/팀" },
-            { EH0002: "기업" },
-            { EH0003: "기관" },
-          ]}
+          options={ExHostCode}
         />
       </EXFormBox>
       <EXFormBox Explan={"전시회 분류*"}>
@@ -174,15 +174,7 @@ export const EXFormContents = ({
           EXvalue={exhibition.exhibitionCategoty}
           onChange={onchangeHandler}
           EXname={"exhibitionCategoty"}
-          options={[
-            { WK0001: "애니메이션" },
-            { WK0002: "수채화" },
-            { WK0003: "추가1" },
-            { WK0004: "추가2" },
-            { WK0005: "추가3" },
-            { WK0006: "추가4" },
-            { WK0007: "추가5" },
-          ]}
+          options={ExCategoryCode}
         />
       </EXFormBox>
       <EXFormBox Explan={"작가*"}>
@@ -260,6 +252,27 @@ export const EXFormContents = ({
           )}
         </Flex>
       </EXFormBox>
+      <EXFormBox>
+        <SubmitBtns>
+          {Detaildata ? (
+            <>
+              <SubmitBtn type={"submit"}>전시수정하기</SubmitBtn>
+              <SubmitBtn type={"button"} onClick={deleteHandler}>
+                전시삭제하기
+              </SubmitBtn>
+            </>
+          ) : (
+            <SubmitBtn type={"submit"}>전시등록하기</SubmitBtn>
+          )}
+        </SubmitBtns>
+      </EXFormBox>
     </EXContents.ContentsWrap>
   );
 };
+const SubmitBtns = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
+  padding: 36px 0px;
+`;

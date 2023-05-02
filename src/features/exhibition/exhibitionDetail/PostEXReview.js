@@ -64,7 +64,7 @@ export const ReviewHashTag = () => {
 };
 
 export const PostEXReview = (
-  createExhibition,
+  createReview,
   hashTag,
   setRating,
   setInputHashTag,
@@ -103,11 +103,17 @@ export const PostEXReview = (
       alert("로그인이 필요한 서비스 입니다.");
       return;
     }
-    createExhibition({ hashTag, ...postReview });
-    setPostReviews(template);
-    setRating(0);
-    setInputHashTag("");
-    setHashTags([]);
+    if (postReview.reviewComment === "") {
+      alert("리뷰를 작성해 주세요");
+    } else if (postReview.reviewRating === 0) {
+      alert("별점을 등록해 주세요");
+    } else {
+      createReview({ hashTag, ...postReview });
+      setPostReviews(template);
+      setRating(0);
+      setInputHashTag("");
+      setHashTags([]);
+    }
   };
 
   return [reviewHandler, postReview, onSubmitReview];

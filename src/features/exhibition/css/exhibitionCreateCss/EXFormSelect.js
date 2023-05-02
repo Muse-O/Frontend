@@ -48,7 +48,8 @@ const SelectOption = styled.div`
   padding: 10px;
   cursor: pointer;
   &:hover {
-    background-color: #f0f0f0;
+    background: #3c3c3c;
+    color: #ffffff;
   }
 `;
 const SelectSpan = styled.span`

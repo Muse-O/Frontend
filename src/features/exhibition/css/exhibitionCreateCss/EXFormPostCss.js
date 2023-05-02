@@ -94,14 +94,8 @@ const Circle = styled.div`
 const UpDateButtons = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
-`;
-const SubmitButton = styled.button`
-  background-color: #d9d9d9;
-  width: 364px;
-  height: 40px;
-  border-radius: 50px;
-  margin-top: 15px;
+  gap: 24px;
+  padding: 36px 0px;
 `;
 
 const Caution = styled.div`
@@ -137,7 +131,6 @@ export {
   UpDateButtons,
   Post,
   Caution,
-  SubmitButton,
   PostImgArea,
   Circle,
 };

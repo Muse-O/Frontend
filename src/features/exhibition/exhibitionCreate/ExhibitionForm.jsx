@@ -74,17 +74,17 @@ function ExhibitionForm({
           gap="150"
         >
           <EXFormPost
-            Detaildata={Detaildata}
             changeOnOff={changeOnOff}
             exhibitionKind={exhibitionKind}
             postfiles={postfiles}
             getRootPropsPOST={getRootPropsPOST}
             getInputPropsPOST={getInputPropsPOST}
-            deleteHandler={deleteHandler}
             deleteImgPOST={deleteImgPOST}
           />
 
           <EXFormContents
+            Detaildata={Detaildata}
+            deleteHandler={deleteHandler}
             files={files}
             onchangeHandler={onchangeHandler}
             exhibition={exhibition}

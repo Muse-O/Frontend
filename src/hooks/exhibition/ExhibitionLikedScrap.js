@@ -1,12 +1,14 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apis_token } from "../../api/apis";
-import { keys } from "../../shared/queryKeys";
+import { keys } from "lodash";
 
-export const useLikeExhibition = () => {
+export const useLikeExhibition = (exhibitionId) => {
   const queryClient = useQueryClient();
-  const { mutate: likeExhibition } = useMutation({
-    mutationFn: async (exhibitionId) => {
-      const res = await apis_token.patch(`/exhibition/like/${exhibitionId}`);
+  const { mutate: LikeScrapExhibition } = useMutation({
+    mutationFn: async (LikeScrap) => {
+      const res = await apis_token.patch(
+        `/exhibition/${LikeScrap}/${exhibitionId}`
+      );
       return res.data;
     },
     onSuccess: () => {
@@ -16,5 +18,5 @@ export const useLikeExhibition = () => {
       console.log("에러", e);
     },
   });
-  return [likeExhibition];
+  return [LikeScrapExhibition];
 };

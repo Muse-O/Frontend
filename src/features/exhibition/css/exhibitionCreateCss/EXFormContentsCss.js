@@ -161,7 +161,6 @@ const ThumbsContainer = styled.aside`
   border-right: 1px dashed #242424;
   border-left: 1px dashed #242424;
   border-radius: 0 0 10px 10px;
-  margin: 0px 0px 50px 0px;
 `;
 
 const TumbsWrap = styled.div`

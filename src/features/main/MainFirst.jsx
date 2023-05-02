@@ -9,7 +9,8 @@ import { usePersonalExhibition } from "../../hooks/main/usePersonalExhibition";
 import { useNavigator } from "../../hooks/main/useNavigator";
 
 function MainFirst() {
-  const { firstSliderSettings, secondSliderSettings, currentSlideIndex } = useAsNavForSliderMainFirst();
+  const { firstSliderSettings, secondSliderSettings, currentSlideIndex } =
+    useAsNavForSliderMainFirst();
   const { editTimehandle } = useEditTime();
   const { navigatehandle } = useNavigator();
   const { isLoading, isError, data } = usePersonalExhibition();
@@ -24,7 +25,7 @@ function MainFirst() {
   return (
     <Main.CommenLayout height="709" media1440="528">
       <Main.ArticleTitle>
-        <Main.MainH4 children="개인전"/>
+        <Main.MainH4 children="개인전" />
       </Main.ArticleTitle>
       { isLoading || isError
         ? <div style={{marginTop:"66px"}}>로딩 중...</div>
@@ -71,8 +72,9 @@ function MainFirst() {
                 </Main.FirstMainSliderWrap>
               ))}
             </Slider>
-            </Main.FirstMainSlider>
-            <Main.FirstSubSlider children={
+          </Main.FirstMainSlider>
+          <Main.FirstSubSlider
+            children={
               <Slider {...secondSliderSettings}>
               {editLists && editLists.map(personalEx => (
                 <Main.FirstSubSliderWrap 
@@ -89,4 +91,3 @@ function MainFirst() {
 }
 
 export default MainFirst;
-
