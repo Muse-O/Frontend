@@ -11,6 +11,11 @@ const StLogin = styled.form`
   flex-direction: column;
   align-items: center;
   box-shadow: 0px 5px 20px 0px rgba(148, 148, 148, 0.25);
+
+  @media (max-width: 1440px) {
+    width: 462px;
+    height: 584.25px;
+  }
 `;
 
 const StLinkBox = styled.div`
@@ -21,6 +26,12 @@ const StLinkBox = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 72px;
+
+  @media (max-width: 1440px) {
+    width: 162.75px;
+    height: 37.5px;
+    margin-top: 54px;
+  }
 `;
 
 const StEmailInputBox = styled.div`
@@ -34,6 +45,16 @@ const StEmailInputBox = styled.div`
     color: #242424;
     font-size: 15px;
     font-weight: bold;
+
+    @media (max-width: 1440px) {
+      font-size: 11.25px;
+    }
+  }
+
+  @media (max-width: 1440px) {
+    width: 312px;
+    gap: 12px;
+    margin: 51.75px 0px 19.5px;
   }
 `;
 
@@ -51,10 +72,23 @@ const StEmailInputWrap = styled.div`
     outline: none;
     font-size: 16px;
     margin-bottom: 5px;
+
+    @media (max-width: 1440px) {
+      width: 312px;
+      height: 33px;
+      padding: 7.5px;
+      font-size: 12px;
+      margin-bottom: 3.75px;
+    }
   }
 
   div {
     color: #f65959;
+  }
+
+  @media (max-width: 1440px) {
+    width: 312px;
+    height: 36px;
   }
 `;
 
@@ -68,6 +102,15 @@ const StPwInputBox = styled.div`
     font-size: 15px;
     font-weight: bold;
     margin-bottom: 16px;
+
+    @media (max-width: 1440px) {
+      font-size: 11.25px;
+      margin-bottom: 12px;
+    }
+  }
+
+  @media (max-width: 1440px) {
+    width: 312px;
   }
 `;
 
@@ -77,6 +120,11 @@ const StPwInputWrap = styled.div`
 
   div {
     color: #f65959;
+  }
+
+  @media (max-width: 1440px) {
+    width: 312px;
+    height: 36px;
   }
 `;
 
@@ -91,6 +139,14 @@ const StPwInputImgWrap = styled.div`
     outline: none;
     font-size: 16px;
     position: absolute;
+
+    @media (max-width: 1440px) {
+      width: 312px;
+      height: 33px;
+      padding: 7.5px;
+      font-size: 12px;
+      margin-bottom: 3.75px;
+    }
   }
 
   img {
@@ -98,12 +154,22 @@ const StPwInputImgWrap = styled.div`
     height: 20px;
     transform: translate(385px, 12px);
     cursor: pointer;
+
+    @media (max-width: 1440px) {
+      width: 15px;
+      height: 15px;
+      transform: translate(288.75px, 9px);
+    }
   }
 `;
 
 const StPwWarning = styled.div`
   color: #f65959;
   height: 9px;
+
+  @media (max-width: 1440px) {
+    height: 6.75px;
+  }
 `;
 
 const StLoginBtn = styled.button`
@@ -124,6 +190,16 @@ const StLoginBtn = styled.button`
     background-color: #242424;
     color: white;
   }
+
+  @media (max-width: 1440px) {
+    width: 312px;
+    height: 48.75px;
+    border: 1px solid gray;
+    border-radius: 50px;
+    font-size: 11.25px;
+    font-weight: bold;
+    margin: 33px 0px 54px;
+  }
 `;
 
 const StSnsBox = styled.div`
@@ -140,6 +216,16 @@ const StSnsBox = styled.div`
     justify-content: center;
     font-size: 15px;
     font-weight: bold;
+
+    @media (max-width: 1440px) {
+      font-size: 11.25px;
+    }
+  }
+
+  @media (max-width: 1440px) {
+    width: 146.25px;
+    height: 64.5px;
+    gap: 17.25px;
   }
 `;
 
@@ -152,6 +238,11 @@ const StSnsBtnWrap = styled.div`
     height: 48px;
     border-radius: 50%;
     cursor: pointer;
+
+    @media (max-width: 1440px) {
+      width: 36px;
+      height: 36px;
+    }
   }
 
   img {
@@ -159,12 +250,20 @@ const StSnsBtnWrap = styled.div`
     height: 48px;
     border-radius: 50%;
     cursor: pointer;
+
+    @media (max-width: 1440px) {
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  @media (max-width: 1440px) {
+    gap: 12px;
   }
 `;
 
 const GoogleLogoDiv = styled.div`
   background-color: #f65959;
-  /* border: 1px solid rgba(148, 148, 148, 0.25); */
 `;
 
 const StRegisterLink = styled.div`
@@ -178,12 +277,25 @@ const StRegisterLink = styled.div`
   div {
     font-size: 16px;
     color: #5a5a5a;
+
+    @media (max-width: 1440px) {
+      font-size: 12px;
+    }
+  }
+
+  @media (max-width: 1440px) {
+    margin-top: 37.5px;
+    gap: 9px;
   }
 `;
 
 const StLink = styled(Link)`
   font-size: 16px;
   color: #3360ff;
+
+  @media (max-width: 1440px) {
+    font-size: 12px;
+  }
 `;
 
 export {

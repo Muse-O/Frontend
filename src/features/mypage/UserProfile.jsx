@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
+import AlarmContainer from "./AlarmContainer";
 import UpdateUserProfileModal from "./UpdateUserProfileModal";
 import UpdateModalBlackBg from "./UpdateModalBlackBg";
-import AlarmContainer from "./AlarmContainer";
-import * as UserProfileStyle from "../mypage/css/UserProfileStyle";
+import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
+import { usePatchRole } from "../../hooks/mypage/usePatchRole";
 import palette from "../../assets/imgs/mypage/palette_gradient.png";
 import setting from "../../assets/imgs/mypage/gear_gray.png";
-import { usePatchRole } from "../../hooks/mypage/usePatchRole";
+import * as UserProfileStyle from "../mypage/css/UserProfileStyle";
 import Swal from "sweetalert2";
 
 function UserProfile() {

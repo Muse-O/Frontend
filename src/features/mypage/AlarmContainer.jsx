@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import bell from "../../assets/imgs/mypage/bell_gray.png";
+import { useNavigate } from "react-router-dom";
 import { useGetAlramInfo } from "../../hooks/mypage/useGetAlramInfo";
+import { usePatchAlramInfo } from "../../hooks/mypage/usePatchAlramInfo";
+import { useOpenModal } from "./../../hooks/artgram/useOpenModal";
+import ArtgarmDetailModal from "./../artgram/detailModal/ArtgarmDetailModal";
+import bell from "../../assets/imgs/mypage/bell_gray.png";
 import likeIcon from "../../assets/imgs/common/heart_red.png";
 import commentIcon from "../../assets/imgs/mypage/chat_blue.png";
-import { usePatchAlramInfo } from "../../hooks/mypage/usePatchAlramInfo";
-import ArtgarmDetailModal from "./../artgram/detailModal/ArtgarmDetailModal";
-import { useOpenModal } from "./../../hooks/artgram/useOpenModal";
-import { useNavigate } from "react-router-dom";
 import * as Style from "../mypage/css/AlarmContainerStyle";
 
 function AlarmContainer() {

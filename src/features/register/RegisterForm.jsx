@@ -4,10 +4,10 @@ import { useRegister } from "../../hooks/register/useRegister";
 import { useEmailConfirm } from "../../hooks/register/useEmailConfirm";
 import { useEmailAuthSend } from "../../hooks/register/useEmailAuthSend";
 import { useEmailAuthConfirm } from "../../hooks/register/useEmailAuthComfirm";
-import * as RegisterFormStyle from "../register/RegisterFormStyle";
 import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
 import falseVisibleEyes from "../../assets/imgs/login/invisible_gray.png";
 import trueVisibleEyes from "../../assets/imgs/login/eye_gray.png";
+import * as Style from "../register/css/RegisterFormStyle";
 
 function RegisterForm() {
   //회원가입시 register에 보낼 정보
@@ -216,19 +216,19 @@ function RegisterForm() {
   };
 
   return (
-    <RegisterFormStyle.StRegister>
-      <RegisterFormStyle.StRegisterWrap>
-        <RegisterFormStyle.StLinkBox>
+    <Style.StRegister>
+      <Style.StRegisterWrap>
+        <Style.StLinkBox>
           <Link to="/">
             <img src={museoLogo} alt="museoLogo" />
           </Link>
-        </RegisterFormStyle.StLinkBox>
+        </Style.StLinkBox>
 
-        <RegisterFormStyle.StEmailWrap>
-          <RegisterFormStyle.StEmailInputBox>
+        <Style.StEmailWrap>
+          <Style.StEmailInputBox>
             <label>이메일</label>
 
-            <RegisterFormStyle.StEmailInputBtn>
+            <Style.StEmailInputBtn>
               <input
                 type="email"
                 name="email"
@@ -249,17 +249,17 @@ function RegisterForm() {
               >
                 중복 확인
               </button>
-            </RegisterFormStyle.StEmailInputBtn>
+            </Style.StEmailInputBtn>
 
-            <RegisterFormStyle.StEmailInputWarning>
+            <Style.StEmailInputWarning>
               <div>{emailMsg || warningMsg || emailConfirmMsg}</div>
-            </RegisterFormStyle.StEmailInputWarning>
-          </RegisterFormStyle.StEmailInputBox>
+            </Style.StEmailInputWarning>
+          </Style.StEmailInputBox>
 
-          <RegisterFormStyle.StEmailValidationBox>
+          <Style.StEmailValidationBox>
             <label>이메일 인증</label>
 
-            <RegisterFormStyle.StEmailAuthBox>
+            <Style.StEmailAuthBox>
               <input
                 type="text"
                 value={code}
@@ -268,9 +268,9 @@ function RegisterForm() {
               />
 
               {showTimer && (
-                <RegisterFormStyle.StCount>
+                <Style.StCount>
                   {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
-                </RegisterFormStyle.StCount>
+                </Style.StCount>
               )}
               <button
                 onClick={emailAuthSendHandler}
@@ -283,21 +283,21 @@ function RegisterForm() {
               >
                 인증번호 발송
               </button>
-            </RegisterFormStyle.StEmailAuthBox>
-            <RegisterFormStyle.StEmailAuthBtn onClick={emailAuthConfirmHandler}>
+            </Style.StEmailAuthBox>
+            <Style.StEmailAuthBtn onClick={emailAuthConfirmHandler}>
               확인
-            </RegisterFormStyle.StEmailAuthBtn>
-            <RegisterFormStyle.StEmailAuthWarning>
+            </Style.StEmailAuthBtn>
+            <Style.StEmailAuthWarning>
               <div>{emailAuthMsg}</div>
-            </RegisterFormStyle.StEmailAuthWarning>
-          </RegisterFormStyle.StEmailValidationBox>
-        </RegisterFormStyle.StEmailWrap>
+            </Style.StEmailAuthWarning>
+          </Style.StEmailValidationBox>
+        </Style.StEmailWrap>
 
-        <RegisterFormStyle.StPwWrap>
-          <RegisterFormStyle.StPwContainer>
+        <Style.StPwWrap>
+          <Style.StPwContainer>
             <label>비밀번호</label>
             {!pwVisible ? (
-              <RegisterFormStyle.StPwInputImgWrap>
+              <Style.StPwInputImgWrap>
                 <input
                   type="password"
                   name="password"
@@ -314,9 +314,9 @@ function RegisterForm() {
                 <div onClick={visibleChangeHandler}>
                   <img src={falseVisibleEyes} alt="invisibleEyes" />
                 </div>
-              </RegisterFormStyle.StPwInputImgWrap>
+              </Style.StPwInputImgWrap>
             ) : (
-              <RegisterFormStyle.StPwInputImgWrap>
+              <Style.StPwInputImgWrap>
                 <input
                   type="text"
                   name="password"
@@ -327,14 +327,12 @@ function RegisterForm() {
                 <div onClick={visibleChangeHandler}>
                   <img src={trueVisibleEyes} alt="trueVisibleEyes" />
                 </div>
-              </RegisterFormStyle.StPwInputImgWrap>
+              </Style.StPwInputImgWrap>
             )}
-            <RegisterFormStyle.StPwInputWarning>
-              {pwMsg}
-            </RegisterFormStyle.StPwInputWarning>
-          </RegisterFormStyle.StPwContainer>
+            <Style.StPwInputWarning>{pwMsg}</Style.StPwInputWarning>
+          </Style.StPwContainer>
 
-          <RegisterFormStyle.StPwConfirmContainer>
+          <Style.StPwConfirmContainer>
             <label>비밀번호 확인</label>
             <div>
               <input
@@ -352,13 +350,11 @@ function RegisterForm() {
               />
             </div>
 
-            <RegisterFormStyle.StPwCheckWarning>
-              {checkPwMsg}
-            </RegisterFormStyle.StPwCheckWarning>
-          </RegisterFormStyle.StPwConfirmContainer>
-        </RegisterFormStyle.StPwWrap>
+            <Style.StPwCheckWarning>{checkPwMsg}</Style.StPwCheckWarning>
+          </Style.StPwConfirmContainer>
+        </Style.StPwWrap>
 
-        <RegisterFormStyle.StNickNameBox>
+        <Style.StNickNameBox>
           <label>닉네임</label>
 
           <div>
@@ -369,17 +365,15 @@ function RegisterForm() {
               placeholder="2글자 이상 8글자 이하 입력"
               style={{ borderColor: nicknameMsg ? "red" : "#dddddd" }}
             />
-            <RegisterFormStyle.StNickNameWarning>
-              {nicknameMsg}
-            </RegisterFormStyle.StNickNameWarning>
+            <Style.StNickNameWarning>{nicknameMsg}</Style.StNickNameWarning>
           </div>
-        </RegisterFormStyle.StNickNameBox>
+        </Style.StNickNameBox>
 
-        <RegisterFormStyle.StRegisterBtn onClick={registerHandler}>
+        <Style.StRegisterBtn onClick={registerHandler}>
           가입하기
-        </RegisterFormStyle.StRegisterBtn>
-      </RegisterFormStyle.StRegisterWrap>
-    </RegisterFormStyle.StRegister>
+        </Style.StRegisterBtn>
+      </Style.StRegisterWrap>
+    </Style.StRegister>
   );
 }
 

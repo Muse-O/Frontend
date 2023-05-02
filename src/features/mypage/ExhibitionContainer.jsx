@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useGetLikedExhibitionInfo } from "../../hooks/mypage/useGetLikedExhibitionInfo";
 import { useGetMyExhibitionInfo } from "../../hooks/mypage/useGetMyExhibitionInfo";
 import { useGetScrapExhibitionInfo } from "../../hooks/mypage/useGetScrapExhibitionInfo";
-import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
-import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
-import whiteBtn from "../../assets/imgs/common/next_cut_white.png";
-import { useNavigate } from "react-router-dom";
-import whiteLeftArrow from "../../assets/imgs/mypage/WhiteLeftArrow.svg";
-import blackLeftArrow from "../../assets/imgs/mypage/blackLeftArrow.svg";
 import * as Style from "../mypage/css/ExhibitionContainerStyle";
 
 function ExhibitionContainer() {
@@ -81,11 +76,6 @@ function ExhibitionContainer() {
     const exhibitionId = info?.exhibition_id;
     navigate(`/exhibition/detail/${exhibitionId}`);
   };
-
-  const [leftBtnSrc, setLeftSrc] = useState(leftBtn);
-  const [leftHoverImg, setLeftHoverImg] = useState(whiteBtn);
-  const [rightBtnSrc, setRightSrc] = useState(rightBtn);
-  const [rightHoverImg, setRightHoverImg] = useState(whiteBtn);
 
   return (
     <Style.StContainer>

@@ -3,12 +3,7 @@ import { useGetLikedArtgramInfo } from "../../hooks/mypage/useGetLikedArtgramInf
 import { useGetMyArtgramInfo } from "../../hooks/mypage/useGetMyArtgramInfo";
 import { useGetScrapArtgramInfo } from "../../hooks/mypage/useGetScrapArtgramInfo";
 import { useOpenModal } from "./../../hooks/artgram/useOpenModal";
-import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
-import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
-import whiteBtn from "../../assets/imgs/common/next_cut_white.png";
 import ArtgarmDetailModal from "../artgram/detailModal/ArtgarmDetailModal";
-import whiteLeftArrow from "../../assets/imgs/mypage/WhiteLeftArrow.svg";
-import blackLeftArrow from "../../assets/imgs/mypage/blackLeftArrow.svg";
 import * as Style from "../mypage/css/ArtgramContainerStyle";
 
 function ArtgramContainer() {
@@ -80,12 +75,6 @@ function ArtgramContainer() {
     setArtgramId(artgramId); //id 넘겨주기
     openModalhandle(artgramId);
   };
-
-  //버튼 스타일
-  const [leftBtnSrc, setLeftSrc] = useState(leftBtn);
-  const [leftHoverImg, setLeftHoverImg] = useState(whiteBtn);
-  const [rightBtnSrc, setRightSrc] = useState(rightBtn);
-  const [rightHoverImg, setRightHoverImg] = useState(whiteBtn);
 
   return (
     <>

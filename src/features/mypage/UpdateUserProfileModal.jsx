@@ -2,9 +2,9 @@ import React, { useRef, useState } from "react";
 import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
 import { useUpdateUserProfile } from "../../hooks/mypage/useUpdateUserProfile";
 import { useGetimgurl } from "../../hooks/mypage/useGetImgUrl";
-import * as Style from "../mypage/css/UpdateUserProfileModalStyle";
 import upload from "../../assets/imgs/upload_gray.png";
 import cancel from "../../assets/imgs/common/cancel.png";
+import * as Style from "../mypage/css/UpdateUserProfileModalStyle";
 
 function UpdateUserProfileModal({ setOpenModal }) {
   //모달 open 관리
