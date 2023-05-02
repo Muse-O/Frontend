@@ -26,10 +26,11 @@ import OpenSearchWindow from "../features/unfiedSearch/OpenSearchWindow";
 import palette_gradient from '../assets/imgs/mypage/palette_gradient.png'
 import gift from '../assets/imgs/gift.png'
 import { decodeAccessToken, decodeNickname, decodeProfileImg, decodeUserRole } from "../features/login/loginTokenStore";
+import { useGetUserProfile } from "../hooks/mypage/useGetUserProfile";
 
 function Header() {
   const accessToken = cookies.get("access_token");
-  const [,setDecodeAccessToken] = useRecoilState(decodeAccessToken)
+  const [decodeToken,setDecodeAccessToken] = useRecoilState(decodeAccessToken)
   const nickname = useRecoilValue(decodeNickname)
   const profileImg = useRecoilValue(decodeProfileImg)
   const userRole = useRecoilValue(decodeUserRole)
@@ -40,7 +41,7 @@ function Header() {
   const [,setSearchWord] = useRecoilState(searchWordState)
   const [inputValue, setInputValue] = useState("")
   const [searchWindow, setSearchWindow] = useState(false)
-
+  const { userProfile } = useGetUserProfile();
 
   const navList = [
     { id: "home" , title: "홈", img: `${headerState.home ? home_gradient : home_gray}`, navigation: "/", state:headerState.home},
@@ -68,6 +69,16 @@ function Header() {
       setDecodeAccessToken(jwtDecode(accessToken))
     }
   },[])
+
+  useEffect(()=> {
+    
+    if(userProfile !== undefined) {
+      setDecodeAccessToken({...decodeToken,
+        nickname:userProfile.nickname,
+        profileImg:userProfile.profileImg
+      })
+    }
+  }, [userProfile])
 
   return (
     <>

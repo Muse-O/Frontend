@@ -29,7 +29,7 @@ function ChatBoxList({ socket, selectChat }) {
 
   const sendMessage = useCallback(async () => {
     if (!socket) return;
-
+    if (message === '') return;
     socket.emit("sendMessage", {
       messageContent: message,
       sendDate: dayjs().format("YYYY-MM-DD HH:mm:ss"),
