@@ -8,10 +8,11 @@ import { headerStatedefalut } from "../components/headerStore";
 
 function CreateExhibition() {
   const [createExhibition] = usePostExhibition();
-  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
-  useEffect(()=> {
-    setHeaderState({...headerState, exhibition:true})
-  },[])
+  const [, setHeaderState] = useRecoilState(headerStatedefalut);
+  const headerState = useAsyncValue(headerStateSearch)
+  useEffect(() => {
+    setHeaderState({ ...headerState, home: true });
+  }, []);
 
   return (
     <>
