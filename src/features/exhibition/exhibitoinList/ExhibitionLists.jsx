@@ -21,6 +21,7 @@ function ExhibitionLists() {
   const [Search, setSearch] = useState("");
   const [applySearch, setApplySearch] = useState("");
   const [applyWhere, setApplyWhere] = useState("");
+  const [applyWhen, setApplyWhen] = useState("");
   //헤더
   const navigator = useNavigate();
   const [whenVisible, setWhenVisible] = useState(false);
@@ -75,6 +76,7 @@ function ExhibitionLists() {
   };
   // console.log("data", data?.pages[0]);
   // console.log("적용된것", applyWhere, applycategory, applyHashTag, applySearch);
+  console.log(applyWhen);  
 
   return (
     <ExhibitionWrap>
@@ -83,7 +85,12 @@ function ExhibitionLists() {
         <HeaderFilterWrap>
           <FilterSelect name="when" onClick={selectHandler}>
             When
-            <SelectBox visible={whenVisible}>진행중</SelectBox>
+            <SelectBox visible={whenVisible}>
+              <HeaderWhenSelect 
+                whenVisible={whenVisible}
+                setApplyWhen={setApplyWhen}
+                setWhenVisible={setWhenVisible}/>
+            </SelectBox>
           </FilterSelect>
           <FilterSelect name="where" onClick={selectHandler}>
             Where

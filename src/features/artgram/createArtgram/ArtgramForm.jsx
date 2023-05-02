@@ -13,9 +13,9 @@ import Notification from "./form/Notification";
 import { useNavigate } from "react-router-dom";
 
 // ArtgramForm 컴포넌트 -------------------------------------------------------------------------------------/
-function ArtgramForm() {
+function ArtgramForm({alertState}) {
   // 비동기 통신을 위하 커스텀 훅(리액트 쿼리)  ------------------------------------------------------------------ //
-  const [postArtgrams] = usePostartgram();
+  const [postArtgrams] = usePostartgram(alertState);
   // Navigate  ------------------------------------------------------------------------------------------ //
   const navigate = useNavigate()
   // Form의 input state 관리(제목과 내용, 그리고 해시태그)

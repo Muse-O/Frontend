@@ -1,19 +1,14 @@
 import React, { useEffect, useState } from "react";
 import useLogin from "../../hooks/login/useLogin";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import falseVisibleEyes from "../../assets/imgs/login/invisible_gray.png";
+import trueVisibleEyes from "../../assets/imgs/login/eye_gray.png";
 import naverLogo from "../../assets/imgs/login/네이버로고.png";
 import googleLogo from "../../assets/imgs/login/google-plus.png";
 import kakaoLogo from "../../assets/imgs/login/kakao-talk.png";
 import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
-import falseVisibleEyes from "../../assets/imgs/login/invisible_gray.png";
-import trueVisibleEyes from "../../assets/imgs/login/eye_gray.png";
-
-/**
- * 할일
- * 1) input 빈 값인경우 input outline 적용
- * 2) 비밀번호 보기/숨기기
- */
+import * as Style from "../login/css/LoginStyle";
+import Swal from "sweetalert2";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -73,13 +68,18 @@ function LoginForm() {
     }
   }, [loginInfo.password]);
 
+  //비밀번호 보임/숨김
   const visibleChangeHandler = () => {
     setPwVisible(visible => !visible); //toggle
   };
 
   //소셜로그인 미구현 -> 서비스 제공 예정 alert
   const socialLoginBtn = () => {
-    alert("서비스 제공 예정입니다.");
+    Swal.fire({
+      title: "서비스 제공 예정입니다.",
+      icon: "info",
+      focusConfirm: false,
+    });
   };
 
   //카카오톡
@@ -89,16 +89,16 @@ function LoginForm() {
   };
 
   return (
-    <StLogin>
-      <StLinkBox>
+    <Style.StLogin>
+      <Style.StLinkBox>
         <Link to="/">
           <img src={museoLogo} alt="museoLogo" />
         </Link>
-      </StLinkBox>
+      </Style.StLinkBox>
 
-      <StEmailInputBox>
+      <Style.StEmailInputBox>
         <label>이메일</label>
-        <StEmailInputWrap>
+        <Style.StEmailInputWrap>
           <input
             type="email"
             name="email"
@@ -106,33 +106,32 @@ function LoginForm() {
             style={{ borderColor: !emailMsg ? "#dddddd" : "red" }}
           />
           <div>{emailMsg}</div>
-        </StEmailInputWrap>
-      </StEmailInputBox>
+        </Style.StEmailInputWrap>
+      </Style.StEmailInputBox>
 
-      <StPwInputBox>
+      <Style.StPwInputBox>
         <label>비밀번호</label>
-        <StPwInputWrap>
+        <Style.StPwInputWrap>
           {!pwVisible ? (
-            <StPwInputImgWrap>
+            <Style.StPwInputImgWrap>
               <input
                 type="password"
                 name="password"
                 onChange={changeInputHandler}
                 style={{
                   borderColor: !pwMsg ? "#dddddd" : "red",
-                  fontFamily: "Verdana",
-                  fontSize: "36px",
+                  fontFamily: "Malgun gothic",
                   color: "#242424",
                   padding: "10px 10px 15px",
-                  letterSpacing: "-0.08em",
+                  letterSpacing: "3px",
                 }}
               />
               <div onClick={visibleChangeHandler}>
                 <img src={falseVisibleEyes} alt="invisibleEyes" />
               </div>
-            </StPwInputImgWrap>
+            </Style.StPwInputImgWrap>
           ) : (
-            <StPwInputImgWrap>
+            <Style.StPwInputImgWrap>
               <input
                 type="text"
                 name="password"
@@ -144,219 +143,40 @@ function LoginForm() {
               <div onClick={visibleChangeHandler}>
                 <img src={trueVisibleEyes} alt="trueVisibleEyes" />
               </div>
-            </StPwInputImgWrap>
+            </Style.StPwInputImgWrap>
           )}
-        </StPwInputWrap>
-        <StPwWarning>{pwMsg}</StPwWarning>
-      </StPwInputBox>
+        </Style.StPwInputWrap>
+        <Style.StPwWarning>{pwMsg}</Style.StPwWarning>
+      </Style.StPwInputBox>
 
-      <StLoginBtn onClick={loginHandler}>로그인</StLoginBtn>
+      <Style.StLoginBtn onClick={loginHandler}>로그인</Style.StLoginBtn>
 
-      <StSnsBox>
+      <Style.StSnsBox>
         <div>SNS로 간편하게 시작하기</div>
 
-        <StSnsBtnWrap>
-          <GoogleLogoDiv onClick={socialLoginBtn}>
+        <Style.StSnsBtnWrap>
+          <Style.GoogleLogoDiv onClick={socialLoginBtn}>
             <img
               src={googleLogo}
               alt="googleLogo"
               style={{ width: "30px", height: "30px" }}
             />
-          </GoogleLogoDiv>
-          <Link to={`${BASE_URL}/auth/kakao`} onClick={kakaoLoginBtn}>
+          </Style.GoogleLogoDiv>
+          <div onClick={socialLoginBtn}>
             <img src={kakaoLogo} alt="kakaoLogo" />
-          </Link>
+          </div>
           <div onClick={socialLoginBtn}>
             <img src={naverLogo} alt="naverLogo" />
           </div>
-        </StSnsBtnWrap>
-      </StSnsBox>
+        </Style.StSnsBtnWrap>
+      </Style.StSnsBox>
 
-      <StRegisterLink>
+      <Style.StRegisterLink>
         <div>아직 회원이 아니시라면</div>
-        <StLink to="/register">회원가입</StLink>
-      </StRegisterLink>
-    </StLogin>
+        <Style.StLink to="/register">회원가입</Style.StLink>
+      </Style.StRegisterLink>
+    </Style.StLogin>
   );
 }
 
 export default LoginForm;
-
-const StLogin = styled.form`
-  font-family: "SpoqaHanSansNeo-Regular";
-  width: 616px;
-  height: 779px;
-  background-color: white;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-shadow: 0px 5px 20px 0px rgba(148, 148, 148, 0.25);
-`;
-
-const StLinkBox = styled.div`
-  background-color: white;
-  width: 217px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 72px;
-`;
-
-const StEmailInputBox = styled.div`
-  width: 416px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin: 69px 0px 26px;
-
-  label {
-    color: #242424;
-    font-size: 15px;
-    font-weight: bold;
-  }
-`;
-
-const StEmailInputWrap = styled.div`
-  width: 416px;
-  height: 48px;
-
-  input {
-    font-family: "Montserrat", sans-serif;
-    width: 416px;
-    height: 44px;
-    padding: 10px;
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-    outline: none;
-    font-size: 16px;
-    margin-bottom: 5px;
-  }
-
-  div {
-    color: #f65959;
-  }
-`;
-
-const StPwInputBox = styled.div`
-  width: 416px;
-  display: flex;
-  flex-direction: column;
-
-  label {
-    color: #242424;
-    font-size: 15px;
-    font-weight: bold;
-    margin-bottom: 16px;
-  }
-`;
-
-const StPwInputWrap = styled.div`
-  width: 416px;
-  height: 48px;
-
-  div {
-    color: #f65959;
-  }
-`;
-
-const StPwInputImgWrap = styled.div`
-  input {
-    font-family: "Montserrat", sans-serif;
-    width: 416px;
-    height: 44px;
-    padding: 10px;
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-    outline: none;
-    font-size: 16px;
-    position: absolute;
-  }
-
-  img {
-    width: 20px;
-    height: 20px;
-    transform: translate(385px, 12px);
-    cursor: pointer;
-  }
-`;
-
-const StPwWarning = styled.div`
-  color: #f65959;
-  height: 9px;
-`;
-
-const StLoginBtn = styled.button`
-  font-family: "SpoqaHanSansNeo-Regular";
-  background-color: white;
-  color: #171717;
-  width: 416px;
-  height: 65px;
-  border: 1px solid gray;
-  border-radius: 30px;
-  font-size: 15px;
-  font-weight: bold;
-  margin: 44px 0px 72px;
-  cursor: pointer;
-`;
-
-const StSnsBox = styled.div`
-  width: 195px;
-  height: 86px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 23px;
-
-  div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 15px;
-    font-weight: bold;
-  }
-`;
-
-const StSnsBtnWrap = styled.div`
-  display: flex;
-  gap: 16px;
-
-  div {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
-  img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-`;
-
-const GoogleLogoDiv = styled.div`
-  background-color: #f65959;
-  /* border: 1px solid rgba(148, 148, 148, 0.25); */
-`;
-
-const StRegisterLink = styled.div`
-  font-family: "SpoqaHanSansNeo-Regular";
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
-  gap: 12px;
-
-  div {
-    font-size: 16px;
-    color: #5a5a5a;
-  }
-`;
-
-const StLink = styled(Link)`
-  font-size: 16px;
-  color: #3360ff;
-`;

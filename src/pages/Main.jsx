@@ -14,15 +14,9 @@ import { headerStatedefalut } from "../components/headerStore";
 function Main() {
   const [headerState, setHeaderState] = useRecoilState(headerStatedefalut);
   useEffect(() => {
-    setHeaderState({
-      ...headerState,
-      home: true,
-      exhibition: false,
-      exhibitionecreate: false,
-      artgram: false,
-      mypages: false,
-    });
+    setHeaderState({ ...headerState, home: true });
   }, []);
+
   return (
     <>
       <Header />
@@ -32,7 +26,7 @@ function Main() {
           <MainSecond />
           <MainThird />
           <MainFourth />
-          {/* <MainFifith /> */}
+          <MainFifith />
           <TopButton />
         </MainLayout>
       </Article>

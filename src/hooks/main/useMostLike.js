@@ -3,12 +3,11 @@ import { keys } from "../../shared/queryKeys"
 import { apis } from "../../api/apis"
 
 export const useMostLike = () => {
-
   const  {isLoading, isError, data} = useQuery({
     queryKey: keys.GET_MAINMOSTLIKE,
     queryFn: async () => {
-      const response = await apis.get('/banner/getFutureExhibitionsSortedByNearest?reqCnt=10')
-      return response.data.exhibitionList.rows
+      const response = await apis.get('/banner/getOpenExhibitionsSortedByMostLike?reqCnt=6')
+      return response.data.exhibitionList
     },
     refetchOnWindowFocus: false,
     retry: 1,

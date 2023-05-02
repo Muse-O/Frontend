@@ -1,47 +1,128 @@
-import React, { useState } from "react";
-import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
+import React, { useEffect, useRef, useState } from "react";
+import AlarmContainer from "./AlarmContainer";
 import UpdateUserProfileModal from "./UpdateUserProfileModal";
 import UpdateModalBlackBg from "./UpdateModalBlackBg";
-import styled from "styled-components";
-import AlarmContainer from "./AlarmContainer";
+import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
+import { usePatchRole } from "../../hooks/mypage/usePatchRole";
 import palette from "../../assets/imgs/mypage/palette_gradient.png";
 import setting from "../../assets/imgs/mypage/gear_gray.png";
+import * as UserProfileStyle from "../mypage/css/UserProfileStyle";
+import Swal from "sweetalert2";
 
 function UserProfile() {
+  //react-query
   const { userProfile } = useGetUserProfile();
-  //모달 open 관리
-  const [openModal, setOpenModal] = useState(false);
+  const { patchRole } = usePatchRole();
 
-  const updateUserProfileModalHandler = () => {
+  const [openModal, setOpenModal] = useState(false); //모달 open 관리
+  const [openSet, setOpenSet] = useState(false); //수정, 작가신청 setting div
+
+  const openSettingHandler = () => {
+    setOpenSet(prevOpenSet => !prevOpenSet);
+  };
+
+  //프로필 수정 클릭
+  const updateUserProfileHandler = () => {
     setOpenModal(true);
   };
 
+  //작가 신청 클릭
+  const [roleApplied, setRoleApplied] = useState(false);
+  const changeRoleHandler = () => {
+    if (userProfile?.role === "UR04") {
+      Swal.fire({
+        title: "\n이미 신청 완료하였습니다.",
+        focusConfirm: false,
+      });
+
+      return;
+    } else if (userProfile?.role === "UR02") {
+      Swal.fire({
+        title: "\n이미 작가 인증이 완료되었습니다.",
+        focusConfirm: false,
+      });
+      return;
+    } else {
+      const confirmResult = window.confirm("작가 신청을 하시겠습니까?");
+      if (confirmResult) {
+        //작가신청 PATCH
+        patchRole();
+        setRoleApplied(true);
+        Swal.fire({
+          title: "\n작가 신청이 완료되었습니다!",
+          focusConfirm: false,
+        });
+      }
+    }
+  };
+
+  //setting div 닫기
+  const ref = useRef(null);
+  const closeSettingHandler = () => {
+    setOpenSet(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        closeSettingHandler();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
+
   return (
     <>
-      <StUserProfileBox>
-        <ProfileImg src={userProfile?.profileImg} alt="userProfileImg" />
+      <UserProfileStyle.StUserProfileBox>
+        <UserProfileStyle.ProfileImg
+          src={userProfile?.profileImg}
+          alt="userProfileImg"
+        />
 
-        <StEditBtnWrap>
-          <UpdateBtn onClick={updateUserProfileModalHandler}>
+        <UserProfileStyle.StEditBtnWrap>
+          <UserProfileStyle.UpdateBtn onClick={openSettingHandler}>
             <img src={setting} alt="setting" />
-          </UpdateBtn>
-        </StEditBtnWrap>
+          </UserProfileStyle.UpdateBtn>
+          {openSet && (
+            <UserProfileStyle.StSettingBtn
+              ref={ref}
+              onMouseDown={e => e.stopPropagation()}
+            >
+              <div onClick={updateUserProfileHandler}>프로필 수정</div>
+              <button
+                onClick={changeRoleHandler}
+                disabled={roleApplied && userProfile?.role === "UR04"}
+              >
+                작가 신청
+              </button>
+            </UserProfileStyle.StSettingBtn>
+          )}
+        </UserProfileStyle.StEditBtnWrap>
 
-        <StUserNameWrap>
-          <StInfoUserName>{userProfile?.nickname}</StInfoUserName>
-          <StArtistMark>
-            <img src={palette} alt="palette" />
-          </StArtistMark>
-        </StUserNameWrap>
+        <UserProfileStyle.StUserNameWrap>
+          <UserProfileStyle.StInfoUserName>
+            {userProfile?.nickname}
+          </UserProfileStyle.StInfoUserName>
+          {userProfile?.role === "UR02" ? (
+            <UserProfileStyle.StArtistMark>
+              <img src={palette} alt="palette" />
+            </UserProfileStyle.StArtistMark>
+          ) : null}
+        </UserProfileStyle.StUserNameWrap>
 
-        <StUserInfoIntro>
-          <InfoIntro>{userProfile?.introduction}</InfoIntro>
-        </StUserInfoIntro>
+        <UserProfileStyle.StUserInfoIntro>
+          <UserProfileStyle.InfoIntro>
+            {userProfile?.introduction}
+          </UserProfileStyle.InfoIntro>
+        </UserProfileStyle.StUserInfoIntro>
 
-        <Line></Line>
+        <UserProfileStyle.Line></UserProfileStyle.Line>
 
         <AlarmContainer />
-      </StUserProfileBox>
+      </UserProfileStyle.StUserProfileBox>
 
       {/* 유저 프로필 수정을 위한 모달 open */}
       {openModal && <UpdateUserProfileModal setOpenModal={setOpenModal} />}
@@ -52,97 +133,3 @@ function UserProfile() {
 }
 
 export default UserProfile;
-
-const StUserProfileBox = styled.div`
-  background-color: #ffffff;
-  border-radius: 10px;
-  width: 430px;
-  height: 822px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 74px;
-  margin-left: 20px;
-`;
-
-const StEditBtnWrap = styled.div`
-  width: 450px;
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px 20px 0px;
-`;
-
-const UpdateBtn = styled.button`
-  background-color: white;
-  width: 41px;
-  height: 41px;
-  border-radius: 50%;
-  cursor: pointer;
-
-  img {
-    width: 25px;
-    height: 25px;
-  }
-`;
-
-const StUserNameWrap = styled.div`
-  width: 400px;
-  height: 28px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 42px;
-  gap: 8px;
-`;
-
-const StInfoUserName = styled.div`
-  font-family: "Montserrat", sans-serif;
-  font-size: 32px;
-  font-weight: 600;
-`;
-
-const StArtistMark = styled.div`
-  /* background-color: #808080bd; */
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  img {
-    width: 25px;
-    height: 25px;
-  }
-`;
-
-const StUserInfoIntro = styled.div`
-  font-size: 16px;
-  height: 90px;
-  width: 250px;
-  margin-top: 35px;
-`;
-
-const InfoIntro = styled.div`
-  font-family: "SpoqaHanSansNeo-Regular";
-  font-size: 16px;
-  color: #3c3c3c;
-  /* font-weight: 400; */
-  line-height: 25px;
-  word-break: break-all;
-  text-align: center;
-`;
-
-const ProfileImg = styled.img`
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  transform: translate(0%, -50%);
-  position: absolute;
-`;
-
-const Line = styled.div`
-  border-top: 1px solid #cccccc;
-  width: 392px;
-  height: 32px;
-`;

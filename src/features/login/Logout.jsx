@@ -1,23 +1,40 @@
 import React from "react";
 import { useNavigate } from "react-router";
 import Cookies from "universal-cookie";
-import { NavBottomPath } from "../../shared/GlobalStyled";
+import { NavBottomPathLogin } from "../../shared/GlobalStyled";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { decodeAccessToken } from "./loginTokenStore";
+import {
+  headerStateSearch,
+  headerStatedefalut,
+} from "../../components/headerStore";
+import Swal from "sweetalert2";
 
 function Logout({ setIsLoggedIn, isLoggedIn }) {
+  const [, setDecodeAccessToken] = useRecoilState(decodeAccessToken);
+  const headerStateSearchs = useRecoilValue(headerStateSearch);
+  const [, setHeaderState] = useRecoilState(headerStatedefalut);
   const navigate = useNavigate();
   const logoutHandler = () => {
     if (window.confirm("로그아웃하시겠습니까?")) {
       const cookies = new Cookies();
       cookies.remove("access_token");
+      setDecodeAccessToken({});
       setIsLoggedIn(false);
-
-      alert("로그아웃 되었습니다.");
+      setHeaderState({ ...headerStateSearchs });
+      Swal.fire({
+        title: "\n로그아웃 되었습니다.",
+        focusConfirm: false,
+      });
       navigate("/");
     }
   };
 
-  return <>{isLoggedIn && <NavBottomPath
-    onClick={logoutHandler}>로그아웃</NavBottomPath>}</>;
+  return (
+    isLoggedIn && (
+      <NavBottomPathLogin onClick={logoutHandler} children="로그아웃" />
+    )
+  );
 }
 
 export default Logout;

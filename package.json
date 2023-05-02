@@ -28,8 +28,10 @@
     "recoil": "^0.7.7",
     "redux": "^4.2.1",
     "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.6.1",
     "styled-components": "^5.3.9",
     "styled-reset": "^4.4.5",
+    "sweetalert2": "^11.7.3",
     "universal-cookie": "^4.0.4",
     "web-vitals": "^2.1.0"
   },

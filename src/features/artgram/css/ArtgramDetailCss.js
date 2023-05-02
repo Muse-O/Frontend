@@ -5,6 +5,11 @@ const CommentBox = styled.div`
   grid-template-columns:33px 1fr;
   margin-bottom:10px;
   gap:5px;
+  @media (max-width: 1440px) {
+    grid-template-columns:24.75px 1fr;
+    margin-bottom:7.5px;
+    gap:3.75px;
+  }
 `
 
 const CommentBoxProfileImg = styled.div`
@@ -15,6 +20,10 @@ const CommentBoxProfileImg = styled.div`
   width:33px;
   height:33px;
   border-radius:50px;
+  @media (max-width: 1440px) {
+    width:24.75px;
+    height:24.75px;
+  }
 `
 
 const CommentBoxInnerText = styled.div`
@@ -29,17 +38,30 @@ const ProfileNickNameComments = styled.div`
     font-family: "Montserrat";
     font-weight:550;
     font-size: 12px;
+    @media (max-width: 1440px) {
+      font-size: 9px;
+    }
   }
   .comments {
     margin-left:8px;
     font-size:12px;
     line-height:20px;
+    @media (max-width: 1440px) {
+      margin-left:6px;
+      font-size:9px;
+      line-height:15px;
+    }
   }
   .commentsUpdateForm {
     display: inline-block;
     margin-left:8px;
     font-size:12px;
     height:20px;
+    @media (max-width: 1440px) {
+      margin-left:6px;
+      font-size:9px;
+      line-height:15px;
+    }
 
     input {
     width: 430px;
@@ -52,6 +74,13 @@ const ProfileNickNameComments = styled.div`
       }
       ::placeholder {
         font-size: 10px; /* 원하는 글자 크기 설정 */
+      }
+      @media (max-width: 1440px) {
+        width: 322.5px;
+        border: 1.5px solid orange;
+        border-radius: 11.25px;
+        font-size: 9.75px;
+        padding-left: 3px;
       }
     }
   }

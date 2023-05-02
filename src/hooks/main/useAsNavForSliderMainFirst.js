@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Icons } from "../../features/main/css/mainparts";
-import { FaChevronRight, FaChevronLeft } from 'react-icons/fa';
+import next_cut_gray from '../../assets/imgs/common/next_cut_gray.png'
+import next_cut_white from '../../assets/imgs/common/next_cut_white.png'
+import styled from "styled-components";
 
 export const useAsNavForSliderMainFirst = () => {
   const [mainSlider, setMainSlider] = useState(null);
@@ -12,8 +13,8 @@ export const useAsNavForSliderMainFirst = () => {
    setInterval(()=> {
     setMainSlider(mainSliderRef.current);
     setSudSilder(subSliderRef.current);
-   }, 2000)
-  }, []);
+   }, 9000)
+  }, [subSliderRef]);
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(1);
   const Indexhandler = (oldIndex, newIndex) => {
@@ -25,7 +26,6 @@ export const useAsNavForSliderMainFirst = () => {
     ref: slider => (mainSliderRef.current = slider),
     slidesToShow: 1,
     swipeToSlide: true,
-    focusOnSelect: true,
     infinite: true,
     dots: false,
     arrows: false,
@@ -35,9 +35,8 @@ export const useAsNavForSliderMainFirst = () => {
     ref: slider => (subSliderRef.current = slider),
     slidesToShow: 1,
     swipeToSlide: true,
-    focusOnSelect: true,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 9000,
     infinite: true,
     dots: false,
     arrows: true,
@@ -50,47 +49,67 @@ export const useAsNavForSliderMainFirst = () => {
 
 function PrevArrow(props) {
   const { onClick } = props;
+  const [arrow, setArrow] =useState(false)
+  const arrowHandle = () => {
+    setArrow(pre=>!pre)
+  }
   return (
-    <div
-      style={{
-        position:"absolute",
-        bottom:"0",
-        display:"flex",
-        justifyContent:"center",
-        alignItems:"center",
-        width: "63px",
-        height: "63px",
-        backgroundColor: "lightgray",
-        borderRadius: "50px",
-        zIndex:"1",
-
-      }}
-      onClick={onClick}>
-      <Icons transform="58" children={<FaChevronLeft/>}/>
-    </div>
+    <PrevArrowST
+      state={arrow}
+      onMouseOver={arrowHandle}
+      onMouseOut={arrowHandle}
+      onClick={onClick}
+      children={<img src={arrow ? next_cut_white : next_cut_gray}/>}/>
   );
 }
 
 function NextArrow(props) {
   const { onClick } = props;
+  const [arrow, setArrow] =useState(false)
+  const arrowHandle = () => {
+    setArrow(pre=>!pre)
+  }
   return (
-    <div
-    style={{
-      position:"absolute",
-      bottom:"0",
-      right:"0",
-      display:"flex",
-      justifyContent:"center",
-      alignItems:"center",
-      width: "63px",
-      height: "63px",
-      backgroundColor: "lightgray",
-      borderRadius: "50px",
-      zIndex:"1",
-      
-    }}
-    onClick={onClick}>
-    <Icons transform="43" children={<FaChevronRight/>}/>
-  </div>
+    <NextArrowST
+    state={arrow}
+    onMouseOver={arrowHandle}
+    onMouseOut={arrowHandle}
+    onClick={onClick}
+    children={<img src={arrow ? next_cut_white : next_cut_gray}/>}/>
   );
 }
+
+const PrevArrowST = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 3px;
+  width: 63px;
+  height: 63px;
+  background-color: ${props => props.state ? "#3C3C3C" : "#EEEEEE"};
+  border-radius: 50px;
+  z-index:1;
+  cursor: pointer;
+
+  img {
+    display: block;
+    transform: rotate(-180deg);
+    width: 10px;
+  }
+
+  @media (max-width: 1440px) {
+    width: 47.25px;
+    height: 47.25px;
+    img {
+      width: 7.5px;
+    }
+  }
+`
+
+const NextArrowST = styled(PrevArrowST)`
+  right: 0;
+  img {
+    transform: rotate(0deg);
+  }
+`

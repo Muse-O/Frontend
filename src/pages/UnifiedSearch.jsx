@@ -10,20 +10,28 @@ import { useRecoilValue } from 'recoil'
 import { searchDataArtState, searchDataExState, searchDataUserState, searchWordState } from '../hooks/search/seartStore'
 import TopButton from '../components/TopButton'
 import { useEditTime } from '../hooks/main/useEditTime'
-import { headerStatedefalut } from '../components/headerStore'
 import ArtgramBox from '../features/artgram/ArtgramBox'
+import { usePostSearchWord } from '../hooks/search/usePoseSearchWord'
 // import ArtgramBox from '../features/artgram/ArtgramBox'
 
 function UnifiedSearch() {
   const navigate = useNavigate()
   const {editTimehandle} = useEditTime()
   const { isLoading, isError } = useUnifiedSearch();
+  const searchWord = useRecoilValue(searchWordState);
   const searchDataEx = useRecoilValue(searchDataExState)
   const searchDataArt = useRecoilValue(searchDataArtState)
   const searchDataUser = useRecoilValue(searchDataUserState)
+  const {postSearchWord} = usePostSearchWord()
+  // console.log(cookies.get("access_token"));
   // console.log("searchDataEx", searchDataEx);
   // console.log("searchDataArt", searchDataArt);
   // console.log("searchDataUser", searchDataUser);
+  const searchDateEx = (detailRoute,type,exhibitionTitle) => {
+    navigate(detailRoute)
+    postSearchWord({type, title:exhibitionTitle})
+  }
+
 
   return (
     <>
@@ -55,8 +63,8 @@ function UnifiedSearch() {
           {searchDataEx && searchDataEx?.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
             : (<US.SearchBoxEx>
-              {searchDataEx?.map(({exhibitionId,detailRouter,postImage,exhibitionTitle,startDate,address}) => (
-              <US.SearchEx key={exhibitionId} onClick={()=>navigate(detailRouter)}>
+              {searchDataEx?.map(({exhibitionId,detailRouter,postImage,exhibitionTitle,startDate,address,type}) => (
+              <US.SearchEx key={exhibitionId} onClick={()=>searchDateEx(detailRouter,type,exhibitionTitle)}>
               <US.SearchBoxExImg src={postImage} alt=''/>
               <US.SearchBoxExTitle children={exhibitionTitle}/>
               <US.SearchBoxExDate children={editTimehandle(startDate)}/>
@@ -68,12 +76,19 @@ function UnifiedSearch() {
           {searchDataArt && searchDataArt?.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
             : <Artgramparts.Wrap>
-              {searchDataArt.map(artgrams => (<ArtgramBox key={artgrams.artgramId} info={artgrams}/>))}
+              {searchDataArt.map(artgrams => (<ArtgramBox key={artgrams.artgramId} info={artgrams} searchWord={searchWord} postSearchWords={{type:artgrams.type, title:artgrams.artgramTitle}}/>))}
               </Artgramparts.Wrap>}
           <US.H2 children={(<>회원검색<span>{searchDataUser && searchDataUser?.length === 0 ? null : searchDataUser.length}</span></>)}/>
           {searchDataUser && searchDataUser?.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
-            : <div>서비스 예정</div>}      
+            : <US.SearchBoxUse>
+                {searchDataUser.map(user=>(
+                  <US.SearchUse key={user.profileId} children={<>
+                    <img src={user.profileImg} alt='profileImg'/>
+                    <div children={user.profileNickname}/>
+                  </>}/>
+                ))}
+              </US.SearchBoxUse>}      
           </>)}
         <TopButton/>
       </US.Layout>  
@@ -83,3 +98,19 @@ function UnifiedSearch() {
 }
 
 export default UnifiedSearch
+
+// profileId
+// : 
+// "823f5b49-1c82-4b20-934f-441bea6e5bfc"
+// profileImg
+// : 
+// "https://woog-s3-bucket.s3.amazonaws.com/profile/0ba83a6a-47b9-493f-af30-7b1513b7720b.png"
+// profileNickname
+// : 
+// "edwin01"
+// type
+// : 
+// "user"
+// userEmail
+// : 
+// "gg@g.com"
