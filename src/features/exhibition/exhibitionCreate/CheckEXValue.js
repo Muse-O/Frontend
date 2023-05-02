@@ -20,13 +20,13 @@ export const CheckEXValue = (
   } else if (!exhibition.exhibitionDesc) {
     alert("전시회 설명을 입력 하셔야 합니다");
     return;
-  } else if (!exhibition.entranceFee) {
+  } else if (exhibitionKind === "EK0001" && !exhibition.entranceFee) {
     alert("입장료를 입력 하셔야 합니다");
     return;
-  } else if (!exhibition.openTime) {
+  } else if (exhibitionKind === "EK0001" && !exhibition.openTime) {
     alert("개장시간을 입력 하셔야 합니다");
     return;
-  } else if (!exhibition.closeTime) {
+  } else if (exhibitionKind === "EK0001" && !exhibition.closeTime) {
     alert("마감시간을 입력 하셔야 합니다");
     return;
   } else if (!exhibition.exhibitionCategoty) {
@@ -35,7 +35,7 @@ export const CheckEXValue = (
   } else if (exhibition.authors.length === 0) {
     alert("작가를 입력 하셔야 합니다");
     return;
-  } else if (!exhibition.location) {
+  } else if (exhibitionKind === "EK0001" && !exhibition.location) {
     alert("상세주소를 입력 하셔야 합니다");
     return;
   } else if (!exhibition.exhibitionHost) {
@@ -45,6 +45,7 @@ export const CheckEXValue = (
     alert("포스터를 입력하셔야 합니다.");
     return;
   } else if (
+    exhibitionKind === "EK0001" &&
     !exhibition.detailLocation.zonecode &&
     !exhibition.detailLocation.address &&
     !exhibition.detailLocation.addressEnglish &&
