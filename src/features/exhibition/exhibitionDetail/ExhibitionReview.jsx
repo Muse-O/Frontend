@@ -115,13 +115,21 @@ function ExhibitionReview({ exhibitionID }) {
           </Buttons>
         </ShowReview>
       ) : (
-        <div>아직 리뷰가 없어요</div>
+        <NoReview>아직 리뷰가 없어요</NoReview>
       )}
     </ReviewWrap>
   );
 }
 
 export default ExhibitionReview;
+const NoReview = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  margin: 20px;
+  color: #7e7e7e;
+`;
 const ReviewCoutner = styled.div`
   img {
     width: 20px;

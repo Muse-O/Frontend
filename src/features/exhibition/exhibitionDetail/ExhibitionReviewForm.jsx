@@ -9,7 +9,7 @@ import { PostEXReview, ReviewHashTag, ReviewRating } from "./PostEXReview";
 function ExhibitionReviewForm({ exhibitionID, reviewRef }) {
   const maxlength = 100;
   //쿼리
-  const [createExhibition] = usePostReview(exhibitionID);
+  const [createReview] = usePostReview(exhibitionID);
   //헤시태그
   const [
     hashTag,
@@ -24,7 +24,7 @@ function ExhibitionReviewForm({ exhibitionID, reviewRef }) {
   const [rating, setRating, handleHover, ratingReview] = ReviewRating();
   //리뷰 제출
   const [reviewHandler, postReview, onSubmitReview] = PostEXReview(
-    createExhibition,
+    createReview,
     hashTag,
     setRating,
     setInputHashTag,

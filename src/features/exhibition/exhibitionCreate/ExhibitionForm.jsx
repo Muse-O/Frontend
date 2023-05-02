@@ -74,8 +74,6 @@ function ExhibitionForm({
           gap="150"
         >
           <EXFormPost
-            // Detaildata={Detaildata}
-            // deleteHandler={deleteHandler}
             changeOnOff={changeOnOff}
             exhibitionKind={exhibitionKind}
             postfiles={postfiles}
