@@ -17,6 +17,7 @@ export const useSearchRecent = (searchWindow) => {
       return response.data.recentHistory
     },
     enabled: searchWindow,
+    retry :1,
     refetchOnWindowFocus: false,
     onSuccess: () => {
       console.log("최근검색결과 조회");

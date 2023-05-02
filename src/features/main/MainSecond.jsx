@@ -13,7 +13,6 @@ function MainSecond() {
   const { isLoading, isError, data } = useOpenExhibitionByDate();
   const { editTimehandle } = useEditTime();
   const { navigatehandle } = useNavigator();
-
   return (
     <Main.CommenLayout height="497" media1440="372.75">
       <Main.ArticleTitle>

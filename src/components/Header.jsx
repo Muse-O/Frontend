@@ -24,6 +24,7 @@ import chat_gray from '../assets/imgs/header/chat_gray.png'
 import profileimage1 from '../assets/imgs/login/profileimage1.png'
 import OpenSearchWindow from "../features/unfiedSearch/OpenSearchWindow";
 import palette_gradient from '../assets/imgs/mypage/palette_gradient.png'
+import gift from '../assets/imgs/gift.png'
 import { decodeAccessToken, decodeNickname, decodeProfileImg, decodeUserRole } from "../features/login/loginTokenStore";
 
 function Header() {
@@ -101,6 +102,14 @@ function Header() {
               <Headers.NavgatePath state={state} children={title}/>
             </Headers.NavLists>
           ))}
+          <Headers.NavLists
+              id="survey"
+              onClick={() => {
+                window.location = 'https://forms.gle/8gK8e6dUuBABxeb9A';
+              }}>
+              <Headers.Navgateimg src={gift} alt={`${gift}`}/>
+              <Headers.NavgatePath children="유저피드백"/>
+            </Headers.NavLists>
         </Headers.Nav>
       <Headers.NavBottom>
         {!isLoggedIn

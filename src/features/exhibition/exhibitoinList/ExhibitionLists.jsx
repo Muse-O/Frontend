@@ -28,7 +28,6 @@ function ExhibitionLists() {
     </ExhibitionWrap>
   );
 }
-
 export default ExhibitionLists;
 
 const HiddenRef = styled.div`

@@ -6,6 +6,7 @@ import sparkle_gray from "../../../assets/imgs/exhibition/sparkle_gray.png";
 import { useNavigate } from "react-router-dom";
 export const EXListBody = ({ isLoading, isError, merged }) => {
   const navigator = useNavigate();
+  console.log(merged.filter(el => el.endDate === null));
   return (
     <>
       {isLoading || isError ? (
