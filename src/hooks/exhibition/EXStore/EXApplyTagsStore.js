@@ -7,5 +7,7 @@ export const EXApplyTagsStore = atom({
     HashTag: "",
     Where: "",
     Search: "",
+    //준비중
+    When: { startDate: "", endDate: "" },
   },
 });

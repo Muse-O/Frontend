@@ -19,6 +19,7 @@ export const HeaderWhenSelect = ({
       setToday(dayjs(inputValue));
     }
   }, [inputValue]);
+
   const {
     currentday,
     today,
@@ -29,8 +30,10 @@ export const HeaderWhenSelect = ({
     nextMonth,
     presentMonth,
   } = useCalender(whenVisible, setInputValue);
+
   const setApplyWhenFn = (date) => {
-    setApplyWhen(date.format("YYYY-MM-DD"));
+    // setApplyWhen(date.format("YYYY-MM-DD"));
+    alert("준비중 입니다! 불편을 드려 죄송합니다.");
   };
 
   return (

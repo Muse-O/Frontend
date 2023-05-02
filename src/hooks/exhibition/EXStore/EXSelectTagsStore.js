@@ -1,5 +1,14 @@
+import dayjs from "dayjs";
 import { atom, selector } from "recoil";
 
+//날짜
+export const EXSelectWhentore = atom({
+  key: "EXSelectWhenStore",
+  default: {
+    StartDate: dayjs(),
+    // EndDate: "",
+  },
+});
 //장소
 export const EXSelectWhereStore = atom({
   key: "EXSelectWhereStore",
