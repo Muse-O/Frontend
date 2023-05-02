@@ -492,7 +492,7 @@ const FourthWrap = styled.div`
   max-height: 558px;
   margin-top: 66px;
   padding-right: 12px;
-  overflow: scroll;
+  overflow-y: scroll;
 
   @media (max-width: 1440px) {
     grid-template-columns: 292.5px 1fr;
