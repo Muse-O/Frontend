@@ -24,7 +24,6 @@ export const EXTags = ({ applyTags, setApplyTags }) => {
     { id: "HashTag", value: applyTags.HashTag },
     { id: "Search", value: applyTags.Search },
   ];
-  console.log("applys", applys);
   const resetTag = () => {
     resetApplyTags();
     //카테고리
