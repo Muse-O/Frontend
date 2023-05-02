@@ -32,18 +32,18 @@ function MainFifith() {
         <Main.MainH1 children="아트그램" />
         <Main.MainH5 children="더보기 >" onClick={()=>navigate('/artgram')}/>
       </Main.ArticleTitle>
-      { isLoading || isError 
+      { isLoading || isError
         ? <div style={{marginTop:"66px"}}>로딩 중...</div>
         : 
         <Main.FifthWrapGrid>
         <Main.MainSlider>
           <Slider {...mainSliderSettings}>
-            {data && data.map(artgram => (
-              <Main.MainSliderWrap key={artgram.artgramId} onMouseOver={()=>setModalArtgramId(artgram.artgramId)} onClick={() =>openModalhandle(artgram.artgramId)}>
-                <Main.MainSliderImg children={<img className="artgramimg" src={artgram.imgUrl}/>}/>
+            {data && data?.map(artgram => (
+              <Main.MainSliderWrap key={artgram?.artgramId} onMouseOver={()=>setModalArtgramId(artgram?.artgramId)} onClick={() =>openModalhandle(artgram?.artgramId)}>
+                <Main.MainSliderImg children={<img className="artgramimg" src={artgram?.imgUrl}/>}/>
                 <Main.MainSliderProfile>
-                  <Main.MainSliderProfileImg src={artgram.authorProfileImg} alt="authorProfileImg"/>
-                  <Main.MainSliderProfileNickName children={<>by <span>{artgram.authorNickName}</span></>} />
+                  <Main.MainSliderProfileImg src={artgram?.authorProfileImg} alt="authorProfileImg"/>
+                  <Main.MainSliderProfileNickName children={<>by <span>{artgram?.authorNickName}</span></>} />
                 </Main.MainSliderProfile>
               </Main.MainSliderWrap>
             ))}
@@ -51,13 +51,13 @@ function MainFifith() {
         </Main.MainSlider>
         <Main.SubSlider>
           <Slider {...subSliderSettings}>
-            {editLists && editLists.map(artgram => (
-                <Main.SubSliderLayout key={artgram.artgramId} onMouseOver={()=>setModalArtgramId(artgram.artgramId)} onClick={() =>openModalhandle(artgram.artgramId)}>
+            {editLists && editLists?.map(artgram => (
+                <Main.SubSliderLayout key={artgram?.artgramId} onMouseOver={()=>setModalArtgramId(artgram?.artgramId)} onClick={() =>openModalhandle(artgram?.artgramId)}>
                   <Main.SubSliderWrap>
-                    <Main.SubSliderImg children={<img className="artgramimg" src={artgram.imgUrl}/>}/>
+                    <Main.SubSliderImg children={<img className="artgramimg" src={artgram?.imgUrl}/>}/>
                     <Main.SubSliderProfile>
-                      <Main.MainSliderProfileImg src={artgram.authorProfileImg} alt="authorProfileImg"/>
-                      <Main.MainSliderProfileNickName children={<>by <span>{artgram.authorNickName}</span></>} />
+                      <Main.MainSliderProfileImg src={artgram?.authorProfileImg} alt="authorProfileImg"/>
+                      <Main.MainSliderProfileNickName children={<>by <span>{artgram?.authorNickName}</span></>} />
                     </Main.SubSliderProfile>
                   </Main.SubSliderWrap>
               </Main.SubSliderLayout>
