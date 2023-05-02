@@ -216,7 +216,7 @@ const StImgBox = styled.div`
 `;
 
 const StImgWrap = styled.div`
-  background-color: #cccccc;
+  background-color: #eeeeee;
   width: 182px;
   height: 261px;
   display: flex;

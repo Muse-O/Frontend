@@ -70,7 +70,7 @@ const StAlramBox = styled.div`
 
   @media (max-width: 1440px) {
     width: 294px;
-    height: 294px;
+    height: 350px;
   }
 `;
 
