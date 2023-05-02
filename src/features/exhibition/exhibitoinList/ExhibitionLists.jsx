@@ -9,18 +9,12 @@ import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsS
 import { EXTags } from "./EXTags";
 
 function ExhibitionLists() {
-  //적용
-
   //?리코일 적용
   const [applyTags, setApplyTags] = useRecoilState(EXApplyTagsStore);
-  // const resetApplyTags = useResetRecoilState(EXApplyTagsStore);
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
     useGetExhibitioninfinity(10, applyTags);
+  let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
 
-  let merged =
-    data?.pages[0].data.exhibitionList.rows.length > 0
-      ? [].concat(...data?.pages[0].data.exhibitionList.rows)
-      : [];
   const { ref } = useInterserctionObserver(fetchNextPage);
   return (
     <ExhibitionWrap>
