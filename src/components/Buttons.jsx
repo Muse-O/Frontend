@@ -14,14 +14,9 @@ export const UnsetBtn = ({ children, onClick }) => {
   return <StyledUnset onClick={onClick}>{children}</StyledUnset>;
 };
 
-//회원가입 버튼
-export const RegisterBtn = ({ children, onClick }) => {
-  return <StyledRegisterBtn onClick={onClick}>{children}</StyledRegisterBtn>;
-};
-
-//로그인 버튼
-export const LoginBtn = ({ children, onClick }) => {
-  return <StyledLoginBtn onClick={onClick}>{children}</StyledLoginBtn>;
+//전시회 제출 버튼
+export const SubmitBtn = ({ children, onClick }) => {
+  return <StyledSubmitBtn onClick={onClick}>{children}</StyledSubmitBtn>;
 };
 
 const StyledBaseButton = styled.button`
@@ -33,15 +28,15 @@ const StyledUnset = styled(StyledBaseButton)`
   background-color: transparent;
 `;
 
-const StyledRegisterBtn = styled(StyledUnset)`
-  width: 100px;
-  margin: 0 auto;
-  background-color: #f08080;
-`;
-
-const StyledLoginBtn = styled(StyledUnset)`
-  width: 100px;
-  margin: 0 auto;
-  background-color: #f08080;
-  border-radius: 5px;
+const StyledSubmitBtn = styled(StyledUnset)`
+  background-color: #ffffff;
+  border: 1px solid #171717;
+  font-size: 17px;
+  width: 100%;
+  border-radius: 50px;
+  height: 70px;
+  :hover {
+    background: #242424;
+    color: #ffffff;
+  }
 `;

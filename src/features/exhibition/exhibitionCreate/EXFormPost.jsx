@@ -1,15 +1,17 @@
 import * as EXPost from "../css/exhibitionCreateCss/EXFormPostCss";
 import plus_white from "../../../assets/imgs/common/plus_white.png";
 import NotificationEX from "./NotificationEX";
+import { ExOnOffCode } from "../../../shared/EXCodes";
+import { SubmitBtn } from "../../../components/Buttons";
 
 export const EXFormPost = ({
-  Detaildata,
+  // Detaildata,
+  // deleteHandler,
   changeOnOff,
   exhibitionKind,
   postfiles,
   getRootPropsPOST,
   getInputPropsPOST,
-  deleteHandler,
   deleteImgPOST,
 }) => {
   return (
@@ -23,7 +25,7 @@ export const EXFormPost = ({
             onClick={changeOnOff}
             exhibitionKind={exhibitionKind}
           >
-            오프라인
+            {ExOnOffCode.EK0001}
           </EXPost.Offline>
           <EXPost.OnLine
             type="button"
@@ -31,7 +33,7 @@ export const EXFormPost = ({
             onClick={changeOnOff}
             exhibitionKind={exhibitionKind}
           >
-            온라인
+            {ExOnOffCode.EK0002}
           </EXPost.OnLine>
         </EXPost.SelectOnOff>
         {postfiles.length === 0 ? (
@@ -54,20 +56,18 @@ export const EXFormPost = ({
             </EXPost.PreviewBox>
           ))
         )}
-        {Detaildata ? (
-          <EXPost.UpDateButtons>
-            <EXPost.SubmitButton type={"submit"}>
-              전시수정하기
-            </EXPost.SubmitButton>
-            <EXPost.SubmitButton type={"button"} onClick={deleteHandler}>
-              전시삭제하기
-            </EXPost.SubmitButton>
-          </EXPost.UpDateButtons>
-        ) : (
-          <EXPost.SubmitButton type={"submit"}>
-            전시등록하기
-          </EXPost.SubmitButton>
-        )}
+        {/* <EXPost.UpDateButtons>
+          {Detaildata ? (
+            <>
+              <SubmitBtn type={"submit"}>전시수정하기</SubmitBtn>
+              <SubmitBtn type={"button"} onClick={deleteHandler}>
+                전시삭제하기
+              </SubmitBtn>
+            </>
+          ) : (
+            <SubmitBtn type={"submit"}>전시등록하기</SubmitBtn>
+          )}
+        </EXPost.UpDateButtons> */}
         <NotificationEX
           warning={"주의사항"}
           coment1={`되도록 큰 사이즈의 사진 파일 업로드 부탁드립니다!

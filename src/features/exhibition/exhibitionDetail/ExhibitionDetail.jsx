@@ -1,23 +1,35 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDetailGetExibition } from "../../../hooks/exhibition/useDetailGetExibition";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { Flex } from "../../../components/Flex";
 import ExhibitionReview from "./ExhibitionReview";
 import ExhibitionReviewForm from "./ExhibitionReviewForm";
-import ExhibitionLiked from "./ExhibitionLiked";
-import ExhibitionScrap from "./ExhibitionScrap";
-import { AiOutlineLike, AiOutlineLink, AiFillLike } from "react-icons/ai";
-import { BsBookmarkCheck, BsBookmarkCheckFill } from "react-icons/bs";
 import { usetoken } from "../../../shared/cookies";
-
+import { SubmitBtn } from "../../../components/Buttons";
+import { useLikeExhibition } from "../../../hooks/exhibition/ExhibitionLikedScrap";
+import NoneLiked from "../../../assets/imgs/common/heart_gray.png";
+import Liked from "../../../assets/imgs/common/heart_full.png";
+import NoneScrap from "../../../assets/imgs/common/bookmark_gray.png";
+import Scrap from "../../../assets/imgs/common/bookmark_full.png";
+import Review from "../../../assets/imgs/exhibition/sparkle_full_yellow.png";
 function ExhibitionDetail() {
   const { id } = useParams();
   const navigator = useNavigate();
   const { decodetoken } = usetoken();
   const userEmail = decodetoken?.email;
+  const reviewRef = useRef(null);
   const [data, isLoading, isError] = useDetailGetExibition(id);
   const info = data?.exhibitionInfo;
+  const [LikeScrapExhibition] = useLikeExhibition(id);
+  const likeScrapHandler = (LikeOrScrap) => {
+    if (!decodetoken) {
+      alert("로그인이 필요한 서비스 입니다.");
+      return;
+    }
+    LikeScrapExhibition(LikeOrScrap);
+  };
+
   if (isLoading) {
     return <div>로딩중</div>;
   }
@@ -31,7 +43,17 @@ function ExhibitionDetail() {
                 {info.startDate.slice(0, 10).replace(/-/g, ".")}-
                 {info.endDate.slice(0, 10).replace(/-/g, ".")}
               </DateP>
-              <OnOffTitle>{info.exhibitionKindName}</OnOffTitle>
+              {/* //TODO 이부분 LIST컴포넌트랑 겹침 */}
+              <EXstatusTitle>{info.exhibitionKindName}</EXstatusTitle>
+              <EXstatusTitle status={"info"}>
+                {info.exhibitionStatus === "전시 진행"
+                  ? "Now On View"
+                  : info.exhibitionStatus === "전시 예정"
+                  ? "Coming Soon"
+                  : info.exhibitionStatus === "전시 종료"
+                  ? "Exhibition is over"
+                  : ""}
+              </EXstatusTitle>
             </Date>
             <Title>
               <TitleH1>{info.exhibitionTitle}</TitleH1>
@@ -44,50 +66,54 @@ function ExhibitionDetail() {
             <Posts>
               <PostImg src={info.postImage} />
               <EXButtons>
-                <ExBtn>
+                <ExBtn onClick={() => likeScrapHandler("like")}>
                   {info.liked === 0 ? (
-                    <Icon>
-                      <AiOutlineLike />
-                    </Icon>
+                    <PostsBtnImg src={NoneLiked} />
                   ) : (
-                    <Icon>
-                      <AiFillLike />
-                    </Icon>
+                    <PostsBtnImg src={Liked} />
                   )}
-                  <ExhibitionLiked exhibitionId={id}>좋아요</ExhibitionLiked>
+                  <Detailspan>좋아요</Detailspan>
                 </ExBtn>
-                <ExBtn iscenter={true}>
+                <ExBtn
+                  iscenter={true}
+                  onClick={() => likeScrapHandler("scrap")}
+                >
                   {info.scraped === 0 ? (
-                    <Icon>
-                      <BsBookmarkCheck />
-                    </Icon>
+                    <PostsBtnImg src={NoneScrap} />
                   ) : (
-                    <Icon>
-                      <BsBookmarkCheckFill />
-                    </Icon>
+                    <PostsBtnImg src={Scrap} />
                   )}
-                  <ExhibitionScrap exhibitionId={id}>스크랩</ExhibitionScrap>
+                  <Detailspan>스크랩</Detailspan>
                 </ExBtn>
                 <ExBtn>
-                  <Icon>
-                    <AiOutlineLink />
-                  </Icon>
-                  <ArtLinkBtn>Artgram</ArtLinkBtn>
+                  <PostsBtnImg src={Review} />
+                  <Detailspan>
+                    평점{info.reviewStatus[0].reviewAvgRating.slice(0, 3)}
+                  </Detailspan>
                 </ExBtn>
               </EXButtons>
+              <SubmitBtns>
+                {info.userEmail === userEmail ? (
+                  <SubmitBtn
+                    onClick={() =>
+                      navigator(`/exhibition/update/${info.exhibitionId}`)
+                    }
+                  >
+                    수정하기
+                  </SubmitBtn>
+                ) : (
+                  <SubmitBtn onClick={() => reviewRef.current.focus()}>
+                    후기 작성
+                  </SubmitBtn>
+                )}
+                <SubmitBtn onClick={() => navigator(`/exhibition`)}>
+                  목록으로
+                </SubmitBtn>
+              </SubmitBtns>
             </Posts>
           </PostWrap>
           <ContentWrap>
             <Contents>
-              {info.userEmail === userEmail && (
-                <button
-                  onClick={() =>
-                    navigator(`/exhibition/update/${info.exhibitionId}`)
-                  }
-                >
-                  수정하기
-                </button>
-              )}
               <ExhibitionDescBOX>{info.exhibitionDesc}</ExhibitionDescBOX>
               <ExhibitioninfoP>전시 정보</ExhibitioninfoP>
               <ExhibitionInfoWrap>
@@ -95,7 +121,7 @@ function ExhibitionDetail() {
                   <InfoTitle>위치</InfoTitle>
                   <InfoBox>
                     <span>{info.ExhibitionAddress.address}</span>
-                    <div>{info.ExhibitionAddress.zonecode}</div>
+                    <span>{info.ExhibitionAddress.zonecode}</span>
                     <span>{info.location}</span>
                   </InfoBox>
                 </ExhibitionInfo>
@@ -106,12 +132,12 @@ function ExhibitionDetail() {
                   </InfoBox>
                 </ExhibitionInfo>
                 <ExhibitionInfo>
-                  <InfoTitle>분류</InfoTitle>
+                  <InfoTitle>카테고리</InfoTitle>
                   <InfoBox>
                     {info.ExhibitionCategories?.map((theme) => {
                       return (
-                        <div key={theme.exhibition_code}>
-                          {theme.exhibition_code}
+                        <div key={theme.categoryCode}>
+                          <span> {theme.categoryName}</span>
                         </div>
                       );
                     })}
@@ -135,42 +161,42 @@ function ExhibitionDetail() {
                     <span>{info.artWorkCnt}정</span>
                   </InfoBox>
                 </ExhibitionInfo>
+
                 <ExhibitionInfo>
-                  <InfoTitle>후원</InfoTitle>
+                  <InfoTitle>주최</InfoTitle>
                   <InfoBox>
-                    <span>{info.agencyAndSponsor}</span>
+                    <span>{info.exhibitionHostName}</span>
                   </InfoBox>
                 </ExhibitionInfo>
                 <ExhibitionInfo>
-                  <InfoTitle>기간</InfoTitle>
+                  <InfoTitle>링크</InfoTitle>
                   <InfoBox>
-                    <p>시작</p>
-                    {info.startDate.slice(0, 10)}
-                    <p>끝</p>
-                    {info.endDate.slice(0, 10)}
+                    <span>{info.exhibitionLink}</span>
                   </InfoBox>
                 </ExhibitionInfo>
+
                 <ExhibitionInfo>
                   <InfoTitle>시간</InfoTitle>
                   <InfoBox>
-                    <p>시작시간</p>
-                    {info.openTime.slice(0, 5)}
-                    <p>닫는시간</p>
-                    {info.closeTime.slice(0, 5)}
+                    <TimesWrap>
+                      <span>{info.openTime.slice(0, 5)}</span>
+                      <span>-</span>
+                      <span>{info.closeTime.slice(0, 5)}</span>
+                    </TimesWrap>
+                    <span>{info.significant}</span>
                   </InfoBox>
                 </ExhibitionInfo>
                 <ExhibitionInfo>
                   <InfoTitle>전화번호</InfoTitle>
                   <InfoBox>
-                    <p>전화번호</p>
-                    Tel:{info.contact}
+                    <span> Tel:{info.contact}</span>
                   </InfoBox>
                 </ExhibitionInfo>
-                <ExhibitionInfo>
-                  <InfoTitle>전시호 테마</InfoTitle>
+
+                <ExhibitionInfo noneborder={true}>
+                  <InfoTitle>후원</InfoTitle>
                   <InfoBox>
-                    <p>전시회테마</p>
-                    {info.exhibitionStatus}
+                    <span>{info.agencyAndSponsor}</span>
                   </InfoBox>
                 </ExhibitionInfo>
               </ExhibitionInfoWrap>
@@ -188,7 +214,7 @@ function ExhibitionDetail() {
                 ))}
               </ThumbsContainer>
               <ExhibitioninfoP>후기작성</ExhibitioninfoP>
-              <ExhibitionReviewForm exhibitionID={id} />
+              <ExhibitionReviewForm reviewRef={reviewRef} exhibitionID={id} />
               <ExhibitionReview exhibitionID={id} />
             </Contents>
           </ContentWrap>
@@ -199,7 +225,31 @@ function ExhibitionDetail() {
 }
 
 export default ExhibitionDetail;
-const OnOffTitle = styled.div`
+const TimesWrap = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+const PostsBtnImg = styled.img`
+  width: 23px;
+  height: 23px;
+`;
+const Detailspan = styled.span`
+  background-color: white;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 25px;
+`;
+
+//!중복
+const SubmitBtns = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
+  padding: 36px 0px;
+`;
+
+const EXstatusTitle = styled.div`
   color: #ffffff;
   padding-left: 16px;
   margin-left: 16px;
@@ -248,33 +298,38 @@ const ThumbsContainer = styled.aside`
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background-color: #244dde;
+    background: linear-gradient(180deg, #3360ff 0%, #b960ff 100%);
   }
 `;
 const InfoBox = styled.div`
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
+  span {
+    font-size: 20px;
+  }
+  color: #3c3c3c;
   display: flex;
   flex-direction: column;
+  width: 600px;
+  gap: 10px;
 `;
 const InfoTitle = styled.span`
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
-  /* padding-right: 120px; */
   width: 160px;
   box-sizing: border-box;
 `;
 const ExhibitionInfo = styled.div`
   padding: 32px;
   display: flex;
+  border-bottom: ${({ noneborder }) =>
+    noneborder ? "none" : "1px dashed #5b5b5b"};
 `;
 const Icon = styled.div`
   padding: auto;
   font-size: 20px;
 `;
 const ExhibitioninfoP = styled.p`
+  color: #242424;
   font-family: "S-Core Dream";
   font-style: normal;
   font-weight: 500;
@@ -292,10 +347,14 @@ const ExBtn = styled.div`
   gap: 12px;
   padding: 22px 38px;
   display: flex;
+  align-items: center;
   flex: 1;
   border-width: ${(props) => props.iscenter && `0px 1px 0px 1px`};
   border-style: solid;
   border-color: #000000;
+  :hover {
+    cursor: pointer;
+  }
 `;
 const ArtLinkBtn = styled.button`
   background-color: white;
@@ -331,6 +390,7 @@ const ExhibitionDescBOX = styled.div`
   font-weight: 400;
   font-size: 16px;
   line-height: 25px;
+  color: #3c3c3c;
 `;
 const DIV = styled.div`
   background-color: aqua;

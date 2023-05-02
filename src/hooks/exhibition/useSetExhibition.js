@@ -182,7 +182,6 @@ export const useSetExhibition = (
     }
   };
   useEffect(() => {
-    console.log("info", info);
     // 서버에서 받아온 데이터가 로딩되면 exhibition state를 업데이트
     if (!DetailLoading && Detaildata) {
       setAuthorName(info.ExhibitionAuthors[authorid].author);
