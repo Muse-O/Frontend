@@ -87,8 +87,12 @@ function ExhibitionDetail() {
                 </ExBtn>
                 <ExBtn>
                   <PostsBtnImg src={Review} />
+
                   <Detailspan>
-                    평점{info.reviewStatus[0].reviewAvgRating.slice(0, 3)}
+                    평점
+                    {info.reviewStatus[0].reviewAvgRating
+                      ? info.reviewStatus[0].reviewAvgRating.slice(0, 3)
+                      : 0}
                   </Detailspan>
                 </ExBtn>
               </EXButtons>
@@ -143,38 +147,28 @@ function ExhibitionDetail() {
                     })}
                   </InfoBox>
                 </ExhibitionInfo>
-                <ExhibitionInfo>
-                  <InfoTitle>작가</InfoTitle>
-                  <InfoBox>
-                    {info.ExhibitionAuthors?.map((author) => {
-                      return (
-                        <div key={author.author}>
-                          <span>{author.author}</span>
-                        </div>
-                      );
-                    })}
-                  </InfoBox>
-                </ExhibitionInfo>
-                <ExhibitionInfo>
-                  <InfoTitle>작품수</InfoTitle>
-                  <InfoBox>
-                    <span>{info.artWorkCnt}정</span>
-                  </InfoBox>
-                </ExhibitionInfo>
-
+                {info.artWorkCnt && (
+                  <ExhibitionInfo>
+                    <InfoTitle>작품수</InfoTitle>
+                    <InfoBox>
+                      <span>{info.artWorkCnt}정</span>
+                    </InfoBox>
+                  </ExhibitionInfo>
+                )}
                 <ExhibitionInfo>
                   <InfoTitle>주최</InfoTitle>
                   <InfoBox>
                     <span>{info.exhibitionHostName}</span>
                   </InfoBox>
                 </ExhibitionInfo>
-                <ExhibitionInfo>
-                  <InfoTitle>링크</InfoTitle>
-                  <InfoBox>
-                    <span>{info.exhibitionLink}</span>
-                  </InfoBox>
-                </ExhibitionInfo>
-
+                {info.exhibitionLink && (
+                  <ExhibitionInfo>
+                    <InfoTitle>링크</InfoTitle>
+                    <InfoBox>
+                      <span>{info.exhibitionLink}</span>
+                    </InfoBox>
+                  </ExhibitionInfo>
+                )}
                 <ExhibitionInfo>
                   <InfoTitle>시간</InfoTitle>
                   <InfoBox>
@@ -186,33 +180,53 @@ function ExhibitionDetail() {
                     <span>{info.significant}</span>
                   </InfoBox>
                 </ExhibitionInfo>
-                <ExhibitionInfo>
-                  <InfoTitle>전화번호</InfoTitle>
-                  <InfoBox>
-                    <span> Tel:{info.contact}</span>
-                  </InfoBox>
-                </ExhibitionInfo>
-
+                {info.contact && (
+                  <ExhibitionInfo>
+                    <InfoTitle>전화번호</InfoTitle>
+                    <InfoBox>
+                      <span> Tel:{info.contact}</span>
+                    </InfoBox>
+                  </ExhibitionInfo>
+                )}
+                {info.agencyAndSponsor && (
+                  <ExhibitionInfo>
+                    <InfoTitle>후원</InfoTitle>
+                    <InfoBox>
+                      <span>{info.agencyAndSponsor}</span>
+                    </InfoBox>
+                  </ExhibitionInfo>
+                )}
                 <ExhibitionInfo noneborder={true}>
-                  <InfoTitle>후원</InfoTitle>
+                  <InfoTitle>작가</InfoTitle>
                   <InfoBox>
-                    <span>{info.agencyAndSponsor}</span>
+                    {info.ExhibitionAuthors?.map((author) => {
+                      return (
+                        <div key={author.author}>
+                          <span>{author.author}</span>
+                        </div>
+                      );
+                    })}
                   </InfoBox>
                 </ExhibitionInfo>
               </ExhibitionInfoWrap>
-              <ExhibitioninfoP>작품 사진</ExhibitioninfoP>
-              {/* //!이부분은 작성페이지랑 비슷함 컴포넌트 재사용 가능할듯 */}
-              <ThumbsContainer>
-                {info.ExhibitionImgs?.map((file) => (
-                  <div>
-                    <Thumb key={file.imgUrl}>
-                      <ThumbInner>
-                        <Thumbimg src={file.imgUrl} />
-                      </ThumbInner>
-                    </Thumb>
-                  </div>
-                ))}
-              </ThumbsContainer>
+
+              {info.ExhibitionImgs.length !== 0 && (
+                <>
+                  <ExhibitioninfoP>작품 사진</ExhibitioninfoP>
+                  {/* 컴포넌트 재활용 가능성있음 */}
+                  <ThumbsContainer>
+                    {info.ExhibitionImgs?.map((file) => (
+                      <div>
+                        <Thumb key={file.imgUrl}>
+                          <ThumbInner>
+                            <Thumbimg src={file.imgUrl} />
+                          </ThumbInner>
+                        </Thumb>
+                      </div>
+                    ))}
+                  </ThumbsContainer>
+                </>
+              )}
               <ExhibitioninfoP>후기작성</ExhibitioninfoP>
               <ExhibitionReviewForm reviewRef={reviewRef} exhibitionID={id} />
               <ExhibitionReview exhibitionID={id} />
