@@ -3,7 +3,7 @@ import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
 import UpdateUserProfileModal from "./UpdateUserProfileModal";
 import UpdateModalBlackBg from "./UpdateModalBlackBg";
 import AlarmContainer from "./AlarmContainer";
-import * as UserProfileStyle from "../mypage/UserProfileStyle";
+import * as UserProfileStyle from "../mypage/css/UserProfileStyle";
 import palette from "../../assets/imgs/mypage/palette_gradient.png";
 import setting from "../../assets/imgs/mypage/gear_gray.png";
 import { usePatchRole } from "../../hooks/mypage/usePatchRole";

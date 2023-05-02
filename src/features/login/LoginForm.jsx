@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import useLogin from "../../hooks/login/useLogin";
 import { Link } from "react-router-dom";
+import useLogin from "../../hooks/login/useLogin";
+import falseVisibleEyes from "../../assets/imgs/login/invisible_gray.png";
+import trueVisibleEyes from "../../assets/imgs/login/eye_gray.png";
 import naverLogo from "../../assets/imgs/login/네이버로고.png";
 import googleLogo from "../../assets/imgs/login/google-plus.png";
 import kakaoLogo from "../../assets/imgs/login/kakao-talk.png";
 import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
-import falseVisibleEyes from "../../assets/imgs/login/invisible_gray.png";
-import trueVisibleEyes from "../../assets/imgs/login/eye_gray.png";
+import * as Style from "../login/css/LoginStyle";
 import Swal from "sweetalert2";
-import * as LoginStyle from "../login/LoginStyle";
 
 function LoginForm() {
   //react-query
@@ -82,16 +82,16 @@ function LoginForm() {
   };
 
   return (
-    <LoginStyle.StLogin>
-      <LoginStyle.StLinkBox>
+    <Style.StLogin>
+      <Style.StLinkBox>
         <Link to="/">
           <img src={museoLogo} alt="museoLogo" />
         </Link>
-      </LoginStyle.StLinkBox>
+      </Style.StLinkBox>
 
-      <LoginStyle.StEmailInputBox>
+      <Style.StEmailInputBox>
         <label>이메일</label>
-        <LoginStyle.StEmailInputWrap>
+        <Style.StEmailInputWrap>
           <input
             type="email"
             name="email"
@@ -99,14 +99,14 @@ function LoginForm() {
             style={{ borderColor: !emailMsg ? "#dddddd" : "red" }}
           />
           <div>{emailMsg}</div>
-        </LoginStyle.StEmailInputWrap>
-      </LoginStyle.StEmailInputBox>
+        </Style.StEmailInputWrap>
+      </Style.StEmailInputBox>
 
-      <LoginStyle.StPwInputBox>
+      <Style.StPwInputBox>
         <label>비밀번호</label>
-        <LoginStyle.StPwInputWrap>
+        <Style.StPwInputWrap>
           {!pwVisible ? (
-            <LoginStyle.StPwInputImgWrap>
+            <Style.StPwInputImgWrap>
               <input
                 type="password"
                 name="password"
@@ -122,9 +122,9 @@ function LoginForm() {
               <div onClick={visibleChangeHandler}>
                 <img src={falseVisibleEyes} alt="invisibleEyes" />
               </div>
-            </LoginStyle.StPwInputImgWrap>
+            </Style.StPwInputImgWrap>
           ) : (
-            <LoginStyle.StPwInputImgWrap>
+            <Style.StPwInputImgWrap>
               <input
                 type="text"
                 name="password"
@@ -136,41 +136,39 @@ function LoginForm() {
               <div onClick={visibleChangeHandler}>
                 <img src={trueVisibleEyes} alt="trueVisibleEyes" />
               </div>
-            </LoginStyle.StPwInputImgWrap>
+            </Style.StPwInputImgWrap>
           )}
-        </LoginStyle.StPwInputWrap>
-        <LoginStyle.StPwWarning>{pwMsg}</LoginStyle.StPwWarning>
-      </LoginStyle.StPwInputBox>
+        </Style.StPwInputWrap>
+        <Style.StPwWarning>{pwMsg}</Style.StPwWarning>
+      </Style.StPwInputBox>
 
-      <LoginStyle.StLoginBtn onClick={loginHandler}>
-        로그인
-      </LoginStyle.StLoginBtn>
+      <Style.StLoginBtn onClick={loginHandler}>로그인</Style.StLoginBtn>
 
-      <LoginStyle.StSnsBox>
+      <Style.StSnsBox>
         <div>SNS로 간편하게 시작하기</div>
 
-        <LoginStyle.StSnsBtnWrap>
-          <LoginStyle.GoogleLogoDiv onClick={socialLoginBtn}>
+        <Style.StSnsBtnWrap>
+          <Style.GoogleLogoDiv onClick={socialLoginBtn}>
             <img
               src={googleLogo}
               alt="googleLogo"
               style={{ width: "30px", height: "30px" }}
             />
-          </LoginStyle.GoogleLogoDiv>
+          </Style.GoogleLogoDiv>
           <div onClick={socialLoginBtn}>
             <img src={kakaoLogo} alt="kakaoLogo" />
           </div>
           <div onClick={socialLoginBtn}>
             <img src={naverLogo} alt="naverLogo" />
           </div>
-        </LoginStyle.StSnsBtnWrap>
-      </LoginStyle.StSnsBox>
+        </Style.StSnsBtnWrap>
+      </Style.StSnsBox>
 
-      <LoginStyle.StRegisterLink>
+      <Style.StRegisterLink>
         <div>아직 회원이 아니시라면</div>
-        <LoginStyle.StLink to="/register">회원가입</LoginStyle.StLink>
-      </LoginStyle.StRegisterLink>
-    </LoginStyle.StLogin>
+        <Style.StLink to="/register">회원가입</Style.StLink>
+      </Style.StRegisterLink>
+    </Style.StLogin>
   );
 }
 
