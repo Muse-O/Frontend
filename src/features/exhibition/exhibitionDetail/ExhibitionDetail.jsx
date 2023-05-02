@@ -5,12 +5,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Flex } from "../../../components/Flex";
 import ExhibitionReview from "./ExhibitionReview";
 import ExhibitionReviewForm from "./ExhibitionReviewForm";
-import ExhibitionLiked from "./ExhibitionLiked";
-import ExhibitionScrap from "./ExhibitionScrap";
 import { AiOutlineLike, AiOutlineLink, AiFillLike } from "react-icons/ai";
 import { BsBookmarkCheck, BsBookmarkCheckFill } from "react-icons/bs";
 import { usetoken } from "../../../shared/cookies";
 import { SubmitBtn } from "../../../components/Buttons";
+import { useLikeExhibition } from "../../../hooks/exhibition/ExhibitionLikedScrap";
 
 function ExhibitionDetail() {
   const { id } = useParams();
@@ -20,9 +19,19 @@ function ExhibitionDetail() {
   const reviewRef = useRef(null);
   const [data, isLoading, isError] = useDetailGetExibition(id);
   const info = data?.exhibitionInfo;
+  const [LikeScrapExhibition] = useLikeExhibition(id);
+  const likeScrapHandler = (LikeOrScrap) => {
+    if (!decodetoken) {
+      alert("로그인이 필요한 서비스 입니다.");
+      return;
+    }
+    LikeScrapExhibition(LikeOrScrap);
+  };
+
   if (isLoading) {
     return <div>로딩중</div>;
   }
+
   return (
     <Flex>
       {info && (
@@ -46,7 +55,7 @@ function ExhibitionDetail() {
             <Posts>
               <PostImg src={info.postImage} />
               <EXButtons>
-                <ExBtn>
+                <ExBtn onClick={() => likeScrapHandler("like")}>
                   {info.liked === 0 ? (
                     <Icon>
                       <AiOutlineLike />
@@ -56,9 +65,12 @@ function ExhibitionDetail() {
                       <AiFillLike />
                     </Icon>
                   )}
-                  <ExhibitionLiked exhibitionId={id}>좋아요</ExhibitionLiked>
+                  <Detailspan>좋아요</Detailspan>
                 </ExBtn>
-                <ExBtn iscenter={true}>
+                <ExBtn
+                  iscenter={true}
+                  onClick={() => likeScrapHandler("scrap")}
+                >
                   {info.scraped === 0 ? (
                     <Icon>
                       <BsBookmarkCheck />
@@ -68,7 +80,7 @@ function ExhibitionDetail() {
                       <BsBookmarkCheckFill />
                     </Icon>
                   )}
-                  <ExhibitionScrap exhibitionId={id}>스크랩</ExhibitionScrap>
+                  <Detailspan>스크랩</Detailspan>
                 </ExBtn>
                 <ExBtn>
                   <Icon>
@@ -210,6 +222,13 @@ function ExhibitionDetail() {
 }
 
 export default ExhibitionDetail;
+const Detailspan = styled.span`
+  background-color: white;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 25px;
+`;
+
 //!중복
 const SubmitBtns = styled.div`
   display: flex;
@@ -320,6 +339,9 @@ const ExBtn = styled.div`
   border-width: ${(props) => props.iscenter && `0px 1px 0px 1px`};
   border-style: solid;
   border-color: #000000;
+  :hover {
+    cursor: pointer;
+  }
 `;
 const ArtLinkBtn = styled.button`
   background-color: white;
