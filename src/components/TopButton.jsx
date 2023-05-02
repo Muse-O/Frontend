@@ -1,4 +1,6 @@
 import React from 'react'
+import topButton from '../assets/imgs/common/topButton.png'
+import { TopButtun, TopButtunWrap } from '../shared/GlobalStyled'
 
 function TopButton() {
   const topbutton = ()=> {
@@ -9,7 +11,8 @@ function TopButton() {
   }
 
   return (
-    <div onClick={topbutton} style={{fontSize:"50px"}}>탑버튼</div>
+    <TopButtunWrap children={<TopButtun onClick={topbutton} children={<img src={topButton}/>}/>}/>
+    
   )
 }
 

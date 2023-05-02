@@ -78,7 +78,7 @@ const SearchBoxEx = styled.div`
   @media (max-width: 1440px) {
     margin-top: 31.5px;
     gap: 17.25px;
-    min-height: 267px;
+    min-height: 108px;
   }
 `;
 
@@ -108,7 +108,7 @@ const SearchEx = styled.div`
 
   @media (max-width: 1440px) {
     width: 176.25px;
-    height: 333.75px;
+    min-height: 333.75px;
   }
 `
 const SearchBoxExImg = styled.img`
@@ -116,7 +116,6 @@ const SearchBoxExImg = styled.img`
   width: 235px;
   height: 338px;
   margin-bottom: 20px;
-  background-color: yellow;
   @media (max-width: 1440px) {
     width: 176.25px;
     height: 253.5px;
@@ -153,6 +152,46 @@ const SearchBoxExDate = styled(SearchBoxExlocation)`
     margin-bottom: 7.5px;
   }
 `
+const SearchBoxUse = styled.div`
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 23px;
+  margin-top: 42px;
+  width: 100%;
+  min-height: 190px;
+  
+  // background-color: 
+
+  @media (max-width: 1440px) {
+    margin-top: 31.5px;
+    gap: 17.25px;
+    min-height: 142.5px;
+  }
+`;
+
+const SearchUse = styled.div`
+  width: 150px;
+  height: 190px;
+  img {
+    display: block;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+  }
+  div{
+    margin-top: 16px;
+    text-align: center;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    font-size: 20px;
+
+/* 3 */
+
+color: #242424;
+
+  }
+`
+
 
 
   export {
@@ -170,5 +209,10 @@ const SearchBoxExDate = styled(SearchBoxExlocation)`
     SearchBoxExDate,
     SearchBoxExlocation,
     // SearchBoxArt 관련부분
-    SearchBoxArt
+    SearchBoxArt,
+
+    // SearchBoxUser 관련부분
+    SearchBoxUse,
+    SearchUse
+
   }

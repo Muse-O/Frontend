@@ -2,14 +2,14 @@ import styled from "styled-components";
 import { DropZoneMsg, DropZonePreview, PreviewBox } from "../createArtgram/ArtgramFormImgparts";
 
 const Layout = styled.div`
-  padding: 80px 75px;
+  margin: 80px 75px;
   @media (max-width: 1440px) {
-    padding: 60px 56.25px;
+    margin: 60px 56.25px;
   }
 `
 const H1 = styled.h1`
   font-size: 48px;
-  font-family: 'S-CoreDream-3Light';
+  font-family: 'S-CoreDream-5Medium';
 
   span {
     font-family: 'Montserrat';
@@ -138,10 +138,12 @@ const BoxProfileNickname = styled.div`
 
 const Scrap = styled.div`
   font-family: "Montserrat";
+  height: 15px;
   font-size: 12px;
   display: flex;
   gap: 8px;
   align-items: center;
+  cursor: pointer;
   
   p:first-child {
     font-size: 16px;
@@ -158,14 +160,21 @@ const Heart = styled(Scrap)`
   `;
 
 const DetailScrap = styled(Scrap)`
-  flex-direction: column;
+  min-width: 40px;
   gap: 8px;
+  @media (max-width: 1440px) {
+    min-width: 30px;
+    gap: 6px;
+  }
 `
 const DetailHeart = styled(Heart)`
-  flex-direction: column;
+  min-width: 40px;
   gap: 8px;
+  @media (max-width: 1440px) {
+    min-width: 30px;
+    gap: 6px;
+  }
 `
-
 
 const PluralImgs = styled.div`
   position: absolute;
@@ -202,11 +211,17 @@ const ModalBackground = styled.div`
   padding: 20px;
   background-color: rgba(36, 36, 36, 0.7);
   z-index: 10200;
+  @media (max-width: 1440px) {
+    padding: 15px;
+  }
   
   img {
     display: block;
     width: 2rem;
     margin-left: auto;
+    @media (max-width: 1440px) {
+      width: 1.5rem;
+    }
   }
 `
 
@@ -224,19 +239,25 @@ const ModalWindow = styled.div`
   z-index: 10200;
   @media (max-width: 1440px) {
     width: 948px;
-    height: 726px;
+    height: 670.5px;
   }
 `;
 
 const UpdateModalWindow = styled(ModalWindow)`
-  gap:108px; // ModalWindow grid 가 적용되어 있음
+  gap:108px; 
   padding-top: 100px;
   top: 50%;
   left: 50%;
   padding: 0 60px;
   padding-top: 244px;
   overflow: hidden;
-  @media (max-width: 1440px) {    
+  @media (max-width: 1440px) {
+    gap:81px; 
+    padding-top: 75px;
+    top: 50%;
+    left: 50%;
+    padding: 0 45px;
+    padding-top: 183px;
   }
 `
 
@@ -244,28 +265,47 @@ const UpdateModalTitleLayout = styled.div`
   position: absolute;
   top: 162px;
   left: 60px;
+  @media (max-width: 1440px) {
+    top: 121.5px;
+    left: 45px;
+  }
 `
 
 const ImgZone = styled.section`
   width: 526px;
   height: 405px;
   border-radius: 10px;
+  @media (max-width: 1440px) {
+    width: 394.5px;
+    height: 303.75px;
+  }
 `
 
 const ImgZoneMsg = styled(DropZoneMsg)`
   height: 51px;
+  @media (max-width: 1440px) {
+    height: 38.25px;
+  }
 `
 
 const ImgZonePreview = styled(DropZonePreview)`
   height: 354px;
   padding: 14px;
   gap: 7px;
-
+  @media (max-width: 1440px) {
+    height: 265.5px;
+    padding: 10.5px;
+    gap: 5.25px;
+  }
 `
 
 const PreviewImgBox = styled(PreviewBox)`
   width: 161px;
   height: 162px;
+  @media (max-width: 1440px) {
+    width: 120.75px;
+    height: 121.5px;
+  }
 `
 
 const Notification = styled.div`
@@ -280,6 +320,14 @@ const Notification = styled.div`
   border: 1px solid #7E7E7E;
   border-radius: 5px;
   font-size: 12px;
+
+  img {
+    display: inline-block;
+    position: relative;
+    top: 1px;
+    width: 12px;
+  }
+
   span {
     color:red;
     margin-right: 4px;
@@ -287,9 +335,17 @@ const Notification = styled.div`
 
   @media (max-width: 1440px) {
   margin-top: 12px;
+  width: 394.5px;
   height: 71.25px;
-  padding: 15px;
+  padding: 10px;
   gap: 6px;
+  font-size: 9px;
+  img {
+    width: 9px;
+  }
+  span {
+    margin-right: 3px;
+  }
   }
 `
 
@@ -299,15 +355,18 @@ const UpdateForm = styled.div`
   flex-direction: column;
   gap: 16px;
   flex-grow: 1;
+  @media (max-width: 1440px) {
+    gap: 12px;
+  }
 `
 
 const WriteLayout = styled.div`
   position: relative;
   display: flex;
   justify-content: end;
-  left: 37.5px;
+  height: 50px;
   @media (max-width: 1440px) {
-    left: 28.125px;
+    height: 50.625px;
   }
 `
 

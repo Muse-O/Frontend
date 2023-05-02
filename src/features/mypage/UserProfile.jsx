@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
 import UpdateUserProfileModal from "./UpdateUserProfileModal";
 import UpdateModalBlackBg from "./UpdateModalBlackBg";
@@ -6,15 +6,63 @@ import styled from "styled-components";
 import AlarmContainer from "./AlarmContainer";
 import palette from "../../assets/imgs/mypage/palette_gradient.png";
 import setting from "../../assets/imgs/mypage/gear_gray.png";
+import { usePatchRole } from "../../hooks/mypage/usePatchRole";
 
 function UserProfile() {
+  //react-query
   const { userProfile } = useGetUserProfile();
+  const { patchRole } = usePatchRole();
+
   //모달 open 관리
   const [openModal, setOpenModal] = useState(false);
 
-  const updateUserProfileModalHandler = () => {
+  //수정, 작가신청 setting div
+  const [openSet, setOpenSet] = useState(false);
+
+  const openSettingHandler = () => {
+    setOpenSet(prevOpenSet => !prevOpenSet);
+  };
+
+  //프로필 수정 클릭
+  const updateUserProfileHandler = () => {
     setOpenModal(true);
   };
+
+  //작가 신청 클릭
+  const [roleApplied, setRoleApplied] = useState(false);
+  const changeRoleHandler = () => {
+    if (userProfile?.role === "UR04") {
+      alert("이미 신청 완료하였습니다.");
+    } else if (userProfile?.role === "UR02") {
+      alert("이미 작가 인증이 완료되었습니다.");
+    } else {
+      const confirmResult = window.confirm("작가 신청을 하시겠습니까?");
+      if (confirmResult) {
+        //작가신청 PATCH
+        patchRole();
+        setRoleApplied(true);
+        alert("작가 신청이 완료되었습니다!");
+      }
+    }
+  };
+
+  //setting div 닫기
+  const ref = useRef(null);
+  const closeSettingHandler = () => {
+    setOpenSet(false);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (ref.current && !ref.current.contains(event.target)) {
+        closeSettingHandler();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [ref]);
 
   return (
     <>
@@ -22,16 +70,29 @@ function UserProfile() {
         <ProfileImg src={userProfile?.profileImg} alt="userProfileImg" />
 
         <StEditBtnWrap>
-          <UpdateBtn onClick={updateUserProfileModalHandler}>
+          <UpdateBtn onClick={openSettingHandler}>
             <img src={setting} alt="setting" />
           </UpdateBtn>
+          {openSet && (
+            <StSettingBtn ref={ref} onMouseDown={e => e.stopPropagation()}>
+              <div onClick={updateUserProfileHandler}>프로필 수정</div>
+              <button
+                onClick={changeRoleHandler}
+                disabled={roleApplied && userProfile?.role === "UR04"}
+              >
+                작가 신청
+              </button>
+            </StSettingBtn>
+          )}
         </StEditBtnWrap>
 
         <StUserNameWrap>
           <StInfoUserName>{userProfile?.nickname}</StInfoUserName>
-          <StArtistMark>
-            <img src={palette} alt="palette" />
-          </StArtistMark>
+          {userProfile?.role === "UR02" ? (
+            <StArtistMark>
+              <img src={palette} alt="palette" />
+            </StArtistMark>
+          ) : null}
         </StUserNameWrap>
 
         <StUserInfoIntro>
@@ -68,8 +129,10 @@ const StUserProfileBox = styled.div`
 const StEditBtnWrap = styled.div`
   width: 450px;
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
   padding: 10px 20px 0px;
+  position: relative;
 `;
 
 const UpdateBtn = styled.button`
@@ -82,6 +145,65 @@ const UpdateBtn = styled.button`
   img {
     width: 25px;
     height: 25px;
+  }
+`;
+
+const StSettingBtn = styled.div`
+  margin-top: 40px;
+  position: absolute;
+  width: 135px;
+  height: 64px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  div {
+    font-family: "SpoqaHanSansNeo-Regular";
+    font-size: 12px;
+    color: #3c3c3c;
+    width: 135px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 3px;
+    border-bottom: 1px solid #dddddd;
+
+    &:hover {
+      background-color: #3c3c3c;
+      color: #f65959;
+    }
+  }
+
+  button {
+    border: none;
+    background-color: inherit;
+    font-family: "SpoqaHanSansNeo-Regular";
+    font-size: 12px;
+    color: #3c3c3c;
+    width: 135px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 3px;
+
+    button:disabled {
+      cursor: default;
+      background-color: "#EEEEEE";
+      color: "#7E7E7E";
+    }
+
+    &:hover:not(:disabled) {
+      background-color: #3c3c3c;
+      color: #f65959;
+    }
   }
 `;
 
