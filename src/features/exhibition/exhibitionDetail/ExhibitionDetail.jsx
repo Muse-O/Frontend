@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDetailGetExibition } from "../../../hooks/exhibition/useDetailGetExibition";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
@@ -10,12 +10,14 @@ import ExhibitionScrap from "./ExhibitionScrap";
 import { AiOutlineLike, AiOutlineLink, AiFillLike } from "react-icons/ai";
 import { BsBookmarkCheck, BsBookmarkCheckFill } from "react-icons/bs";
 import { usetoken } from "../../../shared/cookies";
+import { SubmitBtn } from "../../../components/Buttons";
 
 function ExhibitionDetail() {
   const { id } = useParams();
   const navigator = useNavigate();
   const { decodetoken } = usetoken();
   const userEmail = decodetoken?.email;
+  const reviewRef = useRef(null);
   const [data, isLoading, isError] = useDetailGetExibition(id);
   const info = data?.exhibitionInfo;
   if (isLoading) {
@@ -75,19 +77,28 @@ function ExhibitionDetail() {
                   <ArtLinkBtn>Artgram</ArtLinkBtn>
                 </ExBtn>
               </EXButtons>
+              <SubmitBtns>
+                {info.userEmail === userEmail ? (
+                  <SubmitBtn
+                    onClick={() =>
+                      navigator(`/exhibition/update/${info.exhibitionId}`)
+                    }
+                  >
+                    수정하기
+                  </SubmitBtn>
+                ) : (
+                  <SubmitBtn onClick={() => reviewRef.current.focus()}>
+                    후기 작성
+                  </SubmitBtn>
+                )}
+                <SubmitBtn onClick={() => navigator(`/exhibition`)}>
+                  목록으로
+                </SubmitBtn>
+              </SubmitBtns>
             </Posts>
           </PostWrap>
           <ContentWrap>
             <Contents>
-              {info.userEmail === userEmail && (
-                <button
-                  onClick={() =>
-                    navigator(`/exhibition/update/${info.exhibitionId}`)
-                  }
-                >
-                  수정하기
-                </button>
-              )}
               <ExhibitionDescBOX>{info.exhibitionDesc}</ExhibitionDescBOX>
               <ExhibitioninfoP>전시 정보</ExhibitioninfoP>
               <ExhibitionInfoWrap>
@@ -188,7 +199,7 @@ function ExhibitionDetail() {
                 ))}
               </ThumbsContainer>
               <ExhibitioninfoP>후기작성</ExhibitioninfoP>
-              <ExhibitionReviewForm exhibitionID={id} />
+              <ExhibitionReviewForm reviewRef={reviewRef} exhibitionID={id} />
               <ExhibitionReview exhibitionID={id} />
             </Contents>
           </ContentWrap>
@@ -199,6 +210,15 @@ function ExhibitionDetail() {
 }
 
 export default ExhibitionDetail;
+//!중복
+const SubmitBtns = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
+  padding: 36px 0px;
+`;
+
 const OnOffTitle = styled.div`
   color: #ffffff;
   padding-left: 16px;

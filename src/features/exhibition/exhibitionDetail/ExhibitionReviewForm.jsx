@@ -6,7 +6,7 @@ import sparkle from "../../../assets/imgs/exhibition/sparkle.png";
 import sparkle_full_gradient from "../../../assets/imgs/exhibition/sparkle_full_gradient.png";
 import { PostEXReview, ReviewHashTag, ReviewRating } from "./PostEXReview";
 
-function ExhibitionReviewForm({ exhibitionID }) {
+function ExhibitionReviewForm({ exhibitionID, reviewRef }) {
   const maxlength = 100;
   //쿼리
   const [createExhibition] = usePostReview(exhibitionID);
@@ -52,6 +52,7 @@ function ExhibitionReviewForm({ exhibitionID }) {
       </ReviewCount>
       <ReviewInputBox>
         <InputReview
+          ref={reviewRef}
           type="textarea"
           placeholder="리뷰 입력"
           onChange={reviewHandler}

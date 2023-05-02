@@ -253,7 +253,7 @@ export const EXFormContents = ({
         </Flex>
       </EXFormBox>
       <EXFormBox>
-        <UpDateButtons>
+        <SubmitBtns>
           {Detaildata ? (
             <>
               <SubmitBtn type={"submit"}>전시수정하기</SubmitBtn>
@@ -264,12 +264,12 @@ export const EXFormContents = ({
           ) : (
             <SubmitBtn type={"submit"}>전시등록하기</SubmitBtn>
           )}
-        </UpDateButtons>
+        </SubmitBtns>
       </EXFormBox>
     </EXContents.ContentsWrap>
   );
 };
-const UpDateButtons = styled.div`
+const SubmitBtns = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
