@@ -6,7 +6,8 @@ export const headerStatedefalut = atom({
     home:false,
     exhibition:false,
     artgram:false,
-    mypages:false}
+    mypages:false,
+    message:false}
 });
 
 export const headerStateSearch = atom({
@@ -15,5 +16,6 @@ export const headerStateSearch = atom({
     home:false,
     exhibition:false,
     artgram:false,
-    mypages:false}
+    mypages:false,
+    message:false}
 });

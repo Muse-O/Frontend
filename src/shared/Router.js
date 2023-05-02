@@ -11,6 +11,7 @@ import Exhibition from "../pages/Exhibition";
 import MyPage from "../pages/MyPage";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
+import ChatRoom from "../pages/ChatRoom";
 import UpdateExhibition from "../pages/UpdateExhibition";
 import UnifiedSearch from "../pages/UnifiedSearch";
 import UnifiedSearchArt from "../pages/UnifiedSearchArt";
@@ -87,6 +88,12 @@ function Router() {
       element: <MyPage />,
       isPublic: false,
       isLogin: true,
+    },
+    {
+      pathname: "/message",
+      element: <ChatRoom />,
+      isPublic: false,
+      isLogin: true
     },
     {
       pathname: "/register",
