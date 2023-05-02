@@ -31,7 +31,7 @@ function OpenSearchWindow({searchWindow, setSearchWindow}) {
       
     <Headers.NavSearchListTop10>
       <h2>인기검색어</h2>
-      {loadingRank ||  errorRank
+      {loadingRank || errorRank
         ? <div>로딩 중...</div>
         : rank && rank.map((lists, index)=> (
           <div className="searchList" key={index} onClick={()=>searchwordRankHandle(lists.keyWord)}>
@@ -42,8 +42,10 @@ function OpenSearchWindow({searchWindow, setSearchWindow}) {
     </Headers.NavSearchListTop10>
     <Headers.NavSearchListRecently>
       <h2>최근검색어</h2>
-      {loadingRecent ||  errorRecent
+      {loadingRecent
         ? <div>로딩 중...</div>
+        : errorRecent
+        ? <div>표시할 데이터가 없습니다...</div>
         : recent && recent.map((lists, index)=> (
           <div className='searchList' key={index} children={lists.keyWord} onClick={()=>searchwordRecentHandle(lists.keyWord)}/>))}
     </Headers.NavSearchListRecently>

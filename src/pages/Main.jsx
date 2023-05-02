@@ -9,10 +9,12 @@ import MainFourth from "../features/main/MainFourth";
 import MainFifith from "../features/main/MainFifith";
 import TopButton from "../components/TopButton";
 import { useRecoilState } from "recoil";
-import { headerStatedefalut } from "../components/headerStore";
+import { headerStateSearch, headerStatedefalut } from "../components/headerStore";
+import { useAsyncValue } from "react-router-dom";
 
 function Main() {
-  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut);
+  const [, setHeaderState] = useRecoilState(headerStatedefalut);
+  const headerState = useAsyncValue(headerStateSearch)
   useEffect(() => {
     setHeaderState({ ...headerState, home: true });
   }, []);

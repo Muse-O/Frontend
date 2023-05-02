@@ -13,7 +13,7 @@ export const useAsNavForSliderMainFirst = () => {
    setInterval(()=> {
     setMainSlider(mainSliderRef.current);
     setSudSilder(subSliderRef.current);
-   }, 9000)
+   }, 500)
   }, [subSliderRef]);
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(1);
