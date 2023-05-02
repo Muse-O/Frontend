@@ -28,6 +28,8 @@ function MainFourth() {
         <Main.FourthImg src={imgState} alt="예정전시 이미지" />
         {isLoading || isError 
           ? <div>로딩 중... </div> 
+          : data.length === 0 
+          ? <div style={{marginTop:"66px"}}>데이터가 없습니다...</div>
           : (<Main.FouthInfoWrap>
             {data && data.map(exhibition => (
                 <Main.FourthInfo key={exhibition.exhibitionId} onMouseOver={()=>setImgState(exhibition.postImage)}>

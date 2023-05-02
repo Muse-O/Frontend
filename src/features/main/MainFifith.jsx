@@ -34,16 +34,18 @@ function MainFifith() {
       </Main.ArticleTitle>
       { isLoading || isError
         ? <div style={{marginTop:"66px"}}>로딩 중...</div>
+        : data.length === 0 
+        ? <div style={{marginTop:"66px"}}>데이터가 없습니다...</div>
         : 
         <Main.FifthWrapGrid>
         <Main.MainSlider>
           <Slider {...mainSliderSettings}>
-            {data && data?.map(artgram => (
-              <Main.MainSliderWrap key={artgram?.artgramId} onMouseOver={()=>setModalArtgramId(artgram?.artgramId)} onClick={() =>openModalhandle(artgram?.artgramId)}>
-                <Main.MainSliderImg children={<img className="artgramimg" src={artgram?.imgUrl}/>}/>
+            {data && data.map(artgram => (
+              <Main.MainSliderWrap key={artgram?.artgramId} onMouseOver={()=>setModalArtgramId(artgram.artgramId)} onClick={() =>openModalhandle(artgram?.artgramId)}>
+                <Main.MainSliderImg children={<img className="artgramimg" src={artgram.imgUrl}/>}/>
                 <Main.MainSliderProfile>
-                  <Main.MainSliderProfileImg src={artgram?.authorProfileImg} alt="authorProfileImg"/>
-                  <Main.MainSliderProfileNickName children={<>by <span>{artgram?.authorNickName}</span></>} />
+                  <Main.MainSliderProfileImg src={artgram.authorProfileImg} alt="authorProfileImg"/>
+                  <Main.MainSliderProfileNickName children={<>by <span>{artgram.authorNickName}</span></>} />
                 </Main.MainSliderProfile>
               </Main.MainSliderWrap>
             ))}
@@ -52,12 +54,12 @@ function MainFifith() {
         <Main.SubSlider>
           <Slider {...subSliderSettings}>
             {editLists && editLists?.map(artgram => (
-                <Main.SubSliderLayout key={artgram?.artgramId} onMouseOver={()=>setModalArtgramId(artgram?.artgramId)} onClick={() =>openModalhandle(artgram?.artgramId)}>
+                <Main.SubSliderLayout key={artgram?.artgramId} onMouseOver={()=>setModalArtgramId(artgram.artgramId)} onClick={() =>openModalhandle(artgram.artgramId)}>
                   <Main.SubSliderWrap>
-                    <Main.SubSliderImg children={<img className="artgramimg" src={artgram?.imgUrl}/>}/>
+                    <Main.SubSliderImg children={<img className="artgramimg" src={artgram.imgUrl}/>}/>
                     <Main.SubSliderProfile>
-                      <Main.MainSliderProfileImg src={artgram?.authorProfileImg} alt="authorProfileImg"/>
-                      <Main.MainSliderProfileNickName children={<>by <span>{artgram?.authorNickName}</span></>} />
+                      <Main.MainSliderProfileImg src={artgram.authorProfileImg} alt="authorProfileImg"/>
+                      <Main.MainSliderProfileNickName children={<>by <span>{artgram.authorNickName}</span></>} />
                     </Main.SubSliderProfile>
                   </Main.SubSliderWrap>
               </Main.SubSliderLayout>

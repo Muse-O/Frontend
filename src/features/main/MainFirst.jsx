@@ -20,8 +20,7 @@ function MainFirst() {
     const editshiftitem = editList.shift();
     editList.push(editshiftitem);
     editLists = editList;
-  }
-
+    }
   return (
     <Main.CommenLayout height="709" media1440="528">
       <Main.ArticleTitle>
@@ -29,6 +28,8 @@ function MainFirst() {
       </Main.ArticleTitle>
       { isLoading || isError
         ? <div style={{marginTop:"66px"}}>로딩 중...</div>
+        : data.length === 0 
+        ? <div style={{marginTop:"66px"}}>데이터가 없습니다...</div>
         : (<Main.FirstWrapGrid>
             <Main.FirstMainSlider>
             <Slider {...firstSliderSettings}>
@@ -37,9 +38,9 @@ function MainFirst() {
                   <Main.FirstMainSliderTitle children={(
                     <>
                     <div className="titleNum"
-                      children={personalEx.index < 9
-                        ? `0${personalEx.index}.`
-                        : `${personalEx.index}.`}/>
+                      children={personalEx?.index < 9
+                        ? `0${personalEx?.index}.`
+                        : `${personalEx?.index}.`}/>
                     <div className="title" children={personalEx.exhibitionTitle}/>
                   </>
                   )}/>
@@ -59,7 +60,7 @@ function MainFirst() {
                     <Main.FirstMainSliderInfoText children={<>
                       <p className="title" children="작가"/>
                       <p className="content" 
-                          children={personalEx.author.length === 1 
+                          children={personalEx?.author.length === 1 
                               ? personalEx.author.map(author => `${author}`)
                               : personalEx.author.length < 5 
                               ? personalEx.author.map((author, index) => personalEx.author.length === index+1 ? `${author}` : `${author}, ` )
@@ -75,14 +76,14 @@ function MainFirst() {
               <Slider {...secondSliderSettings}>
               {editLists && editLists.map(personalEx => (
                 <Main.FirstSubSliderWrap 
-                  key={personalEx.exhibitionId} 
+                  key={personalEx?.exhibitionId} 
                   children={<Main.FirstSubSliderImg src={personalEx.postImage} alt="개인전 이미지"/>}/>))}
               </Slider>}
             />
           </Main.FirstWrapGrid>)}
           <Main.FirstSliderIndex children={currentSlideIndex < 10 
-            ? <>0{currentSlideIndex}&nbsp;<span>/ 0{editLists?.length}</span></> 
-            : <>{currentSlideIndex}&nbsp;<span>/ {editLists?.length}</span></>}/>
+            ? <>0{currentSlideIndex}&nbsp;<span>/ 0{editLists.length}</span></> 
+            : <>{currentSlideIndex}&nbsp;<span>/ {editLists.length}</span></>}/>
     </Main.CommenLayout>
   );
 }

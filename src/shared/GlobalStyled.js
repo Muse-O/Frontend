@@ -458,14 +458,17 @@ const TopButtun = styled.div`
 `
 
 const NavSearchMsg = styled.div`
-  position: relative;
+  position: absolute;
   width: 600px;
-  bottom: 40px;
+  height: fit-content;
+  margin-left: 80px;
   font-size: 16px;
   color: #fff;
+  top: 798px;
   @media (max-width: 1440px) {
     width: 450px;
-    bottom: 30px;
+    top: 598.5px;
+    margin-left: 60px;
     font-size: 12px;
   }
 `
@@ -474,7 +477,7 @@ const AlertWindow = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: ${(props) => (props.state ? "block" : "none")};
+  display: ${(props) => (props.state ? "none" : "none")};
   width: 300px;
   height: 100px;
   background-color: yellow;
