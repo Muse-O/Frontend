@@ -8,7 +8,6 @@ dayjs.locale("ko");
 export const useCalender = (whenVisible, setInputValue) => {
   const currentday = dayjs().format("YYYY-MM");
   const [today, setToday] = useState(dayjs());
-  console.log("today", today);
   //준비중
   // const [todayStore, setTodayStore] = useRecoilState(EXSelectWhentore);
   // console.log("todayStore", todayStore);
