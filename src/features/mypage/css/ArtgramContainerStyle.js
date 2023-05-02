@@ -221,6 +221,7 @@ const StImgBox = styled.div`
 `;
 
 const StImgWrap = styled.div`
+  position: relative;
   background-color: #eeeeee;
   width: 313px;
   height: 315px;
@@ -235,14 +236,14 @@ const StImgWrap = styled.div`
 `;
 
 const StImg = styled.img`
-  max-width: 313px;
-  max-height: 315px;
-  background: #2c2c2c;
-
-  @media (max-width: 1440px) {
-    max-width: 234.75px;
-    max-height: 236.25px;
-  }
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
 `;
 
 export {
