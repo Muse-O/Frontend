@@ -105,7 +105,7 @@ function Header() {
           <Headers.NavLists
               id="survey"
               onClick={() => {
-                window.location = 'https://forms.gle/8gK8e6dUuBABxeb9A';
+                window.open('https://forms.gle/8gK8e6dUuBABxeb9A', '_blank');
               }}>
               <Headers.Navgateimg src={gift} alt={`${gift}`}/>
               <Headers.NavgatePath children="유저피드백"/>
