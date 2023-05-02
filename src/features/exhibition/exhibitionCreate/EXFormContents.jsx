@@ -3,7 +3,11 @@ import SelectEX from "./SelectEX";
 import * as EXContents from "../css/exhibitionCreateCss/EXFormContentsCss";
 import { Flex } from "../../../components/Flex";
 import { ExCategoryCode, ExHostCode } from "../../../shared/EXCodes";
+import styled from "styled-components";
+import { SubmitBtn } from "../../../components/Buttons";
 export const EXFormContents = ({
+  Detaildata,
+  deleteHandler,
   files,
   onchangeHandler,
   exhibition,
@@ -248,6 +252,27 @@ export const EXFormContents = ({
           )}
         </Flex>
       </EXFormBox>
+      <EXFormBox>
+        <UpDateButtons>
+          {Detaildata ? (
+            <>
+              <SubmitBtn type={"submit"}>전시수정하기</SubmitBtn>
+              <SubmitBtn type={"button"} onClick={deleteHandler}>
+                전시삭제하기
+              </SubmitBtn>
+            </>
+          ) : (
+            <SubmitBtn type={"submit"}>전시등록하기</SubmitBtn>
+          )}
+        </UpDateButtons>
+      </EXFormBox>
     </EXContents.ContentsWrap>
   );
 };
+const UpDateButtons = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 24px;
+  padding: 36px 0px;
+`;
