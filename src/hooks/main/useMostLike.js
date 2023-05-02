@@ -6,7 +6,7 @@ export const useMostLike = () => {
   const  {isLoading, isError, data} = useQuery({
     queryKey: keys.GET_MAINMOSTLIKE,
     queryFn: async () => {
-      const response = await apis.get('/banner/getOpenExhibitionsSortedByMostLike?reqCnt=6')
+      const response = await apis.get('/banner/getOpenExhibitionsSortedByMostLike?reqCnt=10')
       return response.data.exhibitionList
     },
     refetchOnWindowFocus: false,
