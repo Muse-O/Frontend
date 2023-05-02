@@ -33,7 +33,6 @@ function ExhibitionDetail() {
   if (isLoading) {
     return <div>로딩중</div>;
   }
-  console.log(info.reviewStatus[0].reviewAvgRating);
   return (
     <Flex>
       {info && (
@@ -44,7 +43,17 @@ function ExhibitionDetail() {
                 {info.startDate.slice(0, 10).replace(/-/g, ".")}-
                 {info.endDate.slice(0, 10).replace(/-/g, ".")}
               </DateP>
-              <OnOffTitle>{info.exhibitionKindName}</OnOffTitle>
+              {/* //TODO 이부분 LIST컴포넌트랑 겹침 */}
+              <EXstatusTitle>{info.exhibitionKindName}</EXstatusTitle>
+              <EXstatusTitle status={"info"}>
+                {info.exhibitionStatus === "전시 진행"
+                  ? "Now On View"
+                  : info.exhibitionStatus === "전시 예정"
+                  ? "Coming Soon"
+                  : info.exhibitionStatus === "전시 종료"
+                  ? "Exhibition is over"
+                  : ""}
+              </EXstatusTitle>
             </Date>
             <Title>
               <TitleH1>{info.exhibitionTitle}</TitleH1>
@@ -123,12 +132,12 @@ function ExhibitionDetail() {
                   </InfoBox>
                 </ExhibitionInfo>
                 <ExhibitionInfo>
-                  <InfoTitle>분류</InfoTitle>
+                  <InfoTitle>카테고리</InfoTitle>
                   <InfoBox>
                     {info.ExhibitionCategories?.map((theme) => {
                       return (
-                        <div key={theme.exhibition_code}>
-                          {theme.exhibition_code}
+                        <div key={theme.categoryCode}>
+                          <span> {theme.categoryName}</span>
                         </div>
                       );
                     })}
@@ -152,42 +161,42 @@ function ExhibitionDetail() {
                     <span>{info.artWorkCnt}정</span>
                   </InfoBox>
                 </ExhibitionInfo>
+
                 <ExhibitionInfo>
-                  <InfoTitle>후원</InfoTitle>
+                  <InfoTitle>주최</InfoTitle>
                   <InfoBox>
-                    <span>{info.agencyAndSponsor}</span>
+                    <span>{info.exhibitionHostName}</span>
                   </InfoBox>
                 </ExhibitionInfo>
                 <ExhibitionInfo>
-                  <InfoTitle>기간</InfoTitle>
+                  <InfoTitle>링크</InfoTitle>
                   <InfoBox>
-                    <p>시작</p>
-                    <span>{info.startDate.slice(0, 10)}</span>
-                    <p>끝</p>
-                    <span>{info.endDate.slice(0, 10)}</span>
+                    <span>{info.exhibitionLink}</span>
                   </InfoBox>
                 </ExhibitionInfo>
+
                 <ExhibitionInfo>
                   <InfoTitle>시간</InfoTitle>
                   <InfoBox>
-                    <p>시작시간</p>
-                    <span>{info.openTime.slice(0, 5)}</span>
-                    <p>닫는시간</p>
-                    <span>{info.closeTime.slice(0, 5)}</span>
+                    <TimesWrap>
+                      <span>{info.openTime.slice(0, 5)}</span>
+                      <span>-</span>
+                      <span>{info.closeTime.slice(0, 5)}</span>
+                    </TimesWrap>
+                    <span>{info.significant}</span>
                   </InfoBox>
                 </ExhibitionInfo>
                 <ExhibitionInfo>
                   <InfoTitle>전화번호</InfoTitle>
                   <InfoBox>
-                    <p>전화번호</p>
                     <span> Tel:{info.contact}</span>
                   </InfoBox>
                 </ExhibitionInfo>
+
                 <ExhibitionInfo noneborder={true}>
-                  <InfoTitle>전시회 테마</InfoTitle>
+                  <InfoTitle>후원</InfoTitle>
                   <InfoBox>
-                    <p>전시회테마</p>
-                    <span>{info.exhibitionStatus}</span>
+                    <span>{info.agencyAndSponsor}</span>
                   </InfoBox>
                 </ExhibitionInfo>
               </ExhibitionInfoWrap>
@@ -216,6 +225,10 @@ function ExhibitionDetail() {
 }
 
 export default ExhibitionDetail;
+const TimesWrap = styled.div`
+  display: flex;
+  gap: 10px;
+`;
 const PostsBtnImg = styled.img`
   width: 23px;
   height: 23px;
@@ -236,7 +249,7 @@ const SubmitBtns = styled.div`
   padding: 36px 0px;
 `;
 
-const OnOffTitle = styled.div`
+const EXstatusTitle = styled.div`
   color: #ffffff;
   padding-left: 16px;
   margin-left: 16px;
@@ -295,12 +308,13 @@ const InfoBox = styled.div`
   color: #3c3c3c;
   display: flex;
   flex-direction: column;
+  width: 600px;
+  gap: 10px;
 `;
 const InfoTitle = styled.span`
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
-  /* padding-right: 120px; */
   width: 160px;
   box-sizing: border-box;
 `;

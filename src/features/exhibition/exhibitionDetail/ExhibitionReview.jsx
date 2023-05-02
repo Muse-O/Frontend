@@ -31,7 +31,8 @@ function ExhibitionReview({ exhibitionID }) {
           <ExhibitioninfoP>
             후기{reviewData.paginationInfo.exhibitionReviewCnt}
           </ExhibitioninfoP>
-          <div>
+          {/* //TODO 추가기능 구현 필요 */}
+          {/* <div>
             <select onChange={changeLimit} name="reviewRating" value={limit}>
               <option value="10">10</option>
               <option value="20">20</option>
@@ -40,7 +41,7 @@ function ExhibitionReview({ exhibitionID }) {
             </select>
             <button>최신순</button>
             <button>평점순</button>
-          </div>
+          </div> */}
           {reviewData?.searchExhibitionReviews.map((review, index) => {
             return (
               <>
@@ -203,9 +204,10 @@ const PageButton = styled.button`
   }
 `;
 const ReviewBox = styled.div`
+  margin-top: 10px;
   border-top: 1px solid #000000;
   min-height: 120px;
-  padding: 20px 5px;
+  padding: 10px 5px;
   display: flex;
   flex-direction: column;
   gap: 20px;

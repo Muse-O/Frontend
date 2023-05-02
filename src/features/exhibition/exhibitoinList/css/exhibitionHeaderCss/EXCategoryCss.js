@@ -14,6 +14,9 @@ const CheckBoxContainer = styled.div`
   display: flex;
   align-items: center;
   flex: 1;
+  p {
+    font-size: 16px;
+  }
 `;
 const CategoryBox = styled.div`
   display: flex;

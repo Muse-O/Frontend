@@ -21,7 +21,15 @@ export const EXListBody = ({ isLoading, isError, merged }) => {
                   item.endDate.slice(2, 10).replace(/-/g, ".")}
                 {item.address?.split(" ").slice(0, 2).join(" ")}
               </ExhibitionDate>
-              <ExSate>Now On View</ExSate>
+              <ExSate>
+                {item.exhibitionStatus === "전시 진행"
+                  ? "Now On View"
+                  : item.exhibitionStatus === "전시 예정"
+                  ? "Coming Soon"
+                  : item.exhibitionStatus === "전시 종료"
+                  ? "Exhibition is over"
+                  : ""}
+              </ExSate>
               <ExhibitionTitleWrap>
                 <Excategoryname>{item.categoryCodeName[0]}</Excategoryname>
                 <ExhibitonTitle>{item.exhibitionTitle}</ExhibitonTitle>

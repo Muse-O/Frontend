@@ -34,7 +34,6 @@ const StyledSubmitBtn = styled(StyledUnset)`
   font-size: 17px;
   width: 100%;
   border-radius: 50px;
-  /* padding: 22px 0px; */
   height: 70px;
   :hover {
     background: #242424;

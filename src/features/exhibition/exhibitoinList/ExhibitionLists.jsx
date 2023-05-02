@@ -22,7 +22,6 @@ function ExhibitionLists() {
       ? [].concat(...data?.pages[0].data.exhibitionList.rows)
       : [];
   const { ref } = useInterserctionObserver(fetchNextPage);
-
   return (
     <ExhibitionWrap>
       <EXheader />
