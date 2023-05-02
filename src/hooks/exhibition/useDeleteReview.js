@@ -13,6 +13,7 @@ export const useDeleteReview = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [keys.GET_REVIEWS] });
+      queryClient.invalidateQueries({ queryKey: keys.GET_DETAILEXHIBITION });
     },
     onError: (e) => {
       console.log("에러", e);

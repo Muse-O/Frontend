@@ -52,7 +52,6 @@ export const useSetExhibition = (
   const handleClick = () => {
     open({
       onComplete: (data) => {
-        console.log("받아온 주소", data);
         setExhibition((old) => {
           return {
             ...old,
