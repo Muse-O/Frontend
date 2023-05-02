@@ -27,22 +27,24 @@ const RegionBOX = styled.div`
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+
   cursor: pointer;
   ::-webkit-scrollbar {
     width: 5px;
-    background-color: none; /* 스크롤바의 배경색 */
+    background-color: none;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: #cccccc; /* 스크롤바의 색상 */
-    border-radius: 8px; /* 스크롤바의 둥근 모서리 반지름 */
+    background-color: #cccccc;
+    border-radius: 8px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background-color: #555555; /* 스크롤바에 호버(Hover) 시 색상 */
+    background-color: #555555;
   }
 `;
 const RegionButton = styled.button`
   height: 25px;
   padding: 8px 0px;
+
   p {
     font-style: normal;
     font-weight: 400;
@@ -66,14 +68,14 @@ const SelectRoginBox = styled.div`
   overflow-y: scroll;
   ::-webkit-scrollbar {
     width: 5px;
-    background-color: none; /* 스크롤바의 배경색 */
+    background-color: none;
   }
   ::-webkit-scrollbar-thumb {
-    background-color: #9c9c9c; /* 스크롤바의 색상 */
-    border-radius: 8px; /* 스크롤바의 둥근 모서리 반지름 */
+    background-color: #9c9c9c;
+    border-radius: 8px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background-color: #555555; /* 스크롤바에 호버(Hover) 시 색상 */
+    background-color: #555555;
   }
 `;
 
@@ -92,7 +94,7 @@ const TagButton = styled.div`
 const TagText = styled.div`
   flex-grow: 3;
   padding-left: 10px;
-  color: #fff; /* 텍스트 색상 설정 */
+  color: #ffffff;
 `;
 
 const XBox = styled.div`

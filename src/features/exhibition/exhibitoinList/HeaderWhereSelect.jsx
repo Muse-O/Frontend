@@ -120,7 +120,7 @@ export const HeaderWhereSelect = ({ setSelectedFilter }) => {
                   onClick={selectDetailRegion}
                   checked={city.sigunguChecked}
                 >
-                  {city.siGunGuName}
+                  <p>{city.siGunGuName}</p>
                 </EXWhere.RegionButton>
               ))}
             </EXWhere.RegionBOX>

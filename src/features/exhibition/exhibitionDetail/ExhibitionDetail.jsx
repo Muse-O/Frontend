@@ -95,7 +95,7 @@ function ExhibitionDetail() {
                   <InfoTitle>위치</InfoTitle>
                   <InfoBox>
                     <span>{info.ExhibitionAddress.address}</span>
-                    <div>{info.ExhibitionAddress.zonecode}</div>
+                    <span>{info.ExhibitionAddress.zonecode}</span>
                     <span>{info.location}</span>
                   </InfoBox>
                 </ExhibitionInfo>
@@ -145,32 +145,32 @@ function ExhibitionDetail() {
                   <InfoTitle>기간</InfoTitle>
                   <InfoBox>
                     <p>시작</p>
-                    {info.startDate.slice(0, 10)}
+                    <span>{info.startDate.slice(0, 10)}</span>
                     <p>끝</p>
-                    {info.endDate.slice(0, 10)}
+                    <span>{info.endDate.slice(0, 10)}</span>
                   </InfoBox>
                 </ExhibitionInfo>
                 <ExhibitionInfo>
                   <InfoTitle>시간</InfoTitle>
                   <InfoBox>
                     <p>시작시간</p>
-                    {info.openTime.slice(0, 5)}
+                    <span>{info.openTime.slice(0, 5)}</span>
                     <p>닫는시간</p>
-                    {info.closeTime.slice(0, 5)}
+                    <span>{info.closeTime.slice(0, 5)}</span>
                   </InfoBox>
                 </ExhibitionInfo>
                 <ExhibitionInfo>
                   <InfoTitle>전화번호</InfoTitle>
                   <InfoBox>
                     <p>전화번호</p>
-                    Tel:{info.contact}
+                    <span> Tel:{info.contact}</span>
                   </InfoBox>
                 </ExhibitionInfo>
-                <ExhibitionInfo>
-                  <InfoTitle>전시호 테마</InfoTitle>
+                <ExhibitionInfo noneborder={true}>
+                  <InfoTitle>전시회 테마</InfoTitle>
                   <InfoBox>
                     <p>전시회테마</p>
-                    {info.exhibitionStatus}
+                    <span>{info.exhibitionStatus}</span>
                   </InfoBox>
                 </ExhibitionInfo>
               </ExhibitionInfoWrap>
@@ -248,13 +248,14 @@ const ThumbsContainer = styled.aside`
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background-color: #244dde;
+    background: linear-gradient(180deg, #3360ff 0%, #b960ff 100%);
   }
 `;
 const InfoBox = styled.div`
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
+  span {
+    font-size: 20px;
+  }
+  color: #3c3c3c;
   display: flex;
   flex-direction: column;
 `;
@@ -269,12 +270,15 @@ const InfoTitle = styled.span`
 const ExhibitionInfo = styled.div`
   padding: 32px;
   display: flex;
+  border-bottom: ${({ noneborder }) =>
+    noneborder ? "none" : "1px dashed #5b5b5b"};
 `;
 const Icon = styled.div`
   padding: auto;
   font-size: 20px;
 `;
 const ExhibitioninfoP = styled.p`
+  color: #242424;
   font-family: "S-Core Dream";
   font-style: normal;
   font-weight: 500;
@@ -331,6 +335,7 @@ const ExhibitionDescBOX = styled.div`
   font-weight: 400;
   font-size: 16px;
   line-height: 25px;
+  color: #3c3c3c;
 `;
 const DIV = styled.div`
   background-color: aqua;
