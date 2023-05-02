@@ -4,6 +4,9 @@ import { useGetReview } from "../../../hooks/exhibition/useGetReview";
 import { usetoken } from "../../../shared/cookies";
 import { useDeleteReview } from "../../../hooks/exhibition/useDeleteReview";
 import { AiOutlineDelete } from "react-icons/ai";
+import sparkle from "../../../assets/imgs/exhibition/sparkle.png";
+import sparkle_full_gradient from "../../../assets/imgs/exhibition/sparkle_full_gradient.png";
+
 function ExhibitionReview({ exhibitionID }) {
   const { decodetoken } = usetoken();
   const userEmail = decodetoken?.email;
@@ -43,9 +46,21 @@ function ExhibitionReview({ exhibitionID }) {
               <>
                 <ReviewBox key={index}>
                   <ReviewHeader>
-                    <div>평점:{review.reviewRating}</div>
+                    <ReviewCoutner>
+                      {[1, 2, 3, 4, 5].map((index) => (
+                        <img
+                          key={index}
+                          src={
+                            index <= review.reviewRating
+                              ? sparkle_full_gradient
+                              : sparkle
+                          }
+                          alt="star"
+                        />
+                      ))}
+                    </ReviewCoutner>
                     <Center>{review.userEmail}</Center>
-                    <div>{review.createdAt.slice(0, 10)}</div>
+                    <span>{review.createdAt.slice(0, 10)}</span>
                     {review.userEmail === userEmail ? (
                       <DeleteIcon>
                         <AiOutlineDelete
@@ -56,14 +71,18 @@ function ExhibitionReview({ exhibitionID }) {
                       </DeleteIcon>
                     ) : null}
                   </ReviewHeader>
+
                   <ReviewComment>
                     <span>{review.reviewComment}</span>
                   </ReviewComment>
-                  <ReviewHashTag>
-                    {review.ExhibitionHashtags.map((hashtag, index) => {
-                      return <span key={index}>{hashtag.tagName}</span>;
-                    })}
-                  </ReviewHashTag>
+
+                  {review.ExhibitionHashtags.length !== 0 && (
+                    <ReviewHashTag>
+                      {review.ExhibitionHashtags.map((hashtag, index) => {
+                        return <span key={index}>{hashtag.tagName}</span>;
+                      })}
+                    </ReviewHashTag>
+                  )}
                 </ReviewBox>
               </>
             );
@@ -103,6 +122,12 @@ function ExhibitionReview({ exhibitionID }) {
 }
 
 export default ExhibitionReview;
+const ReviewCoutner = styled.div`
+  img {
+    width: 20px;
+    height: 20px;
+  }
+`;
 const ExhibitioninfoP = styled.p`
   font-family: "S-Core Dream";
   font-style: normal;
@@ -111,33 +136,35 @@ const ExhibitioninfoP = styled.p`
   line-height: 25px;
   margin-top: 80px;
 `;
-const DeleteIcon = styled.div`
+const DeleteIcon = styled.span`
   font-size: 15px;
+  :hover {
+    cursor: pointer;
+  }
 `;
 const ReviewHashTag = styled.div`
   margin-top: 18px;
   span {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
+    font-size: 14px;
   }
 `;
 const ReviewComment = styled.div`
   margin-top: 18px;
   span {
-    font-style: normal;
-    font-weight: 400;
-    font-size: 20px;
+    font-size: 16px;
   }
 `;
-const Center = styled.div`
-  padding: 0px 5px;
+const Center = styled.span`
+  padding: 0px 12px;
   border-left: 1px solid #000;
   border-right: 1px solid #000;
 `;
 const ReviewHeader = styled.div`
   gap: 10px;
   display: flex;
+  span {
+    font-size: 12px;
+  }
 `;
 
 const PageButton = styled.button`
@@ -170,7 +197,13 @@ const PageButton = styled.button`
 const ReviewBox = styled.div`
   border-top: 1px solid #000000;
   min-height: 120px;
-  padding: 5px;
+  padding: 20px 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  span {
+    color: #5a5a5a;
+  }
 `;
 
 const Buttons = styled.div`
