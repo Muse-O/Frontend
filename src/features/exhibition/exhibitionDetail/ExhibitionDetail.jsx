@@ -121,20 +121,24 @@ function ExhibitionDetail() {
               <ExhibitionDescBOX>{info.exhibitionDesc}</ExhibitionDescBOX>
               <ExhibitioninfoP>전시 정보</ExhibitioninfoP>
               <ExhibitionInfoWrap>
-                <ExhibitionInfo>
-                  <InfoTitle>위치</InfoTitle>
-                  <InfoBox>
-                    <span>{info.ExhibitionAddress.address}</span>
-                    <span>{info.ExhibitionAddress.zonecode}</span>
-                    <span>{info.location}</span>
-                  </InfoBox>
-                </ExhibitionInfo>
-                <ExhibitionInfo>
-                  <InfoTitle>입장료</InfoTitle>
-                  <InfoBox>
-                    <span>{info.entranceFee}</span>
-                  </InfoBox>
-                </ExhibitionInfo>
+                {info.location && (
+                  <ExhibitionInfo>
+                    <InfoTitle>위치</InfoTitle>
+                    <InfoBox>
+                      <span>{info.ExhibitionAddress.address}</span>
+                      <span>{info.ExhibitionAddress.zonecode}</span>
+                      <span>{info.location}</span>
+                    </InfoBox>
+                  </ExhibitionInfo>
+                )}
+                {info.exhibitionKind === "EK0001" && (
+                  <ExhibitionInfo>
+                    <InfoTitle>입장료</InfoTitle>
+                    <InfoBox>
+                      <span>{info.entranceFee}</span>
+                    </InfoBox>
+                  </ExhibitionInfo>
+                )}
                 <ExhibitionInfo>
                   <InfoTitle>카테고리</InfoTitle>
                   <InfoBox>
@@ -169,17 +173,19 @@ function ExhibitionDetail() {
                     </InfoBox>
                   </ExhibitionInfo>
                 )}
-                <ExhibitionInfo>
-                  <InfoTitle>시간</InfoTitle>
-                  <InfoBox>
-                    <TimesWrap>
-                      <span>{info.openTime.slice(0, 5)}</span>
-                      <span>-</span>
-                      <span>{info.closeTime.slice(0, 5)}</span>
-                    </TimesWrap>
-                    <span>{info.significant}</span>
-                  </InfoBox>
-                </ExhibitionInfo>
+                {info.exhibitionKind === "EK0001" && (
+                  <ExhibitionInfo>
+                    <InfoTitle>시간</InfoTitle>
+                    <InfoBox>
+                      <TimesWrap>
+                        <span>{info.openTime.slice(0, 5)}</span>
+                        <span>-</span>
+                        <span>{info.closeTime.slice(0, 5)}</span>
+                      </TimesWrap>
+                      <span>{info.significant}</span>
+                    </InfoBox>
+                  </ExhibitionInfo>
+                )}
                 {info.contact && (
                   <ExhibitionInfo>
                     <InfoTitle>전화번호</InfoTitle>

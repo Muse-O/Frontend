@@ -14,6 +14,7 @@ export const usePostReview = (id) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [keys.GET_REVIEWS] });
+      queryClient.invalidateQueries({ queryKey: keys.GET_DETAILEXHIBITION });
     },
   });
   return [createReview];
