@@ -13,6 +13,13 @@ const StUserProfileModal = styled.div`
   z-index: 10201;
   top: 15%;
   left: 35%;
+
+  @media (max-width: 1440px) {
+    width: 562.5px;
+    height: 498.75px;
+    top: 11.25%;
+    left: 35%;
+  }
 `;
 
 const StCloseBtn = styled.div`
@@ -23,9 +30,19 @@ const StCloseBtn = styled.div`
   align-items: center;
   cursor: pointer;
 
+  @media (max-width: 1440px) {
+    width: 525px;
+    height: 51px;
+  }
+
   img {
     width: 30px;
     height: 30px;
+
+    @media (max-width: 1440px) {
+      width: 22.5px;
+      height: 22.5px;
+    }
   }
 `;
 
@@ -34,6 +51,13 @@ const StImgContainer = styled.div`
   height: 150px;
   padding-left: 68px;
   margin-bottom: 48px;
+
+  @media (max-width: 1440px) {
+    width: 562.5px;
+    height: 112.5px;
+    padding-left: 51px;
+    margin-bottom: 36px;
+  }
 `;
 
 const StImgBox = styled.div`
@@ -43,6 +67,13 @@ const StImgBox = styled.div`
   align-items: center;
   gap: 30px;
   margin-bottom: 20px;
+
+  @media (max-width: 1440px) {
+    width: 427.5px;
+    height: 112.5px;
+    gap: 22.5px;
+    margin-bottom: 15px;
+  }
 `;
 
 const StInput = styled.input`
@@ -53,12 +84,21 @@ const ProfileImg = styled.img`
   width: 150px;
   height: 150px;
   border-radius: 50%;
+
+  @media (max-width: 1440px) {
+    width: 112.5px;
+    height: 112.5px;
+  }
 `;
 
 const StImgEditWrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+
+  @media (max-width: 1440px) {
+    gap: 7.5px;
+  }
 `;
 
 const UpdateIcon = styled.button`
@@ -75,13 +115,29 @@ const UpdateIcon = styled.button`
   font-size: 12px;
   cursor: pointer;
 
+  @media (max-width: 1440px) {
+    width: 115.5px;
+    height: 33px;
+    gap: 6px;
+    font-size: 9px;
+  }
+
   div {
     font-size: 12px;
+
+    @media (max-width: 1440px) {
+      font-size: 9px;
+    }
   }
 
   img {
     width: 12px;
     height: 12px;
+
+    @media (max-width: 1440px) {
+      width: 9px;
+      height: 9px;
+    }
   }
 `;
 
@@ -91,6 +147,11 @@ const StTextBox = styled.div`
   height: 250px;
   display: flex;
   justify-content: space-around;
+
+  @media (max-width: 1440px) {
+    width: 407.25px;
+    height: 187.5px;
+  }
 `;
 
 const StEditInputNameWrap = styled.div`
@@ -102,10 +163,22 @@ const StEditInputNameWrap = styled.div`
   gap: 60px;
   /* margin-right: 61px; */
 
+  @media (max-width: 1440px) {
+    width: 40.5px;
+    height: 75px;
+    padding: 9.75px 0px;
+    gap: 45px;
+  }
+
   div {
     width: 70px;
     font-size: 17px;
     font-weight: bold;
+
+    @media (max-width: 1440px) {
+      width: 52.5px;
+      font-size: 12.75px;
+    }
   }
 `;
 
@@ -116,6 +189,12 @@ const StEditInputWrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+
+  @media (max-width: 1440px) {
+    width: 285px;
+    height: 172.5px;
+    gap: 3.75px;
+  }
 `;
 
 const NameInput = styled.input`
@@ -127,6 +206,13 @@ const NameInput = styled.input`
   padding: 10px;
   font-size: 16px;
   outline: none;
+
+  @media (max-width: 1440px) {
+    width: 321px;
+    height: 30.75px;
+    padding: 7.5px;
+    font-size: 12px;
+  }
 `;
 
 const IntroInput = styled.textarea`
@@ -143,6 +229,15 @@ const IntroInput = styled.textarea`
   white-space: pre-line;
   resize: none;
   outline: none;
+
+  @media (max-width: 1440px) {
+    width: 304.5px;
+    height: 123px;
+    margin-top: 15px;
+    padding: 7.5px;
+    font-size: 12px;
+    line-height: 18.75px;
+  }
 `;
 
 const StUpdateBtn = styled.div`
@@ -156,6 +251,13 @@ const StUpdateBtn = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 35px;
+
+  @media (max-width: 1440px) {
+    width: 178.5px;
+    height: 37.5px;
+    font-size: 12px;
+    margin-top: 26.25px;
+  }
 `;
 
 export {
