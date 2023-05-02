@@ -15,9 +15,9 @@ import { decodeUserRole } from "../../login/loginTokenStore";
 import { useNavigate } from "react-router-dom";
 // import { BsBookmarkFill, BsFillHeartFill } from "react-icons/bs";
 
-function ArtgramDetailCommentWrite({artgramId, detailData}) {
-  const { patchScrap } = useScrap(); // 스크랩관련 비동기통신 PATCH
-  const { patchLikes } = useLikes(); // 좋아요관련 비동기통신 PATCH
+function ArtgramDetailCommentWrite({artgramId, detailData,searchWord}) {
+  const { patchScrap } = useScrap(searchWord); // 스크랩관련 비동기통신 PATCH
+  const { patchLikes } = useLikes(searchWord); // 좋아요관련 비동기통신 PATCH
   const navigate = useNavigate()
   const [formState, setFormState, handleInputChange] = useFormInput(); // 커스컴훅-Form태그 관련 
   const [commentHandle] = usePostcomments(setFormState); // 아트그램상세, 댓글입력 비동기통신 POST

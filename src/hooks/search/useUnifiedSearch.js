@@ -5,10 +5,12 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { apis } from "../../api/apis";
 import { useEffect } from "react";
 import { headerStateSearch, headerStatedefalut } from "../../components/headerStore";
+import { cookies } from "../../shared/cookies";
 
 export const useUnifiedSearch = () => {
   const searchWord = useRecoilValue(searchWordState);
   const queryClient = useQueryClient();
+  
   const [, setData] = useRecoilState(searchDataState);
   const headerStateSearchs = useRecoilValue(headerStateSearch)
   const [, setHeaderState] = useRecoilState(headerStatedefalut)
@@ -24,10 +26,11 @@ export const useUnifiedSearch = () => {
   const { isLoading, isError } = useQuery({
     queryKey: [keys.GET_UNIFIEDSEARCH, searchWord],
     queryFn: async () => {
+      const token = cookies.get("access_token")
       // console.log(`/search?searchText=${searchWord}`);
       const response = await apis.get(`/search?searchText=${searchWord}`, {
         headers: {
-          Authorization: `Bearer`,
+          Authorization: `Bearer ${token}`,
         },
       });
       return response.data.search;

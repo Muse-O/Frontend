@@ -3,7 +3,7 @@ import { apis } from "../../api/apis"
 import { cookies } from "../../shared/cookies"
 import { keys } from "../../shared/queryKeys"
 
-export const useLikes = () => {
+export const useLikes = (searchWord) => {
   const queryClient = useQueryClient()
   const { mutate : patchLikes } = useMutation({
     mutationFn : async (artgramId) => {
@@ -16,6 +16,7 @@ export const useLikes = () => {
       return reponse
     },
     onSuccess: () => {
+      queryClient.invalidateQueries([keys.GET_UNIFIEDSEARCH, searchWord]);
       queryClient.invalidateQueries(keys.GET_ARTGRAMDETAIL);
       queryClient.invalidateQueries(keys.GET_ARTGRAM);
     },

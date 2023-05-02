@@ -7,7 +7,7 @@ import * as Artgramparts from '../features/artgram/css/ArtgramCss'
 // import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
 import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
 import { useRecoilValue } from 'recoil'
-import { searchDataArtState, searchDataExState, searchDataUserState } from '../hooks/search/seartStore'
+import { searchDataArtState, searchDataExState, searchDataUserState, searchWordState } from '../hooks/search/seartStore'
 import TopButton from '../components/TopButton'
 import { useEditTime } from '../hooks/main/useEditTime'
 import ArtgramBox from '../features/artgram/ArtgramBox'
@@ -18,10 +18,12 @@ function UnifiedSearch() {
   const navigate = useNavigate()
   const {editTimehandle} = useEditTime()
   const { isLoading, isError } = useUnifiedSearch();
+  const searchWord = useRecoilValue(searchWordState);
   const searchDataEx = useRecoilValue(searchDataExState)
   const searchDataArt = useRecoilValue(searchDataArtState)
   const searchDataUser = useRecoilValue(searchDataUserState)
   const {postSearchWord} = usePostSearchWord()
+  // console.log(cookies.get("access_token"));
   // console.log("searchDataEx", searchDataEx);
   // console.log("searchDataArt", searchDataArt);
   // console.log("searchDataUser", searchDataUser);
@@ -74,7 +76,7 @@ function UnifiedSearch() {
           {searchDataArt && searchDataArt?.length === 0
             ? <US.SearchBoxNoone children="검색된 결과가 없습니다."/>
             : <Artgramparts.Wrap>
-              {searchDataArt.map(artgrams => (<ArtgramBox key={artgrams.artgramId} info={artgrams} postSearchWords={{type:artgrams.type, title:artgrams.artgramTitle}}/>))}
+              {searchDataArt.map(artgrams => (<ArtgramBox key={artgrams.artgramId} info={artgrams} searchWord={searchWord} postSearchWords={{type:artgrams.type, title:artgrams.artgramTitle}}/>))}
               </Artgramparts.Wrap>}
           <US.H2 children={(<>회원검색<span>{searchDataUser && searchDataUser?.length === 0 ? null : searchDataUser.length}</span></>)}/>
           {searchDataUser && searchDataUser?.length === 0

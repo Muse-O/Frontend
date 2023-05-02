@@ -11,7 +11,7 @@ import ArtgramDetailContent from "./ArtgramDetailContent";
 import ArtgramDetailComments from "./ArtgramDetailComments";
 import ArtgramDetailCommentWrite from "./ArtgramDetailCommentWrite";
 // ArtgarmDetailModal 컴포넌트 -----------------------------------------------------------------------------/
-function ArtgarmDetailModal({ artgramId, modalState, openModalhandle }) {
+function ArtgarmDetailModal({ artgramId, modalState, openModalhandle,searchWord }) {
   const [detailIsLoading, detailIsError, detailData] = useGetartgramDetail(artgramId); // 아트그램상세정보 비동기통신 GET
   return (
     <>
@@ -41,7 +41,7 @@ function ArtgarmDetailModal({ artgramId, modalState, openModalhandle }) {
             <DetailModal.ModalContent>
               <ArtgramDetailContent detailData={detailData}/>
               <ArtgramDetailComments artgramId={artgramId}/>
-              <ArtgramDetailCommentWrite artgramId={artgramId} detailData={detailData}/>
+              <ArtgramDetailCommentWrite artgramId={artgramId} detailData={detailData} searchWord={searchWord}/>
             </DetailModal.ModalContent>
           </>
         )}
