@@ -7,7 +7,7 @@ import * as Headers from "../shared/GlobalStyled";
 import MobileHeaer from "./MobileHeaer";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { searchWordState } from "../hooks/search/seartStore";
-import { headerStatedefalut } from "./headerStore";
+import { headerStateSearch, headerStatedefalut } from "./headerStore";
 
 // Header 아이콘 ----------------------------------------------------------------------------------------/
 import logo from '../assets/imgs/museoLogo/logo.png'
@@ -21,7 +21,9 @@ import user_gradient from '../assets/imgs/header/user_gradient.png'
 import user_gray from '../assets/imgs/header/user_gray.png'
 import chat_gradient from '../assets/imgs/header/chat_gradient.png'
 import chat_gray from '../assets/imgs/header/chat_gray.png'
+import profileimage1 from '../assets/imgs/login/profileimage1.png'
 import OpenSearchWindow from "../features/unfiedSearch/OpenSearchWindow";
+import palette_gradient from '../assets/imgs/mypage/palette_gradient.png'
 import { decodeAccessToken, decodeNickname, decodeProfileImg, decodeUserRole } from "../features/login/loginTokenStore";
 
 function Header() {
@@ -33,6 +35,7 @@ function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(accessToken); 
   const navigate = useNavigate();
   const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
+  const headerStateFalse = useRecoilValue(headerStateSearch)
   const [,setSearchWord] = useRecoilState(searchWordState)
   const [inputValue, setInputValue] = useState("")
   const [searchWindow, setSearchWindow] = useState(false)
@@ -69,10 +72,11 @@ function Header() {
     <>
     <Headers.Headerwrap>
         <MobileHeaer/>
-        <Headers.Logo children={<img src={logo} alt="logo"/>}/>
+        <Headers.Logo onClick={()=>navigate('/')} children={<img src={logo} alt="logo"/>}/>
         <Headers.LoginState>
-          <Headers.LoginStateImg children={profileImg ? <img src={profileImg} alt={profileImg}/> : null}/>
+          <Headers.LoginStateImg children={profileImg ? <img src={profileImg} alt={profileImg}/> : <img src={profileimage1} alt="비로그인시, 프로필이미지"/>}/>
           <Headers.LoginStateNickname children={nickname || "로그인 해주세요."}/>
+          {userRole === "UR02" && <Headers.LoginStateAuthor src={palette_gradient} alt="작가권한"/>}
         </Headers.LoginState>
         <Headers.Nav>
           <Headers.NavSearch as="form" 
@@ -89,12 +93,7 @@ function Header() {
               state={state}
               id={id}
               onClick={(e) => {
-                setHeaderState({...headerState, 
-                  home:false, 
-                  exhibition:false,
-                  exhibitionecreate:false,
-                  artgram:false,
-                  mypages:false,
+                setHeaderState({...headerStateFalse, 
                   [id]:true})
                 navigate(`${navigation}`)
               }}>
@@ -112,11 +111,13 @@ function Header() {
                 onClick={() => {navigate("/login")}}
                 children="로그인"/>
           </>)
-        : (<><Headers.NavBottomPathEx
-                onClick={() => {navigate("/exhibition/create")}}
-                children="전시등록"/>
-              <Logout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
-          </>)}
+       // : (<>{userRole === "UR02" &&  {/* 작가일 때에만 */}
+        : (<>{userRole && 
+          <Headers.NavBottomPathEx
+            onClick={() => {navigate("/exhibition/create")}}
+            children="전시등록"/>}
+          <Logout setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} />
+      </>)}
       </Headers.NavBottom>
     </Headers.Headerwrap>
     <OpenSearchWindow searchWindow={searchWindow} setSearchWindow={setSearchWindow}/>
