@@ -29,7 +29,7 @@ function MainFirst() {
       </Main.ArticleTitle>
       { isLoading || isError
         ? <div style={{marginTop:"66px"}}>로딩 중...</div>
-        : data.length === 0 
+        : data && data.length === 0 
         ? <div style={{marginTop:"66px"}}>데이터가 없습니다...</div>
         : (<Main.FirstWrapGrid>
             <Main.FirstMainSlider>
@@ -76,7 +76,7 @@ function MainFirst() {
           <Main.FirstSubSlider
             children={
               <Slider {...secondSliderSettings}>
-              {editLists && editLists.map(personalEx => (
+              {editLists && editLists.length !== 0 && editLists.map(personalEx => (
                 <Main.FirstSubSliderWrap 
                   key={personalEx?.exhibitionId} 
                   children={<Main.FirstSubSliderImg src={personalEx.postImage} alt="개인전 이미지"/>}/>))}
@@ -84,8 +84,8 @@ function MainFirst() {
             />
           </Main.FirstWrapGrid>)}
           <Main.FirstSliderIndex children={currentSlideIndex < 10 
-            ? <>0{currentSlideIndex}&nbsp;<span>/ 0{editLists.length}</span></> 
-            : <>{currentSlideIndex}&nbsp;<span>/ {editLists.length}</span></>}/>
+            ? <>0{currentSlideIndex}&nbsp;<span>/ 0{editLists && editLists.length}</span></> 
+            : <>{currentSlideIndex}&nbsp;<span>/ {editLists && editLists.length}</span></>}/>
     </Main.CommenLayout>
   );
 }
