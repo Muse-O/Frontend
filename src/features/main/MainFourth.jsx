@@ -32,7 +32,7 @@ function MainFourth() {
           ? <div style={{marginTop:"66px"}}>데이터가 없습니다...</div>
           : (<Main.FouthInfoWrap>
             {data && data.map(exhibition => (
-                <Main.FourthInfo key={exhibition.exhibitionId} onMouseOver={()=>setImgState(exhibition.postImage)}>
+                <Main.FourthInfo key={exhibition.exhibitionId} onMouseOver={()=>setImgState(exhibition.postImage)} onClick={()=>navigatehandle(exhibition.detailRouter)}>
                   <Main.FouthInfoDate children={<>
                     <p>{getday(exhibition.startDate)}</p>
                     <p>{getMonth(exhibition.startDate)}</p>

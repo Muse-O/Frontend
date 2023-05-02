@@ -308,6 +308,9 @@ const SecondSlider = styled.div`
     min-height: 323.25px;
     max-height: 323.25px;
   }
+  &:hover{
+    cursor: pointer;
+  }
 `;
 
 const SecondSliderImg = styled.img`
@@ -380,6 +383,9 @@ const ThirdInner = styled.div`
   @media (max-width: 1440px) {
     height: 111px;
     padding: 9px 0;
+  }
+  &:hover{
+    cursor: pointer;
   }
 `;
 
@@ -547,6 +553,7 @@ const FourthInfo = styled.div`
   &:hover {
     background-color: #232323;
     color: #e6e6e6;
+    cursor: pointer;
   }
 `;
 
