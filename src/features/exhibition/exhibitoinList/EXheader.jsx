@@ -4,6 +4,7 @@ import { HeaderWhereSelect } from "./HeaderWhereSelect";
 import { HeaderCategorySelect } from "./HeaderCategorySelect";
 import { HeaderTagSelect } from "./HeaderTagSelect";
 import { HeaderSearch } from "./HeaderSearch";
+import { HeaderWhenSelect } from "./HeaderWhenSelect";
 
 export const EXheader = () => {
   const [selectedFilter, setSelectedFilter] = useState("");
@@ -22,7 +23,7 @@ export const EXheader = () => {
     {
       name: "when",
       label: "When",
-      component: <div>진행중</div>,
+      component: <HeaderWhenSelect setSelectedFilter={setSelectedFilter} />,
     },
     {
       name: "where",
