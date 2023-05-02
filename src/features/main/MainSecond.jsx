@@ -22,6 +22,8 @@ function MainSecond() {
       </Main.ArticleTitle>
       { isLoading || isError
         ? <div style={{marginTop:"66px"}}>로딩 중...</div>
+        : data.length === 0 
+        ? <div style={{marginTop:"66px"}}>데이터가 없습니다...</div>
         : 
         <Main.SecondSliderWrap>
             <Slider {...slidersettings}>

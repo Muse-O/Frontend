@@ -8,6 +8,7 @@ export const usePersonalExhibition = () => {
     queryKey: keys.GET_MAINPERSONALEXHIBITION,
     queryFn: async () => {
       const response = await apis.get('/banner/getPersonalExhibitionsByRecent?reqCnt=6')
+      console.log(response.data.exhibitionList.rows);
       return response.data.exhibitionList.rows
     },
     refetchOnWindowFocus: false,

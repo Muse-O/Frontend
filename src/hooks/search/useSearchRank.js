@@ -7,6 +7,7 @@ export const useSearchRank = (searchWindow) => {
     queryKey : keys.GET_UNIFIEDSEARCHRANK,
     queryFn: async () => {
       const response = await apis.get("/search/rank");
+      console.log("rank", response.data.searchRank);
       return response.data.searchRank
     },
     enabled: searchWindow,
