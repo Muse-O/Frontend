@@ -1,15 +1,10 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 import { useGetLikedArtgramInfo } from "../../hooks/mypage/useGetLikedArtgramInfo";
 import { useGetMyArtgramInfo } from "../../hooks/mypage/useGetMyArtgramInfo";
 import { useGetScrapArtgramInfo } from "../../hooks/mypage/useGetScrapArtgramInfo";
 import { useOpenModal } from "./../../hooks/artgram/useOpenModal";
-import leftBtn from "../../assets/imgs/common/next_cut_gray2.png";
-import rightBtn from "../../assets/imgs/common/next_cut_gray2.png";
-import whiteBtn from "../../assets/imgs/common/next_cut_white.png";
 import ArtgarmDetailModal from "../artgram/detailModal/ArtgarmDetailModal";
-import whiteLeftArrow from "../../assets/imgs/mypage/WhiteLeftArrow.svg";
-import blackLeftArrow from "../../assets/imgs/mypage/blackLeftArrow.svg";
+import * as Style from "../mypage/css/ArtgramContainerStyle";
 
 function ArtgramContainer() {
   const { modalState, openModalhandle } = useOpenModal(); //아트그램 모달
@@ -81,35 +76,31 @@ function ArtgramContainer() {
     openModalhandle(artgramId);
   };
 
-  //버튼 스타일
-  const [leftBtnSrc, setLeftSrc] = useState(leftBtn);
-  const [leftHoverImg, setLeftHoverImg] = useState(whiteBtn);
-  const [rightBtnSrc, setRightSrc] = useState(rightBtn);
-  const [rightHoverImg, setRightHoverImg] = useState(whiteBtn);
-
   return (
     <>
-      <StContainer>
-        <StArtgram>아트그램</StArtgram>
-        <StArtgramBox>
-          <StWrap>
-            <StTabWrap>
+      <Style.StContainer>
+        <Style.StArtgram>아트그램</Style.StArtgram>
+        <Style.StArtgramBox>
+          <Style.StWrap>
+            <Style.StTabWrap>
               {menuArr.map(el => (
-                <StTab
+                <Style.StTab
                   key={el.id}
                   onClick={() => selectMenuHandler(el.id)}
                   select={menuArr[currentTab].id === el?.id}
                 >
                   {el.name}
-                  <StTabCount selectCount={menuArr[currentTab].id === el?.id}>
+                  <Style.StTabCount
+                    selectCount={menuArr[currentTab].id === el?.id}
+                  >
                     {el?.count?.myArtgramCnt ? el?.count?.myArtgramCnt : 0}
-                  </StTabCount>
-                </StTab>
+                  </Style.StTabCount>
+                </Style.StTab>
               ))}
-            </StTabWrap>
+            </Style.StTabWrap>
 
-            <StImgBtnBox>
-              <StLeftBtn
+            <Style.StImgBtnBox>
+              <Style.StLeftBtn
                 onClick={getBackDataHandler}
                 disabled={
                   (menuArr[currentTab].id === 0 &&
@@ -119,22 +110,25 @@ function ArtgramContainer() {
                   (menuArr[currentTab].id === 2 &&
                     !MyArtgramInfo?.paginationInfo?.hasBackPage)
                 }
-              ></StLeftBtn>
-              <StImgBox>
+              ></Style.StLeftBtn>
+              <Style.StImgBox>
                 {menuArr[currentTab].content.map(list => {
                   return list.map(info => {
                     return (
-                      <StImgWrap
+                      <Style.StImgWrap
                         key={info.artgram_id}
                         onClick={() => detailArtgramModal(info)}
                       >
-                        <StImg src={info.imgUrl} alt={info.artgram_title} />
-                      </StImgWrap>
+                        <Style.StImg
+                          src={info.imgUrl}
+                          alt={info.artgram_title}
+                        />
+                      </Style.StImgWrap>
                     );
                   });
                 })}
-              </StImgBox>
-              <StRightBtn
+              </Style.StImgBox>
+              <Style.StRightBtn
                 disabled={
                   (menuArr[currentTab].id === 0 &&
                     !LikedArtgramInfo?.paginationInfo?.hasNextPage) ||
@@ -144,11 +138,11 @@ function ArtgramContainer() {
                     !MyArtgramInfo?.paginationInfo?.hasNextPage)
                 }
                 onClick={getNextDataHandler}
-              ></StRightBtn>
-            </StImgBtnBox>
-          </StWrap>
-        </StArtgramBox>
-      </StContainer>
+              ></Style.StRightBtn>
+            </Style.StImgBtnBox>
+          </Style.StWrap>
+        </Style.StArtgramBox>
+      </Style.StContainer>
 
       {/* 아트그램 모달 */}
       {modalState && (
@@ -163,174 +157,3 @@ function ArtgramContainer() {
 }
 
 export default ArtgramContainer;
-
-const StContainer = styled.div`
-  margin-top: 25px;
-  display: flex;
-  flex-direction: column;
-`;
-
-const StArtgram = styled.div`
-  font-family: "S-CoreDream-3Light";
-  font-weight: bold;
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-`;
-
-const StArtgramBox = styled.div`
-  background-color: #ffffff;
-  border-radius: 10px;
-  width: 1010px;
-  height: 404px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const StImgBtnBox = styled.div`
-  width: 1070px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-`;
-
-const StLeftBtn = styled.button`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #eeeeee;
-  background-image: url(${blackLeftArrow});
-  background-repeat: no-repeat;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-
-  &:disabled {
-    cursor: default;
-    background-image: url(${whiteLeftArrow});
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-
-  /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
-  &:not(:disabled):hover {
-    background-color: #242424;
-    background-image: url(${whiteLeftArrow});
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-`;
-
-const StLeftImg = styled.img`
-  width: 14px;
-  height: 22px;
-  transform: rotate(-180deg);
-`;
-
-const StRightBtn = styled.button`
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: #eeeeee;
-  background-image: url(${blackLeftArrow});
-  background-repeat: no-repeat;
-  background-position: center;
-  transform: rotate(-180deg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-
-  &:disabled {
-    cursor: default;
-    background-image: url(${whiteLeftArrow});
-    background-repeat: no-repeat;
-    background-position: center;
-    transform: rotate(-180deg);
-  }
-
-  /* disabled 상태가 아닐 때만 hover 했을 때 배경색이 바뀜 */
-  &:not(:disabled):hover {
-    background-color: #242424;
-    background-image: url(${whiteLeftArrow});
-    background-repeat: no-repeat;
-    background-position: center;
-    transform: rotate(-180deg);
-  }
-`;
-
-const StRightImg = styled.img`
-  width: 14px;
-  height: 22px;
-`;
-
-const StWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* width: 970px; */
-`;
-
-const StTabWrap = styled.div`
-  width: 450px;
-  height: 63px;
-  display: flex;
-  align-items: center;
-  margin-left: 55px;
-  gap: 36px;
-`;
-
-const StTab = styled.div`
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  gap: 4px;
-  font-family: "SpoqaHanSansNeo-Regular";
-  font-weight: bold;
-  font-size: 16px;
-
-  color: ${({ select }) => (select ? "#242424" : "#7E7E7E")};
-`;
-
-const StTabCount = styled.div`
-  font-family: "Montserrat", sans-serif;
-  font-weight: bold;
-  font-size: 12px;
-  width: 32px;
-  height: 25px;
-  border-radius: 30px;
-  background-color: #eeeeee;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  color: ${({ selectCount }) => (selectCount ? "#EEEEEE" : "#7E7E7E")};
-  background-color: ${({ selectCount }) =>
-    selectCount ? "#242424" : "#EEEEEE"};
-`;
-
-const StImgBox = styled.div`
-  width: 964px;
-  height: 261px;
-  /* background-color: #80808089; */
-  display: flex;
-  gap: 12px;
-`;
-
-const StImgWrap = styled.div`
-  background-color: #2c2c2c;
-  width: 313px;
-  height: 315px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StImg = styled.img`
-  max-width: 313px;
-  max-height: 315px;
-  background: #2c2c2c;
-`;
