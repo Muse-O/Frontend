@@ -82,21 +82,25 @@ function LoginForm() {
   //   });
   // };
 
-  const BASE_URL = "https://museoh.shop";
+  // const BASE_URL = "https://museoh.shop";
 
-  //구글
-  const googleLoginBtn = () => {
-    navigate(`${BASE_URL}/auth/google`);
-  };
+  // //구글
+  // const googleLoginBtn = () => {
+  //   navigate(`${BASE_URL}/auth/google`);
+  // };
 
-  //카카오톡
-  const kakaoLoginBtn = () => {
-    navigate(`${BASE_URL}/auth/kakao`);
-  };
+  // //카카오톡
+  // const kakaoLoginBtn = () => {
+  //   navigate(`${BASE_URL}/auth/kakao`);
+  // };
 
-  //네이버
-  const naverLoginBtn = () => {
-    navigate(`${BASE_URL}/auth/naver`);
+  // //네이버
+  // const naverLoginBtn = () => {
+  //   navigate(`${BASE_URL}/auth/naver`);
+  // };
+
+  const socialLoginBtn = provider => () => {
+    window.location.href = `${process.env.REACT_APP_SERVER_URL}auth/${provider}`;
   };
 
   return (
@@ -166,17 +170,17 @@ function LoginForm() {
         <div>SNS로 간편하게 시작하기</div>
 
         <Style.StSnsBtnWrap>
-          <Style.GoogleLogoDiv onClick={googleLoginBtn}>
+          <Style.GoogleLogoDiv onClick={socialLoginBtn("google")}>
             <img
               src={googleLogo}
               alt="googleLogo"
               style={{ width: "30px", height: "30px" }}
             />
           </Style.GoogleLogoDiv>
-          <div onClick={kakaoLoginBtn}>
+          <div onClick={socialLoginBtn("kakao")}>
             <img src={kakaoLogo} alt="kakaoLogo" />
           </div>
-          <div onClick={naverLoginBtn}>
+          <div onClick={socialLoginBtn("naver")}>
             <img src={naverLogo} alt="naverLogo" />
           </div>
         </Style.StSnsBtnWrap>
