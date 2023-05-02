@@ -5,12 +5,14 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Flex } from "../../../components/Flex";
 import ExhibitionReview from "./ExhibitionReview";
 import ExhibitionReviewForm from "./ExhibitionReviewForm";
-import { AiOutlineLike, AiOutlineLink, AiFillLike } from "react-icons/ai";
-import { BsBookmarkCheck, BsBookmarkCheckFill } from "react-icons/bs";
 import { usetoken } from "../../../shared/cookies";
 import { SubmitBtn } from "../../../components/Buttons";
 import { useLikeExhibition } from "../../../hooks/exhibition/ExhibitionLikedScrap";
-
+import NoneLiked from "../../../assets/imgs/common/heart_gray.png";
+import Liked from "../../../assets/imgs/common/heart_full.png";
+import NoneScrap from "../../../assets/imgs/common/bookmark_gray.png";
+import Scrap from "../../../assets/imgs/common/bookmark_full.png";
+import Review from "../../../assets/imgs/exhibition/sparkle_full_yellow.png";
 function ExhibitionDetail() {
   const { id } = useParams();
   const navigator = useNavigate();
@@ -31,7 +33,7 @@ function ExhibitionDetail() {
   if (isLoading) {
     return <div>로딩중</div>;
   }
-
+  console.log(info.reviewStatus[0].reviewAvgRating);
   return (
     <Flex>
       {info && (
@@ -57,13 +59,9 @@ function ExhibitionDetail() {
               <EXButtons>
                 <ExBtn onClick={() => likeScrapHandler("like")}>
                   {info.liked === 0 ? (
-                    <Icon>
-                      <AiOutlineLike />
-                    </Icon>
+                    <PostsBtnImg src={NoneLiked} />
                   ) : (
-                    <Icon>
-                      <AiFillLike />
-                    </Icon>
+                    <PostsBtnImg src={Liked} />
                   )}
                   <Detailspan>좋아요</Detailspan>
                 </ExBtn>
@@ -72,21 +70,17 @@ function ExhibitionDetail() {
                   onClick={() => likeScrapHandler("scrap")}
                 >
                   {info.scraped === 0 ? (
-                    <Icon>
-                      <BsBookmarkCheck />
-                    </Icon>
+                    <PostsBtnImg src={NoneScrap} />
                   ) : (
-                    <Icon>
-                      <BsBookmarkCheckFill />
-                    </Icon>
+                    <PostsBtnImg src={Scrap} />
                   )}
                   <Detailspan>스크랩</Detailspan>
                 </ExBtn>
                 <ExBtn>
-                  <Icon>
-                    <AiOutlineLink />
-                  </Icon>
-                  <ArtLinkBtn>Artgram</ArtLinkBtn>
+                  <PostsBtnImg src={Review} />
+                  <Detailspan>
+                    평점{info.reviewStatus[0].reviewAvgRating.slice(0, 3)}
+                  </Detailspan>
                 </ExBtn>
               </EXButtons>
               <SubmitBtns>
@@ -222,6 +216,10 @@ function ExhibitionDetail() {
 }
 
 export default ExhibitionDetail;
+const PostsBtnImg = styled.img`
+  width: 23px;
+  height: 23px;
+`;
 const Detailspan = styled.span`
   background-color: white;
   font-weight: 500;
@@ -335,6 +333,7 @@ const ExBtn = styled.div`
   gap: 12px;
   padding: 22px 38px;
   display: flex;
+  align-items: center;
   flex: 1;
   border-width: ${(props) => props.iscenter && `0px 1px 0px 1px`};
   border-style: solid;
