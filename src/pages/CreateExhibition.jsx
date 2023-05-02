@@ -11,7 +11,7 @@ function CreateExhibition() {
   const [, setHeaderState] = useRecoilState(headerStatedefalut);
   const headerState = useRecoilValue(headerStateSearch)
   useEffect(() => {
-    setHeaderState({ ...headerState, home: true });
+    setHeaderState({ ...headerState, exhibition: true });
   }, []);
 
   return (
