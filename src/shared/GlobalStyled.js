@@ -210,10 +210,12 @@ const NavSearchInput = styled.input`
   height: 40px;
   background-color: #D9D9D9;
   padding: 12px;
+  font-size: 20px;
   border-radius: 5px;
   @media (max-width: 1440px) {
     height: 30px;
     padding: 9px;
+    font-size: 15px;
   }
   @media (max-width: 390px) {
    display: none;
