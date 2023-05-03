@@ -1,17 +1,12 @@
 import { useEffect } from "react";
-import { useRecoilState } from "recoil";
-import { EXSelectHashTagStore } from "../../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
 
-export const HeaderHashTags = (top10TagsData) => {
-  //리코일값 불러오기
-  const [hashTagStore, setHashTagStore] = useRecoilState(EXSelectHashTagStore);
-  //태그들을 불러와서 값을 전역스토어에 넣기.
+export const HeaderHashTags = (setHashTagStore, top10TagsData) => {
+  // const [top10TagsData] = useGetTop10Tags();
   useEffect(() => {
     if (top10TagsData) {
       const updatedTo10TAGS = top10TagsData.map((tag) => {
         return { tagName: tag.tagName, checked: false };
       });
-
       setHashTagStore((pre) => {
         return {
           ...pre,
@@ -20,7 +15,6 @@ export const HeaderHashTags = (top10TagsData) => {
       });
     }
   }, [top10TagsData]);
-  //선택된 값만 켜지도록 만듬 그리고 그 값을 statage시킴
   const filterTags = (e) => {
     const { innerText } = e.target;
     setHashTagStore((pre) => {
@@ -33,6 +27,7 @@ export const HeaderHashTags = (top10TagsData) => {
       });
       const newSelectHashTags =
         pre.SelectHashTags[0] === innerText ? [] : [innerText];
+      console.log("newSelectHashTags", newSelectHashTags);
       return {
         ...pre,
         SelectHashTags: newSelectHashTags,
@@ -63,5 +58,5 @@ export const HeaderHashTags = (top10TagsData) => {
     });
   };
 
-  return [hashTagStore, filterTags, deleteTags, setHashTagStore];
+  return [filterTags, deleteTags];
 };
