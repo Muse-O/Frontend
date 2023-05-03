@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { usetoken } from '../../../shared/cookies';
 import {usePostingtime} from '../../../hooks/artgram/usePostingtime'
@@ -17,7 +17,14 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
     useUpdatecomments(artgramId, comment.commentId); // 댓글수정 비동기통신 UPDATE
   const {replyState, setReplyState, reply, setReply,replyHandle} = usePostReply(); // 대댓글입력 비동기통신 POST
   const [showReply, setShowReply] = useState(false)
+  const commentRef = useRef(null)
 
+  useEffect(() => {
+    if (replyState && commentRef.current) {
+      commentRef.current.focus();
+    }
+  }, [replyState, commentRef]);
+  
   return (
     <>
     <Comment.ProfileNickNameComments>
@@ -32,16 +39,22 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
       <div>{timehandle(comment.createdAt)}</div>
       {decodetoken?.email === comment.userEmail && (<>
           {!edit
-            ? (<div onClick={()=>setEdit(pre=>!pre)}>수정</div>)
+            ? (<div onClick={()=>{
+              setReplyState(false)
+              setEdit(pre=>!pre)
+            }}>수정</div>)
             : (<div onClick={(e) => onSubmitupdateComments(e)}>수정완료</div>)}
           <div onClick={() => deleteHandle(artgramId, comment.commentId)}>삭제</div>
       </>)}
         {!decodetoken?.email
         ? null
         : decodetoken?.email && !replyState 
-        ? <div onClick={()=>setReplyState(pre=>!pre)}>답글달기</div>
+        ? <div onClick={()=>{
+          setEdit(false)
+          setReplyState(pre=>!pre)
+        }}>답글달기</div>
         : <form onSubmit={(e)=>replyHandle(e, artgramId, comment.commentId,reply)}>
-          <input value={reply} onChange={(e)=>setReply(e.target.value)} placeholder='답글을 입력해주세요.'/>
+          <Comment.CommentsInput ref={commentRef} value={reply} onChange={(e)=>setReply(e.target.value)} placeholder='답글을 입력해주세요.'/>
         </form>}
     </div>
     

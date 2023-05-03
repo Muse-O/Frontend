@@ -8,10 +8,12 @@ const MainLayout = styled.div`
   flex-direction: column;
   margin: 70px 75px;
   color: #242424;
-  overflow-x: scroll;
   font-family: "SpoqaHanSansNeo-Regular";
   @media (max-width: 1440px) {
     margin: 52.5px 56.25px;
+  }
+  @media (max-width: 1439px) {
+    overflow-x: scroll;
   }
 `;
 

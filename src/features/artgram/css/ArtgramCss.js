@@ -33,6 +33,16 @@ const Wrap = styled.div`
   @media (max-width: 1440px) {
     gap: 17.25px;
     margin-top: 45px;
+    grid-template-columns: repeat(4, 273px);
+  }
+  @media (max-width: 1380px) {
+    grid-template-columns: repeat(3, 273px);
+  }
+  @media (max-width: 1180px) {
+    grid-template-columns: repeat(2, 273px);
+  }
+  @media (max-width: 810px) {
+    grid-template-columns: repeat(1, 273px);
   }
 `;
 
@@ -63,6 +73,10 @@ const BoxWrap = styled.div`
   @media (max-width: 1440px) {
     height: 319.5px;
   }
+  @media (max-width: 810px) {
+    
+  }
+
 `;
 
 const BoxImg = styled.div`
@@ -240,6 +254,9 @@ const ModalWindow = styled.div`
   @media (max-width: 1440px) {
     width: 948px;
     height: 670.5px;
+  }
+  @media (max-width: 1440px) {
+    left: 50%;
   }
 `;
 

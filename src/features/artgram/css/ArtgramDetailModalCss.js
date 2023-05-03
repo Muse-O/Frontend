@@ -17,7 +17,6 @@ const SliderOutline = styled.div`
       width: 476.25px
     }
   }
-  //
 `;
 
 const ModalContent = styled.div`
