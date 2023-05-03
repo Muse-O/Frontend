@@ -12,7 +12,7 @@ export const UpdateEX = (
   updateExhibition
 ) => {
   const hasFileProperty = CheckImgFile();
-  const info = Detaildata?.exhibitionInfo;
+  const info = Detaildata;
   const UpdateEXHandler = (event) => {
     event.preventDefault();
     const posturl = hasFileProperty(postfiles[0])

@@ -10,7 +10,7 @@ import { useDeleteExhibition } from "../hooks/exhibition/useDeleteExhbition";
 function UpdateExhibition() {
   const { id } = useParams();
   const [updateExhibition] = usePatchExhibition(id);
-  const [data, isLoading] = useDetailGetExibition(id);
+  const [info, isLoading] = useDetailGetExibition(id);
   const [deleteExhibition] = useDeleteExhibition();
   const deleteHandler = () => {
     if (window.confirm("정말 이 게시글을 삭제합니까?")) {
@@ -23,7 +23,7 @@ function UpdateExhibition() {
       <Header />
       <Article>
         <ExhibitionForm
-          Detaildata={data}
+          Detaildata={info}
           DetailLoading={isLoading}
           updateExhibition={updateExhibition}
           deleteHandler={deleteHandler}

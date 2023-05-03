@@ -7,8 +7,8 @@ export const useSetExhibition = (
   setFiles,
   setPostFiles
 ) => {
-  const info = Detaildata?.exhibitionInfo;
-  const ExAddress = Detaildata?.exhibitionInfo.ExhibitionAddress;
+  const info = Detaildata;
+  const ExAddress = Detaildata?.ExhibitionAddress;
   let authorid = 0;
   const templete = {
     startDate: "",
@@ -182,7 +182,7 @@ export const useSetExhibition = (
   };
   useEffect(() => {
     // 서버에서 받아온 데이터가 로딩되면 exhibition state를 업데이트
-    if (!DetailLoading && Detaildata) {
+    if (!DetailLoading && info) {
       setAuthorName(info.ExhibitionAuthors[authorid].author);
       const newarr = [...exhibition.authors];
       newarr.splice(authorid, 1, {
