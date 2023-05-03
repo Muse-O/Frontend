@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import * as EXFormSelect from "../css/exhibitionCreateCss/EXFormSelect";
+import * as EXFormSelect from "../css/EXFormSelect";
 
 const SelectEX = ({ onChange, options, EXvalue, EXname }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);

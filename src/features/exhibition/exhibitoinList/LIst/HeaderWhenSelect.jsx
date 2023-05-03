@@ -1,10 +1,10 @@
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import next_cut_gray from "../../../assets/imgs/common/next_cut_gray.png";
-import next_cut_white from "../../../assets/imgs/common/next_cut_white.png";
-import refresh from "../../../assets/imgs/refresh.png";
-import { useCalender } from "../../../hooks/exhibition/useCalender";
+import next_cut_gray from "../../../../assets/imgs/common/next_cut_gray.png";
+import next_cut_white from "../../../../assets/imgs/common/next_cut_white.png";
+import refresh from "../../../../assets/imgs/refresh.png";
+import { useCalender } from "../../../../hooks/exhibition/useCalender";
 export const HeaderWhenSelect = ({
   whenVisible,
   setApplyWhen,

@@ -2,11 +2,12 @@ import React from "react";
 import { useInterserctionObserver } from "../../../hooks/artgram/newArtgram/useIntersectionObserver";
 import styled from "styled-components";
 import { useGetExhibitioninfinity } from "../../../hooks/exhibition/useGetExhibitioninfinity";
-import { EXheader } from "./EXheader";
-import { EXListBody } from "./EXListBody";
+
 import { useRecoilState } from "recoil";
 import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsStore";
-import { EXTags } from "./EXTags";
+import { EXTags } from "./LIst/EXTags";
+import { EXheader } from "./LIst/EXheader";
+import { EXListBody } from "./LIst/EXListBody";
 
 function ExhibitionLists() {
   //?리코일 적용
@@ -14,8 +15,8 @@ function ExhibitionLists() {
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
     useGetExhibitioninfinity(10, applyTags);
   let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
-
   const { ref } = useInterserctionObserver(fetchNextPage);
+
   return (
     <ExhibitionWrap>
       <EXheader />

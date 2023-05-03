@@ -1,13 +1,12 @@
 import React from "react";
 import { Flex } from "../../../components/Flex";
 import { useSetExhibition } from "../../../hooks/exhibition/useSetExhibition";
-import { useGetImgUrl } from "./CreateURL";
+import { useGetImgUrl } from "./utils/CreateURL";
 import { useDropzoneInput } from "../../../hooks/exhibition/useDropZone";
-import { PostEX } from "./PostEX";
-import { UpdateEX } from "./UpdateEX";
-// import CalendarEX from "./CalendarEX";
-import { EXFormPost } from "./EXFormPost";
-import { EXFormContents } from "./EXFormContents";
+import { PostEX } from "./utils/PostEX";
+import { UpdateEX } from "./utils/UpdateEX";
+import { EXFormPost } from "./Create/EXFormPost";
+import { EXFormContents } from "./Create/EXFormContents";
 
 function ExhibitionForm({
   createExhibition,

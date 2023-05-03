@@ -1,4 +1,4 @@
-import * as FormBox from "../css/exhibitionCreateCss/EXFormBox";
+import * as FormBox from "../css/EXFormBox";
 
 export const EXFormBox = ({ Explan, WiteRule, children }) => {
   return (

@@ -3,14 +3,14 @@ import {
   EXSelectCategoryStore,
   EXSelectHashTagStore,
   EXSelectWhereStore,
-} from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
+} from "../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
 import { useRecoilState, useResetRecoilState } from "recoil";
-import { useGetTop10Tags } from "../../../hooks/exhibition/useGetTop10Tags";
-import { useGetSido } from "../../../hooks/exhibition/useGetSido";
-import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsStore";
-import { ExCategoryCode } from "../../../shared/EXCodes";
-import * as Tags from "./css/exhibitionTagCss/EXTagCss";
-import refresh from "../../../assets/imgs/refresh.png";
+import { useGetTop10Tags } from "../../../../hooks/exhibition/useGetTop10Tags";
+import { useGetSido } from "../../../../hooks/exhibition/useGetSido";
+import { EXApplyTagsStore } from "../../../../hooks/exhibition/EXStore/EXApplyTagsStore";
+import { ExCategoryCode } from "../../../../shared/EXCodes";
+import * as Tags from "../css/exhibitionTagCss/EXTagCss";
+import refresh from "../../../../assets/imgs/refresh.png";
 export const EXTags = ({ applyTags, setApplyTags }) => {
   const resetCategory = useResetRecoilState(EXSelectCategoryStore);
   const [top10TagsData] = useGetTop10Tags();

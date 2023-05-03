@@ -3,11 +3,11 @@ import { apis_token } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
 
 export const useDetailGetExibition = (id) => {
-  const { data, isLoading } = useQuery({
+  const { data: info, isLoading } = useQuery({
     queryKey: keys.GET_DETAILEXHIBITION,
     queryFn: async () => {
       const res = await apis_token.get(`/exhibition/view/${id}`);
-      return res.data;
+      return res.data.exhibitionInfo;
     },
     retry: 1,
     onSuccess: (data) => {},
@@ -15,5 +15,5 @@ export const useDetailGetExibition = (id) => {
       console.log("에러", e.message);
     },
   });
-  return [data, isLoading];
+  return [info, isLoading];
 };

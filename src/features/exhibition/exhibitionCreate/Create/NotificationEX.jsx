@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import exclamtion_mark from "../../../assets/imgs/exhibition/exclamation-mark.png";
+import exclamtion_mark from "../../../../assets/imgs/exhibition/exclamation-mark.png";
 
 //Todo(refactoring)이부분 영찬님Notification과 같음
 function NotificationEX({ warning, coment1, coment2 }) {
