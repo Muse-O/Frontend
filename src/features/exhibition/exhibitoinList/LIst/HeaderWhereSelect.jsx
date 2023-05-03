@@ -1,7 +1,7 @@
 import { EXListApplyBox } from "./EXListApplyBox";
 import * as EW from "../css/exhibitionHeaderCss/EXWhereCss";
 import { PositionBox } from "../css/exhibitionHeaderCss/EXCategoryCss";
-import { HeaderWheres } from "./utils/HeaderWheres";
+import { HeaderWheres } from "../utils/HeaderWheres";
 export const HeaderWhereSelect = () => {
   //전역 wherestore값, store 변경하는 함수, 지역 삭제 함수, 불러온sido함수
   const [

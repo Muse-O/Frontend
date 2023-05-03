@@ -1,7 +1,7 @@
 import { EXListApplyBox } from "./EXListApplyBox";
-import { ExCategoryCode, ExOnOffCode } from "../../../../shared/EXCodes";
+import { ExOnOffCode } from "../../../../shared/EXCodes";
 import * as EC from "../css/exhibitionHeaderCss/EXCategoryCss";
-import { HeaderCategorys } from "./utils/HeaderCategorys";
+import { HeaderCategorys } from "../utils/HeaderCategorys";
 import { CategoryCheckBox } from "./HeaderCategoryCheckBox";
 export const HeaderCategorySelect = () => {
   //전역 store 체그박스 정보,선택된 카테고리 무엇인지,카테고리를 store에 넣는 함수

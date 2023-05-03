@@ -5,7 +5,7 @@ import {
   TagText,
   XBox,
 } from "../css/exhibitionHeaderCss/EXWhereCss";
-import { HeaderHashTags } from "./utils/HeaderHashTags";
+import { HeaderHashTags } from "../utils/HeaderHashTags";
 import { useGetTop10Tags } from "../../../../hooks/exhibition/useGetTop10Tags";
 import { useRecoilState } from "recoil";
 import { EXSelectHashTagStore } from "../../../../hooks/exhibition/EXStore/EXSelectTagsStore";

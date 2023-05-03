@@ -2,7 +2,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import {
   EXCategoryStoreCheckBox,
   EXSelectCategoryStore,
-} from "../../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
+} from "../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
 
 export const HeaderCategorys = () => {
   const [categoryStore, setCategoryStore] = useRecoilState(

@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-import { useGetSido } from "../../../../../hooks/exhibition/useGetSido";
+
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
   EXCities,
   EXSelectWhereStore,
-} from "../../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
+} from "../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
+import { useGetSido } from "../../../../hooks/exhibition/useGetSido";
 
 export const HeaderWheres = () => {
   //리코일 사용

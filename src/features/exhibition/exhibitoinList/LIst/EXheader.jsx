@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { HeaderSearch } from "./HeaderSearch";
-import { HeaderSelecters } from "./utils/HeaderSelecters";
+import { HeaderSelecters } from "../utils/HeaderSelecters";
 
 export const EXheader = () => {
   // 컴포넌트가 들어있는 배열, 보여줘야한 값state
