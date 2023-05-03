@@ -110,6 +110,9 @@ const Logo = styled.div`
   @media (max-width: 390px) {
     display: none;
   }
+  &:hover {
+    cursor: pointer;
+  }
 `
 const LoginState = styled.div`
   height: 95px;

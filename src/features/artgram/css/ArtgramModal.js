@@ -37,8 +37,8 @@ const ModalinnerImgDiv = styled(ModalinnerDiv)`
 `
 
 const ModdalinnerImg = styled.img`
-  display: block;
-  width: 100%;
+    display: block;
+    
 `
 
 const ModalUsers = styled.div`

@@ -25,10 +25,11 @@ function ArtgramDetailReply({artgramId, commentId}) {
         ? (<div>로딩 중 ...</div>) 
         : reply && reply.map(reply=> (<Comment.CommentBox key={reply.commentId}>
           <Comment.CommentBoxProfileImg img={reply.profileImg} />
-          <Comment.CommentBoxInnerText>{reply.comment}
-          <div style={{display:"flex",gap:"8px"}}>
+          <Comment.CommentBoxInnerText>
+            <div><span className='profileNickname' children={reply.profileNickname}/>{reply.comment}</div>
+            <div style={{display:"flex",gap:"8px"}}>
             <div>{timehandle(reply.createdAt)}</div>
-            {decodetoken?.email === reply.userEmail && <div onClick={()=>deleteHandle(artgramId, reply.commentParent, reply.commentId)}>삭제</div>}
+              {decodetoken?.email === reply.userEmail && <div onClick={()=>deleteHandle(artgramId, reply.commentParent, reply.commentId)}>삭제</div>}
           </div>
           </Comment.CommentBoxInnerText>
           

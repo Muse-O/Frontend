@@ -30,7 +30,13 @@ const CommentBoxInnerText = styled.div`
   display:flex;
   flex-direction: column;
   justify-content: center;
+  gap: 2px;
   /* background-color:yellow; */
+  .profileNickname {
+    margin-right: 4px;
+    font-family: "Montserrat";
+    font-weight:550;
+  }
 `
 
 const ProfileNickNameComments = styled.div`
@@ -86,9 +92,22 @@ const ProfileNickNameComments = styled.div`
   }
 `
 
+const CommentsInput = styled.input`
+  width: 350px;
+  padding: 2px 3px;
+  border-bottom: 1px solid;
+  :focus {
+        outline: none;
+  }
+  @media (max-width: 1440px) {
+    width : 262.5px
+  }
+`
+
 export {
   CommentBox,
   CommentBoxProfileImg,
   CommentBoxInnerText,
-  ProfileNickNameComments
+  ProfileNickNameComments,
+  CommentsInput
 }
