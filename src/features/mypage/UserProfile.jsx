@@ -6,7 +6,7 @@ import { useGetUserProfile } from "../../hooks/mypage/useGetUserProfile";
 import { usePatchRole } from "../../hooks/mypage/usePatchRole";
 import palette from "../../assets/imgs/mypage/palette_gradient.png";
 import setting from "../../assets/imgs/mypage/gear_gray.png";
-import * as UserProfileStyle from "../mypage/css/UserProfileStyle";
+import * as Style from "../mypage/css/UserProfileStyle";
 import Swal from "sweetalert2";
 
 function UserProfile() {
@@ -76,18 +76,15 @@ function UserProfile() {
 
   return (
     <>
-      <UserProfileStyle.StUserProfileBox>
-        <UserProfileStyle.ProfileImg
-          src={userProfile?.profileImg}
-          alt="userProfileImg"
-        />
+      <Style.StUserProfileBox>
+        <Style.ProfileImg src={userProfile?.profileImg} alt="userProfileImg" />
 
-        <UserProfileStyle.StEditBtnWrap>
-          <UserProfileStyle.UpdateBtn onClick={openSettingHandler}>
+        <Style.StEditBtnWrap>
+          <Style.UpdateBtn onClick={openSettingHandler}>
             <img src={setting} alt="setting" />
-          </UserProfileStyle.UpdateBtn>
+          </Style.UpdateBtn>
           {openSet && (
-            <UserProfileStyle.StSettingBtn
+            <Style.StSettingBtn
               ref={ref}
               onMouseDown={e => e.stopPropagation()}
             >
@@ -98,31 +95,27 @@ function UserProfile() {
               >
                 작가 신청
               </button>
-            </UserProfileStyle.StSettingBtn>
+            </Style.StSettingBtn>
           )}
-        </UserProfileStyle.StEditBtnWrap>
+        </Style.StEditBtnWrap>
 
-        <UserProfileStyle.StUserNameWrap>
-          <UserProfileStyle.StInfoUserName>
-            {userProfile?.nickname}
-          </UserProfileStyle.StInfoUserName>
+        <Style.StUserNameWrap>
+          <Style.StInfoUserName>{userProfile?.nickname}</Style.StInfoUserName>
           {userProfile?.role === "UR02" ? (
-            <UserProfileStyle.StArtistMark>
+            <Style.StArtistMark>
               <img src={palette} alt="palette" />
-            </UserProfileStyle.StArtistMark>
+            </Style.StArtistMark>
           ) : null}
-        </UserProfileStyle.StUserNameWrap>
+        </Style.StUserNameWrap>
 
-        <UserProfileStyle.StUserInfoIntro>
-          <UserProfileStyle.InfoIntro>
-            {userProfile?.introduction}
-          </UserProfileStyle.InfoIntro>
-        </UserProfileStyle.StUserInfoIntro>
+        <Style.StUserInfoIntro>
+          <Style.InfoIntro>{userProfile?.introduction}</Style.InfoIntro>
+        </Style.StUserInfoIntro>
 
-        <UserProfileStyle.Line></UserProfileStyle.Line>
+        <Style.Line></Style.Line>
 
         <AlarmContainer />
-      </UserProfileStyle.StUserProfileBox>
+      </Style.StUserProfileBox>
 
       {/* 유저 프로필 수정을 위한 모달 open */}
       {openModal && <UpdateUserProfileModal setOpenModal={setOpenModal} />}
