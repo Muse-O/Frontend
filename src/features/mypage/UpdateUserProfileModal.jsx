@@ -88,6 +88,8 @@ function UpdateUserProfileModal({ setOpenModal }) {
             {/* input 숨기기 */}
             <Style.StInput
               type="file"
+              data-width="300"
+              data-height="300"
               ref={fileRef}
               accept="image/*"
               onChange={changeImageHandler}
