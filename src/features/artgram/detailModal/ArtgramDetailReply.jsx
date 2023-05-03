@@ -29,7 +29,7 @@ function ArtgramDetailReply({artgramId, commentId}) {
             <div><span className='profileNickname' children={reply.profileNickname}/>{reply.comment}</div>
             <div style={{display:"flex",gap:"8px"}}>
             <div>{timehandle(reply.createdAt)}</div>
-              {decodetoken?.email === reply.userEmail && <div onClick={()=>deleteHandle(artgramId, reply.commentParent, reply.commentId)}>삭제</div>}
+              {decodetoken?.email === reply.userEmail && <div className='curserPoint' onClick={()=>deleteHandle(artgramId, reply.commentParent, reply.commentId)}>삭제</div>}
           </div>
           </Comment.CommentBoxInnerText>
           

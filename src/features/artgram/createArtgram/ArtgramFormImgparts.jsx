@@ -3,19 +3,23 @@ import styled from "styled-components";
 const Layout = styled.div`
   display: flex;
   height: 590px;
-  gap: 153px;
+  /* gap: 153px; */
+  gap: 80px;
 
   @media (max-width: 1440px) {
     height: 442.5px;
-    gap:114.75
+    /* gap:114.75px; */
+    gap: 60px;
   }
 `
 
 const FormLeft = styled.div`
-  width: 622px;
+  max-width: 622px;
+  min-width: 622px;
   height: 100%;
   @media (max-width: 1440px) {
-    width: 466.5px;
+    max-width: 466.5px;
+    min-width: 466.5px;
   }
 `
 const FormRigth = styled.div`
@@ -24,7 +28,9 @@ const FormRigth = styled.div`
   flex-direction: column;
   gap: 32px;
   flex-grow: 1;
+  min-width: 400px;
   @media (max-width: 1440px) {
+    min-width: 350px;
     gap: 24px;
   }
 `
@@ -43,7 +49,8 @@ height: 78px;
 `
 
 const DropZone = styled.section`
-  height: 479x;
+  width: 100%;
+  height: 479px;
   border-radius: 10px;
 
    @media (max-width: 1440px) {

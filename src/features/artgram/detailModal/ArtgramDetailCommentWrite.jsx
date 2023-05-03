@@ -13,6 +13,7 @@ import { Input } from "../../../components/Input";
 import { useRecoilValue } from "recoil";
 import { decodeUserRole } from "../../login/loginTokenStore";
 import { useNavigate } from "react-router-dom";
+import { CommentsInputBtn } from "../css/ArtgramDetailCss";
 // import { BsBookmarkFill, BsFillHeartFill } from "react-icons/bs";
 
 function ArtgramDetailCommentWrite({artgramId, detailData,searchWord}) {
@@ -78,6 +79,7 @@ function ArtgramDetailCommentWrite({artgramId, detailData,searchWord}) {
               onChange: handleInputChange,
             }}
           />
+          <CommentsInputBtn className="curserPoint" style={{border:"1px solid #242424"}} height19="40px" height14="30px" bottom19="8px" bottom14="6px" right19="20px" right14="8px">입력</CommentsInputBtn>
         </form>
       </div>
     </CommentWriteLayout>

@@ -38,6 +38,11 @@ export const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'SpoqaHanSansNeo-Regular';
   }
+  .curserPoint {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 `;
 
 export const Wrap = styled.div`

@@ -104,10 +104,42 @@ const CommentsInput = styled.input`
   }
 `
 
+const CommentsInputBtn = styled.div`
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top:${props=>props.top19 ? props.top19 : null};
+  right: ${props=>props.right19 ? props.right19 : null};
+  bottom: ${props=>props.bottom19 ? props.bottom19 : null};
+  background-color: #EEEEEE;
+  width: 40px;
+  height: ${props=>props.height19 ? props.height19 : "20px"};
+  border-radius: 8px;
+  font-style: 12px;
+  font-weight: 500;
+  &:hover {
+    background-color: #242424;
+    color: #fff;
+  }
+  @media (max-width: 1440px) {
+    width: 30px;
+    height: ${props=>props.height14 ? props.height14 : "15px"};
+    border-radius: 6px;
+    font-style: 9px;
+    font-weight: 500;
+    top:${props=>props.top14 ? props.top14 : null};
+    right: ${props=>props.right14 ? props.right14 : null};
+    bottom: ${props=>props.bottom14 ? props.bottom14 : null};
+  }
+
+`
+
 export {
   CommentBox,
   CommentBoxProfileImg,
   CommentBoxInnerText,
   ProfileNickNameComments,
-  CommentsInput
+  CommentsInput,
+  CommentsInputBtn
 }
