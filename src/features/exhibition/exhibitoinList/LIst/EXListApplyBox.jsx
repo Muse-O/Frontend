@@ -14,6 +14,7 @@ import {
 } from "../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
 import refresh from "../../../../assets/imgs/refresh.png";
 import { Apply, ResetImg } from "../css/exhibitionTagCss/EXTagCss";
+import { EXSlectFilterStore } from "../../../../hooks/exhibition/EXStore/EXSelectFilterStore";
 export const EXListApplyBox = ({
   // 해시태그
   setHashTagStore,
@@ -22,10 +23,10 @@ export const EXListApplyBox = ({
   setWhereStore,
   sido,
   //취소버튼
-  setSelectedFilter,
   //종류 확인
   classification,
 }) => {
+  const changeSelcedStore = useResetRecoilState(EXSlectFilterStore);
   // const [_, setApplyTags] = useRecoilState(EXApplyTagsStore);
   const setApplyTags = useSetRecoilState(EXApplyTagsStore);
   const resetCategory = useResetRecoilState(EXSelectCategoryStore);
@@ -125,9 +126,7 @@ export const EXListApplyBox = ({
     }
   };
   const cancle = () => {
-    classification === "Category" && setSelectedFilter("");
-    classification === "HashTag" && setSelectedFilter("");
-    classification === "Where" && setSelectedFilter("");
+    changeSelcedStore("");
   };
   return (
     <ApplyContainer>

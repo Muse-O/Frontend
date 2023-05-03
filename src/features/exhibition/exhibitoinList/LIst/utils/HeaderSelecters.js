@@ -3,15 +3,17 @@ import { HeaderWhenSelect } from "../HeaderWhenSelect";
 import { HeaderWhereSelect } from "../HeaderWhereSelect";
 import { HeaderCategorySelect } from "../HeaderCategorySelect";
 import { HeaderTagSelect } from "../HeaderTagSelect";
+import { useRecoilState } from "recoil";
+import { EXSlectFilterStore } from "../../../../../hooks/exhibition/EXStore/EXSelectFilterStore";
 
 export const HeaderSelecters = () => {
-  const [selectedFilter, setSelectedFilter] = useState("");
+  const [selectedStore, setSelectedStore] = useRecoilState(EXSlectFilterStore);
   const selectHandler = (e) => {
     const { name } = e.target;
-    if (selectedFilter === name) {
-      setSelectedFilter("");
+    if (selectedStore === name) {
+      setSelectedStore("");
     } else {
-      setSelectedFilter(name);
+      setSelectedStore(name);
     }
   };
   const handleClick = (e) => {
@@ -21,23 +23,23 @@ export const HeaderSelecters = () => {
     {
       name: "when",
       label: "When",
-      component: <HeaderWhenSelect setSelectedFilter={setSelectedFilter} />,
+      component: <HeaderWhenSelect />,
     },
     {
       name: "where",
       label: "Where",
-      component: <HeaderWhereSelect setSelectedFilter={setSelectedFilter} />,
+      component: <HeaderWhereSelect />,
     },
     {
       name: "category",
       label: "Category",
-      component: <HeaderCategorySelect setSelectedFilter={setSelectedFilter} />,
+      component: <HeaderCategorySelect />,
     },
     {
       name: "tag",
       label: "Tag",
-      component: <HeaderTagSelect setSelectedFilter={setSelectedFilter} />,
+      component: <HeaderTagSelect />,
     },
   ];
-  return [filterItems, selectedFilter, selectHandler, handleClick];
+  return [filterItems, selectedStore, selectHandler, handleClick];
 };

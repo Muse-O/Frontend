@@ -5,7 +5,7 @@ import { HeaderSelecters } from "./utils/HeaderSelecters";
 
 export const EXheader = () => {
   // 컴포넌트가 들어있는 배열, 보여줘야한 값state
-  const [filterItems, selectedFilter, selectHandler, handleClick] =
+  const [filterItems, selectedStore, selectHandler, handleClick] =
     HeaderSelecters();
 
   return (
@@ -15,7 +15,7 @@ export const EXheader = () => {
         {filterItems.map(({ name, label, component }) => (
           <FilterSelect key={name} name={name} onClick={selectHandler}>
             {label}
-            <SelectBox visible={selectedFilter === name} onClick={handleClick}>
+            <SelectBox visible={selectedStore === name} onClick={handleClick}>
               {component}
             </SelectBox>
           </FilterSelect>

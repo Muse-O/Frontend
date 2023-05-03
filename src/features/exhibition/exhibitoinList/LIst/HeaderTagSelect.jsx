@@ -7,7 +7,7 @@ import {
 } from "../css/exhibitionHeaderCss/EXWhereCss";
 import { HeaderHashTags } from "./utils/HeaderHashTags";
 import { useGetTop10Tags } from "../../../../hooks/exhibition/useGetTop10Tags";
-export const HeaderTagSelect = ({ setSelectedFilter }) => {
+export const HeaderTagSelect = () => {
   //api통신으로 받아온값
   const [top10TagsData] = useGetTop10Tags();
   //통신값을 받아온 걸 활용해서 전역 store, 전역 hashtagstore값을 받아오고, 그값을 선택하거나 삭제하는함수
@@ -48,7 +48,6 @@ export const HeaderTagSelect = ({ setSelectedFilter }) => {
       <EXListApplyBox
         classification={"HashTag"}
         setHashTagStore={setHashTagStore}
-        setSelectedFilter={setSelectedFilter}
         top10TagsData={top10TagsData}
       />
     </EXHashTag.TagContainer>
