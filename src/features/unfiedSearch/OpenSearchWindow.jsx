@@ -41,7 +41,7 @@ function OpenSearchWindow({searchWindow, setSearchWindow}) {
         ))}      
     </Headers.NavSearchListTop10>
     <Headers.NavSearchListRecently>
-      <h2>최근검색어</h2>
+      <h2>최근에 살펴본 전시, 아트그램</h2>
       {loadingRecent
         ? <div>로딩 중...</div>
         : errorRecent

@@ -9,7 +9,7 @@ function CreateArtgram() {
     <>
       <Header />
       <Article>
-        <Wrap>
+        <Wrap style={{overflowX: "scroll", height:"100vh"}}>
           <Artgramparts.H1
             fs="3rem"
             type="아트그램"

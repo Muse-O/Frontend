@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { usetoken } from "../../../shared/cookies";
 import { useDeleteArtgram } from "../../../hooks/artgram/newArtgram/useDeleteArtgram";
 import { ContentSettingBoxLayout, SettingBtn,SettingBtnborderline } from "../css/ArtgramDetailModalCss";
 import * as Artgramparts from "../css/ArtgramCss";
@@ -10,19 +9,25 @@ import { HashTagInput, Input, TextAreaUpdate } from "../../../components/Input";
 import { useFormInput } from "../../../hooks/useFormInput";
 import { usePatchArtgram } from "../../../hooks/artgram/usePatchArtgram";
 import cancel from '../../../assets/imgs/common/cancel.png'
+import { useReport } from "../../../hooks/useReport";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { decodeEmail } from "../../login/loginTokenStore";
 
 function ContentSettingBox({ detailData, setSettingBox }) {
-  const { decodetoken } = usetoken(); // ToKen에서 사용자 Email 정보 가져오기
-  const { deleteHandle } = useDeleteArtgram();
+  const email = useRecoilValue(decodeEmail)
   const [updateModal, setUpdateModal] = useState(false)
+  const [hashtag, setHashTag] = useState(detailData.hashtag);
   const [imgState, setImgState] = useState(detailData.ArtgramImgs)
   const [formState, setFormState, handleInputChange] = useFormInput();
+  const { patchArtgram } = usePatchArtgram()
+  const { deleteHandle } = useDeleteArtgram();
+  const { postReprt } = useReport()
+  const navigate = useNavigate()
   const updateImgHandle = (imgOrder) => {
     const selectImg = imgState.filter(el => el.imgOrder != imgOrder)
     setImgState(selectImg)
   }
-  const [hashtag, setHashTag] = useState(detailData.hashtag);
-  const {patchArtgram} = usePatchArtgram()
   const updatehandleSubmit = (e) => {
     e.preventDefault()
     if(!formState.artgramTitle && !formState.artgramDesc) {
@@ -46,12 +51,15 @@ function ContentSettingBox({ detailData, setSettingBox }) {
       setUpdateModal(pre=>!pre)
       setSettingBox(pre=>!pre)
     }
-    
+  }
+  const reportFn = (reportId) => {
+    !email && window.confirm("회원만 가능합니다. 로그인 하시겠습니까?") && navigate('/login')
+    email && postReprt({artgramId:reportId})
   }
 
   return (
     <ContentSettingBoxLayout>
-      {decodetoken?.email === detailData?.userEmail 
+      {email === detailData?.userEmail 
       ? (<>
           <SettingBtnborderline onClick={() => deleteHandle(detailData.artgramId)} children="삭제" />
           <SettingBtnborderline onClick={() => {
@@ -60,8 +68,8 @@ function ContentSettingBox({ detailData, setSettingBox }) {
           <SettingBtn onClick={() => setSettingBox((pre) => !pre)} children="취소"/>        
         </>) 
       : (<>
-          <SettingBtnborderline onClick={() => alert("게시글 작성자만 삭제가 가능합니다.")} children="삭제" />
-          <SettingBtnborderline onClick={() => alert("게시글 작성자만 수정이 가능합니다.")} children="수정"/>
+          {/* <SettingBtnborderline onClick={() => alert("게시글 작성자만 삭제가 가능합니다.")} children="삭제" /> */}
+          <SettingBtnborderline onClick={() => reportFn(detailData.artgramId)} children="신고"/>
           <SettingBtn onClick={() => setSettingBox((pre) => !pre)} children="취소"/>         
         </>)}
       <Artgramparts.UpdateModalWindow state={updateModal}>
