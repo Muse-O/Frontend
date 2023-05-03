@@ -35,64 +35,76 @@ function ExhibitionReviewForm({ exhibitionID, reviewRef }) {
     setHashTags
   );
   return (
-    <ReviewForm>
-      <ReviewCount>
-        <StarsBox>
-          {[1, 2, 3, 4, 5].map((value) => (
-            <ReviewStar
-              name={"reviewRating"}
-              data-value={value}
-              key={value}
-              src={value <= rating ? sparkle_full_gradient : sparkle}
-              alt={`${value} star`}
-              onMouseEnter={() => handleHover(value)}
-              onMouseLeave={() => handleHover(postReview.reviewRating)}
-              onClick={reviewHandler}
-            />
-          ))}
-        </StarsBox>
-        <StarRating> {rating}</StarRating>
-        <RatingReview> {ratingReview[rating]}</RatingReview>
-      </ReviewCount>
-      <ReviewInputBox>
-        <InputReview
-          ref={reviewRef}
-          type="textarea"
-          placeholder="리뷰 입력"
-          onChange={reviewHandler}
-          value={postReview.reviewComment}
-          name="reviewComment"
-          maxLength={maxlength}
-        />
-        <TagBox>
-          {hashTag &&
-            hashTag.map((hashTag, index) => {
-              return (
-                <TagItem pan key={index}>
-                  <span>{hashTag}</span>
-                  <HashTagCancleImg
-                    src={cancel_WGray}
-                    alt="Cancel"
-                    onClick={deleteTagItem}
-                  />
-                </TagItem>
-              );
-            })}
-          <TagInput
-            placeholder="해시태그 입력 (최대 5개)"
-            value={inputHashTag}
-            onChange={hashTaghandler}
-            onKeyPress={upKeyPress}
-            name="hashTag"
+    <>
+      <ExhibitioninfoP>후기작성</ExhibitioninfoP>
+      <ReviewForm>
+        <ReviewCount>
+          <StarsBox>
+            {[1, 2, 3, 4, 5].map((value) => (
+              <ReviewStar
+                name={"reviewRating"}
+                data-value={value}
+                key={value}
+                src={value <= rating ? sparkle_full_gradient : sparkle}
+                alt={`${value} star`}
+                onMouseEnter={() => handleHover(value)}
+                onMouseLeave={() => handleHover(postReview.reviewRating)}
+                onClick={reviewHandler}
+              />
+            ))}
+          </StarsBox>
+          <StarRating> {rating}</StarRating>
+          <RatingReview> {ratingReview[rating]}</RatingReview>
+        </ReviewCount>
+        <ReviewInputBox>
+          <InputReview
+            ref={reviewRef}
+            type="textarea"
+            placeholder="리뷰 입력"
+            onChange={reviewHandler}
+            value={postReview.reviewComment}
+            name="reviewComment"
+            maxLength={maxlength}
           />
-        </TagBox>
-      </ReviewInputBox>
-      <ReviewSubmitBtn onClick={onSubmitReview}>입력</ReviewSubmitBtn>
-    </ReviewForm>
+          <TagBox>
+            {hashTag &&
+              hashTag.map((hashTag, index) => {
+                return (
+                  <TagItem pan key={index}>
+                    <span>{hashTag}</span>
+                    <HashTagCancleImg
+                      src={cancel_WGray}
+                      alt="Cancel"
+                      onClick={deleteTagItem}
+                    />
+                  </TagItem>
+                );
+              })}
+            <TagInput
+              placeholder="해시태그 입력 (최대 5개)"
+              value={inputHashTag}
+              onChange={hashTaghandler}
+              onKeyPress={upKeyPress}
+              name="hashTag"
+            />
+          </TagBox>
+        </ReviewInputBox>
+        <ReviewSubmitBtn onClick={onSubmitReview}>입력</ReviewSubmitBtn>
+      </ReviewForm>
+    </>
   );
 }
 
 export default ExhibitionReviewForm;
+const ExhibitioninfoP = styled.p`
+  color: #242424;
+  font-family: "S-Core Dream";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 25px;
+  margin-top: 80px;
+`;
 const ReviewSubmitBtn = styled.button`
   display: flex;
   flex: 1;

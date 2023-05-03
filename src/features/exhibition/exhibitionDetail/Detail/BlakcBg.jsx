@@ -71,10 +71,6 @@ const DateP = styled.p`
   line-height: 24px;
   color: #ffffff;
 `;
-const DIV = styled.div`
-  background-color: aqua;
-  margin-top: 50px;
-`;
 
 const SecondTitle = styled.div`
   margin-left: 648px;
@@ -89,14 +85,4 @@ const SecondTitleH2 = styled.h2`
   font-size: 32px;
   line-height: 39px;
   color: #cecece;
-`;
-const ArtLinkBtn = styled.button`
-  background-color: white;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 25px;
-`;
-const Icon = styled.div`
-  padding: auto;
-  font-size: 20px;
 `;
