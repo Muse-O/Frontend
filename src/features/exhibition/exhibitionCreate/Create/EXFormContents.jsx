@@ -1,10 +1,12 @@
 import { EXFormBox } from "./EXFormBox";
-import SelectEX from "./SelectEX";
-import * as EXContents from "../css/exhibitionCreateCss/EXFormContentsCss";
-import { Flex } from "../../../components/Flex";
-import { ExCategoryCode, ExHostCode } from "../../../shared/EXCodes";
+import * as EXContents from "../css/EXFormContentsCss";
+import { Flex } from "../../../../components/Flex";
+import { ExCategoryCode, ExHostCode } from "../../../../shared/EXCodes";
 import styled from "styled-components";
-import { SubmitBtn } from "../../../components/Buttons";
+
+import SelectEX from "./SelectEX";
+import { SubmitBtn } from "../../../../components/Buttons";
+
 export const EXFormContents = ({
   Detaildata,
   deleteHandler,
