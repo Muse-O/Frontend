@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ExSatus } from "../../EXstatusTitle";
+import { ExSatus } from "../../exhibitoinList/utils/EXstatusTitle";
 
 export const TitleBackGround = ({ info }) => {
   return (
