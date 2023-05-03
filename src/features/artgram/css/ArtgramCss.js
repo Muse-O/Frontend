@@ -69,6 +69,7 @@ const BoxWrap = styled.div`
   border-radius: 5px;
   background-color: #fff;
   overflow: hidden;
+  
 
   @media (max-width: 1440px) {
     height: 319.5px;
@@ -76,7 +77,9 @@ const BoxWrap = styled.div`
   @media (max-width: 810px) {
     
   }
-
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const BoxImg = styled.div`

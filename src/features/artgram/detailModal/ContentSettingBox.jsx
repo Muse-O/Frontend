@@ -61,15 +61,15 @@ function ContentSettingBox({ detailData, setSettingBox }) {
     <ContentSettingBoxLayout>
       {email === detailData?.userEmail 
       ? (<>
-          <SettingBtnborderline onClick={() => deleteHandle(detailData.artgramId)} children="삭제" />
-          <SettingBtnborderline onClick={() => {
+          <SettingBtnborderline className="curserPoint" onClick={() => deleteHandle(detailData.artgramId)} children="삭제" />
+          <SettingBtnborderline className="curserPoint" onClick={() => {
             setUpdateModal(pre=>!pre)
             }} children="수정"/> 
-          <SettingBtn onClick={() => setSettingBox((pre) => !pre)} children="취소"/>        
+          <SettingBtn className="curserPoint" onClick={() => setSettingBox((pre) => !pre)} children="취소"/>        
         </>) 
       : (<>
-          <SettingBtnborderline onClick={() => reportFn(detailData.artgramId)} children="신고"/>
-          <SettingBtn onClick={() => setSettingBox((pre) => !pre)} children="취소"/>         
+          <SettingBtnborderline className="curserPoint" onClick={() => reportFn(detailData.artgramId)} children="신고"/>
+          <SettingBtn className="curserPoint" onClick={() => setSettingBox((pre) => !pre)} children="취소"/>         
         </>)}
       <Artgramparts.UpdateModalWindow state={updateModal}>
         <Artgramparts.UpdateModalTitleLayout children={<Artgramparts.H1 children="아트그램 수정"/>}/>

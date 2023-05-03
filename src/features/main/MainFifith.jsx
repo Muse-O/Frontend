@@ -41,7 +41,7 @@ function MainFifith() {
         <Main.MainSlider>
           <Slider {...mainSliderSettings}>
             {data && data.map(artgram => (
-              <Main.MainSliderWrap key={artgram?.artgramId} onMouseOver={()=>setModalArtgramId(artgram.artgramId)} onClick={() =>openModalhandle(artgram?.artgramId)}>
+              <Main.MainSliderWrap className="curserPoint" key={artgram?.artgramId} onMouseOver={()=>setModalArtgramId(artgram.artgramId)} onClick={() =>openModalhandle(artgram?.artgramId)}>
                 <Main.MainSliderImg children={<img className="artgramimg" src={artgram.imgUrl}/>}/>
                 <Main.MainSliderProfile>
                   <Main.MainSliderProfileImg src={artgram.authorProfileImg} alt="authorProfileImg"/>
@@ -54,7 +54,7 @@ function MainFifith() {
         <Main.SubSlider>
           <Slider {...subSliderSettings}>
             {editLists && editLists?.map(artgram => (
-                <Main.SubSliderLayout key={artgram?.artgramId} onMouseOver={()=>setModalArtgramId(artgram.artgramId)} onClick={() =>openModalhandle(artgram.artgramId)}>
+                <Main.SubSliderLayout className="curserPoint" key={artgram?.artgramId} onMouseOver={()=>setModalArtgramId(artgram.artgramId)} onClick={() =>openModalhandle(artgram.artgramId)}>
                   <Main.SubSliderWrap>
                     <Main.SubSliderImg children={<img className="artgramimg" src={artgram.imgUrl}/>}/>
                     <Main.SubSliderProfile>
