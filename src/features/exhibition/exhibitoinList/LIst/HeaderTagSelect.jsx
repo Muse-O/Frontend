@@ -1,10 +1,14 @@
 import { useRecoilState } from "recoil";
-import { useGetTop10Tags } from "../../../hooks/exhibition/useGetTop10Tags";
-import { EXSelectHashTagStore } from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
+import { useGetTop10Tags } from "../../../../hooks/exhibition/useGetTop10Tags";
+import { EXSelectHashTagStore } from "../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
 import { useEffect } from "react";
 import { EXListApplyBox } from "./EXListApplyBox";
-import * as EXHashTag from "./css/exhibitionHeaderCss/EXHashTagCss";
-import { TagButton, TagText, XBox } from "./css/exhibitionHeaderCss/EXWhereCss";
+import * as EXHashTag from "../css/exhibitionHeaderCss/EXHashTagCss";
+import {
+  TagButton,
+  TagText,
+  XBox,
+} from "../css/exhibitionHeaderCss/EXWhereCss";
 export const HeaderTagSelect = ({ setSelectedFilter }) => {
   const [top10TagsData] = useGetTop10Tags();
   const [hashTagStore, setHashTagStore] = useRecoilState(EXSelectHashTagStore);

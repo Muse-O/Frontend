@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import location from "../../../assets/imgs/exhibition/location.png";
-import tickets from "../../../assets/imgs/exhibition/tickets.png";
-import artist from "../../../assets/imgs/exhibition/artist.png";
-import sparkle_gray from "../../../assets/imgs/exhibition/sparkle_gray.png";
+import location from "../../../../assets/imgs/exhibition/location.png";
+import tickets from "../../../../assets/imgs/exhibition/tickets.png";
+import artist from "../../../../assets/imgs/exhibition/artist.png";
+import sparkle_gray from "../../../../assets/imgs/exhibition/sparkle_gray.png";
 import { useNavigate } from "react-router-dom";
-import { ExSatus } from "../EXstatusTitle";
+import { ExSatus } from "../../EXstatusTitle";
 export const EXListBody = ({ isLoading, isError, merged }) => {
   const navigator = useNavigate();
   console.log(merged.filter((el) => el.endDate === null));

@@ -2,12 +2,12 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import {
   EXCities,
   EXSelectWhereStore,
-} from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
-import { useGetSido } from "../../../hooks/exhibition/useGetSido";
+} from "../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
+import { useGetSido } from "../../../../hooks/exhibition/useGetSido";
 import { useEffect } from "react";
 import { EXListApplyBox } from "./EXListApplyBox";
-import * as EXWhere from "./css/exhibitionHeaderCss/EXWhereCss";
-import { PositionBox } from "./css/exhibitionHeaderCss/EXCategoryCss";
+import * as EXWhere from "../css/exhibitionHeaderCss/EXWhereCss";
+import { PositionBox } from "../css/exhibitionHeaderCss/EXCategoryCss";
 export const HeaderWhereSelect = ({ setSelectedFilter }) => {
   const [WhereStore, setWhereStore] = useRecoilState(EXSelectWhereStore);
   const Cities = useRecoilValue(EXCities);

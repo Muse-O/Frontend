@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRecoilState } from "recoil";
-import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsStore";
-import * as EXSearch from "./css/exhibitionHeaderCss/EXSearchCss";
+import { EXApplyTagsStore } from "../../../../hooks/exhibition/EXStore/EXApplyTagsStore";
+import * as EXSearch from "../css/exhibitionHeaderCss/EXSearchCss";
 export const HeaderSearch = () => {
   const [applyTags, setApplyTags] = useRecoilState(EXApplyTagsStore);
   const [Search, setSearch] = useState("");

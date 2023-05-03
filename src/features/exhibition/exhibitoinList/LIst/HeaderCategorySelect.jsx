@@ -2,10 +2,10 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import {
   EXCategoryStoreCheckBox,
   EXSelectCategoryStore,
-} from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
+} from "../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
 import { EXListApplyBox } from "./EXListApplyBox";
-import { ExCategoryCode, ExOnOffCode } from "../../../shared/EXCodes";
-import * as EXCategory from "./css/exhibitionHeaderCss/EXCategoryCss";
+import { ExCategoryCode, ExOnOffCode } from "../../../../shared/EXCodes";
+import * as EXCategory from "../css/exhibitionHeaderCss/EXCategoryCss";
 export const HeaderCategorySelect = ({ setSelectedFilter }) => {
   const [categoryStore, setCategoryStore] = useRecoilState(
     EXSelectCategoryStore

@@ -5,15 +5,15 @@ import {
   useSetRecoilState,
 } from "recoil";
 import styled from "styled-components";
-import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsStore";
+import { EXApplyTagsStore } from "../../../../hooks/exhibition/EXStore/EXApplyTagsStore";
 import {
   EXCategory,
   EXHashTags,
   EXSelectCategoryStore,
   EXSelectRegion,
-} from "../../../hooks/exhibition/EXStore/EXSelectTagsStore";
-import refresh from "../../../assets/imgs/refresh.png";
-import { Apply, ResetImg } from "./css/exhibitionTagCss/EXTagCss";
+} from "../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
+import refresh from "../../../../assets/imgs/refresh.png";
+import { Apply, ResetImg } from "../css/exhibitionTagCss/EXTagCss";
 export const EXListApplyBox = ({
   // 해시태그
   setHashTagStore,
