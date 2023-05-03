@@ -1,15 +1,13 @@
-import React, { useRef } from "react";
-import { useDetailGetExibition } from "../../../hooks/exhibition/useDetailGetExibition";
-import { useNavigate, useParams } from "react-router-dom";
+import React from "react";
 import { Flex } from "../../../components/Flex";
 import { TitleBackGround } from "./Detail/BlakcBg";
 import { Post } from "./Detail/Post";
 import { Contents } from "./Detail/Contents";
+import { GetDetailInfos } from "./utils/GetDetailInfos";
+
 function ExhibitionDetail() {
-  const { id } = useParams();
-  const reviewRef = useRef(null);
-  const [info, isLoading, isError] = useDetailGetExibition(id);
-  if (isLoading) {
+  const [id, reviewRef, info, isLoading, isError] = GetDetailInfos();
+  if (isLoading || isError) {
     return <div>로딩중</div>;
   }
   return (
