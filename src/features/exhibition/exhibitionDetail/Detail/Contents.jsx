@@ -19,15 +19,6 @@ export const Contents = ({ info, id, reviewRef }) => {
 };
 
 // 전시정보랑 후기 작품사진 랑 겹침
-const ExhibitioninfoP = styled.p`
-  color: #242424;
-  font-family: "S-Core Dream";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 25px;
-  margin-top: 80px;
-`;
 
 const ExhibitionDescBOX = styled.div`
   width: 823px;

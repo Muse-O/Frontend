@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { InfoTable } from "./InfosTable";
+import { ExhibitioninfoP } from "../css/ReviewsDetail";
 
 export const ContentsTable = ({ info }) => {
   return (
@@ -74,15 +75,7 @@ export const ContentsTable = ({ info }) => {
     </>
   );
 };
-const ExhibitioninfoP = styled.p`
-  color: #242424;
-  font-family: "S-Core Dream";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 25px;
-  margin-top: 80px;
-`;
+
 const ExhibitionInfoWrap = styled.div`
   margin-top: 24px;
   width: 823px;

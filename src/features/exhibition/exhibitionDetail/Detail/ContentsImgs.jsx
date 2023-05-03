@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ExhibitioninfoP } from "../css/ReviewsDetail";
 
 export const ContentsImgs = ({ info }) => {
   return (
@@ -23,15 +24,6 @@ export const ContentsImgs = ({ info }) => {
   );
 };
 
-const ExhibitioninfoP = styled.p`
-  color: #242424;
-  font-family: "S-Core Dream";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 25px;
-  margin-top: 80px;
-`;
 const Thumb = styled.div`
   display: inline-flex;
   border-radius: 2;
