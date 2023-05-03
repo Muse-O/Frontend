@@ -25,8 +25,13 @@ function ContentSettingBox({ detailData, setSettingBox }) {
   const { postReprt } = useReport()
   const navigate = useNavigate()
   const updateImgHandle = (imgOrder) => {
-    const selectImg = imgState.filter(el => el.imgOrder != imgOrder)
-    setImgState(selectImg)
+    if (imgState.length < 2) {
+      alert("이미지는 최소 한 장 있어야 합니다. ")
+      return
+    } else {
+      const selectImg = imgState.filter(el => el.imgOrder != imgOrder)
+      setImgState(selectImg)
+    }
   }
   const updatehandleSubmit = (e) => {
     e.preventDefault()
@@ -118,7 +123,10 @@ function ContentSettingBox({ detailData, setSettingBox }) {
               />
           <Formbtn >아트그램 수정하기</Formbtn>       
         </Artgramparts.UpdateForm>
-        <img onClick={()=>{setUpdateModal(pre=>!pre); setSettingBox(pre=>!pre);}} src={cancel} style={{position:"absolute", display:"block", width:"1.7rem", top:"15px", right:"15px", cursor:"pointer"}}/>
+        <img 
+          onClick={()=>{setUpdateModal(pre=>!pre); setSettingBox(pre=>!pre);}} 
+          src={cancel} 
+          style={{position:"absolute", display:"block", width:"1.7rem", top:"15px", right:"15px", cursor:"pointer"}}/>
       </Artgramparts.UpdateModalWindow>  
     </ContentSettingBoxLayout>
   );

@@ -14,8 +14,7 @@ function Notification() {
         }
       />
     </p>
-    <p children="사진은 기존 사진을 삭제하는 것만 가능합니다. 추가기능은 추후에 제공해 드릴 예정입니다." />
-    <p children="전시 제목과 설명은 필수 입력사항입니다." />
+    <p children="사진은 기존 사진을 삭제하는 것만 가능하며, 추가기능은 추후에 제공해 드릴 예정입니다. 또한 이미지는 최소 1장이 있어야 합니다." />
   </Artgramparts.Notification>
   )
 }
