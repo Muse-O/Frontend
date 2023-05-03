@@ -8,7 +8,6 @@ import googleLogo from "../../assets/imgs/login/google-plus.png";
 import kakaoLogo from "../../assets/imgs/login/kakao-talk.png";
 import museoLogo from "../../assets/imgs/museoLogo/임시 로고.png";
 import * as Style from "../login/css/LoginStyle";
-import Swal from "sweetalert2";
 
 function LoginForm() {
   const navigate = useNavigate();
@@ -72,32 +71,6 @@ function LoginForm() {
   const visibleChangeHandler = () => {
     setPwVisible(visible => !visible); //toggle
   };
-
-  //소셜로그인 미구현 -> 서비스 제공 예정 alert
-  // const socialLoginBtn = () => {
-  //   Swal.fire({
-  //     title: "서비스 제공 예정입니다.",
-  //     icon: "info",
-  //     focusConfirm: false,
-  //   });
-  // };
-
-  // const BASE_URL = "https://museoh.shop";
-
-  // //구글
-  // const googleLoginBtn = () => {
-  //   navigate(`${BASE_URL}/auth/google`);
-  // };
-
-  // //카카오톡
-  // const kakaoLoginBtn = () => {
-  //   navigate(`${BASE_URL}/auth/kakao`);
-  // };
-
-  // //네이버
-  // const naverLoginBtn = () => {
-  //   navigate(`${BASE_URL}/auth/naver`);
-  // };
 
   const socialLoginBtn = provider => () => {
     window.location.href = `${process.env.REACT_APP_SERVER_URL}auth/${provider}`;
