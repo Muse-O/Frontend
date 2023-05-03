@@ -1,149 +1,72 @@
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  EXCities,
-  EXSelectWhereStore,
-} from "../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
-import { useGetSido } from "../../../../hooks/exhibition/useGetSido";
-import { useEffect } from "react";
 import { EXListApplyBox } from "./EXListApplyBox";
-import * as EXWhere from "../css/exhibitionHeaderCss/EXWhereCss";
+import * as EW from "../css/exhibitionHeaderCss/EXWhereCss";
 import { PositionBox } from "../css/exhibitionHeaderCss/EXCategoryCss";
+import { HeaderWheres } from "./utils/HeaderWheres";
 export const HeaderWhereSelect = ({ setSelectedFilter }) => {
-  const [WhereStore, setWhereStore] = useRecoilState(EXSelectWhereStore);
-  const Cities = useRecoilValue(EXCities);
-  const [sido] = useGetSido();
-
-  useEffect(() => {
-    if (sido) {
-      setWhereStore((pre) => {
-        return { ...pre, Cities: sido };
-      });
-    }
-  }, [sido]);
-
-  const filterRegion = (e) => {
-    const { innerText } = e.target;
-    const newCities = Cities.map((city) => {
-      if (city.sidoname === innerText) {
-        return {
-          ...city,
-          sidoChecked: !city.sidoChecked,
-        };
-      } else {
-        return {
-          ...city,
-          sidoChecked: false,
-        };
-      }
-    });
-
-    setWhereStore((pre) => {
-      return {
-        ...pre,
-        Cities: newCities,
-      };
-    });
-  };
-  const selectDetailRegion = (e) => {
-    const { innerText } = e.target;
-    const newCities = Cities.map((city) => {
-      return {
-        ...city,
-        sigungu: city.sigungu.map((sigungu) => {
-          if (sigungu.siGunGuName === innerText) {
-            return {
-              ...sigungu,
-              sigunguChecked: !sigungu.sigunguChecked,
-            };
-          } else {
-            return {
-              ...sigungu,
-              sigunguChecked: false,
-            };
-          }
-        }),
-      };
-    });
-    setWhereStore((pre) => {
-      return {
-        ...pre,
-        SelectRegion: innerText,
-        Cities: newCities,
-      };
-    });
-  };
-  const filteredCities = Cities?.filter((city) => city.sidoChecked === true)[0];
-  const deleteRegion = (e) => {
-    const newCities = Cities.map((city) => {
-      return {
-        ...city,
-        sigungu: city.sigungu.map((sigungu) => {
-          return { ...sigungu, sigunguChecked: false };
-        }),
-      };
-    });
-    setWhereStore((pre) => {
-      return {
-        ...pre,
-        SelectRegion: "",
-        Cities: newCities,
-      };
-    });
-  };
+  //전역 wherestore값, store 변경하는 함수, 지역 삭제 함수, 불러온sido함수
+  const [
+    Cities,
+    filterRegion,
+    filteredCities,
+    selectDetailRegion,
+    WhereStore,
+    deleteRegion,
+    setWhereStore,
+    sido,
+  ] = HeaderWheres();
   return (
-    <EXWhere.WhereBox>
+    <EW.WhereBox>
       <PositionBox>
-        <EXWhere.LocalBox>
-          <EXWhere.Local>지역</EXWhere.Local>
-          <EXWhere.RegionBOX>
+        <EW.LocalBox>
+          <EW.Local>지역</EW.Local>
+          <EW.RegionBOX>
             {Cities?.map((si) => {
               return (
-                <EXWhere.RegionButton
+                <EW.RegionButton
                   type="button"
                   onClick={filterRegion}
                   checked={si.sidoChecked}
                 >
                   <p>{si.sidoname}</p>
-                </EXWhere.RegionButton>
+                </EW.RegionButton>
               );
             })}
-          </EXWhere.RegionBOX>
-        </EXWhere.LocalBox>
-        <EXWhere.LocalBox>
-          <EXWhere.LocalBox>
-            <EXWhere.Local>상세지역</EXWhere.Local>
-            <EXWhere.RegionBOX>
+          </EW.RegionBOX>
+        </EW.LocalBox>
+        <EW.LocalBox>
+          <EW.LocalBox>
+            <EW.Local>상세지역</EW.Local>
+            <EW.RegionBOX>
               {filteredCities?.sigungu.map((city) => (
-                <EXWhere.RegionButton
+                <EW.RegionButton
                   type="button"
                   key={city.siGunGuName}
                   onClick={selectDetailRegion}
                   checked={city.sigunguChecked}
                 >
                   <p>{city.siGunGuName}</p>
-                </EXWhere.RegionButton>
+                </EW.RegionButton>
               ))}
-            </EXWhere.RegionBOX>
-          </EXWhere.LocalBox>
-        </EXWhere.LocalBox>
+            </EW.RegionBOX>
+          </EW.LocalBox>
+        </EW.LocalBox>
       </PositionBox>
-      <EXWhere.SelectRoginBox>
+      <EW.SelectRoginBox>
         {WhereStore?.SelectRegion && (
-          <EXWhere.TagButton>
-            <EXWhere.TagText>{WhereStore.SelectRegion}</EXWhere.TagText>
-            <EXWhere.XBox type="button" onClick={deleteRegion}>
+          <EW.TagButton>
+            <EW.TagText>{WhereStore.SelectRegion}</EW.TagText>
+            <EW.XBox type="button" onClick={deleteRegion}>
               x
-            </EXWhere.XBox>
-          </EXWhere.TagButton>
+            </EW.XBox>
+          </EW.TagButton>
         )}
-      </EXWhere.SelectRoginBox>
+      </EW.SelectRoginBox>
       <EXListApplyBox
         classification={"Where"}
-        // SelectRegion={SelectRegion}
         setSelectedFilter={setSelectedFilter}
         setWhereStore={setWhereStore}
         sido={sido}
       />
-    </EXWhere.WhereBox>
+    </EW.WhereBox>
   );
 };
