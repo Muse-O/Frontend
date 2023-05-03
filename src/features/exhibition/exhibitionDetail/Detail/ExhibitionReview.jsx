@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useGetReview } from "../../../hooks/exhibition/useGetReview";
-import { usetoken } from "../../../shared/cookies";
-import { useDeleteReview } from "../../../hooks/exhibition/useDeleteReview";
+import { useGetReview } from "../../../../hooks/exhibition/useGetReview";
+import { usetoken } from "../../../../shared/cookies";
+import { useDeleteReview } from "../../../../hooks/exhibition/useDeleteReview";
 import { AiOutlineDelete } from "react-icons/ai";
-import sparkle from "../../../assets/imgs/exhibition/sparkle.png";
-import sparkle_full_gradient from "../../../assets/imgs/exhibition/sparkle_full_gradient.png";
+import sparkle from "../../../../assets/imgs/exhibition/sparkle.png";
+import sparkle_full_gradient from "../../../../assets/imgs/exhibition/sparkle_full_gradient.png";
 
 function ExhibitionReview({ exhibitionID }) {
   const { decodetoken } = usetoken();

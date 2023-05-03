@@ -1,10 +1,14 @@
 import React from "react";
-import { usePostReview } from "../../../hooks/exhibition/usePostReview";
+import { usePostReview } from "../../../../hooks/exhibition/usePostReview";
 import styled from "styled-components";
-import cancel_WGray from "../../../assets/imgs/common/cancel_WGray.png";
-import sparkle from "../../../assets/imgs/exhibition/sparkle.png";
-import sparkle_full_gradient from "../../../assets/imgs/exhibition/sparkle_full_gradient.png";
-import { PostEXReview, ReviewHashTag, ReviewRating } from "./PostEXReview";
+import cancel_WGray from "../../../../assets/imgs/common/cancel_WGray.png";
+import sparkle from "../../../../assets/imgs/exhibition/sparkle.png";
+import sparkle_full_gradient from "../../../../assets/imgs/exhibition/sparkle_full_gradient.png";
+import {
+  PostEXReview,
+  ReviewHashTag,
+  ReviewRating,
+} from "../../../../hooks/exhibition/PostEXReview";
 
 function ExhibitionReviewForm({ exhibitionID, reviewRef }) {
   const maxlength = 100;
@@ -42,7 +46,7 @@ function ExhibitionReviewForm({ exhibitionID, reviewRef }) {
               src={value <= rating ? sparkle_full_gradient : sparkle}
               alt={`${value} star`}
               onMouseEnter={() => handleHover(value)}
-              onMouseLeave={() => handleHover(postReview.reviewRating)} // hover 이벤트 처리
+              onMouseLeave={() => handleHover(postReview.reviewRating)}
               onClick={reviewHandler}
             />
           ))}

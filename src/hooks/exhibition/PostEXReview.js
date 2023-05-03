@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { usetoken } from "../../../shared/cookies";
+import { usetoken } from "../../shared/cookies";
 
 export const ReviewRating = () => {
   const [rating, setRating] = useState(0); // 현재 별점 상태
