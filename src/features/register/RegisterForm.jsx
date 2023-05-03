@@ -118,6 +118,13 @@ function RegisterForm() {
     emailAuthConfirm({ email: registerInfo.email, code: Number(code) });
   };
 
+  //이메일 인증번호 상태에 따른 타이머 표기
+  useEffect(() => {
+    if (checkEmailAuthConfirm) {
+      setShowTimer(false);
+    }
+  }, [checkEmailAuthConfirm]);
+
   //비밀번호 보임/숨김
   const visibleChangeHandler = () => {
     setPwVisible(visible => !visible); //toggle

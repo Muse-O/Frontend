@@ -16,7 +16,7 @@ export function useRegister() {
         focusConfirm: false,
         icon: "success",
       });
-      navigate("/");
+      navigate("/login");
     },
     onError: error => {
       Swal.fire({
