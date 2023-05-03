@@ -48,7 +48,6 @@ function UpdateUserProfileModal({ setOpenModal }) {
     } else if (fileRef) {
       //update query에 payload로 넣어줄 fileImg = useRef 사용해서 받아둔 파일
       const fileImg = s3imgurlhandle(fileRef.current.files[0]);
-      console.log(fileImg, "fileImg"); //파일 확인
       updateUserProfile({ ...editProfile, profileImg: fileImg });
       setOpenModal(false);
     }
