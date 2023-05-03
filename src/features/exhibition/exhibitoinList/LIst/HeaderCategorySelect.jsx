@@ -1,44 +1,28 @@
-import { useRecoilState, useRecoilValue } from "recoil";
-import {
-  EXCategoryStoreCheckBox,
-  EXSelectCategoryStore,
-} from "../../../../hooks/exhibition/EXStore/EXSelectTagsStore";
 import { EXListApplyBox } from "./EXListApplyBox";
 import { ExCategoryCode, ExOnOffCode } from "../../../../shared/EXCodes";
-import * as EXCategory from "../css/exhibitionHeaderCss/EXCategoryCss";
+import * as EC from "../css/exhibitionHeaderCss/EXCategoryCss";
+import { HeaderCategorys } from "./utils/HeaderCategorys";
 export const HeaderCategorySelect = ({ setSelectedFilter }) => {
-  const [categoryStore, setCategoryStore] = useRecoilState(
-    EXSelectCategoryStore
-  );
-  const checkboxes = useRecoilValue(EXCategoryStoreCheckBox);
-  const categoryHandler = (e) => {
-    const { name, value } = e.target;
-    setCategoryStore({
-      Category: value,
-      Checkbox: Object.keys(categoryStore.Checkbox).reduce((acc, curr) => {
-        acc[curr] = curr === name;
-        return acc;
-      }, {}),
-    });
-  };
+  //전역 store 체그박스 정보,선택된 카테고리 무엇인지,카테고리를 store에 넣는 함수
+  const [checkboxes, categoryHandler] = HeaderCategorys();
 
   return (
-    <EXCategory.CartegoryBox>
-      <EXCategory.PositionBox>
-        <EXCategory.CheckBoxContainer>
-          <EXCategory.Checkbox type="checkbox" />
+    <EC.CartegoryBox>
+      <EC.PositionBox>
+        <EC.CheckBoxContainer>
+          <EC.Checkbox type="checkbox" />
           <p>{ExOnOffCode.EK0001}</p>
-        </EXCategory.CheckBoxContainer>
-        <EXCategory.CheckBoxContainer>
-          <EXCategory.Checkbox type="checkbox" />
+        </EC.CheckBoxContainer>
+        <EC.CheckBoxContainer>
+          <EC.Checkbox type="checkbox" />
           <p>{ExOnOffCode.EK0002}</p>
-        </EXCategory.CheckBoxContainer>
-      </EXCategory.PositionBox>
+        </EC.CheckBoxContainer>
+      </EC.PositionBox>
 
-      <EXCategory.CategoryContainer>
-        <EXCategory.CategoryBox>
-          <EXCategory.CheckBoxContainer>
-            <EXCategory.Checkbox
+      <EC.CategoryContainer>
+        <EC.CategoryBox>
+          <EC.CheckBoxContainer>
+            <EC.Checkbox
               type="checkbox"
               name={"WK0001"}
               value={"WK0001"}
@@ -46,9 +30,9 @@ export const HeaderCategorySelect = ({ setSelectedFilter }) => {
               onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0001}</p>
-          </EXCategory.CheckBoxContainer>
-          <EXCategory.CheckBoxContainer>
-            <EXCategory.Checkbox
+          </EC.CheckBoxContainer>
+          <EC.CheckBoxContainer>
+            <EC.Checkbox
               type="checkbox"
               name={"WK0002"}
               value={"WK0002"}
@@ -56,11 +40,11 @@ export const HeaderCategorySelect = ({ setSelectedFilter }) => {
               onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0002}</p>
-          </EXCategory.CheckBoxContainer>
-        </EXCategory.CategoryBox>
-        <EXCategory.CategoryBox>
-          <EXCategory.CheckBoxContainer>
-            <EXCategory.Checkbox
+          </EC.CheckBoxContainer>
+        </EC.CategoryBox>
+        <EC.CategoryBox>
+          <EC.CheckBoxContainer>
+            <EC.Checkbox
               type="checkbox"
               name={"WK0003"}
               value={"WK0003"}
@@ -68,9 +52,9 @@ export const HeaderCategorySelect = ({ setSelectedFilter }) => {
               onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0003}</p>
-          </EXCategory.CheckBoxContainer>
-          <EXCategory.CheckBoxContainer>
-            <EXCategory.Checkbox
+          </EC.CheckBoxContainer>
+          <EC.CheckBoxContainer>
+            <EC.Checkbox
               type="checkbox"
               name={"WK0004"}
               value={"WK0004"}
@@ -78,11 +62,11 @@ export const HeaderCategorySelect = ({ setSelectedFilter }) => {
               onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0004}</p>
-          </EXCategory.CheckBoxContainer>
-        </EXCategory.CategoryBox>
-        <EXCategory.CategoryBox>
-          <EXCategory.CheckBoxContainer>
-            <EXCategory.Checkbox
+          </EC.CheckBoxContainer>
+        </EC.CategoryBox>
+        <EC.CategoryBox>
+          <EC.CheckBoxContainer>
+            <EC.Checkbox
               type="checkbox"
               name={"WK0005"}
               value={"WK0005"}
@@ -90,9 +74,9 @@ export const HeaderCategorySelect = ({ setSelectedFilter }) => {
               onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0005}</p>
-          </EXCategory.CheckBoxContainer>
-          <EXCategory.CheckBoxContainer>
-            <EXCategory.Checkbox
+          </EC.CheckBoxContainer>
+          <EC.CheckBoxContainer>
+            <EC.Checkbox
               type="checkbox"
               name={"WK0006"}
               value={"WK0006"}
@@ -100,11 +84,11 @@ export const HeaderCategorySelect = ({ setSelectedFilter }) => {
               onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0006}</p>
-          </EXCategory.CheckBoxContainer>
-        </EXCategory.CategoryBox>
-        <EXCategory.CategoryBox>
-          <EXCategory.CheckBoxContainer>
-            <EXCategory.Checkbox
+          </EC.CheckBoxContainer>
+        </EC.CategoryBox>
+        <EC.CategoryBox>
+          <EC.CheckBoxContainer>
+            <EC.Checkbox
               type="checkbox"
               name={"WK0007"}
               value={"WK0007"}
@@ -112,9 +96,9 @@ export const HeaderCategorySelect = ({ setSelectedFilter }) => {
               onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0007}</p>
-          </EXCategory.CheckBoxContainer>
-          <EXCategory.CheckBoxContainer>
-            <EXCategory.Checkbox
+          </EC.CheckBoxContainer>
+          <EC.CheckBoxContainer>
+            <EC.Checkbox
               type="checkbox"
               name={"WK0008"}
               value={"WK0008"}
@@ -122,13 +106,13 @@ export const HeaderCategorySelect = ({ setSelectedFilter }) => {
               onClick={categoryHandler}
             />
             <p>{ExCategoryCode.WK0008}</p>
-          </EXCategory.CheckBoxContainer>
-        </EXCategory.CategoryBox>
-      </EXCategory.CategoryContainer>
+          </EC.CheckBoxContainer>
+        </EC.CategoryBox>
+      </EC.CategoryContainer>
       <EXListApplyBox
         classification={"Category"}
         setSelectedFilter={setSelectedFilter}
       />
-    </EXCategory.CartegoryBox>
+    </EC.CartegoryBox>
   );
 };
