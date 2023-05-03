@@ -68,7 +68,6 @@ function ContentSettingBox({ detailData, setSettingBox }) {
           <SettingBtn onClick={() => setSettingBox((pre) => !pre)} children="취소"/>        
         </>) 
       : (<>
-          {/* <SettingBtnborderline onClick={() => alert("게시글 작성자만 삭제가 가능합니다.")} children="삭제" /> */}
           <SettingBtnborderline onClick={() => reportFn(detailData.artgramId)} children="신고"/>
           <SettingBtn onClick={() => setSettingBox((pre) => !pre)} children="취소"/>         
         </>)}
@@ -77,7 +76,7 @@ function ContentSettingBox({ detailData, setSettingBox }) {
         <Flex fd="column" ai="center">
           <Artgramparts.ImgZone>
             <Artgramparts.ImgZoneMsg>
-              <p>아트그림애 등록된 이미지는 현재 삭제만 가능합니다.</p>
+              <p>아트그림에 등록된 이미지는 현재 삭제만 가능합니다.</p>
             </Artgramparts.ImgZoneMsg>
             <Artgramparts.ImgZonePreview>
               {imgState.map((img) => (
