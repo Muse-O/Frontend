@@ -79,7 +79,13 @@ function ArtgramDetailCommentWrite({artgramId, detailData,searchWord}) {
               onChange: handleInputChange,
             }}
           />
-          <CommentsInputBtn className="curserPoint" style={{border:"1px solid #242424"}} height19="40px" height14="30px" bottom19="8px" bottom14="6px" right19="20px" right14="8px">입력</CommentsInputBtn>
+          <CommentsInputBtn 
+            as="button" 
+            className="curserPoint" 
+            style={{border:"1px solid #242424"}} 
+            height19="40px" height14="30px" 
+            bottom19="8px" bottom14="6px" 
+            right19="20px" right14="8px">입력</CommentsInputBtn>
         </form>
       </div>
     </CommentWriteLayout>

@@ -93,14 +93,14 @@ const ProfileNickNameComments = styled.div`
 `
 
 const CommentsInput = styled.input`
-  width: 350px;
+  width: 300px;
   padding: 2px 3px;
   border-bottom: 1px solid;
   :focus {
         outline: none;
   }
   @media (max-width: 1440px) {
-    width : 262.5px
+    width : 225px
   }
 `
 

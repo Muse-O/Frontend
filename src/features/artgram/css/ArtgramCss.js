@@ -253,9 +253,10 @@ const ModalWindow = styled.div`
   z-index: 10200;
   @media (max-width: 1440px) {
     width: 948px;
+    left: 56.38%;
     height: 670.5px;
   }
-  @media (max-width: 1440px) {
+  @media (max-width: 1439px) {
     left: 50%;
   }
 `;
