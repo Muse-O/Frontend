@@ -1,46 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { HeaderWhereSelect } from "./HeaderWhereSelect";
-import { HeaderCategorySelect } from "./HeaderCategorySelect";
-import { HeaderTagSelect } from "./HeaderTagSelect";
 import { HeaderSearch } from "./HeaderSearch";
-import { HeaderWhenSelect } from "./HeaderWhenSelect";
+import { HeaderSelecters } from "./utils/HeaderSelecters";
 
 export const EXheader = () => {
-  const [selectedFilter, setSelectedFilter] = useState("");
-  const selectHandler = (e) => {
-    const { name } = e.target;
-    if (selectedFilter === name) {
-      setSelectedFilter("");
-    } else {
-      setSelectedFilter(name);
-    }
-  };
-  const handleClick = (e) => {
-    e.stopPropagation();
-  };
-  const filterItems = [
-    {
-      name: "when",
-      label: "When",
-      component: <HeaderWhenSelect setSelectedFilter={setSelectedFilter} />,
-    },
-    {
-      name: "where",
-      label: "Where",
-      component: <HeaderWhereSelect setSelectedFilter={setSelectedFilter} />,
-    },
-    {
-      name: "category",
-      label: "Category",
-      component: <HeaderCategorySelect setSelectedFilter={setSelectedFilter} />,
-    },
-    {
-      name: "tag",
-      label: "Tag",
-      component: <HeaderTagSelect setSelectedFilter={setSelectedFilter} />,
-    },
-  ];
+  // 컴포넌트가 들어있는 배열, 보여줘야한 값state
+  const [filterItems, selectedFilter, selectHandler, handleClick] =
+    HeaderSelecters();
+
   return (
     <ExhibitionHeader>
       <HeaderTitle>전시</HeaderTitle>
