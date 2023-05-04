@@ -6,7 +6,6 @@ import { decodeNickname } from "../../features/login/loginTokenStore";
 
 export const useGetUserProfile = () => {
   const nickname = useRecoilValue(decodeNickname)
-  console.log("nickname", nickname);
   const { data } = useQuery({
     queryKey: keys.GET_USERPROFILE,
     queryFn: async () => {
@@ -14,12 +13,6 @@ export const useGetUserProfile = () => {
       return data.data;
     },
     enabled: !!nickname,
-    onSuccess:()=> {
-      console.log("실행되니?");
-    },
-    onError : (e) => {
-      console.log("e", e.message);
-    }
   });
 
   return {
