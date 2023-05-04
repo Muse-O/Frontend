@@ -127,7 +127,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
             name="introduction"
             value={editProfile.introduction}
             onChange={changeInputHandler}
-            maxLength="55"
+            maxLength="46"
           />
         </Style.StEditInputWrap>
       </Style.StTextBox>
