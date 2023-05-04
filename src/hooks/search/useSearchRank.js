@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query"
-import { keys } from "../../shared/queryKeys"
 import { apis } from "../../api/apis"
+import { keys } from "../../shared/queryKeys"
+import { useQuery } from "@tanstack/react-query"
 
 export const useSearchRank = (searchWindow) => {
   const {isLoading, isError, data} = useQuery({
