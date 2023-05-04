@@ -1,10 +1,14 @@
 import React from 'react'
-import Header from '../components/Header'
+// import CSS --------------------------------------------------------------------------------------------/
 import { Article } from '../shared/GlobalStyled'
 import * as US from '../features/unfiedSearch/unfiedSearch'
-import { useNavigate } from 'react-router-dom'
+// import Library-----------------------------------------------------------------------------------------/
 import { useRecoilValue } from 'recoil'
+import { useNavigate } from 'react-router-dom'
+// import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { searchDataUserState } from '../hooks/search/seartStore'
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
+import Header from '../components/Header'
 
 function UnifiedSearchUser() {
   const navigate = useNavigate()

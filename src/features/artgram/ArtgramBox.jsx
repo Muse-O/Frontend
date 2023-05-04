@@ -2,26 +2,28 @@ import React, { useEffect } from "react";
 // import CSS & icons & png ------------------------------------------------------------------------------/
 import * as Artgramparts from "./css/ArtgramCss";
 // import { BsBookmarkFill, BsFillHeartFill } from "react-icons/bs";
-import {RiBookmarkFill} from "react-icons/ri"
 import {AiFillHeart} from "react-icons/ai"
+import {RiBookmarkFill} from "react-icons/ri"
 import overlap_gray from '../../assets/imgs/artgram/overlap_gray.png'
+// import Library-----------------------------------------------------------------------------------------/
+import { useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { decodeUserRole } from "../login/loginTokenStore";
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { useLikes } from "../../hooks/artgram/useLikes";
 import { useScrap } from "../../hooks/artgram/useScrap";
 import { useOpenModal } from "../../hooks/artgram/useOpenModal";
+import { usePostSearchWord } from "../../hooks/search/usePoseSearchWord";
 // import 컴포넌트 -----------------------------------------------------------------------------------------/
 import ArtgarmDetailModal from "./detailModal/ArtgarmDetailModal";
-import { usePostSearchWord } from "../../hooks/search/usePoseSearchWord";
-import { useRecoilValue } from "recoil";
-import { decodeUserRole } from "../login/loginTokenStore";
-import { useNavigate } from "react-router-dom";
-// ArtgramBox 컴포넌트 -------------------------------------------------------------------------------------/
+
+
 function ArtgramBox({ info, searchWord, postSearchWords }) {
   const { artgramId, imgUrl, imgCount, profileImg,nickname, scrapCount, scrap, likeCount, liked,} 
-  = info; // props로 전달받은 useGetartgraminfinity의 개별데이터의내용 
-  const { patchScrap } = useScrap(searchWord); // 스크랩관련 비동기통신 PATCH
-  const { patchLikes } = useLikes(searchWord); // 좋아요관련 비동기통신 PATCH
-  const {modalState, openModalhandle} = useOpenModal(); // 개별데이터 상세페이지를 열 모달관련 커스컴 훅 
+  = info; 
+  const { patchScrap } = useScrap(searchWord); 
+  const { patchLikes } = useLikes(searchWord); 
+  const {modalState, openModalhandle} = useOpenModal(); 
   const userRole = useRecoilValue(decodeUserRole)
   const {postSearchWord} = usePostSearchWord()
   const navigate = useNavigate()
@@ -69,12 +71,8 @@ function ArtgramBox({ info, searchWord, postSearchWords }) {
               <p children={likeCount}/>
             </>} />
       </Artgramparts.BoxProfile>
-      
-       {/* 해당 아트그램의 이미지가 복수인 경우 표시할 아이콘 */}
       {imgCount > 1 && (
         <Artgramparts.PluralImgs children={<img src={overlap_gray} alt="복수이미지표시" />} />)}
-      
-      {/* 해당 아크그램을 클릭했을 때 상세모달페이지가 실행되는 컴포넌트 */}
       {modalState && (<ArtgarmDetailModal artgramId={artgramId} modalState={modalState} openModalhandle={openModalhandle} searchWord={searchWord}/>)}
     </Artgramparts.BoxWrap>
   );

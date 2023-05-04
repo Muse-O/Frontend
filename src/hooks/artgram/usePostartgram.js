@@ -1,16 +1,9 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { apis } from "../../api/apis";
-import { cookies } from "../../shared/cookies";
+import { apis_token } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const postArtgram = async (payload) => {
-  // console.log(payload);
-  const token = cookies.get("access_token");
-  const response = await apis.post("/artgram", payload, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const response = await apis_token.post("/artgram", payload);
   return response;
 };
 

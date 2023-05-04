@@ -1,17 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import LoginForm from "../features/login/LoginForm";
 import styled from "styled-components";
 import { MainWrap } from "../shared/GlobalStyled";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { headerStatedefalut } from "../components/headerStore";
-import { headerStateSearch } from "../components/headerStore";
+import { useHeaderState } from "../hooks/useHeaderState";
 
 function Login() {
-  const [, setHeaderState] = useRecoilState(headerStatedefalut)
-  const headerState = useRecoilValue(headerStateSearch)
-  useEffect(()=> {
-    setHeaderState({...headerState})
-  },[])
+  useHeaderState()
   return (
     <StMainWrap>
       <LoginForm />

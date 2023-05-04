@@ -1,23 +1,22 @@
 import React from "react";
 // import CSS & icons & png ------------------------------------------------------------------------------/
-import * as Comment from "../css/ArtgramDetailCss";
+import * as Comment from '../css/ArtgramDetailCss'
+// import Library-----------------------------------------------------------------------------------------/
+import { useRecoilValue } from 'recoil';
+import { decodeEmail } from '../../login/loginTokenStore';
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
-import { useGetReply } from '../../../hooks/artgram/newArtgram/useGetReply'
-import { usetoken } from '../../../shared/cookies';
-import { useDeleteReply } from '../../../hooks/artgram/newArtgram/useDeleteReply';
+import { useGetReply } from '../../../hooks/artgram/useGetReply'
+import { useDeleteReply } from '../../../hooks/artgram/useDeleteReply';
 import { usePostingtime } from '../../../hooks/artgram/usePostingtime';
 
 function ArtgramDetailReply({artgramId, commentId, showReply, setShowReply}) {
+  const [timehandle] = usePostingtime(); 
+  const {deleteHandle} = useDeleteReply()
+  const email = useRecoilValue(decodeEmail)
   const { isLoading, isError, data: reply } = useGetReply(
     artgramId,
     commentId
   );
-  const {decodetoken} = usetoken() // ToKen에서 사용자 Email 정보 가져오기 
-  console.log(reply);
-  const {deleteHandle} = useDeleteReply()
-
-  const [timehandle] = usePostingtime(); // 서버로부터 받아온 날짜을 가공하는 커스텀 훅
-
   return (
     <>
       {showReply && 
@@ -34,30 +33,17 @@ function ArtgramDetailReply({artgramId, commentId, showReply, setShowReply}) {
             <div><span className='profileNickname' children={reply.profileNickname}/>{reply.comment}</div>
             <div style={{display:"flex",gap:"8px"}}>
             <div>{timehandle(reply.createdAt)}</div>
-              {decodetoken?.email === reply.userEmail && <div className='curserPoint' onClick={()=>deleteHandle(artgramId, reply.commentParent, reply.commentId)}>삭제</div>}
+              {email === reply.userEmail 
+                && <div 
+                      className='curserPoint' 
+                      children="삭제"
+                      onClick={()=>deleteHandle(artgramId, reply.commentParent, reply.commentId)}/>}
           </div>
           </Comment.CommentBoxInnerText>
-          
         </Comment.CommentBox>))}
-        {/* <div>{artgramId}-{commentId}</div> */}
     </>
   );
 }
 
-export default ArtgramDetailReply;
+export default ArtgramDetailReply
 
-// comment: "ㅋㅋㅋ 얏호 달린다"
-
-// commentId: "b07852a6-e992-48ff-a83a-6e30784ebe0a"
-
-// commentParent: "fff444c8-26ce-4d93-b56b-ad26369e1353"
-
-// createdAt: "2023-04-21T05:49:27.000Z"
-
-// profileImg: "https://woog-s3-bucket.s3.amazonaws.com/profile/3673ea1b-a9b9-4881-ac67-9e4db717237d.png"
-
-// profileNickname: "edwin01"
-
-// userEmail: "gg@g.com"
-
-// Object 견본

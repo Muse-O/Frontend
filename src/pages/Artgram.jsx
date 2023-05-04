@@ -1,29 +1,26 @@
-import React, { useEffect } from "react";
+import React from "react";
 // import CSS --------------------------------------------------------------------------------------------/
 import { Article } from "../shared/GlobalStyled";
 import * as Artgramparts from '../features/artgram/css/ArtgramCss'
+// import Library-----------------------------------------------------------------------------------------/
+import { useRecoilValue } from "recoil";
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
-import { useInterserctionObserver } from "../hooks/artgram/newArtgram/useIntersectionObserver";
+import { useHeaderState } from "../hooks/useHeaderState";
 import { useGetartgraminfinity } from "../hooks/artgram/useGetartgraminfinity";
+import { useInterserctionObserver } from "../hooks/artgram/useIntersectionObserver";
 // import 컴포넌트 -----------------------------------------------------------------------------------------/
 import Header from "../components/Header";
+import TopButton from "../components/TopButton";
 import ArtgramBox from "../features/artgram/ArtgramBox";
 import ArtgramWrite from "../features/artgram/ArtgramWrite";
-import TopButton from "../components/TopButton";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { headerStatedefalut } from "../components/headerStore";
 import { decodeUserRole } from "../features/login/loginTokenStore";
-// Artgram 컴포넌트 ----------------------------------------------------------------------------------------/
-function Artgram() {
-  const { data, isLoading, isError, fetchNextPage, hasNextPage } = useGetartgraminfinity(); // 비동기통신 GET
-  let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : []; // 무한스크롤에 따른, data-merge
-  const { ref } = useInterserctionObserver(fetchNextPage); // useRef를 통해서, 무한스크롤 감지를 위한 커스컴 훅
-  const userRole = useRecoilValue(decodeUserRole)
-  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
-  useEffect(()=> {
-    setHeaderState({...headerState, artgram:true})
-  },[])
 
+function Artgram() {
+  const { data, isLoading, isError, fetchNextPage, hasNextPage } = useGetartgraminfinity(); 
+  let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : []; 
+  const { ref } = useInterserctionObserver(fetchNextPage); 
+  const userRole = useRecoilValue(decodeUserRole)
+  useHeaderState("artgram")
   return (
     <>
       <Header/>

@@ -79,7 +79,6 @@ function Header() {
       })
     }
   }, [userProfile])
-  console.log(searchWindow);
   return (
     <>
     <Headers.Headerwrap>

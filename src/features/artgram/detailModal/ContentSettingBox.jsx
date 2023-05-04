@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDeleteArtgram } from "../../../hooks/artgram/newArtgram/useDeleteArtgram";
+import { useDeleteArtgram } from "../../../hooks/artgram/useDeleteArtgram";
 import { ContentSettingBoxLayout, SettingBtn,SettingBtnborderline } from "../css/ArtgramDetailModalCss";
 import * as Artgramparts from "../css/ArtgramCss";
 import { Flex } from "../../../components/Flex";

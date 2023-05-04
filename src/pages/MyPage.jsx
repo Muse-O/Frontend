@@ -1,19 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import UserProfile from "../features/mypage/UserProfile";
 import Header from "../components/Header";
 import { Article } from "../shared/GlobalStyled";
 import ArtgramContainer from "../features/mypage/ArtgramContainer";
 import styled from "styled-components";
 import ExhibitionContainer from "../features/mypage/ExhibitionContainer";
-import { useRecoilState } from "recoil";
-import { headerStatedefalut } from "../components/headerStore";
+import { useHeaderState } from "../hooks/useHeaderState";
 
 function MyPage() {
-  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut);
-  useEffect(() => {
-    setHeaderState({ ...headerState, mypages: true });
-  }, []);
-
+  useHeaderState("mypages")
   return (
     <>
       <Header />
