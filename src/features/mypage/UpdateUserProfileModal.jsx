@@ -22,6 +22,9 @@ function UpdateUserProfileModal({ setOpenModal }) {
   //이미지 미리보기를 위한 state
   const [image, setImage] = useState("");
 
+  //글자수 보임
+  const [charCount, setCharCount] = useState(0);
+
   //기존에 저장돼있던 input값 보여주기
   const [editProfile, setEditProfile] = useState({
     profileImg: userProfile?.profileImg,
@@ -33,6 +36,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
   const changeInputHandler = event => {
     const { value, name } = event.target;
     setEditProfile(pre => ({ ...pre, [name]: value }));
+    setCharCount(value.length); //소개 카운트
   };
 
   //수정하기 버튼 클릭시 editProfile이 updateUserProfile에 담겨감
@@ -48,10 +52,6 @@ function UpdateUserProfileModal({ setOpenModal }) {
     } else if (fileRef) {
       //update query에 payload로 넣어줄 fileImg = useRef 사용해서 받아둔 파일
       const fileImg = s3imgurlhandle(fileRef.current.files[0]);
-      // console.log(fileRef.current.files[0].size);
-      // if (fileRef.current.files[0].size > 10000) {
-      //   alert("no");
-      // }
       updateUserProfile({ ...editProfile, profileImg: fileImg });
       setOpenModal(false);
     }
@@ -120,7 +120,9 @@ function UpdateUserProfileModal({ setOpenModal }) {
             maxLength="8"
           />
 
-          <div>닉네임은 2글자 이상 입력해주세요</div>
+          <Style.NameInputWarning>
+            닉네임은 2글자 이상 입력해주세요
+          </Style.NameInputWarning>
 
           <Style.IntroInput
             label="소개"
@@ -129,6 +131,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
             onChange={changeInputHandler}
             maxLength="46"
           />
+          <Style.StCountInfo>{charCount}/46</Style.StCountInfo>
         </Style.StEditInputWrap>
       </Style.StTextBox>
 
