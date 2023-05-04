@@ -22,11 +22,18 @@ export const useUpdatecomments = (artgramId, commentId) => {
   const [edit, setEdit] = useState(false);
   const [updatecomment, setUpdateComment] = useState("");
 
-  const onSubmitupdateComments = (e) => {
+  const onSubmitupdateComments = (e,comment) => {
     e.preventDefault();
-    updateCommet({ artgramId, commentId, updatecomment });
-    setEdit((pre) => !pre);
-    setUpdateComment("");
+    if(updatecomment === '') {
+      updateCommet({ artgramId, commentId, updatecomment:comment });
+      setEdit((pre) => !pre);
+      setUpdateComment("");
+    } else {
+      updateCommet({ artgramId, commentId, updatecomment });
+      setEdit((pre) => !pre);
+      setUpdateComment("");
+    }
+    
   };
 
   const resetReply = (setReply) => {

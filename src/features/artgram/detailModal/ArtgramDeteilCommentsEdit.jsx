@@ -14,6 +14,7 @@ import ArtgramDetailReply from './ArtgramDetailReply';
 
 function ArtgramDeteilCommentsEdit({artgramId, comment}) {
   const commentRef = useRef(null)
+  const replyRef = useRef(null)
   const [timehandle] = usePostingtime();
   const email = useRecoilValue(decodeEmail)
   const {deleteHandle } = useDeletecomments();
@@ -22,11 +23,17 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
   const { edit, setEdit, updatecomment, setUpdateComment, resetReply,onSubmitupdateComments } = 
     useUpdatecomments(artgramId, comment.commentId);
   
-  useEffect(() => {
-    if (replyState && commentRef.current) {
+  useEffect(()=> {
+    if (edit && commentRef.current) {
       commentRef.current.focus();
     }
-  }, [replyState, commentRef]);
+  }, [edit,commentRef])
+
+  useEffect(() => {
+    if (replyState && replyRef.current) {
+      replyRef.current.focus();
+    }
+  }, [replyState, replyRef]);
   
   return (
     <>
@@ -35,7 +42,7 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
       {!edit ?
       <span className='comments'>{comment.comment}</span>
     : (<form className='commentsUpdateForm' onSubmit={(e) => onSubmitupdateComments(e)}>
-      <input value={updatecomment} onChange={(e)=>setUpdateComment(e.target.value)} placeholder={comment.comment}/>
+      <input ref={commentRef} value={updatecomment} onChange={(e)=>setUpdateComment(e.target.value)} placeholder={comment.comment}/>
     </form>)}
     </Comment.ProfileNickNameComments>
     <div style={{display:"flex", gap:"10px", marginTop:"4px", marginBottom:"16px"}}>
@@ -48,7 +55,7 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
                 setReplyState(false)
                 setEdit(pre=>!pre)
             }}>수정</div>)
-            : (<div className='curserPoint' onClick={(e) => onSubmitupdateComments(e)}>수정완료</div>)}
+            : (<div className='curserPoint' onClick={(e) => onSubmitupdateComments(e, comment.comment)}>수정완료</div>)}
           <div className='curserPoint' onClick={() => deleteHandle(artgramId, comment.commentId)}>삭제</div>
       </>)}
         {!email
@@ -61,7 +68,7 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
               setReplyState(pre=>!pre)}}
             children="답글달기"/>
         : <form style={{position:"relative"}} onSubmit={(e)=>replyHandle(e, artgramId, comment.commentId,reply)}>
-          <Comment.CommentsInput ref={commentRef} value={reply} onChange={(e)=>setReply(e.target.value)} placeholder='답글을 입력해주세요.'/>
+          <Comment.CommentsInput ref={replyRef} value={reply} onChange={(e)=>setReply(e.target.value)} placeholder='답글을 입력해주세요.'/>
           <Comment.CommentsInputBtn as="button" type="submit" className='curserPoint' top19="0" top14="-4px" right19="-50px" right14="-45px">입력</Comment.CommentsInputBtn>
           <Comment.CommentsInputBtn as="button" type="button" onClick={()=>{resetReply(setReply); setReplyState(pre=>!pre)}} className='curserPoint' top19="0" top14="-4px" right19="-100px" right14="-80px">취소</Comment.CommentsInputBtn>
         </form>}
