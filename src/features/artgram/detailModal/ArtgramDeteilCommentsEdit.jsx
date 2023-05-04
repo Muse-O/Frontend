@@ -68,7 +68,7 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
     {comment.replyCount > 0 && (
       <div>
         {!showReply
-          ? <div style={{display:"grid", gridTemplateColumns:"50px 1fr"}}>
+          ? <div className='curserPoint' style={{display:"grid", gridTemplateColumns:"50px 1fr"}}>
             <div style={{borderTop: "1px solid black", margin: "6px 0", marginRight:"10px"}}></div>
             <div onClick={()=>setShowReply(pre=>!pre)}> 답글보기 ({comment.replyCount})</div>
           </div>

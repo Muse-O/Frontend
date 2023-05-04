@@ -16,7 +16,6 @@ export const useDeleteArtgram = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries(keys.GET_ARTGRAM);
-      // console.log("아트그램이 삭제되었습니다.");
     },
     onError: (e) => {
       console.log("아트그램이 삭제되지 않았습니다.", e.message);
