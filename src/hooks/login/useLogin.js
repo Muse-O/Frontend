@@ -20,7 +20,18 @@ function useLogin() {
     mutationFn: async payload => {
       const response = await apis.post("/auth/login", payload);
       const token = response.headers.authorization;
-      cookies.set("access_token", token);
+      cookies.set("access_token", token, { maxAge: 21540 });
+      // cookies.set("access_token", token, { maxAge: 10 });
+      setTimeout(() => {
+        setTimeout(() => {
+          window.location.reload(true);
+        }, 59999); //1분
+        Swal.fire({
+          title: "\n1분 뒤 로그아웃 됩니다.",
+          focusConfirm: false,
+        });
+      }, 21540000);
+
       return response;
     },
     onSuccess: () => {
