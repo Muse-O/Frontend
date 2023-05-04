@@ -101,7 +101,8 @@ function ContentSettingBox({ detailData, setSettingBox }) {
             inputProps={{
               type: "text", 
               name: "artgramTitle",
-              value:formState.artgramTitle || detailData.artgramTitle,
+              value:formState.artgramTitle,
+              placeholder:detailData.artgramTitle,
               maxLength:50,
               onChange: handleInputChange
             }}
@@ -116,7 +117,7 @@ function ContentSettingBox({ detailData, setSettingBox }) {
               inputProps={{
                 type: "text", 
                 name: "artgramDesc",
-                placeholder:"전시회에 대한 소감을 적어주세요(최대 600자)",
+                placeholder:detailData.artgramDesc || "전시회에 대한 소감을 적어주세요(최대 600자)",
                 value:formState.artgramDesc || detailData.artgramDesc,
                 maxLength:600,
                 onChange: handleInputChange

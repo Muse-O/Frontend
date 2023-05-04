@@ -21,7 +21,7 @@ export const TextAreaUpdate = ({ label, inputProps }) => (
   <DivFlex>
     {label && <Label>{label}</Label>}
     <StyledTextArea2 {...inputProps} />
-    <CountValue length={inputProps.value.length}>{inputProps.value && inputProps.value.length || 0}/600</CountValue>
+    <CountValue length={inputProps.value?.length}>{inputProps.value && inputProps.value?.length || 0}/600</CountValue>
   </DivFlex>
 );
 
