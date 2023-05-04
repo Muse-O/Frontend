@@ -10,24 +10,20 @@ import ArtgramSlider from "../ArtgramSlider";
 import ArtgramDetailContent from "./ArtgramDetailContent";
 import ArtgramDetailComments from "./ArtgramDetailComments";
 import ArtgramDetailCommentWrite from "./ArtgramDetailCommentWrite";
-// ArtgarmDetailModal 컴포넌트 -----------------------------------------------------------------------------/
+
 function ArtgarmDetailModal({ artgramId, modalState, openModalhandle,searchWord }) {
-  const [detailIsLoading, detailIsError, detailData] = useGetartgramDetail(artgramId); // 아트그램상세정보 비동기통신 GET
+  const [detailIsLoading, detailIsError, detailData] = useGetartgramDetail(artgramId); 
   return (
     <>
-      {/* 상세모달페이지 바깥배경 - stopPropagation() 부모컴포넌트인 ArtgramBox에서 발생되는 이벤트 버블링을 제어하기 위한 선언 */}
       <Artgramparts.ModalBackground
         state={modalState}
         onClick={(e) => {
           e.stopPropagation();
           openModalhandle();}} 
         children={<img className="curserPoint" src={cancel_WGray}/>}/>
-
-      {/* 상세모달페이지 안쪽내용 - stopPropagation() 부모컴포넌트인 ArtgramBox에서 발생되는 이벤트 버블링을 제어하기 위한 선언 */}
       <Artgramparts.ModalWindow
         state={modalState}
         onClick={(e) => e.stopPropagation()}>  
-
         {detailIsLoading || detailIsError
         ? (<div>로딩 중...</div>) 
         : (<>
@@ -37,7 +33,6 @@ function ArtgarmDetailModal({ artgramId, modalState, openModalhandle,searchWord 
                     <ArtgramSlider map={detailData.ArtgramImgs} />
                   </div>) 
                 : (<img src={detailData.ArtgramImgs[0].imgUrl} width="100%" />)} />
-
             <DetailModal.ModalContent>
               <ArtgramDetailContent detailData={detailData}/>
               <ArtgramDetailComments artgramId={artgramId}/>

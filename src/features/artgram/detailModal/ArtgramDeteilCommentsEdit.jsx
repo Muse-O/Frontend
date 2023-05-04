@@ -1,25 +1,27 @@
-import React, { Children, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+// import CSS & icons & png ------------------------------------------------------------------------------/
+import * as Comment from '../css/ArtgramDetailCss'
+// import Library-----------------------------------------------------------------------------------------/
+import { useRecoilValue } from 'recoil';
+import { decodeEmail } from '../../login/loginTokenStore';
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
+import {usePostReply} from '../../../hooks/artgram/usePostReply'
 import {usePostingtime} from '../../../hooks/artgram/usePostingtime'
 import {useDeletecomments} from '../../../hooks/artgram/useDeletecomments'
 import {useUpdatecomments} from '../../../hooks/artgram/useUpdatecomments'
-import {usePostReply} from '../../../hooks/artgram/usePostReply'
-import * as Comment from '../css/ArtgramDetailCss'
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
 import ArtgramDetailReply from './ArtgramDetailReply';
-import { useRecoilValue } from 'recoil';
-import { decodeEmail } from '../../login/loginTokenStore';
 
-// // ArtgramDeteilCommentsEdit 컴포넌트 -------------------------------------------------------------------/
 function ArtgramDeteilCommentsEdit({artgramId, comment}) {
-  const email = useRecoilValue(decodeEmail)
-  const [timehandle] = usePostingtime(); // 서버로부터 받아온 날짜을 가공하는 커스텀 훅
-  const {deleteHandle } = useDeletecomments(); // 댓글삭제 비동기통신 DELETE 
-  const { edit, setEdit, updatecomment, setUpdateComment, resetReply,onSubmitupdateComments } = 
-    useUpdatecomments(artgramId, comment.commentId); // 댓글수정 비동기통신 UPDATE
-  const {replyState, setReplyState, reply, setReply,replyHandle} = usePostReply(); // 대댓글입력 비동기통신 POST
-  const [showReply, setShowReply] = useState(false)
   const commentRef = useRef(null)
-
+  const [timehandle] = usePostingtime();
+  const email = useRecoilValue(decodeEmail)
+  const {deleteHandle } = useDeletecomments();
+  const [showReply, setShowReply] = useState(false)
+  const {replyState, setReplyState, reply, setReply,replyHandle} = usePostReply(); 
+  const { edit, setEdit, updatecomment, setUpdateComment, resetReply,onSubmitupdateComments } = 
+    useUpdatecomments(artgramId, comment.commentId);
+  
   useEffect(() => {
     if (replyState && commentRef.current) {
       commentRef.current.focus();

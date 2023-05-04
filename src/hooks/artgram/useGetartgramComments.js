@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
 import { apis } from "../../api/apis";
 import { keys } from "../../shared/queryKeys";
+import { useQuery } from "@tanstack/react-query";
 
 export const useGetartgramComments = (artgramId) => {
     
@@ -12,9 +12,6 @@ export const useGetartgramComments = (artgramId) => {
       },
       refetchOnWindowFocus: false, 
       retry: 1,
-      // onSuccess: ()  => {
-      //       console.log("댓글요청 요청 성공")
-      //     },
           onError: e => {
             console.log(e.message)
           }

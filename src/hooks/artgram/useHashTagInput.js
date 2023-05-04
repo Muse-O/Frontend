@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 export const useHashTagInput = (inputValue,setInputValue,hashTag, setHashTag) => {
   const handleInputKeyDown = (event) => {
     if (event.key === "Enter") {

@@ -22,7 +22,7 @@ export const useGetimgurl =  (files) => {
         ContentType: fileType,
       });
       try {
-        const response = s3Client.send(putCommand);
+        s3Client.send(putCommand);
         const newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
         urls.push(newimageUrl);
       } catch (err) {
