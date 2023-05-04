@@ -3,9 +3,7 @@ import React from 'react'
 import * as Comment from '../css/ArtgramDetailCss'
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { useGetReply } from '../../../hooks/artgram/newArtgram/useGetReply'
-import styled from 'styled-components';
 import { usetoken } from '../../../shared/cookies';
-import { useMutation } from '@tanstack/react-query';
 import { useDeleteReply } from '../../../hooks/artgram/newArtgram/useDeleteReply';
 import { usePostingtime } from '../../../hooks/artgram/usePostingtime';
 
@@ -22,7 +20,7 @@ function ArtgramDetailReply({artgramId, commentId, showReply, setShowReply}) {
   return (
     <>
       {showReply && 
-      <div style={{display:"grid", gridTemplateColumns:"50px 1fr", marginBottom:"8px"}}>
+      <div className='curserPoint' style={{display:"grid", gridTemplateColumns:"50px 1fr", marginBottom:"8px"}}>
       <div style={{borderTop: "1px solid black", margin: "6px 0", marginRight:"10px"}}></div>
       <div onClick={()=>setShowReply(pre=>!pre)} children="답글닫기"/>
     </div>

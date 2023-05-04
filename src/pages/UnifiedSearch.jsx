@@ -98,19 +98,3 @@ function UnifiedSearch() {
 }
 
 export default UnifiedSearch
-
-// profileId
-// : 
-// "823f5b49-1c82-4b20-934f-441bea6e5bfc"
-// profileImg
-// : 
-// "https://woog-s3-bucket.s3.amazonaws.com/profile/0ba83a6a-47b9-493f-af30-7b1513b7720b.png"
-// profileNickname
-// : 
-// "edwin01"
-// type
-// : 
-// "user"
-// userEmail
-// : 
-// "gg@g.com"

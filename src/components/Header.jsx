@@ -79,7 +79,7 @@ function Header() {
       })
     }
   }, [userProfile])
-  // onClick={()=>navigate("/login")}
+  console.log(searchWindow);
   return (
     <>
     <Headers.Headerwrap>

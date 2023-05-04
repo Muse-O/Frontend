@@ -25,9 +25,9 @@ function OpenSearchWindow({searchWindow, setSearchWindow}) {
   return (
     <Headers.NavSearchList
       state={searchWindow}
-      onClick={()=>setSearchWindow(false)}
-      onMouseOver={()=>setSearchWindow(true)}
-      onMouseOut={()=>setSearchWindow(false)}>
+      onClick={(event)=>{setSearchWindow(false); event.stopPropagation()}}
+      onMouseEnter={()=>setSearchWindow(true)}
+      onMouseLeave={()=>setSearchWindow(false)}>
       
     <Headers.NavSearchListTop10>
       <h2>인기검색어</h2>
@@ -49,7 +49,6 @@ function OpenSearchWindow({searchWindow, setSearchWindow}) {
         : recent && recent.map((lists, index)=> (
           <div className='searchList' key={index} children={lists.keyWord} onClick={()=>searchwordRecentHandle(lists.keyWord)}/>))}
     </Headers.NavSearchListRecently>
-    <Headers.NavSearchMsg children="** 크롬에서 검색창이 사라지지 않으면, 마우스를 검색창 밖으로 이동해 주세요."/>
   </Headers.NavSearchList>
   )
 }

@@ -30,7 +30,7 @@ function MainSecond() {
                 <Main.SecondSlider key={exhibition.exhibitionId} onClick={() => navigatehandle(exhibition.detailRouter)}>
                   <Main.SecondSliderImg src={exhibition.postImage} alt='최신전시 이미지'/>
                   <Main.SecondSliderTitle children={exhibition.exhibitionTitle}/>
-                  <Main.SecondSliderDate children={`${editTimehandle(exhibition.startDate)} ${editTimehandle(exhibition.endDate)}`}/>
+                  <Main.SecondSliderDate children={`${editTimehandle(exhibition.startDate)} - ${editTimehandle(exhibition.endDate)}`}/>
                   <Main.SecondSliderlocation children={exhibition.address}/>
                 </Main.SecondSlider>
               ))}
