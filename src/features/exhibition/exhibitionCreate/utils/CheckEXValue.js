@@ -38,6 +38,9 @@ export const CheckEXValue = (
   } else if (exhibitionKind === "EK0001" && !exhibition.location) {
     alert("상세주소를 입력 하셔야 합니다");
     return;
+  } else if (exhibition.startDate > exhibition.endDate) {
+    alert("종료일이 시작일보다 앞에있습니다");
+    return;
   } else if (!exhibition.exhibitionHost) {
     alert("전시주최를 입력 하셔야 합니다");
     return;
