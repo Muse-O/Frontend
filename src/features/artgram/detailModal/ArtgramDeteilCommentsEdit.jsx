@@ -62,8 +62,8 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
             children="답글달기"/>
         : <form style={{position:"relative"}} onSubmit={(e)=>replyHandle(e, artgramId, comment.commentId,reply)}>
           <Comment.CommentsInput ref={commentRef} value={reply} onChange={(e)=>setReply(e.target.value)} placeholder='답글을 입력해주세요.'/>
-          <Comment.CommentsInputBtn as="button" className='curserPoint' top19="0" top14="-4px" right19="-50px" right14="-45px">입력</Comment.CommentsInputBtn>
-          <Comment.CommentsInputBtn as="button" onClick={()=>{resetReply(setReply); setReplyState(pre=>!pre)}} className='curserPoint' top19="0" top14="-4px" right19="-100px" right14="-80px">취소</Comment.CommentsInputBtn>
+          <Comment.CommentsInputBtn as="button" type="submit" className='curserPoint' top19="0" top14="-4px" right19="-50px" right14="-45px">입력</Comment.CommentsInputBtn>
+          <Comment.CommentsInputBtn as="button" type="button" onClick={()=>{resetReply(setReply); setReplyState(pre=>!pre)}} className='curserPoint' top19="0" top14="-4px" right19="-100px" right14="-80px">취소</Comment.CommentsInputBtn>
         </form>}
     </div>
     
