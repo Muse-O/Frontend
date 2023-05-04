@@ -111,6 +111,16 @@ export const useSetExhibition = (
         };
       });
     }
+    //작품수
+    else if (name === "artWorkCnt") {
+      const number = value.replace(/[^0-9]/g, "");
+      setExhibition((old) => {
+        return {
+          ...old,
+          [name]: number,
+        };
+      });
+    }
     //연락처
     else if (name === "contact") {
       const number = value.replace(/[^0-9]/g, "");
@@ -130,7 +140,6 @@ export const useSetExhibition = (
         result.push(number.substr(0, 3));
         restNumber = number.substring(3);
       }
-
       if (restNumber.length === 7) {
         // 7자리만 남았을 때는 xxx-yyyy
         result.push(restNumber.substring(0, 3));
