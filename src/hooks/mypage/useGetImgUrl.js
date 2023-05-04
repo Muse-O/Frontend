@@ -27,8 +27,7 @@ export const useGetimgurl = files => {
       s3Client.send(putCommand); //저장(서버에서 받는 것 없음)
       newimageUrl = `https://${process.env.REACT_APP_BucketName}.s3.amazonaws.com/${fileName}`;
     } catch (err) {
-      //에러처리
-      console.log(err.message);
+      // alert("error");
     }
     return newimageUrl;
   };

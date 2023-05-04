@@ -2,58 +2,44 @@ import React from "react";
 // import CSS & icons & png ------------------------------------------------------------------------------/
 import * as Comment from "../css/ArtgramDetailCss";
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
-import { useGetReply } from "../../../hooks/artgram/newArtgram/useGetReply";
-import styled from "styled-components";
-import { usetoken } from "../../../shared/cookies";
-import { useMutation } from "@tanstack/react-query";
-import { useDeleteReply } from "../../../hooks/artgram/newArtgram/useDeleteReply";
-import { usePostingtime } from "../../../hooks/artgram/usePostingtime";
+import { useGetReply } from '../../../hooks/artgram/newArtgram/useGetReply'
+import { usetoken } from '../../../shared/cookies';
+import { useDeleteReply } from '../../../hooks/artgram/newArtgram/useDeleteReply';
+import { usePostingtime } from '../../../hooks/artgram/usePostingtime';
 
-function ArtgramDetailReply({ artgramId, commentId }) {
-  const { isLoading, isError, data: reply } = useGetReply(artgramId, commentId);
-  const { decodetoken } = usetoken(); // ToKen에서 사용자 Email 정보 가져오기
-  const { deleteHandle } = useDeleteReply();
+function ArtgramDetailReply({artgramId, commentId, showReply, setShowReply}) {
+  const { isLoading, isError, data: reply } = useGetReply(
+    artgramId,
+    commentId
+  );
+  const {decodetoken} = usetoken() // ToKen에서 사용자 Email 정보 가져오기 
+  console.log(reply);
+  const {deleteHandle} = useDeleteReply()
+
   const [timehandle] = usePostingtime(); // 서버로부터 받아온 날짜을 가공하는 커스텀 훅
 
   return (
     <>
-      {isLoading || isError ? (
-        <div>로딩 중 ...</div>
-      ) : (
-        reply &&
-        reply.map((reply) => (
-          <Comment.CommentBox key={reply.commentId}>
-            <Comment.CommentBoxProfileImg img={reply.profileImg} />
-            <Comment.CommentBoxInnerText>
-              <div>
-                <span
-                  className="profileNickname"
-                  children={reply.profileNickname}
-                />
-                {reply.comment}
-              </div>
-              <div style={{ display: "flex", gap: "8px" }}>
-                <div>{timehandle(reply.createdAt)}</div>
-                {decodetoken?.email === reply.userEmail && (
-                  <div
-                    className="curserPoint"
-                    onClick={() =>
-                      deleteHandle(
-                        artgramId,
-                        reply.commentParent,
-                        reply.commentId
-                      )
-                    }
-                  >
-                    삭제
-                  </div>
-                )}
-              </div>
-            </Comment.CommentBoxInnerText>
-          </Comment.CommentBox>
-        ))
-      )}
-      {/* <div>{artgramId}-{commentId}</div> */}
+      {showReply && 
+      <div className='curserPoint' style={{display:"grid", gridTemplateColumns:"50px 1fr", marginBottom:"8px"}}>
+      <div style={{borderTop: "1px solid black", margin: "6px 0", marginRight:"10px"}}></div>
+      <div onClick={()=>setShowReply(pre=>!pre)} children="답글닫기"/>
+    </div>
+      }
+      {isLoading || isError 
+        ? (<div>로딩 중 ...</div>) 
+        : reply && reply.map(reply=> (<Comment.CommentBox key={reply.commentId}>
+          <Comment.CommentBoxProfileImg img={reply.profileImg} />
+          <Comment.CommentBoxInnerText>
+            <div><span className='profileNickname' children={reply.profileNickname}/>{reply.comment}</div>
+            <div style={{display:"flex",gap:"8px"}}>
+            <div>{timehandle(reply.createdAt)}</div>
+              {decodetoken?.email === reply.userEmail && <div className='curserPoint' onClick={()=>deleteHandle(artgramId, reply.commentParent, reply.commentId)}>삭제</div>}
+          </div>
+          </Comment.CommentBoxInnerText>
+          
+        </Comment.CommentBox>))}
+        {/* <div>{artgramId}-{commentId}</div> */}
     </>
   );
 }

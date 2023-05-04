@@ -37,8 +37,8 @@ function ArtgramBox({ info, searchWord, postSearchWords }) {
 
   return (
     <Artgramparts.BoxWrap onClick={() => artgramEvent()}>
-      <Artgramparts.BoxImg children={<img className="artgramimg" src={imgUrl} alt="아트그램 이미지" />}/>
-      <Artgramparts.BoxProfile>
+      <Artgramparts.BoxImg className="curserPoint"  children={<img className="artgramimg" src={imgUrl} alt="아트그램 이미지" />}/>
+      <Artgramparts.BoxProfile className="curserPoint" >
         <Artgramparts.BoxProfileimg
           children={<img src={profileImg} alt="artgramProfileImg" />} />
         <Artgramparts.BoxProfileNickname 

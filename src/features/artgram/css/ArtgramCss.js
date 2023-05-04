@@ -77,9 +77,9 @@ const BoxWrap = styled.div`
   @media (max-width: 810px) {
     
   }
-  &:hover {
+  /* &:hover {
     cursor: pointer;
-  }
+  } */
 `;
 
 const BoxImg = styled.div`
@@ -254,6 +254,7 @@ const ModalWindow = styled.div`
   background-color: #fff;
   border-radius: 15px;
   z-index: 10200;
+
   @media (max-width: 1440px) {
     width: 948px;
     left: 56.38%;

@@ -467,21 +467,6 @@ const TopButtun = styled.div`
   }
 `
 
-const NavSearchMsg = styled.div`
-  position: absolute;
-  width: 600px;
-  height: fit-content;
-  margin-left: 80px;
-  font-size: 16px;
-  color: #fff;
-  top: 798px;
-  @media (max-width: 1440px) {
-    width: 450px;
-    top: 598.5px;
-    margin-left: 60px;
-    font-size: 12px;
-  }
-`
 const AlertWindow = styled.div`
   position: fixed;
   top: 50%;
@@ -521,6 +506,5 @@ export {
   NavSearchListRecently,
   TopButtunWrap,
   TopButtun,
-  NavSearchMsg,
   AlertWindow
 }

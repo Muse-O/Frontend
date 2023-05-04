@@ -73,7 +73,7 @@ function LoginForm() {
   };
 
   const socialLoginBtn = provider => () => {
-    window.location.href = `${process.env.REACT_APP_SERVER_URL}auth/${provider}`;
+    window.location.href = `${process.env.REACT_APP_SERVER_URL}/auth/${provider}`;
   };
 
   return (

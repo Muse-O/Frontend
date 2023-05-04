@@ -21,7 +21,7 @@ function ArtgarmDetailModal({ artgramId, modalState, openModalhandle,searchWord 
         onClick={(e) => {
           e.stopPropagation();
           openModalhandle();}} 
-        children={<img src={cancel_WGray}/>}/>
+        children={<img className="curserPoint" src={cancel_WGray}/>}/>
 
       {/* 상세모달페이지 안쪽내용 - stopPropagation() 부모컴포넌트인 ArtgramBox에서 발생되는 이벤트 버블링을 제어하기 위한 선언 */}
       <Artgramparts.ModalWindow

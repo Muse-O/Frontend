@@ -17,6 +17,7 @@ export  const usePatchArtgram = () => {
     onSuccess: () => {
       // console.log("아트그램 수정이 완료되었습니다.");
       queryClient.invalidateQueries(keys.GET_ARTGRAMDETAIL)
+      queryClient.invalidateQueries(keys.GET_ARTGRAM);
     },
     onError:(e)=> {
       console.log("아트그램 수정이 실패했습니다.", e.message);
