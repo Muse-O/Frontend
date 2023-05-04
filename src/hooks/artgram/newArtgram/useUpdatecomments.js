@@ -42,11 +42,16 @@ export const useUpdatecomments = (artgramId, commentId) => {
     setEdit((pre) => !pre);
     setUpdateComment("");
   };
+
+  const resetReply = (setReply) => {
+    setReply("");
+  }
   return {
     edit,
     setEdit,
     updatecomment,
     setUpdateComment,
+    resetReply,
     onSubmitupdateComments,
   };
 };
