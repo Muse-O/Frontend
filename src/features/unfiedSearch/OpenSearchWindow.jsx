@@ -30,7 +30,7 @@ function OpenSearchWindow({searchWindow, setSearchWindow}) {
       onMouseLeave={()=>setSearchWindow(false)}>
       
     <Headers.NavSearchListTop10>
-      <h2>인기검색어</h2>
+      <h2>인기 게시글</h2>
       {loadingRank || errorRank
         ? <div>로딩 중...</div>
         : rank && rank.map((lists, index)=> (
@@ -41,11 +41,11 @@ function OpenSearchWindow({searchWindow, setSearchWindow}) {
         ))}      
     </Headers.NavSearchListTop10>
     <Headers.NavSearchListRecently>
-      <h2>최근에 살펴본 전시, 아트그램</h2>
+      <h2>최근에 본 게시글</h2>
       {loadingRecent
         ? <div>로딩 중...</div>
         : errorRecent
-        ? <div>표시할 데이터가 없습니다...</div>
+        ? <div>회원만 "최근에 본 게시글"을 지원합니다.</div>
         : recent && recent.map((lists, index)=> (
           <div className='searchList' key={index} children={lists.keyWord} onClick={()=>searchwordRecentHandle(lists.keyWord)}/>))}
     </Headers.NavSearchListRecently>
