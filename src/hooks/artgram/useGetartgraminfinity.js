@@ -9,10 +9,10 @@ export const useGetartgraminfinity = (pageSize = 12) => {
       queryKey: keys.GET_ARTGRAM,
       queryFn: async ({ pageParam = 0 }) => {
         const response = await apis_token.get(`/artgram?limit=${pageSize}&offset=${pageParam}`)
-        return response.data.artgramList.sortedArtgramList.findArtgrmas;
+        return response.data.artgramList.sortedArtgramList.sortedArtgramList;
       },
       getNextPageParam: (lastPage, allPages) => {
-        if (lastPage.length < pageSize) {
+        if (lastPage?.length < pageSize) {
           return undefined;
         }
         return allPages.length * pageSize;

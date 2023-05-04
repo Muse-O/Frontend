@@ -15,6 +15,7 @@ import { useRecoilValue } from "recoil";
 import { decodeEmail } from "../../login/loginTokenStore";
 
 function ContentSettingBox({ detailData, setSettingBox }) {
+
   const email = useRecoilValue(decodeEmail)
   const [updateModal, setUpdateModal] = useState(false)
   const [hashtag, setHashTag] = useState(detailData.hashtag);
