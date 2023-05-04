@@ -41,7 +41,7 @@ function Header() {
   const [,setSearchWord] = useRecoilState(searchWordState)
   const [inputValue, setInputValue] = useState("")
   const [searchWindow, setSearchWindow] = useState(false)
-  const { userProfile } = useGetUserProfile();
+  const { userProfile } = useGetUserProfile(nickname);
 
   const navList = [
     { id: "home" , title: "홈", img: `${headerState.home ? home_gradient : home_gray}`, navigation: "/", state:headerState.home},
