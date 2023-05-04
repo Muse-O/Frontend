@@ -16,7 +16,7 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
   const email = useRecoilValue(decodeEmail)
   const [timehandle] = usePostingtime(); // 서버로부터 받아온 날짜을 가공하는 커스텀 훅
   const {deleteHandle } = useDeletecomments(); // 댓글삭제 비동기통신 DELETE 
-  const { edit, setEdit, updatecomment, setUpdateComment, onSubmitupdateComments } = 
+  const { edit, setEdit, updatecomment, setUpdateComment, resetReply,onSubmitupdateComments } = 
     useUpdatecomments(artgramId, comment.commentId); // 댓글수정 비동기통신 UPDATE
   const {replyState, setReplyState, reply, setReply,replyHandle} = usePostReply(); // 대댓글입력 비동기통신 POST
   const [showReply, setShowReply] = useState(false)
@@ -63,7 +63,7 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
         : <form style={{position:"relative"}} onSubmit={(e)=>replyHandle(e, artgramId, comment.commentId,reply)}>
           <Comment.CommentsInput ref={commentRef} value={reply} onChange={(e)=>setReply(e.target.value)} placeholder='답글을 입력해주세요.'/>
           <Comment.CommentsInputBtn as="button" className='curserPoint' top19="0" top14="-4px" right19="-50px" right14="-45px">입력</Comment.CommentsInputBtn>
-          <Comment.CommentsInputBtn as="button" onClick={()=>{setReplyState(pre=>!pre)}} className='curserPoint' top19="0" top14="-4px" right19="-100px" right14="-80px">취소</Comment.CommentsInputBtn>
+          <Comment.CommentsInputBtn as="button" onClick={()=>{resetReply(setReply); setReplyState(pre=>!pre)}} className='curserPoint' top19="0" top14="-4px" right19="-100px" right14="-80px">취소</Comment.CommentsInputBtn>
         </form>}
     </div>
     
