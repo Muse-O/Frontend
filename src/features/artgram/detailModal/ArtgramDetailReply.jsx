@@ -9,7 +9,7 @@ import { useMutation } from '@tanstack/react-query';
 import { useDeleteReply } from '../../../hooks/artgram/newArtgram/useDeleteReply';
 import { usePostingtime } from '../../../hooks/artgram/usePostingtime';
 
-function ArtgramDetailReply({artgramId, commentId}) {
+function ArtgramDetailReply({artgramId, commentId, showReply, setShowReply}) {
   const { isLoading, isError, data: reply } = useGetReply(
     artgramId,
     commentId
@@ -21,6 +21,12 @@ function ArtgramDetailReply({artgramId, commentId}) {
 
   return (
     <>
+      {showReply && 
+      <div style={{display:"grid", gridTemplateColumns:"50px 1fr", marginBottom:"8px"}}>
+      <div style={{borderTop: "1px solid black", margin: "6px 0", marginRight:"10px"}}></div>
+      <div onClick={()=>setShowReply(pre=>!pre)} children="답글닫기"/>
+    </div>
+      }
       {isLoading || isError 
         ? (<div>로딩 중 ...</div>) 
         : reply && reply.map(reply=> (<Comment.CommentBox key={reply.commentId}>

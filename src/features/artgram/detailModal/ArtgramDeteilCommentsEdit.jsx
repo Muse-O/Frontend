@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Children, useEffect, useRef, useState } from 'react'
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
-import { usetoken } from '../../../shared/cookies';
 import {usePostingtime} from '../../../hooks/artgram/usePostingtime'
 import {useDeletecomments} from '../../../hooks/artgram/newArtgram/useDeletecomments'
 import {useUpdatecomments} from '../../../hooks/artgram/newArtgram/useUpdatecomments'
@@ -12,7 +11,6 @@ import { decodeEmail } from '../../login/loginTokenStore';
 
 // // ArtgramDeteilCommentsEdit 컴포넌트 -------------------------------------------------------------------/
 function ArtgramDeteilCommentsEdit({artgramId, comment}) {
-  const {decodetoken} = usetoken() // ToKen에서 사용자 Email 정보 가져오기 
   const email = useRecoilValue(decodeEmail)
   const [timehandle] = usePostingtime(); // 서버로부터 받아온 날짜을 가공하는 커스텀 훅
   const {deleteHandle } = useDeletecomments(); // 댓글삭제 비동기통신 DELETE 
@@ -55,11 +53,11 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
         ? null
         : email && !replyState 
         ? <div 
-            className='curserPoint'
+            className='curserPoint' 
             onClick={()=>{
-            setEdit(false)
-            setReplyState(pre=>!pre)
-        }}>답글달기</div>
+              setEdit(false)
+              setReplyState(pre=>!pre)}}
+            children="답글달기"/>
         : <form style={{position:"relative"}} onSubmit={(e)=>replyHandle(e, artgramId, comment.commentId,reply)}>
           <Comment.CommentsInput ref={commentRef} value={reply} onChange={(e)=>setReply(e.target.value)} placeholder='답글을 입력해주세요.'/>
           <Comment.CommentsInputBtn as="button" className='curserPoint' top19="0" top14="-4px" right19="-50px" right14="-45px">입력</Comment.CommentsInputBtn>
@@ -74,7 +72,7 @@ function ArtgramDeteilCommentsEdit({artgramId, comment}) {
             <div style={{borderTop: "1px solid black", margin: "6px 0", marginRight:"10px"}}></div>
             <div onClick={()=>setShowReply(pre=>!pre)}> 답글보기 ({comment.replyCount})</div>
           </div>
-          : <ArtgramDetailReply artgramId={artgramId} commentId={comment.commentId}/>
+          : <ArtgramDetailReply artgramId={artgramId} commentId={comment.commentId} showReply={showReply} setShowReply={setShowReply}/>
         }
       </div>
     )}
