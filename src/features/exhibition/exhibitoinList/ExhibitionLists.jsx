@@ -1,5 +1,5 @@
 import React from "react";
-import { useInterserctionObserver } from "../../../hooks/artgram/newArtgram/useIntersectionObserver";
+import { useInterserctionObserver } from "../../../hooks/artgram/useIntersectionObserver";
 import styled from "styled-components";
 import { useGetExhibitioninfinity } from "../../../hooks/exhibition/useGetExhibitioninfinity";
 

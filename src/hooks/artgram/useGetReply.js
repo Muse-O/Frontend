@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { apis } from "../../../api/apis";
-import { keys } from "../../../shared/queryKeys";
+import { apis } from "../../api/apis";
+import { keys } from "../../shared/queryKeys";
 
 export const useGetReply = (artgramId, commentId) => {
   

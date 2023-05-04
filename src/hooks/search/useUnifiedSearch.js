@@ -4,21 +4,15 @@ import { searchDataState, searchWordState } from "./seartStore";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { apis } from "../../api/apis";
 import { useEffect } from "react";
-import { headerStateSearch, headerStatedefalut } from "../../components/headerStore";
 import { cookies } from "../../shared/cookies";
+import { useHeaderState } from "../useHeaderState";
 
 export const useUnifiedSearch = () => {
   const searchWord = useRecoilValue(searchWordState);
   const queryClient = useQueryClient();
   
   const [, setData] = useRecoilState(searchDataState);
-  const headerStateSearchs = useRecoilValue(headerStateSearch)
-  const [, setHeaderState] = useRecoilState(headerStatedefalut)
-
-  useEffect(()=> {
-    setHeaderState(headerStateSearchs)
-  },[])
-
+  useHeaderState()
   useEffect(() => {
     queryClient.invalidateQueries([keys.GET_UNIFIEDSEARCH, searchWord]);
   }, [searchWord]);

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { cookies } from "../../../shared/cookies";
-import { apis } from "../../../api/apis";
-import { keys } from "../../../shared/queryKeys";
+import { cookies } from "../../shared/cookies";
+import { apis } from "../../api/apis";
+import { keys } from "../../shared/queryKeys";
 import { useState } from "react";
 
 export const useUpdatecomments = (artgramId, commentId) => {

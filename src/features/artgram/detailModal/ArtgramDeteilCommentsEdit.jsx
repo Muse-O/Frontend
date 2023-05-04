@@ -1,9 +1,9 @@
 import React, { Children, useEffect, useRef, useState } from 'react'
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import {usePostingtime} from '../../../hooks/artgram/usePostingtime'
-import {useDeletecomments} from '../../../hooks/artgram/newArtgram/useDeletecomments'
-import {useUpdatecomments} from '../../../hooks/artgram/newArtgram/useUpdatecomments'
-import {usePostReply} from '../../../hooks/artgram/newArtgram/usePostReply'
+import {useDeletecomments} from '../../../hooks/artgram/useDeletecomments'
+import {useUpdatecomments} from '../../../hooks/artgram/useUpdatecomments'
+import {usePostReply} from '../../../hooks/artgram/usePostReply'
 import * as Comment from '../css/ArtgramDetailCss'
 import ArtgramDetailReply from './ArtgramDetailReply';
 import { useRecoilValue } from 'recoil';

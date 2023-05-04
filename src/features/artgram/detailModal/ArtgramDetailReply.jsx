@@ -2,9 +2,9 @@ import React from 'react'
 // import CSS & icons & png ------------------------------------------------------------------------------/
 import * as Comment from '../css/ArtgramDetailCss'
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
-import { useGetReply } from '../../../hooks/artgram/newArtgram/useGetReply'
+import { useGetReply } from '../../../hooks/artgram/useGetReply'
 import { usetoken } from '../../../shared/cookies';
-import { useDeleteReply } from '../../../hooks/artgram/newArtgram/useDeleteReply';
+import { useDeleteReply } from '../../../hooks/artgram/useDeleteReply';
 import { usePostingtime } from '../../../hooks/artgram/usePostingtime';
 
 function ArtgramDetailReply({artgramId, commentId, showReply, setShowReply}) {

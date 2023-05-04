@@ -23,10 +23,6 @@ function UnifiedSearch() {
   const searchDataArt = useRecoilValue(searchDataArtState)
   const searchDataUser = useRecoilValue(searchDataUserState)
   const {postSearchWord} = usePostSearchWord()
-  // console.log(cookies.get("access_token"));
-  // console.log("searchDataEx", searchDataEx);
-  // console.log("searchDataArt", searchDataArt);
-  // console.log("searchDataUser", searchDataUser);
   const searchDateEx = (detailRoute,type,exhibitionTitle) => {
     navigate(detailRoute)
     postSearchWord({type, title:exhibitionTitle})
