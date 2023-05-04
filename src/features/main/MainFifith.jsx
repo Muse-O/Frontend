@@ -1,31 +1,25 @@
 import React, { useState } from "react";
+// import CSS --------------------------------------------------------------------------------------------/
 import * as Main from "./css/mainparts";
+// import Library-----------------------------------------------------------------------------------------/
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useAsNavForSliderMainFifith } from "../../hooks/main/useAsNavForSliderMainFifith";
-import { useCurrentArtgram } from "../../hooks/main/useCurrentArtgram";
-import { useOpenModal } from '../../hooks/main/useOpenModal'
-import ArtgarmDetailModal from '../artgram/detailModal/ArtgarmDetailModal'
 import { useNavigate } from "react-router-dom";
+// import 커스텀 훅 ----------------------------------------------------------------------------------------/
+import { useOpenModal } from '../../hooks/main/useOpenModal'
+import { useCurrentArtgram } from "../../hooks/main/useCurrentArtgram";
+import { useAsNavForSliderMainFifith } from "../../hooks/main/useAsNavForSliderMainFifith";
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
+import ArtgarmDetailModal from '../artgram/detailModal/ArtgarmDetailModal'
 
 function MainFifith() {
-  // 서버로 부터 받아 온 배열을 슬라이더의 목적에 따라 가공하는 커스텀 훅
-  const { mainSliderSettings, subSliderSettings, currentSlideIndex } =
-    useAsNavForSliderMainFifith();
   const navigate = useNavigate()
-  // 상세모달 
   const { modalState, openModalhandle } = useOpenModal();
-  const [modalArtgramId, setModalArtgramId] = useState(null);
+  const [ modalArtgramId, setModalArtgramId ] = useState(null);
+  const { isLoading, isError, data, editLists } = useCurrentArtgram();
+  const { mainSliderSettings, subSliderSettings, currentSlideIndex } = useAsNavForSliderMainFifith();
 
-  const { isLoading, isError, data } = useCurrentArtgram();
-  let editLists;
-  if(data) {
-    const editList = [...data]
-    const editshiftitem = editList.shift()
-    editList.push(editshiftitem)
-    editLists = editList
-  }
   return (
     <Main.FifthLayout height="640"  media1440="480">
       <Main.ArticleTitle>
@@ -41,7 +35,7 @@ function MainFifith() {
         <Main.MainSlider>
           <Slider {...mainSliderSettings}>
             {data && data.map(artgram => (
-              <Main.MainSliderWrap className="curserPoint" key={artgram?.artgramId} onMouseOver={()=>setModalArtgramId(artgram.artgramId)} onClick={() =>openModalhandle(artgram?.artgramId)}>
+              <Main.MainSliderWrap className="curserPoint" key={artgram?.artgramId} onMouseOver={()=>setModalArtgramId(artgram.artgramId)} onClick={() =>openModalhandle(artgram.artgramId)}>
                 <Main.MainSliderImg children={<img className="artgramimg" src={artgram.imgUrl}/>}/>
                 <Main.MainSliderProfile>
                   <Main.MainSliderProfileImg src={artgram.authorProfileImg} alt="authorProfileImg"/>
