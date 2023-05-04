@@ -1,33 +1,31 @@
 import React from 'react'
-import Header from '../components/Header'
+// import CSS --------------------------------------------------------------------------------------------/
 import { Article } from '../shared/GlobalStyled'
 import * as US from '../features/unfiedSearch/unfiedSearch'
-import { useNavigate } from 'react-router-dom'
 import * as Artgramparts from '../features/artgram/css/ArtgramCss'
-// import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
-import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
-import { useRecoilValue } from 'recoil'
-import { searchDataArtState, searchDataExState, searchDataUserState, searchWordState } from '../hooks/search/seartStore'
-import TopButton from '../components/TopButton'
+// import Library-----------------------------------------------------------------------------------------/
+import { useNavigate } from 'react-router-dom'
+// import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { useEditTime } from '../hooks/main/useEditTime'
-import ArtgramBox from '../features/artgram/ArtgramBox'
+import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
 import { usePostSearchWord } from '../hooks/search/usePoseSearchWord'
-// import ArtgramBox from '../features/artgram/ArtgramBox'
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
+import Header from '../components/Header'
+import TopButton from '../components/TopButton'
+import ArtgramBox from '../features/artgram/ArtgramBox'
+import { useUnifiedSearchValue } from '../hooks/search/useUnifiedSearchValue'
+
 
 function UnifiedSearch() {
   const navigate = useNavigate()
   const {editTimehandle} = useEditTime()
-  const { isLoading, isError } = useUnifiedSearch();
-  const searchWord = useRecoilValue(searchWordState);
-  const searchDataEx = useRecoilValue(searchDataExState)
-  const searchDataArt = useRecoilValue(searchDataArtState)
-  const searchDataUser = useRecoilValue(searchDataUserState)
   const {postSearchWord} = usePostSearchWord()
+  const { isLoading, isError } = useUnifiedSearch();
+  const {searchWord, searchDataEx, searchDataArt, searchDataUser} = useUnifiedSearchValue()
   const searchDateEx = (detailRoute,type,exhibitionTitle) => {
     navigate(detailRoute)
     postSearchWord({type, title:exhibitionTitle})
   }
-
 
   return (
     <>

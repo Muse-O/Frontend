@@ -1,13 +1,17 @@
 import React from 'react'
-import Header from '../components/Header'
+// import CSS --------------------------------------------------------------------------------------------/
 import { Article } from '../shared/GlobalStyled'
 import * as US from '../features/unfiedSearch/unfiedSearch'
-import { useNavigate } from 'react-router-dom'
 import * as Artgramparts from '../features/artgram/css/ArtgramCss'
+// import Library-----------------------------------------------------------------------------------------/
 import { useRecoilValue } from 'recoil'
-import { searchDataArtState, searchWordState } from '../hooks/search/seartStore'
-import ArtgramBox from '../features/artgram/ArtgramBox'
+import { useNavigate } from 'react-router-dom'
+// import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { useUnifiedSearch } from '../hooks/search/useUnifiedSearch'
+import { searchDataArtState, searchWordState } from '../hooks/search/seartStore'
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
+import Header from '../components/Header'
+import ArtgramBox from '../features/artgram/ArtgramBox'
 
 function UnifiedSearchArt() {
   const navigate = useNavigate()
