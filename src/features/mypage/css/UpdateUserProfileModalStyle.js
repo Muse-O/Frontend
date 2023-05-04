@@ -99,6 +99,10 @@ const StImgEditWrap = styled.div`
   @media (max-width: 1440px) {
     gap: 7.5px;
   }
+
+  div {
+    color: #7e7e7e;
+  }
 `;
 
 const UpdateIcon = styled.button`
@@ -182,6 +186,9 @@ const StEditInputNameWrap = styled.div`
   }
 `;
 
+const NameInputWarning = styled.div`
+  color: #7e7e7e;
+`;
 const StEditInputWrap = styled.div`
   /* background-color: #5fa75f44; */
   width: 380px;
@@ -219,7 +226,7 @@ const IntroInput = styled.textarea`
   font-family: "SpoqaHanSansNeo-Regular";
   border: 1px solid #cccccc;
   width: 406px;
-  height: 164px;
+  height: 134px;
   border-radius: 5px;
   margin-top: 20px;
   padding: 10px;
@@ -232,11 +239,26 @@ const IntroInput = styled.textarea`
 
   @media (max-width: 1440px) {
     width: 304.5px;
-    height: 123px;
+    height: 100.5px;
     margin-top: 15px;
     padding: 7.5px;
     font-size: 12px;
     line-height: 18.75px;
+  }
+`;
+
+const StCountInfo = styled.div`
+  width: 30px;
+  height: 15px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 12px;
+  color: #7e7e7e;
+  transform: translate();
+
+  @media (max-width: 1440px) {
+    width: 22.5px;
+    height: 11.25px;
+    font-size: 9px;
   }
 `;
 
@@ -275,4 +297,6 @@ export {
   NameInput,
   IntroInput,
   StUpdateBtn,
+  StCountInfo,
+  NameInputWarning,
 };
