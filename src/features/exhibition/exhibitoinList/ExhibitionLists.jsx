@@ -2,8 +2,8 @@ import React from "react";
 import { useInterserctionObserver } from "../../../hooks/artgram/useIntersectionObserver";
 import styled from "styled-components";
 import { useGetExhibitioninfinity } from "../../../hooks/exhibition/useGetExhibitioninfinity";
-
-import { useRecoilState } from "recoil";
+import { EXSlectFilterStore } from "../../../hooks/exhibition/EXStore/EXSelectFilterStore";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { EXApplyTagsStore } from "../../../hooks/exhibition/EXStore/EXApplyTagsStore";
 import { EXTags } from "./LIst/EXTags";
 import { EXheader } from "./LIst/EXheader";
@@ -17,8 +17,17 @@ function ExhibitionLists() {
   let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
   const { ref } = useInterserctionObserver(fetchNextPage);
 
+  const setFILTER = useSetRecoilState(EXSlectFilterStore);
+  const outSideClick = () => {
+    setFILTER((pre) => {
+      if (pre) {
+        return "";
+      }
+    });
+  };
+
   return (
-    <ExhibitionWrap>
+    <ExhibitionWrap onClick={outSideClick}>
       <EXheader />
       <EXTags applyTags={applyTags} setApplyTags={setApplyTags} />
       <EXListBody isLoading={isLoading} isError={isError} merged={merged} />

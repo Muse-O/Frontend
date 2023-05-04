@@ -84,6 +84,7 @@ export const EXListApplyBox = ({
         };
       });
     }
+    changeSelcedStore("");
   };
   const reset = () => {
     if (classification === "Category") {

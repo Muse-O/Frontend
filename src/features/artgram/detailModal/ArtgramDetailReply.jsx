@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 // import CSS & icons & png ------------------------------------------------------------------------------/
 import * as Comment from '../css/ArtgramDetailCss'
 // import Library-----------------------------------------------------------------------------------------/
@@ -17,7 +17,6 @@ function ArtgramDetailReply({artgramId, commentId, showReply, setShowReply}) {
     artgramId,
     commentId
   );
-  
   return (
     <>
       {showReply && 
@@ -47,3 +46,4 @@ function ArtgramDetailReply({artgramId, commentId, showReply, setShowReply}) {
 }
 
 export default ArtgramDetailReply
+

@@ -8,14 +8,18 @@ import { ExSatus } from "../utils/EXstatusTitle";
 
 export const EXListBody = ({ isLoading, isError, merged }) => {
   const navigator = useNavigate();
-  console.log(merged.filter((el) => el.endDate === null));
   return (
     <>
       {isLoading || isError ? (
         <div>로딩 중...</div>
       ) : merged.length !== 0 ? (
         merged.map((item) => (
-          <ExhibitionItem key={item.exhibitionId}>
+          <ExhibitionItem
+            key={item.exhibitionId}
+            onClick={() => {
+              navigator(`/exhibition/detail/${item.exhibitionId}`);
+            }}
+          >
             <ImageBox src={item.postImage} />
             <ExhibitionInfoBox>
               <ExhibitionDate>
@@ -80,11 +84,7 @@ export const EXListBody = ({ isLoading, isError, merged }) => {
                     })}
                 </ExhibitionHashTag>
               </ExhibitionDatailInfo>
-              <ExhibitionMore
-                onClick={() => {
-                  navigator(`/exhibition/detail/${item.exhibitionId}`);
-                }}
-              >
+              <ExhibitionMore>
                 <span>M</span>
                 <span>O</span>
                 <span>R</span>
@@ -107,8 +107,31 @@ const ExhibitionItem = styled.div`
   height: 380px;
   background: #f7f7f9;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
 `;
-
+const ExhibitionMore = styled.div`
+  display: flex;
+  max-width: 76px;
+  flex: 1;
+  flex-direction: column;
+  border-left: 1px dashed gray;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  span {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    padding: 3px 20px;
+  }
+  transition: background 1s ease, color 1s ease;
+  ${ExhibitionItem}:hover & {
+    background: #242424;
+    color: #ffffff;
+  }
+`;
 const ImageBox = styled.img`
   width: 266px;
   height: auto;
@@ -116,7 +139,7 @@ const ImageBox = styled.img`
 `;
 
 const ExhibitionInfoBox = styled.div`
-  font-size: 1em; //!부모 따라가기 em이랑 rem
+  font-size: 1em;
   max-width: 690px;
   display: flex;
   flex: 1;
@@ -151,31 +174,6 @@ const ExhibitionDatailInfo = styled.div`
   border-left: 1px dashed gray;
   padding: 60px 80px;
   box-sizing: border-box;
-`;
-
-const ExhibitionMore = styled.div`
-  display: flex;
-  max-width: 76px;
-  flex: 1;
-  flex-direction: column;
-  border-left: 1px dashed gray;
-  box-sizing: border-box;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  span {
-    font-family: "Montserrat";
-    font-style: normal;
-    font-weight: 500;
-    font-size: 16px;
-    padding: 3px 20px;
-  }
-  transition: background 1s ease, color 1s ease;
-  :hover {
-    cursor: pointer;
-    background: #242424;
-    color: #ffffff;
-  }
 `;
 
 const ExhibitionInfoDetailBox = styled.div`

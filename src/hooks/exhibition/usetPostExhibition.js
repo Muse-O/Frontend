@@ -17,7 +17,7 @@ export const usePostExhibition = () => {
       queryClient.invalidateQueries({ queryKey: keys.GET_EXHIBITION });
     },
     onError: (e) => {
-      alert(e);
+      console.log("에러!", e);
     },
   });
 

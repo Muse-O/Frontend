@@ -9,15 +9,14 @@ export const HeaderCategorys = () => {
     EXSelectCategoryStore
   );
   const checkboxes = useRecoilValue(EXCategoryStoreCheckBox);
-  const categoryHandler = (e) => {
-    const { name, value } = e.target;
+  const categoryHandler = (code) => {
     setCategoryStore({
       //선택된 카태고리
-      Category: value,
+      Category: code,
       //채크박스 종류와 선택되었는지 아닌지 만들어주는함수
       //나머지는 false로 만듬
       Checkbox: Object.keys(categoryStore.Checkbox).reduce((acc, curr) => {
-        acc[curr] = curr === name;
+        acc[curr] = curr === code;
         return acc;
       }, {}),
     });

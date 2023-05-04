@@ -15,13 +15,12 @@ export const usePostcomments = (setFormState) => {
     },
     onError: e => {
       console.log("댓글이 등록되지 않았습니다.", e.message);
-    }
-  })
+    },
+  });
   const commentHandle = (e, artgramId, formState) => {
-    e.preventDefault()
-    postCommet({artgramId, formState})
-    setFormState({})
-  }
-
-  return [commentHandle]
-}
+    e.preventDefault();
+    postCommet({ artgramId, formState });
+    setFormState({});
+  };
+  return [commentHandle];
+};

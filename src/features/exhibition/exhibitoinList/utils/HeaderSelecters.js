@@ -8,6 +8,7 @@ import { HeaderTagSelect } from "../LIst/HeaderTagSelect";
 export const HeaderSelecters = () => {
   const [selectedStore, setSelectedStore] = useRecoilState(EXSlectFilterStore);
   const selectHandler = (e) => {
+    e.stopPropagation(); //이벤트 버블링 막아줌
     const { name } = e.target;
     if (selectedStore === name) {
       setSelectedStore("");

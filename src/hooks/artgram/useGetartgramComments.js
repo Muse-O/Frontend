@@ -3,7 +3,6 @@ import { keys } from "../../shared/queryKeys";
 import { useQuery } from "@tanstack/react-query";
 
 export const useGetartgramComments = (artgramId) => {
-    
     const {isLoading, isError, data} = useQuery({
       queryKey : keys.GET_ARTGRAMCOMMENTS,
       queryFn : async () => {
@@ -18,3 +17,4 @@ export const useGetartgramComments = (artgramId) => {
     })
     return [isLoading, isError, data]
 }
+
