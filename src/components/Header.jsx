@@ -79,17 +79,24 @@ function Header() {
       })
     }
   }, [userProfile])
-
+  // onClick={()=>navigate("/login")}
   return (
     <>
     <Headers.Headerwrap>
+      
         <MobileHeaer/>
         <Headers.Logo onClick={()=>navigate('/')} children={<img src={logo} alt="logo"/>}/>
-        <Headers.LoginState>
-          <Headers.LoginStateImg children={profileImg ? <img src={profileImg} alt={profileImg}/> : <img src={profileimage1} alt="비로그인시, 프로필이미지"/>}/>
-          <Headers.LoginStateNickname children={nickname || "로그인 해주세요."}/>
-          {userRole === "UR02" && <Headers.LoginStateAuthor src={palette_gradient} alt="작가권한"/>}
-        </Headers.LoginState>
+        {nickname
+          ?  <Headers.LoginState>
+              <Headers.LoginStateImg children={profileImg ? <img src={profileImg} alt={profileImg}/> : <img src={profileimage1} alt="비로그인시, 프로필이미지"/>}/>
+              <Headers.LoginStateNickname children={nickname}/>
+              {userRole === "UR02" && <Headers.LoginStateAuthor src={palette_gradient} alt="작가권한"/>}
+            </Headers.LoginState>
+          : <Headers.LoginState className="curserPoint" onClick={()=>navigate("/login")}>
+              <Headers.LoginStateImg children={profileImg ? <img src={profileImg} alt={profileImg}/> : <img src={profileimage1} alt="비로그인시, 프로필이미지"/>}/>
+              <Headers.LoginStateNickname children={"로그인 해주세요!"}/>
+              {userRole === "UR02" && <Headers.LoginStateAuthor src={palette_gradient} alt="작가권한"/>}
+            </Headers.LoginState>}
         <Headers.Nav>
           <Headers.NavSearch as="form" 
             onSubmit={searchhanler}>
