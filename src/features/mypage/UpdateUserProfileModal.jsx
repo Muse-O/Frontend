@@ -48,6 +48,10 @@ function UpdateUserProfileModal({ setOpenModal }) {
     } else if (fileRef) {
       //update query에 payload로 넣어줄 fileImg = useRef 사용해서 받아둔 파일
       const fileImg = s3imgurlhandle(fileRef.current.files[0]);
+      // console.log(fileRef.current.files[0].size);
+      // if (fileRef.current.files[0].size > 10000) {
+      //   alert("no");
+      // }
       updateUserProfile({ ...editProfile, profileImg: fileImg });
       setOpenModal(false);
     }
@@ -79,7 +83,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
           <div>
             <Style.ProfileImg
               name="profileImg"
-              src={image === "" ? editProfile.profileImg : image}
+              src={image === "" ? editProfile?.profileImg : image}
               alt="userProfileImg"
             />
           </div>
@@ -88,8 +92,6 @@ function UpdateUserProfileModal({ setOpenModal }) {
             {/* input 숨기기 */}
             <Style.StInput
               type="file"
-              data-width="300"
-              data-height="300"
               ref={fileRef}
               accept="image/*"
               onChange={changeImageHandler}
@@ -125,7 +127,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
             name="introduction"
             value={editProfile.introduction}
             onChange={changeInputHandler}
-            maxLength="55"
+            maxLength="46"
           />
         </Style.StEditInputWrap>
       </Style.StTextBox>
