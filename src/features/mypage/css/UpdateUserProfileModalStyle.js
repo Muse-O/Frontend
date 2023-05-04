@@ -99,6 +99,10 @@ const StImgEditWrap = styled.div`
   @media (max-width: 1440px) {
     gap: 7.5px;
   }
+
+  div {
+    color: #7e7e7e;
+  }
 `;
 
 const UpdateIcon = styled.button`

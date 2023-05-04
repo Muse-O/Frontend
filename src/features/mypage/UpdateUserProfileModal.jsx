@@ -120,9 +120,7 @@ function UpdateUserProfileModal({ setOpenModal }) {
             maxLength="8"
           />
 
-          <Style.NameInputWarning>
-            닉네임은 2글자 이상 입력해주세요
-          </Style.NameInputWarning>
+          <Style.NameInputWarning>2자 이상 입력해주세요</Style.NameInputWarning>
 
           <Style.IntroInput
             label="소개"
