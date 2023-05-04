@@ -1,6 +1,6 @@
-import React from 'react'
+import React from "react";
 // import CSS & icons & png ------------------------------------------------------------------------------/
-import * as Comment from '../css/ArtgramDetailCss'
+import * as Comment from "../css/ArtgramDetailCss";
 // import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { useGetReply } from '../../../hooks/artgram/newArtgram/useGetReply'
 import { usetoken } from '../../../shared/cookies';
@@ -15,6 +15,7 @@ function ArtgramDetailReply({artgramId, commentId, showReply, setShowReply}) {
   const {decodetoken} = usetoken() // ToKen에서 사용자 Email 정보 가져오기 
   console.log(reply);
   const {deleteHandle} = useDeleteReply()
+
   const [timehandle] = usePostingtime(); // 서버로부터 받아온 날짜을 가공하는 커스텀 훅
 
   return (
@@ -43,8 +44,7 @@ function ArtgramDetailReply({artgramId, commentId, showReply, setShowReply}) {
   );
 }
 
-export default ArtgramDetailReply
-
+export default ArtgramDetailReply;
 
 // comment: "ㅋㅋㅋ 얏호 달린다"
 

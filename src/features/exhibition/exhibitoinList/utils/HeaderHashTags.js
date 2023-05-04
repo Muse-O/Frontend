@@ -27,7 +27,6 @@ export const HeaderHashTags = (setHashTagStore, top10TagsData) => {
       });
       const newSelectHashTags =
         pre.SelectHashTags[0] === innerText ? [] : [innerText];
-      console.log("newSelectHashTags", newSelectHashTags);
       return {
         ...pre,
         SelectHashTags: newSelectHashTags,

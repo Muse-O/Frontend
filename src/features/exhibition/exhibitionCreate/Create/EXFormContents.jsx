@@ -193,9 +193,9 @@ export const EXFormContents = ({
           onChange={onchangeHandler}
           value={exhibition.artWorkCnt}
           name="artWorkCnt"
-          type="text"
           placeholder="작품수"
           width={"200px"}
+          maxLength={"6"}
         />
         <EXContents.Count>정</EXContents.Count>
       </EXFormBox>

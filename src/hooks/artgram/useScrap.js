@@ -7,7 +7,6 @@ export const useScrap = (searchWord) => {
   const queryClient = useQueryClient();
   const { mutate: patchScrap } = useMutation({
     mutationFn: async (artgramId) => {
-      // console.log("동작할꺼야");
       const token = cookies.get("access_token");
       const reponse = await apis.patch(`artgram/${artgramId}/scrap`, null, {
         headers: {
