@@ -8,7 +8,6 @@ import { ExSatus } from "../utils/EXstatusTitle";
 
 export const EXListBody = ({ isLoading, isError, merged }) => {
   const navigator = useNavigate();
-  console.log(merged.filter((el) => el.endDate === null));
   return (
     <>
       {isLoading || isError ? (
