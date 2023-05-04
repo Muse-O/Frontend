@@ -13,10 +13,11 @@ export const useGetTop10Tags = () => {
       const res = await apis.get(`/exhibition/toptags`);
       return res.data.topTags;
     },
+    retry: 1,
   });
 
   if (isError) {
-    alert(`Error: ${error.message}`);
+    console.log(`Error: ${error.message}`);
   }
   return [top10TagsData];
 };
