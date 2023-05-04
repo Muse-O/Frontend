@@ -13,15 +13,11 @@ export const useSearchRecent = (searchWindow) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log("recent", response.data.recentHistory);
       return response.data.recentHistory;
     },
     enabled: searchWindow,
     retry: 1,
     refetchOnWindowFocus: false,
-    onSuccess: () => {
-      console.log("최근검색결과 조회");
-    },
     onError: (e) => {
       console.log("error", e.message);
     },
