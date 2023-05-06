@@ -77,7 +77,9 @@
   <img src="https://img.shields.io/badge/VISUAL STUDIO CODE-007ACC?style=for-the-badge&logo=VISUAL STUDIO CODE&logoColor=white"> 
   <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"> 
   <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white"> 
-   <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=FIGMA&logoColor=white"> 
+   <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=FIGMA&logoColor=white">
+   <img alt="Slack" src="https://img.shields.io/badge/Slack-4A154B.svg?logo=slack&logoColor=white"/>
+
 </div>
 
 
