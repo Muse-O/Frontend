@@ -1,4 +1,3 @@
-[![Node.js CI](https://github.com/Muse-O/Backend/actions/workflows/release.yml/badge.svg)](https://github.com/Muse-O/Backend/actions/workflows/release.yml)
 # 국내 전시 커뮤니티 - Muse-O
 
 ![MUSE-O브로셔](https://user-images.githubusercontent.com/51357635/236382171-b6eff0b3-c993-4243-876e-b8ac096f507b.png)
@@ -18,7 +17,7 @@
 - 내 전시에 대한 반응, 내 게시글에 대한 반응을 알람을 통해 확인할 수 있습니다.
 - 특정 작가와 대화를 나눌 수 있도록 1:1 메시지를 남길 수 있습니다.
 ---
-## 🗓 프로젝트 기간
+##  프로젝트 기간
 
 - 2023년 03월 31일 ~ 2023년 05월 12일 (이후 계속될 예정)
 ---
@@ -26,23 +25,19 @@
 
 [팀 노션 페이지](https://www.notion.so/seungho-white/9-MUSE-O-SA-f7e236258c4f4eb7aa8acff482357f60)
 
-# 🎩Stacks
+## 💻Stacks
+
 <img width="850" alt="KakaoTalk_20230506_195531355" src="https://user-images.githubusercontent.com/105100315/236620098-ca30c44f-fd9c-439d-bbe1-1a021232d053.png">
+
+
 ### Front End
 
-<div>
-      <img src="https://img.shields.io/badge/표시할이름-색상?style=for-the-badge&logo=기술스택아이콘&logoColor=white">
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white) ![Styled Components](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)<br />
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E) ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB) 
+![ReactQuery](https://img.shields.io/badge/react--querty-ff4154.svg?style=for-the-badge&logo=react-query&logoColor=white) ![Recoil](https://img.shields.io/badge/Recoil-007af4.svg?style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyBpZD0iQ2FscXVlXzEiIGRhdGEtbmFtZT0iQ2FscXVlIDEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDI1NS4yMSA2MjMuOTEiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDp3aGl0ZX08L3N0eWxlPjwvZGVmcz48cGF0aCBjbGFzcz0iY2xzLTEiIGQ9Im03NC42MiAyNzcuNDYgMS4yNC0uMTMgMzQuNzgtMy4yOC01My40Ny01OC42NkE5Ni40NyA5Ni40NyAwIDAgMSAzMiAxNTAuM0gzYTEyNS4zIDEyNS4zIDAgMCAwIDMyLjggODQuNTdaTTE3Ny4xMyAzNDdsLTM2IDMuNCA1My4zMiA1OC41MUE5Ni40MSA5Ni40MSAwIDAgMSAyMTkuNjMgNDc0aDI4LjkyYTEyNS4yOCAxMjUuMjggMCAwIDAtMzIuNzYtODQuNTdaIi8+PHBhdGggY2xhc3M9ImNscy0xIiBkPSJNMjUzLjY5IDIzMS42OGMtNi4zMy0zMS4zLTMwLjg5LTU0LjA5LTYyLjU3LTU4LjA3bC02LjM1LS43OWE0OS42MSA0OS42MSAwIDAgMS00My4zNS00OS4xM3YtMjBhNTIuNzUgNTIuNzUgMCAxIDAtMjguOTEtLjM2djIwLjM4YTc4LjU2IDc4LjU2IDAgMCAwIDY4LjY1IDc3LjgybDYuMzYuOGMyMy4yNCAyLjkyIDM0Ljc4IDIwIDM3LjgzIDM1LjFzLS45MyAzNS4zMi0yMS4yMiA0N2E3My44MSA3My44MSAwIDAgMS0zMC4wNiA5LjYybC05NS42NiA5YTEwMi40NSAxMDIuNDUgMCAwIDAtNDEuOCAxMy4zOEM5IDMzMi40NS00LjgxIDM2MyAxLjUyIDM5NC4yOXMzMC44OSA1NC4wOCA2Mi41NyA1OC4wNmw2LjM1LjhhNDkuNiA0OS42IDAgMCAxIDQzLjM1IDQ5LjEydjE4YTUyLjc1IDUyLjc1IDAgMSAwIDI4LjkxLjI2di0xOC4yNmE3OC41NSA3OC41NSAwIDAgMC02OC42NS03Ny44MWwtNi4zNi0uOGMtMjMuMjQtMi45Mi0zNC43OC0yMC4wNS0zNy44My0zNS4xMXMuOTMtMzUuMzIgMjEuMjItNDdhNzMuNjggNzMuNjggMCAwIDEgMzAuMDYtOS42M2w5NS42Ni05YTEwMi40NSAxMDIuNDUgMCAwIDAgNDEuOC0xMy4zOGMyNy42NS0xNi4wMiA0MS40LTQ2LjU0IDM1LjA5LTc3Ljg2WiIvPjwvc3ZnPg==&logoColor=white) 
+[![Vercel](https://img.shields.io/badge/-Vercel-black?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com/)
+[![axios](https://img.shields.io/badge/-axios-1572B6?style=flat-square&logo=axios&logoColor=white)](https://axios-http.com/)
 
-  <img src="https://img.shields.io/badge/REACT-61DAFB?style=for-the-badge&logo=REACT&logoColor=black"> 
-  <img src="https://img.shields.io/badge/REACT QUERY-FF4154?style=for-the-badge&logo=React Query&logoColor=white"> 
-  <img src="https://img.shields.io/badge/styledComponents-DB7093?style=for-the-badge&logo=styledComponents&logoColor=white"> 
-<img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=Vercel&logoColor=white"/>
-  <img src="https://img.shields.io/badge/AXIOS-5A29E4?style=for-the-badge&logo=AXIOS&logoColor=white"> 
-  <img src="https://img.shields.io/badge/REACT ROUTER-CA4245?style=for-the-badge&logo=REACTROUTER&logoColor=white"> 
-  <img src="https://img.shields.io/badge/socket.io-3010101?style=for-the-badge&logo=socketdotio&logoColor=white"> 
-
-
-</div>
 
 <br />
 
@@ -53,219 +48,15 @@
   <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"> 
   <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=FIGMA&logoColor=white"> 
   <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white"> 
-  <img src="https://img.shields.io/badge/amazons 3-569A31?style=for-the-badge&logo=amazons3&logoColor=white"> 
 </div>
+
+
+
 ---
 ## 🛠 기술적 의사결정([WHY?](https://spark-stove-6bf.notion.site/cf6de263fec844ba8c989b4c9a6dd32e))
 
 
 ---
-
-- Vercel, 웹  호스팅
-    - 중간발표 HTTP의 S3bucket을 활용하여 웹 호스팅 실시
-    - 클라이언트-서버 사이의 통신에 있어서 보안을 언급하는 최근의 동향에 입각해 HTTPS로의 호스팅이 논의되었고, 이에 있어서 편의성이 높은 Vercel을 채택함.
-    - Vercel이 가지는 편의성은 무료로 호스팅을 제공하며, 이때 HTTPS를 제공한다는 측면이 있었기에 논의가 되었음
-    - Github과의 연동성으로 인해서, 원격저장소에 버전에 업데이트되면 이를 인지하고 자동배포를 지원함
-    - Vercel이 배포환경의 빠른 로딩속도을 지원한다는 점에서, CSR방식으로 서버를 구성하고 있는 우리 프로젝트의 초기로딩 속도를 향상시킬 수 있는 경험을 제공함.
-- React, 프론트엔드 JS 라이브러리
-    
-    1) **방대한 생태계** : Facebook에서 개발하고 지속적 관리를 하고 있음, 스텍 오버플로 등에서 관련된 정보에 접근이 용이함
-    
-    2) **가상돔(DOM) 사용의 이점** :  실제 DOM 조작을 최소하여 하여 빠른 렌더링을 구현
-    
-    3) **단방향 데이터 관리** : 단방향 데이터 흐름을 기반으로 데이터의 변경사항의 관리 예측이 용이함
-    
-    4) **컴포넌트 기반 아키텍처** : 각 컴포넌트가 독립적으로 작동하며, 이를 조합하여 원하는 기능을 구현하며, 코드의 재사용성과 개발 생산성 향상에 장점이 있음
-    
-- S3bucket, 이미지 업로드: 이미지 업로드에 있어서 프론트엔드에서의 업로드 방법 고려
-    - 기존의 방법이었던 FormData 객체로 전달하는 방법은 서버측에 많은 부하를 요구하며 프론트엔드 개발에 있어서도 이미지를 FormData 로 변환하는 부분에 있어서 일정량의 시간이 요구됨.
-    - 프론트에서 직접 S3bucket에 이미지를 업로드 하고, 만들어진 url을 가지고 화면이 미리보기와 서버로 url 값만 전달함으로 서버로 데이터를 보내어 처리함에 있어서 빠른 실행을 계획함.
-    - [**단점**] 속도적인 측면에서는 체감할 정도로 빠른 처리가 가능했지만, 비용적인 측면이 요구되며, 환경변수가 빌드된 파일에 포함된다는 측면에서, 보안의 위험성이 잠재적으로 남아 있음.
-    - [**개선**] 비용적인 측면에서 S3에 비해서 경제적인 cloudflare images 가 거론되었으나, 처리 속도적인 측면에서 파일을 보내고, 성공시 만들어질 url을 미리 예정하여 활용하였던 S3와 달리, 전달할 파일의 수에 따라 url 개수를 할당받고, 해당 url에 파일을 업로드하여 최종 할당될 url을 획득해야 한다는 점에서 처리속도가 떨어짐
-    - [현재] 짧은 개발시간으로 인해서 현재 작업완료한 S3를 유지, 추후 cloudflare images 로 이주할 예정.
-    
-## 라이브러리
-| 라이브러리 | 사용목적 |
-| --- | --- |
-| "axios": 1.3.4 | HTTP 요청을 간편하게 처리하고, Promise 기반 비동기 처리가 용이하며 interceptors를 통해 통신 전후의 설정의 간편성을 제공하는 통신 라이브러리  |
-| dayjs:1.11.7 | JS에 내장된 Date 객체를 보다 직관적으로 format 할 수 있어, 날짜에 대한 관리가 간편한 라이브러리 |
-| react-daum-postcode:3.1.1 | 카카오 주소검색 api를 사용하기 위한 라이브러리 |
-| react-dropzone: 14.2.3 | 파일 입력에 있어서 마우스를 활용한 입력을 간편하게 지원하고, 미리보기에 대한 설정도 쉽게 설정할 수 있는 라이브러리 |
-| react-icons: 4.8.0 | 리액트에서 아이콘을 사용할 때 호환성 부분에서 가장 적합한 라이브러리 |
-| react-router-dom:6.9.0 | SPA 기반인 React에서 원활한 라우팅을 위한 라이브러리  |
-| react-slick:0.29.0 | 슬라이더를 위한 라이브러리  |
-| slick-carousel:1.8.1 | react-slick의 스타일을 위한 라이브러리  |
-| recoil: 0.7.7 | 전역 상태 관리 부분에서, 비교적 소규모 프로젝트에서 사용하기애 간단하며 리액트환경에 친숙한 Hook과 유사한 조작을 통해 쉽게 데이터의 상태를 관리할 수 있는 라이브러리   |
-| jwt-decode:3.1.2 | 암호화 되어있는 JWT를 해독하는 라이브러리 |
-| sweetalert2:11.7.3 | 경고 또는 확인같은 모달 대화 상자를 생성해주는 팝업 라이브러리 |
-
-- **ReactQuery, Recoil (StateManagements)**
-    
-    **프로젝트의 목적과 라이브러리 선택의 이유** : 저희 프로젝트의 상태를 보았을 때, React Query가 변화가 잦은 상태를 관리하는데 강점이 있다는 점과 이 같은 상황에서 불필요한 API를 최소화하는 비동기 전용 상태 관리 라이브러리라는 점에서 고려하게 되었습니다. 뿐만 아니라 React Query가 이 과정에서 개발의 목적과 의도에 따른 다양한 설정을 지원하고 데이터를 캐싱하여 사용하는 부분이 주는 강점, React Query가 주는 코드 작성의 간결성과 가독성으로 채택했습니다. 
-    
-    **1) MUSE-O 프로젝트에서의 상태관리**
-    
-    - **컴포넌트에서 사용하는 데이터(상태) 목록 : 잦은 변화와 즉시적 대응과 관련된 데이터 “빨간색”**
-        - **메인** 
-        1) **등록된 전시목록**
-        2) **등록된 아트그램**  
-        3) **아트그램에 대한 사용자별 응답(스크랩과 좋아요)**
-        4) **아트그램에 대한 댓글과 대댓글**
-        - **전시** :  
-        5) 전시 등록
-            
-            *  (1) **등록된 전시목록** 
-            6) 전시에 대한 사용자별 응답(좋아요, 스크랩, 후기) 
-            
-        - **아트그램** : 
-        7) 아트그램 등록(이미지, 제목과 내용), 
-        *  (2) **등록된 아트그램**
-        *  (3) **아트그램에 대한 사용자별 응답(스크랩과 좋아요)**
-        *  (4) **아트그램에 대한 댓글과 대댓글**
-        - **마이페이지** :
-            
-            8)유저프로필
-            
-            *  (1) **등록된 전시목록**
-            *  (6) **전시에 대한 사용자별 응답(스크랩과 좋아요) → 본인이 작성한 전시** 
-            *  (2) **등록된 아트그램** 
-            *  (3) **아트그램에 대한 사용자별 응답(스크랩과 좋아요) → 본인이 작성한 아트그램**
-            *  (4) **아트그램에 대한 댓글과 대댓글**
-            
-            8) 알림
-            
-        - 검색
-            
-            9) 인기게시글
-            
-            10) 최근 검색을 통해 이용한 게시글 
-            
-    
-    **2) 이를 위한 상태관리 라이브러리의 선택과 과정**
-    
-    - **리덕스**는 데이터 변화가 작은 상태를 관리할 때 강점
-        
-        :: 불러오는데 → 리덕스는 로컬메모리 → 비동기처리를 덮어씌움 → “**새로고침 → 초기화**” → 다시 API 호출(반복)
-        :: API 호출과 별개로, 이 과정을 수반하기 위한 코드의 압박 
-        :: 동기적   처리 : (Provider) ActionCreate → Initial State → Redusers → configurstore ⇒ “**dispath(Action) → Reduser → configurstore**”
-        :: 비동기적처리 : (Provider) ActionCreate(GET,POST,DELETE,PATCH) → Initial State → extraReducers → Slice → configureStore⇒ 반복
-        :: 데이터사용 : useSelectort(state ⇒ state.Slice) 
-        
-    - **리액트쿼리**는 “**데이터 변화가 잦은**” 상태를 관리할 뿐 아니라, 이 “**데이터를 기반으로 한 커뮤니티를 제공한다는 측면**”에서 강점
-        
-        :: 불러와서 → 캐시(로컬메모리)에 저장 → 데이터를 캐싱해서 사용 → “**새로고침 → 초기화가 이뤄지지 않아요**” → 데이터 캐시에서 불러와요 → API호출의 효율
-        :: 비동기적처리 : (QueryClientProvider) useQuery(queryKey), useMutation(queryClient.invalidateQueries(queryKey)) 
-        :: 데이터사용 : [res.data](http://res.data) 를 가지고 바로 사용 
-        
-    
-    ---
-    
-    정리를 해보면, **데이터 캐싱에 우수한 “리액트 쿼리” 채택**
-    
-    1) 프로젝트 내에서의 데이터 사용의 목적과 방향 : 데이터의 잦은 변경과 사용자간의 커뮤니티 경험 제공적 측면에서의 API 호출에 대한 이슈
-    
-    2) 코드작성의 간결성과 가독성
-    
-    3) 비동기처리에 최적화 된 다양한 데이터 패칭과 캐싱을 지원함
-    
-    - useInfiniteQuery() - 무한스크롤을 위한 전용 비동기처리함수
-    - 데이터패칭에 세부설정의 다양성과 간편성 : retry, refetchOnWindowFocus, enabled 등
-    - 프로미스 기반의 에러처리의 간편성(onSuccess, onError)
-    
-    ⇒ 저희 프로젝트의 상태를 보았을 때, React Query가 변화가 잦은 상태를 관리하는데 강점이 있다는 점과 이 같은 상황에서 불필요한 API를 최소화하는 비동기 전용 상태관리 라이브러리라는 점에서 고려하게 되었습니다. 뿐만 아니라 React Query가 이 과정에서 개발의 목적과 의도에 따른 다양한 설정을 지원하고 데이터를 캐싱하여 사용하는 부분이 주는 강점, 리액트 쿼리가 주는 코드작성의 간결성과 가독성으로 채택했습니다. 
-    
-    ---
-    
-    **3) 이슈발생 : 리액트 쿼리 도입에서 미처 생각하지 못한 상태관리**, (Prop Drilling)단회적으로 불러오는 데이터의 활용과 서버 통신과 무관한 상태 관리 이슈
-    
-    - **리코일 도입에 대한 고민과 채택**
-        
-        선택이유(1 - 김재란) :
-        
-        - 로그인 및 로그아웃 토큰 관리
-        
-        ```jsx
-        const { mutate } = useMutation({...
-        },onSuccess: () => {
-              const accessToken = cookies.get("access_token");
-              setHeaderState({ ...headerStateSearchs });
-              setDecodeAccessToken(jwtDecode(accessToken));
-              Swal.fire({
-                title: "\n로그인 완료하였습니다.",
-                focusConfirm: false,
-              });
-              navigate("/");
-            },...)
-        
-        export const decodeAccessToken = atom({
-          key:"decodeAccessToken",
-          default:{}
-        })
-        
-        // email, nickname, profileImg, userRole, introduction
-        export const decodeEmail = selector({
-          key:"decodeEmail",
-          get: ({get})=> {
-            const {email} = get(decodeAccessToken)
-            return email
-          }
-        })
-        ```
-        
-        선택이유(2 - 박영찬) :
-        
-        - 1) **컴포넌트 위치에 대한 상태관리(Boolean)**
-        - 2) 각 페이지에서 입력되는 **’검색어’의 상태**
-            - 특히, RESTfulAPI - GET메서드를 통해서 특정한 정보를 조회할 때 방법중의 하나인 url에 queryString을 기록하여 전달하는 부분에 있어서 전역에서 관리되고 있는 상태가 요구됨.
-        
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8a599867-5c0e-4339-9991-d8bd2e72c328/Untitled.gif)
-        
-        - 3) **검색결과에 따라서 받아온 단회적인 ‘데이터’**를 type(exhibition/artgram/user)에 따라서 구분하고, 각 페이지에서 해당 요소를 활용하는 부분에서의 상태관리
-        
-        ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/64075ea4-f26e-4157-911b-6e71cc1da872/Untitled.png)
-        
-        ---
-        
-        선택이유(3 - 백승호) : 
-        
-        리코일은 중간에 도입하게 되었다.
-        
-        Exhibition 페이지에서 최상단 컴포넌트의 params 값을 header에서 검색, 필터를 걸어서 변경하면 페이지에 표시되는 값이 달라지는 메커니즘  있었습니다. 이를 해결하기 위해 header 컴포넌트 내부에 props로 params를 변경하는 함수를 전달해야 했으나, 이로 인해 Prop Drilling 문제가 발생하였습니다.
-        
-        전체적인 코드를 작성하면서  컴포넌트 재활용을 위해 컴포넌트 분할을 실시하였고, 이로 인해 중간 컴포넌트에서 다시 props로 함수를 전달해야 하는 문제가 생겼습니다. 이를 해결하기 위해 전역 상태 값을 다루는 recoil을 사용하여 최상단 컴포넌트에서 params 값을 전역 상태 값으로 설정하고, 해당 값을 다루는 컴포넌트 내에서만 상태 값을 변경하여 Prop Drilling을 최소화하였습니다.
-        
-        또 다른 이유로 리코일은  React의 useState 훅과 비슷하게 동작하여 직관적이면서 익숙한 구조를 가지고 있습니다.
-        
-        그로인한 접근성이 매우 뛰어나 적용 하는데 시간적 비용이 최소화  되었습니다.
-        
-        ![MUSE-O-Chrome-2023-05-05-01-15-09.gif](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/7f0f1d72-e2c6-49a7-9b9e-2a3c77e581aa/MUSE-O-Chrome-2023-05-05-01-15-09.gif)
-        
-    - 전역상태관리에 대한 프로젝트에서의 도입 : ContextAPI, Redux, Recoil
-        
-        1) ContextAPI(내장기능) :  `<Context.Provider value={...}>` 가 하나의 성격마다 있어야 함. 
-        
-        - 현재 Recoil로 구성한 store가 7개인데, 이를 위해 `Provider` 가 7개 요구됨.
-        - 상하관계의 컴포넌트밖에는 상태관리를 할 수없다는 측면이 있음
-        
-        2) Redux : 현업에서 상태관리 라이브러리 부분에서 가장 많이, 그리고 가장 오랫동안 ‘**애증**’의 라이브러리 
-        
-        - Flux패턴으로 구성된 Redux는 상태관리를 생성하기 위해 ActionCreate → Initial State → Redusers → configurstore 를 생성해야 했음
-        - 너무나 당연하게, 상태관리 하면 Redux가 정설이었던 현재적 시점
-        
-        3) **의문제기** : 데이터 부분에 있어서 전체적으로 서버를 의존하고 있는 프로젝트 특성상,
-             전역에서 사용할 단순한  몇 가지의 데이터의 상태를 위해서 복잡한 Redux 생태계를 구축해야 하는지에 대한 의문이 발생했음. 
-        
-        4) **Recoil 도입** : 페이스북에서 만들었고 기존 리액트의 동작방식인 Hook의 형태와 유사하게 동작한다는 측면에서 교육비용의 측면에서 접근성이 용이
-        
-        - Redux에 비해서 코드 작성이 단순하고,  직관적임(useRecoilState, useRecoilValue; setter 또는 getter만 따로 호출이 가능)
-        - 상태를 활용하고 조작하는 것이 간편함(atoms, selector)
-        - **단점** : 대규모 프로젝트에는 소분되어 있는 store로 인해 유지보수적 측면의 어려움이 있기에, 작은 프로젝트에서 유용함
-| socket.io-client: 4.6.1 |  |
-| styled-components: 5.3.9 | 대표적인 CSS-in-JS 라이브러리로, 많은 사용자가 선택한 안정적인 스타일 라이브러리 |
-| styled-reset: 4.4.5 | 브라우저마다 상이한 스타일에 대하여 대응하기 위한 크로스 브라우징 라이브러리  |
-| universal-cookie: 4.0.4 | 쿠키 값 설정을 쉽게 관리하도록 도와주는 라이브러리 |
-| tanstack/react -query:4.28.0 | 전역 상태 관리 부분에서, 비동기 처리에 최적화 된 라이브러리  |
-| aws-sdk/client-s3:3.306.0 | S3로 이미지를 업로드 하기 위한 라이브러리  |
 
 
 
@@ -688,3 +479,23 @@
     ```
     
     값이 작성이 안될때 그냥 confirm() 없이 화면이 전환 되는 로직.
+    
+    
+    
+    ## 👥 팀원소개
+
+---
+
+# 👥 팀원 소개
+
+---
+
+| 역할 | 이름 | GitHub | 분담 |
+| --- | --- | --- | --- |
+| FE 👑 | 백승호 | https://github.com/seunghowhite | 전시 페이지  |
+| FE | 김재란 | https://github.com/gitjaeran | 로그인 페이지, 회원가입 페이지, 마이페이지 |
+| FE | 박영찬 | https://github.com/19Edwin92 | 메인(헤더포함) 페이지, 아트그램 페이지, 통합검색 페이지 |
+| BE 👑 | 임건 | https://github.com/WoogLim |  |
+| BE | 김다빈 | https://github.com/dabeenkim |  |
+| BE | 문서아 |  |  |
+| DE | 강혜린 |  | 디자인 |
