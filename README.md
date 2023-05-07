@@ -593,55 +593,202 @@ apis_token.interceptors.request.use(config => {
 
 **[FE] 백승호**
 <details>
-<summary>input type=file 에 접근하기</summary>
+<summary>useInfiniteQuery 사용전 무한스크롤 구현하기</summary>
 
 <br/>
 
-**`상황`**
-
-전시회 수정 페이지 접속시 기존에 올려둔 img file 정보들을 불러와서 File 객체에 넣어 이미지 들을 preview를 표시해 주고 싶다.
 
 <br/>
 
-**`문제`**
+`상황`
 
-input에 접근을 못 한다.  
+useInfiniteyQuery를 알아보기전 무한스크롤 구현.
 
-<br/>
+`useInfiniteQuery  사용전` 
 
-**`원인`**
+1.state
 
-이는 보안상 문제로  웹 브라우저가 사용자의 개인 파일 및 시스템 데이터에 액세스하지 않도록 방지하기 위한 이유다.
+```jsx
+	const [list, setList] = useState([]); //받아온 데이터를 list에 저장
+  const [page, setPage] = useState(10); //데이터를 불러올 페이지, 즉 순번을 저장
+  const [load, setLoad] = useState(1);  //loading중인지 아닌지 설정하는 state
+  const preventRef = useRef(true);//이전값이 있는지 판단
+  const obsRef = useRef(null);//관찰을 위한 옵져버
+  const endRef = useRef(true);//마지막 값이 있을때 사용
+```
 
-만약 웹 브라우저에서 파일 시스템에 직접 접근을 허용한다면, 악성 사용자가 JavaScript 코드를 사용하여 사용자의 파일 시스템에 접근하고, 중요한 파일을 삭제하거나 수정할 수 있다. 
+2.첫 랜더링
 
- 그렇기 때문에 input이 type이 file일때 랜더링시 file을 따로 지정을 못 해준다.
+옵저버를 생성
 
-결론적으로 클라이언트 부분에서 file을 backend로 바로 보내주는 것에 관하여 수정페이지로 접속할때 기존 file을 넣어 file의 preview를 표시해  주고 싶은데 못하고 있는 상황이다.
+```jsx
+  //*컴포넌트가 마운트 될 때  옵저버를 생성하고 언마운트될 경우 옵저버를 해제
+  useEffect(() => {
+    getFirstItem();//처음 데이터를 불러오는 api통신
+    const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
+    if (obsRef.current) observer.observe(obsRef.current);
+    return () => {
+      observer.disconnect();
+    };
+  }, [])
+```
 
-<br/>
+초반에 값을 받아옴
 
-**`✅ 해결`**
+```jsx
+  //*처음 받아오는값
+  const getFirstItem = useCallback(async () => {
+    const res = await apis.get("/exhibition"); //이런 param 값없이 요청할 시 BE에서 10개를 보내준다.
+    endRef.current = res.data.paginationInfo.hasNextPage;
+    if (res.data) {
+      setList((prev) => [...prev, ...res.data.exhibitionList.rows]);
+      preventRef.current = true;
+    } else {
+      console.log(res);
+    }
+  }, []);
+```
 
-수정페이지
+3.element 확인 시사용되는 함수, 
+element를 확인될때 page를 올림 isIntersecting, preventRef,endRef 가 사용된다. 즉 처음값을 받아왔고 받은 값들중 마지막 페이지가 아니면 실행한다.
 
-이미지를 s3에 올리는 방법.
+```jsx
+  //*element를 확인될때 page를 올림
+  const obsHandler = (entries) => {
+    const target = entries[0];
+    if (target.isIntersecting && preventRef.current && endRef.current) {
+      preventRef.current = false;
+      setPage((prev) => prev + 1);// 1개씩 요청
+    }
+  };
+```
 
-클라이언트에서 s3에 이미지를 올린다 →작성할때 s3 로 올라간 파일의 url을 backend로 보낸다.→get요청을 할때 랜더링을 위한 backend 에서 s3에 올라가 있는 url을 보내준다. →그럼 url를 img preview에 넣어준다.
+페이지가 올라갈때마다 `getItem`실행.
 
-<br/>
+```jsx
+  //*페이지가 변경될때마다 실행
+  useEffect(() => {
+    getItem();
+  }, [page]);
 
-💭**그럼 input type=file에 어떻게 넣는가? file 객체를 못 다루는건 마찬가지 아닌가??**
+```
 
-그렇다 하지만 랜더링 할때 preview는 가능하다.  input type=file에 접근하는 이유도  input type=file에 접근하여 file을 넣어주고 들어간 file을 가지고와서 preview를 보여주기함 이었다. 
+4.page변경시 사용되는 함수
+getItem 함수 
 
-<br/>
+```jsx
+  const getItem = useCallback(async () => {
+		//로딩중이다
+    setLoad(true);
+    const res = await apis.get(`/exhibition?limit=1&offset=${page}`);
+    endRef.current = res.data.paginationInfo.hasNextPage;//서버에서 마지막페이지를 알려줌
+    if (res.data) {
+      setList((prev) => [...prev, { ...res.data.exhibitionList.rows[0] }]);
+			//값을 추가 시킨다.
+      preventRef.current = true;
+    } else {
+      console.log(res);
+    }
+		//로딩이 끝났다.
+    setLoad(false);
+  }, [page]);
+```
 
-💡**처리한 방법**
+데이터를 받아와서 list파일에 넣어준다. 
 
-file preview는 랜더링 되어있다. 하지만 file은 없는 상황이다. 일단 사용자 측면에서 파일이 올라가 있다고 생각하게 한다.
+순서
 
-만약 파일 변경없이 수정을 요청한다면 file은 비어 있기 때문에 마찬가지로 프론트앤드에서도 수정하지 않으면 file을 비워서 보내고 수정을 진행한다면 file을 넣고 preview url도 교체가 된다.backend 쪽에서 파일이 변동 없을시 기존에 파일을 유지 하고 file이 존재 한다면  수정된 데이터를 넣는 방식을 사용했다.
+처음값을 받아온다→값을 list에 넣는다 받아온 상태다→그다음부터 obs가 관찰되면 page를 변경→page가 변경 될 때마다 getItem 함수 실행→list에다가 값 저장,
+
+---
+
+`문제`
+
+페이지를 가지고 오는 순서 문제로  처음 받아오는 값과 무한스크롤 전용 데이터가 꼬여버려 순서에 맞지 않는 상황. 
+
+인지
+처음 랜더링 되는 순간 옵저버도 1번 실행 되어 버렸기 때문에 처음 순서가 잘못 되게 나옴.
+
+랜더링 순서를 정해줄 필요가 있다고 판단.
+
+api통신을 순서를 정해줄 필요가 없고 초받값을 따로 받는 작업이 필요없는 리액트 쿼리 훅  useInfiniteQuery 도입.
+ 
+
+`useInfiniteQuery  사용후` 
+
+```jsx
+const { data, isLoading, isError, fetchNextPage, hasNextPage } =
+    useGetExhibitioninfinity(10, applyTags);
+
+let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
+
+  const ref = useRef(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0); // SPA문제의 한계, 이전 라우터의 스크롤을 기억하고 있는 문제를 해결하고자 함
+    const observer = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting) {
+        fetchNextPage()//
+      }
+    }, { threshold: 0.01 });
+
+    if (ref.current) {
+      observer.observe(ref.current);//옵저버 생성
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);//언마운트시 해제
+      }
+    };
+  }, []);
+```
+
+이제는 elements가 확인된다면 fetchNextPage()가 실행 된다.
+
+```jsx
+export const useGetExhibitioninfinity = (pageSize, applyTags) => {
+	.
+	.
+	.
+  const { data, isLoading, isError, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: [keys.GET_EXHIBITION, applyTags],
+      queryFn: async ({ pageParam = 0 }) => {
+        const res = await apis_token.get(
+          `/exhibition?limit=${pageSize}&offset=${pageParam}${serchWhere}${searchCategory}${searchHashTag}${searchTitle}`
+        );
+        return res.data.exhibitionList.rows;
+      },
+			//fetchNextPage를 설정.
+      getNextPageParam: (lastPage, allPages) => {
+				 // lastPage는 useInfiniteQuery를 이용해 호출된 가장 마지막에 있는 페이지 데이터
+        // allPages는 useInfiniteQuery를 이용해 호출된 모든 페이지 데이터
+        if (lastPage.length < pageSize) {
+          return undefined;
+        }
+				//다음 가지고 올 페이지의 위치를 설정해줌
+        return allPages.length * pageSize;
+      },
+      refetchOnWindowFocus: false,
+      retry: 1,
+      onError: (e) => {
+        console.log(e.message);
+      },
+    });
+  return { data, isLoading, isError, fetchNextPage, hasNextPage };
+};
+```
+
+코드가 간결해 졌다.
+
+useInfiniteQuery 내부에서 isloading, page,hasNextPage  등등 값을 지원해서 로딩중인지, 마지막페이지가 있는지,  다음페이지를 어디서 불러올지 page 번호를 지정 가능하다.
+
+```jsx
+ let merged = data?.pages.length > 0 ? [].concat(...data?.pages) : [];
+```
+
+가지고 오는 값들을 합처서 배열을 만든다.
 
 </details>
 
