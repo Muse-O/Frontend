@@ -204,7 +204,7 @@ MUSE-O는 전시회를 즐기는, 그리고 멋진 작품을 전시하는 빛나
 ---|:---:
 ![@tanstack/react-query badge](https://img.shields.io/badge/@tanstack/react--query-v4.28.0-00B0FF?style=flat-square&logo=react&logoColor=white) | 전역 상태 관리 부분에서, 비동기 처리에 최적화 된 라이브러리 
 ![@aws-sdk/client-s3 badge](https://img.shields.io/badge/@aws--sdk/client--s3-v3.306.0-232F3E?style=flat-square&logo=amazon-aws&logoColor=white) | S3로 이미지를 업로드 하기 위한 라이브러리
-![socket.io-client badge](https://img.shields.io/badge/socket.io--client-v4.6.1-010101?style=flat-square&logo=socket.io&logoColor=white) | 뭐지
+![socket.io-client badge](https://img.shields.io/badge/socket.io--client-v4.6.1-010101?style=flat-square&logo=socket.io&logoColor=white) | 채팅을 위한 라이브러리
 [![axios](https://img.shields.io/badge/axios-1.3.4-blue)](https://www.npmjs.com/package/axios) | HTTP 요청을 간편하게 처리하고, Promise 기반 비동기 처리가 용이하며 interceptors를 통해 통신 전후의 설정의 간편성을 제공하는 통신 라이브러리 
 ![styled-components badge](https://img.shields.io/badge/styled--components-v5.3.9-DB7093?style=flat-square) | 대표적인 CSS-in-JS 라이브러리로, 많은 사용자가 선택한 안정적인 스타일 라이브러리
 ![styled-reset badge](https://img.shields.io/badge/styled--reset-v4.4.5-282c34?style=flat-square) | 브라우저마다 상이한 스타일에 대하여 대응하기 위한 크로스 브라우징 라이브러리
@@ -861,9 +861,9 @@ const changeOnOff = (event) => {
 | FE 👑 | 백승호 | https://github.com/seunghowhite | 전시페이지, 전시회 작성페이지, 전시회 수정페이지, 전시회 상세페이지  |
 | FE | 김재란 | https://github.com/gitjaeran | 로그인 페이지, 회원가입 페이지, 마이페이지 |
 | FE | 박영찬 | https://github.com/19Edwin92 | 메인(헤더포함) 페이지, 아트그램 페이지, 통합검색 페이지 |
-| BE 👑 | 임건 | https://github.com/WoogLim | |
-| BE | 문서아 | https://github.com/mseoa |   |
-| BE | 김다빈 | https://github.com/dabeenkim |  |
+| BE 👑 | 임건 | https://github.com/WoogLim |메인 배너 API, 전시 API, 메시지 API 및 + 페이지 구현, 인프라 구성 |
+| BE | 문서아 | https://github.com/mseoa | 로그인, 회원가입, 마이페이지, 관리자 API 일부  |
+| BE | 김다빈 | https://github.com/dabeenkim | 아트그램API,통합검색API,관리자API,스웨거 |
 | DE | 강혜린 |  | 디자인 |
 
 
