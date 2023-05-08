@@ -119,14 +119,6 @@ function Header() {
               <Headers.NavgatePath state={state} children={title}/>
             </Headers.NavLists>
           ))}
-          <Headers.NavLists
-              id="survey"
-              onClick={() => {
-                window.open('https://forms.gle/8gK8e6dUuBABxeb9A', '_blank');
-              }}>
-              <Headers.Navgateimg src={gift} alt={`${gift}`}/>
-              <Headers.NavgatePath children="유저피드백"/>
-            </Headers.NavLists>
         </Headers.Nav>
       <Headers.NavBottom>
         {!isLoggedIn
