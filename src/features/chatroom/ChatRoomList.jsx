@@ -48,11 +48,13 @@ function ChatRoomList() {
   useEffect(() => {
     if (selectChat) {
       const token = cookies.get("access_token");
-      cookies.set("chat_access_token", `Bearer ${token}`);
+      const headers = { Authorization: `Bearer ${token}` };
+      // cookies.set("chat_access_token", `Bearer ${token}`);
       const newSocket = io(process.env.REACT_APP_SERVER_URL, {
         withCredentials: true,
         query: { chatRoomId: selectChat },
         transports: ["websocket"],
+        extraHeaders: headers
       });
       newSocket.emit("joinChatRoom");
       if (socket) {
