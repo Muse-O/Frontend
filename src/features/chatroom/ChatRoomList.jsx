@@ -48,13 +48,10 @@ function ChatRoomList() {
   useEffect(() => {
     if (selectChat) {
       const token = cookies.get("access_token");
-      const headers = { Authorization: `Bearer ${token}` };
-      // cookies.set("chat_access_token", `Bearer ${token}`);
-      const newSocket = io(process.env.REACT_APP_SERVER_URL, {
-        withCredentials: true,
+      const newSocket = io(`https://museoh.shop/`, {
         query: { chatRoomId: selectChat },
         transports: ["websocket"],
-        extraHeaders: headers
+        auth: { authorization: `Bearer ${token}` }
       });
       newSocket.emit("joinChatRoom");
       if (socket) {
