@@ -14,6 +14,8 @@ export const usePatchAlramInfo = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(keys.GET_ALRAMINFO);
     },
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 
   return {

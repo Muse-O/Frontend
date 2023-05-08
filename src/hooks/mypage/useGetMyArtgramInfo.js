@@ -14,6 +14,8 @@ export const useGetMyArtgramInfo = () => {
       );
       return data.data;
     },
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
   return {
     MyArtgramInfo: data,

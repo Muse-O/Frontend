@@ -17,8 +17,11 @@ export const useUpdateUserProfile = () => {
         focusConfirm: false,
       });
       //성공시 유저프로필 불러오기
+
       queryClient.invalidateQueries(keys.GET_USERPROFILE);
     },
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
   return {
     updateUserProfile: mutate,

@@ -10,6 +10,8 @@ export const useGetAlramInfo = () => {
       //   console.log(data.data.result, "data");
       return data.data.result;
     },
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
   return {
     AlramInfo: data,

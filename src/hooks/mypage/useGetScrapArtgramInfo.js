@@ -14,6 +14,8 @@ export const useGetScrapArtgramInfo = () => {
       );
       return data.data;
     },
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
   return {
     ScrapArtgramInfo: data,
