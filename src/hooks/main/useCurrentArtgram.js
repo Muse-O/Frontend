@@ -8,7 +8,7 @@ export const useCurrentArtgram = () => {
   const  {isLoading, isError, data} = useQuery({
     queryKey: keys.GET_MAINCURRENTARTGRAM,
     queryFn: async () => {
-      const response = await apis.get('/banner/getLatestArtgrams?reqCnt=6')
+      const response = await apis.get('/banner/latest-artgrams?reqCnt=6') 
       return response.data.exhibitionList.rows
     },
     refetchOnWindowFocus: false,

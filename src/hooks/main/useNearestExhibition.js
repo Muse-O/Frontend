@@ -7,7 +7,7 @@ export const useNearestExhibition = () => {
   const  {isLoading, isError, data} = useQuery({
     queryKey: keys.GET_MAINNEARESTEXHIBITION,
     queryFn: async () => {
-      const response = await apis.get('/banner/getFutureExhibitionsSortedByNearest?reqCnt=10')
+      const response = await apis.get('/banner/future-exhibitions/sorted-by-nearest-date?reqCnt=10') 
       return response.data.exhibitionList.rows
     },
     refetchOnWindowFocus: false,

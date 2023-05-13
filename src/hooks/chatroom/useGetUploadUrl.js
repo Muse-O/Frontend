@@ -8,9 +8,9 @@ export const useGetUploadUrl = () => {
   const [response, setResponse] = useState(null);
 
   const getUploadUrls = useCallback(async (reqCnt) => {
-
+    
     try {
-      const response = await apis.get(`/upload?reqCnt=${reqCnt}`, {
+      const response = await apis.get(`/cloudflare-images-url?reqCnt=${reqCnt}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
