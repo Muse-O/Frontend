@@ -7,7 +7,7 @@ export function useRegister() {
   const navigate = useNavigate();
   const { mutate } = useMutation({
     mutationFn: async payload => {
-      const data = await apis.post("/auth/signup", payload);
+      const data = await apis.post("/auth/user", payload);
       return data;
     },
     onSuccess: () => {

@@ -113,7 +113,7 @@ function Header() {
         profileImg: userProfile.profileImg,
       });
     }
-  }, [userProfile]);
+  }, [userProfile])
 
   return (
     <>

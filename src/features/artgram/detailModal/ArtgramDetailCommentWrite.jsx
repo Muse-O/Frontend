@@ -1,32 +1,35 @@
 import React from "react";
-import { CommentWriteLayout } from "../css/ArtgramDetailModalCss";
-import { useScrap } from "../../../hooks/artgram/useScrap";
-import { useLikes } from "../../../hooks/artgram/useLikes";
-import dayjs from "dayjs";
-import { usePostcomments } from "../../../hooks/artgram/usePostcomments";
-import { useFormInput } from "../../../hooks/useFormInput";
-import {RiBookmarkFill} from "react-icons/ri"
+// import CSS --------------------------------------------------------------------------------------------/
 import {AiFillHeart} from "react-icons/ai"
+import {RiBookmarkFill} from "react-icons/ri"
 import { Flex } from "../../../components/Flex";
 import * as Artgramparts from "../css/ArtgramCss";
-import { Input } from "../../../components/Input";
-import { useRecoilValue } from "recoil";
-import { decodeUserRole } from "../../login/loginTokenStore";
-import { useNavigate } from "react-router-dom";
 import { CommentsInputBtn } from "../css/ArtgramDetailCss";
-// import { BsBookmarkFill, BsFillHeartFill } from "react-icons/bs";
+import { CommentWriteLayout } from "../css/ArtgramDetailModalCss";
+// import Library-----------------------------------------------------------------------------------------/
+import dayjs from "dayjs";
+import { useRecoilValue } from "recoil";
+import { useNavigate } from "react-router-dom";
+import { decodeUserRole } from "../../login/loginTokenStore";
+// import 커스텀 훅 ----------------------------------------------------------------------------------------/
+import { useScrap } from "../../../hooks/artgram/useScrap";
+import { useLikes } from "../../../hooks/artgram/useLikes";
+import { useFormInput } from "../../../hooks/useFormInput";
+import { usePostcomments } from "../../../hooks/artgram/usePostcomments";
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
+import { Input } from "../../../components/Input";
 
 function ArtgramDetailCommentWrite({artgramId, detailData,searchWord}) {
-  const { patchScrap } = useScrap(searchWord); // 스크랩관련 비동기통신 PATCH
-  const { patchLikes } = useLikes(searchWord); // 좋아요관련 비동기통신 PATCH
   const navigate = useNavigate()
-  const [formState, setFormState, handleInputChange] = useFormInput(); // 커스컴훅-Form태그 관련 
-  const [commentHandle] = usePostcomments(setFormState); // 아트그램상세, 댓글입력 비동기통신 POST
+  const { patchScrap } = useScrap(searchWord);
+  const { patchLikes } = useLikes(searchWord);
   const userRole = useRecoilValue(decodeUserRole)
+  const [formState, setFormState, handleInputChange] = useFormInput(); 
+  const [commentHandle] = usePostcomments(setFormState);
   const onSubmitcomment = (e) => {
     e.preventDefault();
     !userRole && window.confirm("회원만 가능합니다. 로그인 하시겠습니까?") && navigate('/login')
-    userRole && commentHandle(e, artgramId, formState.comment);}; // 아트그램상세, 댓글입력 Form태그의 onSubmit
+    userRole && commentHandle(e, artgramId, formState.comment);};
   return (
     <CommentWriteLayout>
       <div className="scrapLiked">

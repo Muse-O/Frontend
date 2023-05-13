@@ -17,6 +17,7 @@ import UnifiedSearch from "../pages/UnifiedSearch";
 import UnifiedSearchArt from "../pages/UnifiedSearchArt";
 import UnifiedSearchEx from "../pages/UnifiedSearchEx";
 import UnifiedSearchUser from "../pages/UnifiedSearchUser";
+import ScrollToTop from '../hooks/useRouterScollTop'
 
 
 function Router() {
@@ -107,6 +108,7 @@ function Router() {
       <Wrap>
         <MainWrap>
           <ContainerWrap>
+          <ScrollToTop/>
             <Routes>
               {pages.map(page => {
                 return (

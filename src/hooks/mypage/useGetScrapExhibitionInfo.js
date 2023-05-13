@@ -14,6 +14,8 @@ export const useGetScrapExhibitionInfo = () => {
       );
       return data.data;
     },
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
   return {
     ScrapExhibitionInfo: data,

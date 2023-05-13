@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDeleteArtgram } from "../../../hooks/artgram/newArtgram/useDeleteArtgram";
+import { useDeleteArtgram } from "../../../hooks/artgram/useDeleteArtgram";
 import { ContentSettingBoxLayout, SettingBtn,SettingBtnborderline } from "../css/ArtgramDetailModalCss";
 import * as Artgramparts from "../css/ArtgramCss";
 import { Flex } from "../../../components/Flex";
@@ -15,6 +15,7 @@ import { useRecoilValue } from "recoil";
 import { decodeEmail } from "../../login/loginTokenStore";
 
 function ContentSettingBox({ detailData, setSettingBox }) {
+
   const email = useRecoilValue(decodeEmail)
   const [updateModal, setUpdateModal] = useState(false)
   const [hashtag, setHashTag] = useState(detailData.hashtag);
@@ -100,7 +101,8 @@ function ContentSettingBox({ detailData, setSettingBox }) {
             inputProps={{
               type: "text", 
               name: "artgramTitle",
-              value:formState.artgramTitle || detailData.artgramTitle,
+              value:formState.artgramTitle,
+              placeholder:detailData.artgramTitle,
               maxLength:50,
               onChange: handleInputChange
             }}
@@ -115,7 +117,7 @@ function ContentSettingBox({ detailData, setSettingBox }) {
               inputProps={{
                 type: "text", 
                 name: "artgramDesc",
-                placeholder:"전시회에 대한 소감을 적어주세요(최대 600자)",
+                placeholder:detailData.artgramDesc || "전시회에 대한 소감을 적어주세요(최대 600자)",
                 value:formState.artgramDesc || detailData.artgramDesc,
                 maxLength:600,
                 onChange: handleInputChange

@@ -15,6 +15,8 @@ export const useGetLikedExhibitionInfo = () => {
       //   console.log(data.data, "data");
       return data.data;
     },
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 
   return {

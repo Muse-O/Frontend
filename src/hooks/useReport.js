@@ -10,7 +10,7 @@ export const useReport = () => {
       alert("게시글이 신고되었습니다.")
     },
     onError: () => {
-      alert("게시글이 신고되지 않았습니다.")
+      alert("게시글이 신고되지 못했습니다.")
     }
   })
   return {postReprt}

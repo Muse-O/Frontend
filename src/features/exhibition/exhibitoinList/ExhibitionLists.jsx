@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useInterserctionObserver } from "../../../hooks/artgram/newArtgram/useIntersectionObserver";
+import React from "react";
+import { useInterserctionObserver } from "../../../hooks/artgram/useIntersectionObserver";
 import styled from "styled-components";
 import { useGetExhibitioninfinity } from "../../../hooks/exhibition/useGetExhibitioninfinity";
 import { EXSlectFilterStore } from "../../../hooks/exhibition/EXStore/EXSelectFilterStore";

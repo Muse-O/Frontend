@@ -1,19 +1,19 @@
+import styled from "styled-components";
 import { useEffect, useRef, useState } from "react";
 import next_cut_gray from '../../assets/imgs/common/next_cut_gray.png'
 import next_cut_white from '../../assets/imgs/common/next_cut_white.png'
-import styled from "styled-components";
 
 export const useAsNavForSliderMainFifith = () => {
-  const [mainSlider, setMainSlider] = useState(null);
-  const [subSlider, setSudSilder] = useState(null);
-  const mainSliderRef = useRef(null);
   const subSliderRef = useRef(null);
+  const mainSliderRef = useRef(null);
+  const [subSlider, setSudSilder] = useState(null);
+  const [mainSlider, setMainSlider] = useState(null);
 
   useEffect(() => {
     setInterval(()=> {
       setMainSlider(mainSliderRef.current);
       setSudSilder(subSliderRef.current);
-     }, 3000)
+      }, 3000)
   }, [subSliderRef]);
 
   const [currentSlideIndex, setCurrentSlideIndex] = useState(1);

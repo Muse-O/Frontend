@@ -1,24 +1,17 @@
-import { useRecoilState, useRecoilValue } from "recoil";
 import { keys } from "../../shared/queryKeys";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { searchDataState, searchWordState } from "./seartStore";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { apis } from "../../api/apis";
+import { apis_token } from "../../api/apis";
 import { useEffect } from "react";
-import { headerStateSearch, headerStatedefalut } from "../../components/headerStore";
-import { cookies } from "../../shared/cookies";
+import { useHeaderState } from "../useHeaderState";
 
 export const useUnifiedSearch = () => {
   const searchWord = useRecoilValue(searchWordState);
   const queryClient = useQueryClient();
   
   const [, setData] = useRecoilState(searchDataState);
-  const headerStateSearchs = useRecoilValue(headerStateSearch)
-  const [, setHeaderState] = useRecoilState(headerStatedefalut)
-
-  useEffect(()=> {
-    setHeaderState(headerStateSearchs)
-  },[])
-
+  useHeaderState()
   useEffect(() => {
     queryClient.invalidateQueries([keys.GET_UNIFIEDSEARCH, searchWord]);
   }, [searchWord]);
@@ -26,13 +19,7 @@ export const useUnifiedSearch = () => {
   const { isLoading, isError } = useQuery({
     queryKey: [keys.GET_UNIFIEDSEARCH, searchWord],
     queryFn: async () => {
-      const token = cookies.get("access_token")
-      // console.log(`/search?searchText=${searchWord}`);
-      const response = await apis.get(`/search?searchText=${searchWord}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await apis_token.get(`/search?searchText=${searchWord}`);
       return response.data.search;
     },
     refetchOnWindowFocus: false,

@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import { decodeNickname } from "../../features/login/loginTokenStore";
 
 export const useGetUserProfile = () => {
-  const nickname = useRecoilValue(decodeNickname)
+  const nickname = useRecoilValue(decodeNickname);
   const { data } = useQuery({
     queryKey: keys.GET_USERPROFILE,
     queryFn: async () => {
@@ -13,6 +13,8 @@ export const useGetUserProfile = () => {
       return data.data;
     },
     enabled: !!nickname,
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 
   return {

@@ -1,18 +1,20 @@
-import React, { useEffect } from 'react'
-import Header from '../components/Header'
+import React from 'react'
+// import CSS --------------------------------------------------------------------------------------------/
 import { Article } from '../shared/GlobalStyled'
 import * as US from '../features/unfiedSearch/unfiedSearch'
+// import Library-----------------------------------------------------------------------------------------/
+import { useRecoilValue } from 'recoil'
 import { useNavigate } from 'react-router-dom'
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { searchDataExState } from '../hooks/search/seartStore'
+// import 커스텀 훅 ----------------------------------------------------------------------------------------/
 import { useEditTime } from '../hooks/main/useEditTime'
-import { headerStatedefalut } from '../components/headerStore'
+import { searchDataExState } from '../hooks/search/seartStore'
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
+import Header from '../components/Header'
 
 function UnifiedSearchEx() {
   const navigate = useNavigate()
   const {editTimehandle} = useEditTime()
   const searchDataEx = useRecoilValue(searchDataExState)
-  const [headerState, setHeaderState] = useRecoilState(headerStatedefalut)
 
   return (
     <>

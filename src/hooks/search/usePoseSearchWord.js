@@ -1,6 +1,6 @@
-import { useMutation } from "@tanstack/react-query"
-import { apis } from "../../api/apis"
+import { apis_token } from "../../api/apis"
 import { cookies } from "../../shared/cookies";
+import { useMutation } from "@tanstack/react-query"
 
 export const usePostSearchWord = () => {
   
@@ -8,16 +8,9 @@ export const usePostSearchWord = () => {
     mutationFn: async(payload) => {
       const token = cookies.get("access_token");
       if(token) {
-        await apis.post(`/search`, payload, {
-          headers:{
-            Authorization : `Bearer ${token}`
-          }
-        })
+        await apis_token.post(`/search`, payload)
       }
     },
-    // onSuccess:() => {
-    //   console.log("검색어 전달 성공");
-    // },
     onError:(e) => {
       console.log("error", e.message);
     }

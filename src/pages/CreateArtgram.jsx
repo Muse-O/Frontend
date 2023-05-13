@@ -1,7 +1,9 @@
 import React from "react";
-import Header from "../components/Header";
+// import CSS --------------------------------------------------------------------------------------------/
 import { Article, Wrap } from "../shared/GlobalStyled";
 import * as Artgramparts from '../features/artgram/css/Artgramparts'
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
+import Header from "../components/Header";
 import ArtgramForm from "../features/artgram/createArtgram/ArtgramForm";
 
 function CreateArtgram() {

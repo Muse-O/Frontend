@@ -71,10 +71,9 @@ const ProfileNickNameComments = styled.div`
 
     input {
     width: 430px;
-    border: 2px solid orange;
-    border-radius: 15px;
+    border-bottom: 2px solid orange;
     font-size: 13px;
-    padding-left: 4px;
+    padding-left: 0 4px;
       :focus {
         outline: none;
       }
@@ -83,10 +82,9 @@ const ProfileNickNameComments = styled.div`
       }
       @media (max-width: 1440px) {
         width: 322.5px;
-        border: 1.5px solid orange;
-        border-radius: 11.25px;
+        border_bottom: 1.5px solid orange;
         font-size: 9.75px;
-        padding-left: 3px;
+        padding-left: 0 3px;
       }
     }
   }

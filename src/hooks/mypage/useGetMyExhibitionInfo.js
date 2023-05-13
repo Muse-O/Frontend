@@ -14,6 +14,8 @@ export const useGetMyExhibitionInfo = () => {
       );
       return data.data;
     },
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
   return {
     MyExhibitionInfo: data,

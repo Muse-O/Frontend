@@ -7,7 +7,7 @@ export function useEmailAuthSend() {
 
   const { mutate } = useMutation({
     mutationFn: async payload => {
-      const data = await apis.post("/auth/emailvalidate", payload);
+      const data = await apis.post("/auth/email", payload);
       return data;
     },
     onSuccess: () => {

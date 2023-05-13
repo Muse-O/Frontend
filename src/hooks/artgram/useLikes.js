@@ -1,24 +1,18 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { apis } from "../../api/apis"
-import { cookies } from "../../shared/cookies"
+import { apis_token } from "../../api/apis"
 import { keys } from "../../shared/queryKeys"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 export const useLikes = (searchWord) => {
   const queryClient = useQueryClient()
   const { mutate : patchLikes } = useMutation({
     mutationFn : async (artgramId) => {
-      const token = cookies.get("access_token")
-      const reponse = await apis.patch(`artgram/${artgramId}/likes`, null, {
-        headers: {
-          Authorization : `Bearer ${token}`
-        },
-      })
+      const reponse = await apis_token.patch(`artgram/${artgramId}/likes`, null)
       return reponse
     },
     onSuccess: () => {
-      queryClient.invalidateQueries([keys.GET_UNIFIEDSEARCH, searchWord]);
-      queryClient.invalidateQueries(keys.GET_ARTGRAMDETAIL);
       queryClient.invalidateQueries(keys.GET_ARTGRAM);
+      queryClient.invalidateQueries(keys.GET_ARTGRAMDETAIL);
+      queryClient.invalidateQueries([keys.GET_UNIFIEDSEARCH, searchWord]);
     },
     onError: e => {
     }

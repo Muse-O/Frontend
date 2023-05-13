@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { ContentInnerText, ContentSetting } from '../css/ArtgramDetailModalCss'
+// import CSS & icons & png ------------------------------------------------------------------------------/
 import dots_gray2 from '../../../assets/imgs/artgram/dots_gray2.png'
+import { ContentInnerText, ContentSetting } from '../css/ArtgramDetailModalCss'
+// import 컴포넌트 -----------------------------------------------------------------------------------------/
 import ContentSettingBox from './ContentSettingBox'
 
 function ArtgramDetailContent({ detailData }) {
   const [settingBox, setSettingBox] = useState(false)
-
   return (
     <ContentInnerText>
     <div className="profileimg" children={<img src={detailData.profileImg} alt='프로필이미지'/>} />

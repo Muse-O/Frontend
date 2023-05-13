@@ -11,9 +11,13 @@ import { HashTagInput, Input, TextArea } from "../../../components/Input";
 import DropImgPreivew from "./form/DropImgPreivew";
 import Notification from "./form/Notification";
 import { useNavigate } from "react-router-dom";
+import { useGetCloudflare } from "../../../hooks/useGetCloudflare";
+// import { usePostCloudflare } from "../../../hooks/usePostCloudflare";
 
 // ArtgramForm 컴포넌트 -------------------------------------------------------------------------------------/
 function ArtgramForm({alertState}) {
+  // 이미지 업로드를 위한, Url 생성하기(Cloudflare)  ----------------------------------------------------------- //
+  const {isLoading, isError, uploadURLRef} = useGetCloudflare(6)
   // 비동기 통신을 위하 커스텀 훅(리액트 쿼리)  ------------------------------------------------------------------ //
   const [postArtgrams] = usePostartgram(alertState);
   // Navigate  ------------------------------------------------------------------------------------------ //
@@ -32,8 +36,9 @@ function ArtgramForm({alertState}) {
   const descRef = useRef(null)
 
   // Drag&Drop state(files)를 AWS S3에 업로드하여 url 받아내고, newImageUrls state에 입력하기   ---------------- //
+  // const {postCloudflare, tranUrlRef} = usePostCloudflare(uploadURLRef, files)  // => CloudFlare에 이미지 올리기 
   const [s3imgurlhandle] = useGetimgurl(files);
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const { artgramTitle, artgramDesc } = formState;
     const newImageUrls = s3imgurlhandle();
@@ -53,7 +58,6 @@ function ArtgramForm({alertState}) {
       navigate('/artgram')
     }
   };
- // disabled={files.length === 0 || !formState.artgramTitle || !formState.artgramDesc }
   // -------------------------------------------------------------------------------------------------- //
   return (
     <>

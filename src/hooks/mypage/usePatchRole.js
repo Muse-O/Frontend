@@ -13,6 +13,8 @@ export const usePatchRole = () => {
     onSuccess: () => {
       queryClient.invalidateQueries(keys.GET_USERPROFILE);
     },
+    refetchOnWindowFocus: false,
+    retry: 1,
   });
 
   return {

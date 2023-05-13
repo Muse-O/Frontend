@@ -18,7 +18,7 @@ function useLogin() {
   const [, setHeaderState] = useRecoilState(headerStatedefalut);
   const { mutate } = useMutation({
     mutationFn: async payload => {
-      const response = await apis.post("/auth/login", payload);
+      const response = await apis.post("/auth/token", payload);
       const token = response.headers.authorization;
       cookies.set("access_token", token, { maxAge: 21540 });
       // cookies.set("access_token", token, { maxAge: 10 });
