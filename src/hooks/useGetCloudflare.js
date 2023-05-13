@@ -8,7 +8,7 @@ export const useGetCloudflare = (reqCnt) => {
   const {isLoading, isError, data} = useQuery({
     queryKey: keys.GET_CLOUDFLARE,
     queryFn: async () => {
-      const response = await apis_token.get(`/upload?reqCnt=${reqCnt}`)
+      const response = await apis_token.get(`/cloudflare-images-url?reqCnt=${reqCnt}`)
       return response.data.urlData
 
     },

@@ -9,7 +9,7 @@ export const usePersonalExhibition = () => {
     queryKey: keys.GET_MAINPERSONALEXHIBITION,
     queryFn: async () => {
       const response = await apis.get(
-        "/banner/getPersonalExhibitionsByRecent?reqCnt=6"
+        "/banner/personal-exhibitions/recent?reqCnt=6" 
       );
       return response.data.exhibitionList.rows;
     },
