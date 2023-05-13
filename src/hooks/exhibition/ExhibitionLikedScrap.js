@@ -7,7 +7,7 @@ export const useLikeExhibition = (exhibitionId) => {
   const { mutate: LikeScrapExhibition } = useMutation({
     mutationFn: async (LikeScrap) => {
       const res = await apis_token.patch(
-        `/exhibition/${LikeScrap}/${exhibitionId}`
+        `/exhibition/${exhibitionId}/${LikeScrap}`
       );
       return res.data;
     },

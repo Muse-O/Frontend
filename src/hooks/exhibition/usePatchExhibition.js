@@ -8,7 +8,7 @@ export const usePatchExhibition = (id) => {
   const queryClient = useQueryClient();
   const { mutate: updateExhibition } = useMutation({
     mutationFn: async (payload) => {
-      const res = await apis_token.patch(`/exhibition/update/${id}`, payload);
+      const res = await apis_token.patch(`/exhibition/${id}`, payload);
       return res.data;
     },
     onSuccess: () => {

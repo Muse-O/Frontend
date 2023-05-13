@@ -10,7 +10,7 @@ export const useGetTop10Tags = () => {
   } = useQuery({
     queryKey: [keys.GET_TOP10TAGS],
     queryFn: async () => {
-      const res = await apis.get(`/exhibition/toptags`);
+      const res = await apis.get(`/exhibition/top-tags`);
       return res.data.topTags;
     },
     retry: 1,

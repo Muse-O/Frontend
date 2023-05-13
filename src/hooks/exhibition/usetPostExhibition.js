@@ -8,7 +8,7 @@ export const usePostExhibition = () => {
   const queryClient = useQueryClient();
   const { mutate: createExhibition } = useMutation({
     mutationFn: async (payload) => {
-      const res = await apis_token.post("/exhibition/write", payload);
+      const res = await apis_token.post("/exhibition", payload);
       return res.data;
     },
     onSuccess: () => {
