@@ -9,7 +9,7 @@ export function useEmailAuthConfirm() {
 
   const { mutate } = useMutation({
     mutationFn: async payload => {
-      const data = await apis.post("/auth/emailcodecheck", payload);
+      const data = await apis.post("/auth/email/check", payload);
       return data;
     },
     onSuccess: data => {
