@@ -7,7 +7,7 @@ export const useDeleteReview = () => {
   const { mutate: deleteReview } = useMutation({
     mutationFn: async (exhibitionReviewId) => {
       const res = await apis_token.delete(
-        `/exhibition/reviews/delete/${exhibitionReviewId}`
+        `/exhibition/reviews/${exhibitionReviewId}`
       );
       return res.data;
     },

@@ -6,10 +6,7 @@ export const usePostReview = (id) => {
   const queryClient = useQueryClient();
   const { mutate: createReview } = useMutation({
     mutationFn: async (payload) => {
-      const res = await apis_token.post(
-        `/exhibition/reviews/write/${id}`,
-        payload
-      );
+      const res = await apis_token.post(`/exhibition/${id}/reviews`, payload);
       return res.data;
     },
     onSuccess: () => {

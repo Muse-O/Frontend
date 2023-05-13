@@ -8,7 +8,7 @@ export const useDeleteExhibition = () => {
   const queryClient = useQueryClient();
   const { mutate: deleteExhibition } = useMutation({
     mutationFn: async (id) => {
-      const res = await apis_token.delete(`/exhibition/delete/${id}`);
+      const res = await apis_token.delete(`/exhibition/${id}`);
       return res.data;
     },
     onSuccess: () => {

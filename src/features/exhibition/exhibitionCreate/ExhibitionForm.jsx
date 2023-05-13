@@ -61,6 +61,7 @@ function ExhibitionForm({
     Detaildata,
     updateExhibition
   );
+  console.log("files", files);
   return (
     <>
       {DetailLoading ? (
