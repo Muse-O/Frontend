@@ -6,7 +6,7 @@ export const useDetailGetExibition = (id) => {
   const { data: info, isLoading } = useQuery({
     queryKey: keys.GET_DETAILEXHIBITION,
     queryFn: async () => {
-      const res = await apis_token.get(`/exhibition/${id}`);
+      const res = await apis_token.get(`/exhibition/view/${id}`);
       return res.data.exhibitionInfo;
     },
     retry: 1,
