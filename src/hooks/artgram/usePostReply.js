@@ -7,7 +7,7 @@ export const usePostReply = () => {
   const queryClient = useQueryClient();
   const { mutate: postReply } = useMutation({
     mutationFn: async ({ artgramId, commentId, reply }) => {
-      await apis_token.post(`/artgram/${artgramId}/comments/${commentId}/reply`,{ comment: reply });
+      await apis_token.post(`/artgram/${artgramId}/comments/${commentId}/replies`,{ comment: reply });
       return { artgramId, commentId };
     },
     onSuccess: ({ artgramId, commentId }) => {
