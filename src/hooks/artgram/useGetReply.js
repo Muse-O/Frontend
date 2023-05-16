@@ -7,7 +7,7 @@ export const useGetReply = (artgramId, commentId) => {
   const {isLoading, isError, data} = useQuery({
     queryKey:[keys.GET_ARTGRAMREPLY+artgramId+commentId],
     queryFn: async() => {
-      const response = await apis.get(`/artgram/${artgramId}/comments/${commentId}/reply`);
+      const response = await apis.get(`/artgram/${artgramId}/comments/${commentId}/replies`);
       return response.data.Reply
     },
     onError: (e) => {
